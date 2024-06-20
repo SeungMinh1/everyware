@@ -54,7 +54,7 @@ public class EmpServiceImpl implements EmpService{
 	@Override
 	public int empDelete(int empId) {
 		int result = empMapper.deleteEmpInfo(empId);
-		return result;
+		return result; 
 
 	}
 	
