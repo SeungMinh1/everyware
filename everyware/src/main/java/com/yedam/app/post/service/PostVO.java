@@ -1,10 +1,12 @@
 package com.yedam.app.post.service;
 
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
-@Date
+
 @Data
 public class PostVO {
 	private Integer postId;  //게시물 번호
@@ -12,7 +14,7 @@ public class PostVO {
 	private String notificationYn;  // 공지 여부
 	private String holdYn;  //글고정 여부
 	private String title; //제목
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yy/MM/dd")
 	private Date writeDate; //작성일
 	private Integer viewCnt;   //조회수 
 	private Integer recommentCnt; //추천수
