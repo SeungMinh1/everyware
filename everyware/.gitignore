@@ -26,6 +26,7 @@ replay_pid*
 
 /build/
 /target/
+/bin/
 .classpath
 .project
 .settings/
