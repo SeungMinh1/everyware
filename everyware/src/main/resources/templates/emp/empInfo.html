@@ -170,25 +170,26 @@
                           <input type="text" class="form-control" th:field="*{departmentName}" readonly>
                         </div>
                       </div>
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">직위</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" th:field="*{posName}" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">아이디</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" th:field="*{accountId}" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">비밀번호</label>
+                        <div class="col-sm-10">
+                          <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/resetPwd/${emp.empId}}'|">비밀번호초기화</button>
+                        </div>
+                      </div>
 
-                      <div class="form-group row">
-                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                        <div class="col-sm-10">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                        </div>
-                      </div>
+
 
                       <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">

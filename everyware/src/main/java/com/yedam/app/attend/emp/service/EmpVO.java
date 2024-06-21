@@ -22,7 +22,7 @@ public class EmpVO {
 	private String departmentName;	//부서이름
 	private String departmentEmpId; //부서장사원번호
 	private String empPosition;		//직위
-	
+	private String posName; 		//직위이름
 	//게정
 	private String accountId; //계정 아이디
 	private String password; //계정 비밀번호
