@@ -2,6 +2,7 @@ package com.yedam.app.calendar.mapper;
 
 import java.util.List;
 
+import com.yedam.app.calendar.service.CalendarBoxVO;
 import com.yedam.app.calendar.service.CalendarVO;
 
 public interface CalendarMapper {
@@ -20,4 +21,6 @@ public interface CalendarMapper {
 	//삭제
 	public int deleteCalendarInfo(CalendarVO calendarVO);
 	
+	//사원별 일정리스트 출력
+	public List<CalendarBoxVO> selectCalBox(CalendarBoxVO calendarBoxVO);
 }

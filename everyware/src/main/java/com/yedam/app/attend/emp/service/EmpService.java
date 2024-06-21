@@ -15,5 +15,7 @@ public interface EmpService {
 	public Map<String, Object> empUpdate(EmpVO empVO);
 	//사원정보 삭제
 	public int empDelete(int empId);
-
+	
+	//비밀번호 초기화
+	public int resetPwd(int empId);
 }

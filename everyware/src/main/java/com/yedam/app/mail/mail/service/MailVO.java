@@ -18,4 +18,5 @@ public class MailVO {
 	private String deleteYn;       //삭제여부
 	private String replyMailId;    //답장메일번호
 	private int empId;             //사원번호
+	private String mailboxName;
 }
