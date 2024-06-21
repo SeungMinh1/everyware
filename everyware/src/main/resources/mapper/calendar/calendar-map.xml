@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yedam.app.calendar.mapper.CalendarMapper"></mapper>
+<mapper namespace="com.yedam.app.calendar.mapper.CalendarMapper">
 
 	<!-- 전체조회 -->
-	<select id = "selectCalendarAll" resultType="CalendarVO">
+	<select id = "selectCalendarAll" parameterType = "empVO" resultType="CalendarVO">
+		SELECT calendar_id
+				, start_date
+				, end_date
+				, title
+				, content
+				, color
+				, emp_id
+				, calendar_box_id
+		FROM calendar
+		WHERE calendar_box_id = 1
+		ORDER BY calendar_id
+	</select>
+	
+	<select id = "selectCalendarInfo" parameterType ="CalendarVO" resultType="CalendarVO">
 		SELECT calendar_id
 				, start_date
 				, end_date
@@ -12,5 +26,22 @@
 				, color
 				, emp_id
 		FROM calendar
-		ORDER BY calendar_id
+		WHERE calendar_id = #{calendarId}		
 	</select>
+	
+	<!-- 사원별 일정리스트 출력 -->
+	<select id = "selectCalBox" parameterType ="CalendarBoxVO" resultType="CalendarBoxVO">
+		SELECT calendar_box_id
+				, calendar_box_name
+				, emp_id
+		FROM calendar_box
+		WHERE emp_id = 100
+	</select>
+	
+</mapper>
+	
+	
+	
+	
+	
+	
