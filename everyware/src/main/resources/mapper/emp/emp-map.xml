@@ -33,8 +33,8 @@
  				, address
  				, photo
  				, department_emp_id
- 				, department_id
- 				, emp_position
+ 				, FIND_CODENAME(department_id) departmentName
+ 				, FIND_CODENAME(emp_position) posName
  				, a.account_id
         		, a.password
 		FROM emp e
@@ -42,7 +42,15 @@
 			ON e.emp_id = a.emp_id
 		WHERE e.emp_id = #{empId}
  	</select>
+ 	
+ 	<update id="resetPwd" parameterType="int">
+ 		UPDATE account
+		SET password = '0000'
+		WHERE emp_id = #{empId};
+ 		
+ 	</update>
 
-
+	
+	
 
 </mapper>
