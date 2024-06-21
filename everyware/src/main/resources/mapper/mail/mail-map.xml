@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.mail.mail.mapper.MailMapper">
+
+	<select id="selectMailboxInfo" resultType="MailVO">
+		SELECT sender
+			  , title
+			  , send_date
+			  , emp_id
+			  , mailbox_id
+			  , FIND_CODENAME(MAILBOX_ID) mailbox_name
+			  , mail_id
+		FROM mail
+		WHERE mailbox_id = #{mailboxId}
+		ORDER BY mail_id DESC
+	</select>
+	
+	<select id="selectMailInfo" resultType="MailVO">
+		SELECT mail_id 
+		      , sender
+		      , title
+		      , content
+		      , send_date
+		      , emp_id
+		      , mailbox_id
+		      , FIND_CODENAME(MAILBOX_ID)
+		FROM mail
+		WHERE mail_id = #{mailId}
+	</select>
+
+</mapper>

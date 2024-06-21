@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.approval.mapper.DraftMapper">
+	<!-- 결재 대기 문서 -->
+	<select id="waitDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 7;
+	</select>
+	
+	<!-- 참조/열람 대기 문서 -->
+	<select id="waitRefViewDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 8;
+	</select>
+	
+	<!-- 결재 예정 문서 -->
+	<select id="expectedDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 9;
+	</select>
+	
+	<!-- 기안 문서 -->
+	<select id="draftDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 0;
+	</select>
+	
+	<!-- 결재 문서 -->
+	<select id="approvalDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 1;
+	</select>
+	
+	<!-- 발송 문서 -->
+	<select id="sendDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 2;
+	</select>
+	
+	<!-- 수신 문서 -->
+	<select id="receptionDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 3;
+	</select>
+	
+	<!-- 참조/열람 문서 -->
+	<select id="refViewDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 4 OR doc_type = 5;
+	</select>
+	
+	<!-- 참조 문서 -->
+	<select id="refDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 4;
+	</select>
+	
+	<!-- 열람 문서 -->
+	<select id="viewDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 5;
+	</select>
+	
+	<!-- 임시 문서 -->
+	<select id="temporaryDocList" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE doc_type = 6;
+	</select>
+	
+	<!-- 문서 등록 -->
+	<insert id="docInsert" parameterType="DraftVO">
+		<selectKey	keyProperty="docId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT doc_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
+		INSERT INTO draft
+			(
+				doc_id
+				, doc_type
+				, draft_title
+				, draft_content
+				, write_date
+				, emp_id
+				, draft_status
+				, attachment_group_id
+			)
+		VALUES
+			(
+				doc_id_seq.NEXTVAL
+				, #{docType}
+				, #{draftTitle}
+				, #{draftContent}
+				, sysdate
+				, #{empId}
+				, #{draftStatus}
+				, #{attachmentGroupId}
+			)
+	</insert>
+	
+	<!-- 문서 수정(임시 저장함) -->
+	<update id="docUpdate">
+		
+	</update>
+	
+	<!-- 문서 삭제 -->
+	<delete id="docDelete" parameterType="int">
+		DELETE FROM draft
+		WHERE doc_id = #{docId}
+	</delete>
+	
+	<!-- 기안자 등록 -->
+	<insert id="draftInsert" parameterType="DraftVO">
+		INSERT INTO draft
+			(
+				emp_id
+			)
+		VALUES
+			(
+				#{empId}
+			)
+	</insert>
+	
+	<!-- 결재자 등록 -->
+	<insert id="approvalInsert" parameterType="ApprovalVO">
+		INSERT INTO approval_path
+			(
+				approval_emp_id
+			)
+		VALUES
+			(
+				#{approvalEmpId}
+			)
+	</insert>
+	
+	<!-- 업무 등록 -->
+	<insert id="jobInsert" parameterType="ApprovalVO">
+		INSERT INTO approval_path
+			(
+				approval_type
+			)
+		VALUES
+			(
+				#{approvalEmpId}
+			)
+	</insert>
+	
+	<!-- 참조자 등록 -->
+	<insert id="refInsert" parameterType="ApprovalVO">
+		INSERT INTO approval_path
+			(
+				approval_ref
+			)
+		VALUES
+			(
+				#{approvalEmpId}
+			)
+	</insert>
+	
+	<!-- 열람자 등록 -->
+	<insert id="viewInsert" parameterType="ApprovalVO">
+		INSERT INTO approval_path
+			(
+				approval_view
+			)
+		VALUES
+			(
+				#{approvalEmpId}
+			)
+	</insert>
+	
+	<!-- 첨부파일 등록 -->
+	<insert id="fileInsert" parameterType="DraftVO">
+		INSERT INTO draft
+			(
+				attachment_group_id
+			)
+		VALUES
+			(
+				#{attachmentGroupId}
+			)
+	</insert>
+</mapper>
