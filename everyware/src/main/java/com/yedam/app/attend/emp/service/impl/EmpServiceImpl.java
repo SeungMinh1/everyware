@@ -57,6 +57,11 @@ public class EmpServiceImpl implements EmpService{
 		return result; 
  
 	}
+
+	@Override
+	public int resetPwd(int empId) {
+		return empMapper.resetPwd(empId);
+	}
 	
 
 }

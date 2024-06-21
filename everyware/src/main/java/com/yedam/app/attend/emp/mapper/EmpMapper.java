@@ -20,5 +20,7 @@ public interface EmpMapper {
 	
 	// 삭제
 	public int deleteEmpInfo(int empId);
-
+	
+	//비밀번호 초기화
+	public int resetPwd(int empId);
 }
