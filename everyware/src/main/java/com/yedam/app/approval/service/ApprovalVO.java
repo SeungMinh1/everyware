@@ -6,13 +6,12 @@ import lombok.Data;
 
 @Data
 public class ApprovalVO {
-	private int docId;
-	private String approvalEmpId;
+	private int approvalId;
 	private String approvalType;
 	private String approvalStatus;
 	private String approvalOrder;
 	private Date approvalDate;
-	private int approvalId;
+	private String approvalEmp;
 	private String approvalRef;
 	private String approvalView;
 }

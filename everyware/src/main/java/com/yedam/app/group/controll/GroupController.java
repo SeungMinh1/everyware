@@ -10,4 +10,6 @@ public class GroupController {
 	public String goMain() {
 		return "main/index";
 	}
+	
+
 }
