@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>empInfo</title>
+  <title>empUpdate</title>
 
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
@@ -20,7 +20,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>사원정보</h1>
+            <h1>사원정보수정</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -131,19 +131,19 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">이름</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{empName}" readonly>
+                          <input type="text" class="form-control" th:field="*{empName}" >
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">연락처</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{tel}" readonly>
+                          <input type="text" class="form-control" th:field="*{tel}" >
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                          <input type="email" class="form-control"  th:field="*{mail}" readonly>
+                          <input type="email" class="form-control"  th:field="*{mail}" >
                         </div>
                       </div>
                       <div class="form-group row">
@@ -155,25 +155,25 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">퇴사일</label>
                         <div class="col-sm-10">
-                          <input type="date" class="form-control" th:field="*{expireDate}" readonly>
+                          <input type="date" class="form-control" th:field="*{expireDate}" >
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">주소</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{address}" readonly>
+                          <input type="text" class="form-control" th:field="*{address}" >
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">부서</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{departmentName}" readonly>
+                          <input type="text" class="form-control" th:field="*{departmentName}" >
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">직위</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{posName}" readonly>
+                          <input type="text" class="form-control" th:field="*{posName}" >
                         </div>
                       </div>
                       <div class="form-group row">
@@ -193,9 +193,8 @@
 
                       <div class="form-group row">
                         <div class="offset-sm-2 col-sm-10">
-                          <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/empUpdate(empId=${emp.empId})}'|">수정</button>
-                           <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/empDelete(empId=${emp.empId})}'|">삭제</button>
-                           <button type="button" class="btn btn-info" th:onclick="|location.href='@{/empList}'|">목록</button>
+                          <button type="button" class="btn btn-primary" id="updateBtn">저장</button>
+                           <button type="button" class="btn btn-info" th:onclick="|location.href='@{empInfo(empId=${emp.empId})}'|">뒤로</button>
                         </div>
                       </div>
                     </form>
@@ -238,6 +237,48 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+
+	<script>
+		$('#updateBtn').on('click', empUpdateAjax); //#updateBtn
+		
+		function empUpdateAjax(event){
+			// 1) 보낼 데이터
+			let info = getEmpInfo();
+			
+			// 2) AJAX
+			$.ajax('empUpdate', {
+				type : 'post',
+				contentType : 'application/json',
+				data : JSON.stringify(info)
+				
+			})
+			.done(result => {
+				if(result.result){
+					alert('수정되었습니다.');
+				}else{
+					alert('수정되지않았습니다.');
+				}
+			})
+			.fail(err => console.log(err));
+			
+			
+		};
+		
+		function getEmpInfo(){
+			let formData = $('form[name="updateForm"]').serializeArray();
+			console.log('1) serializeArray', formData);
+			
+			let objData = {};
+			$.each(formData, (idx, input)=>{
+				console.log('2) input', idx, input);
+				objData[input.name] = input.value;
+			});
+			console.log('3) objData', objData);
+			return objData;
+		}
+		
+	
+	</script>
 </form>
 </body>
 </html>

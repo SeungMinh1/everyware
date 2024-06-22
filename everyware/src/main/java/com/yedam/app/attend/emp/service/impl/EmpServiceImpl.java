@@ -62,6 +62,11 @@ public class EmpServiceImpl implements EmpService{
 	public int resetPwd(int empId) {
 		return empMapper.resetPwd(empId);
 	}
+
+	@Override
+	public int searchEmpId() { //사원번호조회
+		return empMapper.selectEmpId();
+	}
 	
 
 }
