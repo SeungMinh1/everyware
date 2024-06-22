@@ -16,6 +16,9 @@ public interface EmpService {
 	//사원정보 삭제
 	public int empDelete(int empId);
 	
+	//사원번호 조회
+	public int searchEmpId();
+	
 	//비밀번호 초기화
 	public int resetPwd(int empId);
 }
