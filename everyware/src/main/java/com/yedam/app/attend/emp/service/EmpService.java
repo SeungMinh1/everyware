@@ -3,6 +3,8 @@ package com.yedam.app.attend.emp.service;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.app.common.service.CommonVO;
+
 public interface EmpService {
 	
 	//전체 사원정보 조회
@@ -19,6 +21,12 @@ public interface EmpService {
 	//사원번호 조회
 	public int searchEmpId();
 	
+	//직위 조회
+	public List<CommonVO> posList();
+	
+	//부서 조회
+	public List<CommonVO> departmentList();
+	
 	//비밀번호 초기화
-	public int resetPwd(int empId);
+	public int resetPwd(EmpVO empVO);
 }

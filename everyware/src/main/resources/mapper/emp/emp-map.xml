@@ -21,6 +21,7 @@
 			INNER JOIN account a
 			ON e.emp_id = a.emp_id
 		ORDER BY e.emp_id
+
  	</select>
  	
  	<!-- 단건조회 -->
@@ -112,13 +113,32 @@
  	</delete>
  	
  	
- 	<update id="resetPwd" parameterType="int">
+ 	<update id="resetPwd" parameterType="empVO">
  		UPDATE account
 		SET password = '0000'
-		WHERE emp_id = #{empId};
+		WHERE emp_id = #{empId}
  		
  	</update>
-
+ 	
+ 	<!-- 부서 -->
+ 	<select id="selectDepartment" resultType="CommonVO">
+ 		SELECT code_id
+	        , code_name
+	        , code_type
+	        , code_desc
+		FROM common_code
+		WHERE code_id LIKE 'g%'
+ 	</select>
+	
+	<!-- 직위 -->
+ 	<select id="selectPosition" resultType="CommonVO">
+ 		SELECT code_id
+	        , code_name
+	        , code_type
+	        , code_desc
+		FROM common_code
+		WHERE code_id LIKE 'b%'
+ 	</select>
 	
 	
 

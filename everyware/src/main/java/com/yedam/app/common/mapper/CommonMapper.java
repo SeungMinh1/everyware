@@ -1,6 +1,6 @@
 package com.yedam.app.common.mapper;
 
-import com.yedam.app.common.CommonVO;
+import com.yedam.app.common.service.CommonVO;
 
 public interface CommonMapper {
 	

@@ -1,244 +1,267 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{common/layouts/default_layout}"
-	  layout:fragment="content">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/default_layout}"
+	layout:fragment="content">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>empUpdate</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>empUpdate</title>
 
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
-<form name="updateForm" th:object="${emp}">
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>사원정보수정</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">User Profile</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+	<form name="updateForm" th:object="${emp}">
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>사원정보수정</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item active">User Profile</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3">
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-3">
 
-            <!-- Profile Image -->
-            <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="../../dist/img/user4-128x128.jpg"
-                       alt="User profile picture">
-                </div>
+							<!-- Profile Image -->
+							<div class="card card-primary card-outline">
+								<div class="card-body box-profile">
+									<div class="text-center">
+										<img class="profile-user-img img-fluid img-circle"
+											src="../../dist/img/user4-128x128.jpg"
+											alt="User profile picture">
+									</div>
 
-                <h3 class="profile-username text-center">[[ ${emp.empName} ]]</h3>
+									<h3 class="profile-username text-center">[[ ${emp.empName}
+										]]</h3>
 
-                <p class="text-muted text-center">여기 부서랑 직급넣으면 될듯</p>
+									<p class="text-muted text-center">여기 부서랑 직급넣으면 될듯</p>
 
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item">
-                    <b>Followers</b> <a class="float-right">1,322</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Following</b> <a class="float-right">543</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Friends</b> <a class="float-right">13,287</a>
-                  </li>
-                </ul>
+									<ul class="list-group list-group-unbordered mb-3">
+										<li class="list-group-item"><b>Followers</b> <a
+											class="float-right">1,322</a></li>
+										<li class="list-group-item"><b>Following</b> <a
+											class="float-right">543</a></li>
+										<li class="list-group-item"><b>Friends</b> <a
+											class="float-right">13,287</a></li>
+									</ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+									<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
 
-            <!-- About Me Box -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">About Me</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <strong><i class="fas fa-book mr-1"></i> Education</strong>
+							<!-- About Me Box -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">About Me</h3>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body">
+									<strong><i class="fas fa-book mr-1"></i> Education</strong>
 
-                <p class="text-muted">
-                  B.S. in Computer Science from the University of Tennessee at Knoxville
-                </p>
+									<p class="text-muted">B.S. in Computer Science from the
+										University of Tennessee at Knoxville</p>
 
-                <hr>
+									<hr>
 
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+									<strong><i class="fas fa-map-marker-alt mr-1"></i>
+										Location</strong>
 
-                <p class="text-muted">Malibu, California</p>
+									<p class="text-muted">Malibu, California</p>
 
-                <hr>
+									<hr>
 
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+									<strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
 
-                <p class="text-muted">
-                  <span class="tag tag-danger">UI Design</span>
-                  <span class="tag tag-success">Coding</span>
-                  <span class="tag tag-info">Javascript</span>
-                  <span class="tag tag-warning">PHP</span>
-                  <span class="tag tag-primary">Node.js</span>
-                </p>
+									<p class="text-muted">
+										<span class="tag tag-danger">UI Design</span> <span
+											class="tag tag-success">Coding</span> <span
+											class="tag tag-info">Javascript</span> <span
+											class="tag tag-warning">PHP</span> <span
+											class="tag tag-primary">Node.js</span>
+									</p>
 
-                <hr>
+									<hr>
 
-                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+									<strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
 
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-          <div class="col-md-9">
-            <div class="card">
-              <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
-                </ul>
-              </div><!-- /.card-header -->
-              <div class="card-body">
- 
-                  <div class="tab-pane" id="settings">
-                    <form class="form-horizontal">
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">사원번호</label>
-                        <div class="col-sm-10">
-                          <input type="number" class="form-control" th:field="*{empId}" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">이름</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{empName}" >
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">연락처</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{tel}" >
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control"  th:field="*{mail}" >
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">입사일</label>
-                        <div class="col-sm-10">
-                          <input type="date" class="form-control" th:field="*{hireDate}" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">퇴사일</label>
-                        <div class="col-sm-10">
-                          <input type="date" class="form-control" th:field="*{expireDate}" >
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">주소</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{address}" >
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">부서</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{departmentName}" >
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">직위</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{posName}" >
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">아이디</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" th:field="*{accountId}" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">비밀번호</label>
-                        <div class="col-sm-10">
-                          <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/resetPwd/${emp.empId}}'|">비밀번호초기화</button>
-                        </div>
-                      </div>
+									<p class="text-muted">Lorem ipsum dolor sit amet,
+										consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+						<!-- /.col -->
+						<div class="col-md-9">
+							<div class="card">
+								<div class="card-header p-2">
+									<ul class="nav nav-pills">
+										<li class="nav-item"><a class="nav-link" href="#settings"
+											data-toggle="tab">Settings</a></li>
+									</ul>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body">
+
+									<div class="tab-pane" id="settings">
+										<form class="form-horizontal">
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">사원번호</label>
+												<div class="col-sm-10">
+													<input type="number" class="form-control"
+														th:field="*{empId}" readonly>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">이름</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control"
+														th:field="*{empName}">
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">연락처</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" th:field="*{tel}">
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+												<div class="col-sm-10">
+													<input type="email" class="form-control" th:field="*{mail}">
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">입사일</label>
+												<div class="col-sm-10">
+													<input type="date" class="form-control"
+														th:field="*{hireDate}" readonly>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">퇴사일</label>
+												<div class="col-sm-10">
+													<input type="date" class="form-control"
+														th:field="*{expireDate}">
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">주소</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control"
+														th:field="*{address}">
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">부서</label>
+												<div class="col-sm-10">
+									                <select th:field="*{departmentName}">
+									                	<th:block th:each="dep : ${department}">
+														    <option th:value="${dep.codeName}">  [[ ${dep.codeName} ]]</option>
+													  	</th:block>
+													</select>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">직위</label>
+												<div class="col-sm-10">
+													<select th:field="*{posName}">
+														<th:block th:each="pos : ${position}">
+															<option th:value="${pos.codeName}">[[${pos.codeName} ]]</option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">아이디</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control"
+														th:field="*{accountId}" readonly>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label for="inputName" class="col-sm-2 col-form-label">비밀번호</label>
+												<div class="col-sm-10">
+													<button type="button" class="btn btn-danger"
+														th:onclick="|location.href='@{/resetPwd/${emp.empId}}'|">비밀번호초기화</button>
+												</div>
+											</div>
 
 
 
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="button" class="btn btn-primary" id="updateBtn">저장</button>
-                           <button type="button" class="btn btn-info" th:onclick="|location.href='@{empInfo(empId=${emp.empId})}'|">뒤로</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <!-- /.tab-pane -->
+											<div class="form-group row">
+												<div class="offset-sm-2 col-sm-10">
+													<button type="button" class="btn btn-primary"
+														id="updateBtn">저장</button>
+													<button type="button" class="btn btn-info"
+														th:onclick="|location.href='@{empInfo(empId=${emp.empId})}'|">뒤로</button>
+												</div>
+											</div>
+										</form>
+									</div>
+									<!-- /.tab-pane -->
 
 
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<footer class="main-footer">
+			<div class="float-right d-none d-sm-block">
+				<b>Version</b> 3.1.0
+			</div>
+			<strong>Copyright &copy; 2014-2021 <a
+				href="https://adminlte.io">AdminLTE.io</a>.
+			</strong> All rights reserved.
+		</footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+		</div>
+		<!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+		<!-- jQuery -->
+		<script src="../../plugins/jquery/jquery.min.js"></script>
+		<!-- Bootstrap 4 -->
+		<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<!-- AdminLTE App -->
+		<script src="../../dist/js/adminlte.min.js"></script>
+		<!-- AdminLTE for demo purposes -->
+		<script src="../../dist/js/demo.js"></script>
 
-	<script>
+		<script>
 		$('#updateBtn').on('click', empUpdateAjax); //#updateBtn
 		
 		function empUpdateAjax(event){
@@ -279,6 +302,6 @@
 		
 	
 	</script>
-</form>
+	</form>
 </body>
 </html>
