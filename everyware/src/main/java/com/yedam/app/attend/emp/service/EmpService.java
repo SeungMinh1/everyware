@@ -29,4 +29,7 @@ public interface EmpService {
 	
 	//비밀번호 초기화
 	public int resetPwd(EmpVO empVO);
+	
+	//리스트 개수
+	public int cntList();
 }

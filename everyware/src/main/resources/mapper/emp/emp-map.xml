@@ -140,6 +140,13 @@
 		WHERE code_id LIKE 'b%'
  	</select>
 	
+	<!-- 리스트 개수 selectEmpAll 이랑코드가 같아야됨-->
+	<select id="countList" resultType="int">
+		SELECT count(*)
+		FROM emp e
+		INNER JOIN account a
+		ON e.emp_id = a.emp_id
+	</select>
 	
 
 </mapper>
