@@ -35,5 +35,7 @@ public interface EmpMapper {
 	//비밀번호 초기화
 	public int resetPwd(EmpVO empVO);
 	
+	//리스트개수
+	public int countList();
 
 }

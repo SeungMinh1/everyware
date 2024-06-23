@@ -79,6 +79,11 @@ public class EmpServiceImpl implements EmpService{
 	public List<CommonVO> departmentList() {
 		return empMapper.selectDepartment();
 	}
+
+	@Override
+	public int cntList() {
+		return empMapper.countList();
+	}
 	
 
 }
