@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.board.mapper.BoardMapper">
+<!-- 전체조회 -->
+<select id="selectBoardAll" resultType="BoardVO">
+	 SELECT code_id,
+	        code_name,
+	        code_type,
+	        code_desc
+	    FROM common_code
+	    WHERE code_type ='0F'  
+</select>
+</mapper>
+

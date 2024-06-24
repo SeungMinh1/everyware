@@ -4,15 +4,15 @@
 	<!-- 전체조회 -->
 	<select id = "selectCalendarAll" parameterType = "empVO" resultType="CalendarVO">
 		SELECT calendar_id
-				, start_date
-				, end_date
+				, start_date "start"
+				, end_date "end"
 				, title
 				, content
-				, color
 				, emp_id
 				, calendar_box_id
+				, calendar_color(calendar_box_id) "color"
 		FROM calendar
-		WHERE calendar_box_id = 1
+		WHERE emp_id = 100
 		ORDER BY calendar_id
 	</select>
 	
@@ -22,8 +22,8 @@
 				, end_date
 				, title
 				, content
-				, color
 				, emp_id
+				, calendar_color(calendar_box_id) "color"
 		FROM calendar
 		WHERE calendar_id = #{calendarId}		
 	</select>
@@ -33,13 +33,18 @@
 		SELECT calendar_box_id
 				, calendar_box_name
 				, emp_id
+				, color
 		FROM calendar_box
 		WHERE emp_id = 100
 	</select>
 	
+	<!-- 캘린더 색변경 -->
+	<update id = "updateCalColor" parameterType = "CalendarBoxVO" >
+		UPDATE calendar_box
+		SET color = #{color}
+		WHERE calendar_box_id = #{calendarBoxId}
+	</update>
+	
 </mapper>
-	
-	
-	
 	
 

@@ -13,13 +13,15 @@
  				, address
  				, photo
  				, department_emp_id
- 				, department_id
- 				, emp_position
+ 				, find_codename(department_id) departmentName
+ 				, find_codename(emp_position) posName
  				, a.account_id
         		, a.password
 		FROM emp e
 			INNER JOIN account a
 			ON e.emp_id = a.emp_id
+		ORDER BY e.emp_id
+
  	</select>
  	
  	<!-- 단건조회 -->
@@ -43,14 +45,108 @@
 		WHERE e.emp_id = #{empId}
  	</select>
  	
- 	<update id="resetPwd" parameterType="int">
+ 	<!-- 등록 emp_id 섵택 -->
+ 	<select id="selectEmpId" resultType="int">
+ 		SELECT NVL(MAX(emp_id),0)+1 emp_id 
+ 		FROM emp
+ 	</select>
+ 	
+ 	<!-- 등록 -->
+ 	<insert id="insertEmpInfo" parameterType="EmpVO">	
+		INSERT ALL
+		    INTO emp
+		    	(
+		    	emp_id
+		    	, emp_name
+		    	, tel
+		    	, mail
+		    	, hire_date
+		    	, address
+		    	, photo
+		    	, department_id
+		    	, emp_position
+		    	)
+		    VALUES
+		        (
+		            #{empId}
+		            , #{empName}
+		            , #{tel}
+		            , #{mail}
+		            , #{hireDate}
+		            , #{address}
+		            , #{photo}
+					, FIND_CODE(#{departmentName})
+				    , FIND_CODE(#{posName})
+		        )
+		    INTO account
+		    (account_id, password, emp_id)
+		    VALUES
+		        (
+		        	#{accountId}
+		        	,#{password}
+		            , #{empId}
+		        )
+		SELECT * FROM dual
+ 	</insert>
+ 	
+ 	<!-- 수정  (이름, 연락처, 이메일, 주소, 퇴사일, 부서, 직위)-->
+ 	<update id="updateEmpInfo" parameterType="empVO">
+ 		UPDATE emp
+		SET emp_name = #{empName}
+		    ,tel = #{tel}
+		    , mail = #{mail}
+		    , address = #{address}
+		    <choose>
+		    	<when test="expireDate != null">
+		    	, expire_date = #{expireDate}
+		    	</when>
+		    </choose>
+		    , department_id = find_code(#{departmentName})
+		    , emp_position = find_code(#{posName})
+		WHERE emp_id = #{empId}
+ 	</update>
+ 	
+ 	
+ 	<!-- 삭제 - 프로시저 사용 -->
+ 	<delete id="deleteEmpInfo" parameterType="int">
+ 		CALL DEL_EMP(#{empId})
+ 	</delete>
+ 	
+ 	
+ 	<update id="resetPwd" parameterType="empVO">
  		UPDATE account
 		SET password = '0000'
-		WHERE emp_id = #{empId};
+		WHERE emp_id = #{empId}
  		
  	</update>
-
+ 	
+ 	<!-- 부서 -->
+ 	<select id="selectDepartment" resultType="CommonVO">
+ 		SELECT code_id
+	        , code_name
+	        , code_type
+	        , code_desc
+		FROM common_code
+		WHERE code_id LIKE 'g%'
+ 	</select>
 	
+	<!-- 직위 -->
+ 	<select id="selectPosition" resultType="CommonVO">
+ 		SELECT code_id
+	        , code_name
+	        , code_type
+	        , code_desc
+		FROM common_code
+		WHERE code_id LIKE 'b%'
+ 	</select>
+	
+	<!-- 리스트 개수 selectEmpAll 이랑코드가 같아야됨-->
+	<select id="countList" resultType="int">
+		SELECT count(*)
+		FROM emp e
+		INNER JOIN account a
+		ON e.emp_id = a.emp_id
+	</select>
 	
 
 </mapper>
