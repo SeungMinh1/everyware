@@ -19,4 +19,8 @@ public class MailVO {
 	private String replyMailId;    //답장메일번호
 	private int empId;             //사원번호
 	private String mailboxName;
+	
+	private String recipient;     //받는사람    
+	private int receiveStatus;    //수신상태
+	
 }
