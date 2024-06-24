@@ -7,8 +7,8 @@ public class PageDTO {
 	private int page; //현재페이지
 	private int startPage, endPage, realEnd; // 11 [13]  20 시작/끝/총페이지수
 	private boolean prev, next; // 이전, 이후 페이지
-	private int prod = 5; // 한페이지 몇개
-	private int pgnum = 5; // 페이지를 몇개표시
+	private int prod = 3; // 한페이지 몇개
+	private int pgnum = 3; // 페이지를 몇개표시
 	
 	
 	public PageDTO(int page, int totalCnt, int prod) {
