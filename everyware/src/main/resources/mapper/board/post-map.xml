@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.post.mapper.PostMapper">
+<!--post-map은 게시물 파트 -->
+<!-- 조회 -->
+<!-- 상단공지 조회 -->
+<select id="selectMainNotice" resultType="PostVO">
+ SELECT post_id,
+	 		board_id,
+	        notification_yn,
+	        hold_yn,
+	        title,
+	        write_date,
+	        view_cnt,
+	        recommend_cnt,
+	        attachment_group_id,
+	        content,
+	        emp_id
+	    FROM post
+WHERE board_id = 1 AND notification_YN = 'Y' AND hold_yn = 'Y'
+</select>
+<!-- 공지 전체 조회 -->
+<select id="selectNoticeAll" resultType="PostVO">
+ SELECT post_id,
+	 		board_id,
+	        notification_yn,
+	        hold_yn,
+	        title,
+	        write_date,
+	        view_cnt,
+	        recommend_cnt,
+	        attachment_group_id,
+	        content,
+	        emp_id
+	    FROM post
+WHERE board_id = 1 AND notification_YN = 'Y'
+</select>
+
+<!-- 단건 조회 -->
+<select id="postInfo" resultType="PostVO">
+SELECT post_id,
+	 		board_id,
+	        notification_yn,
+	        hold_yn,
+	        title,
+	        write_date,
+	        view_cnt,
+	        recommend_cnt,
+	        attachment_group_id,
+	        content,
+	        emp_id
+	    FROM post
+WHERE post_id = #{postId}    
+</select>
+<!-- 등록 -->
+<insert id="PostInsert" parameterType="PostVO">
+	<selectKey	keyProperty="postId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT post_id_seq.CURRVAL
+			FROM dual					
+	</selectKey>
+	INSERT INTO post
+		(post_id,
+		notification_yn,
+		hold_yn,
+		title,
+		write_date,
+		board_id,
+		view_cnt,
+		recomment_cnt,
+		attachment_group_id,
+		content,
+		emp_id)
+ VALUES (post_id_seq.CURRVAL,
+ 		#{postId},
+		#{notificationYn},
+		#{holdYn},
+		#{title},
+		#{writeDate},
+		#{boardId},
+		#{viewCnt},
+		#{recommentCnt},
+		#{attachmentGroupId},
+		#{content},
+		#{empId}
+ 		)
+</insert>
+
+<!-- 수정 -->
+<update id="postUpdate" parameterType="PostVO">
+UPDATE post 
+	SET 
+	    post_id = #{postId},
+		notification_yn = #{notificationYn},
+		hold_yn = #{holdYn},
+		title = #{title},
+		write_date = #{writeDate},
+		board_id = #{boardId},
+		view_cnt = #{viewCnt},
+		recomment_cnt = #{recommentCnt},
+		attachment_group_id = #{attachmentGroupId},
+		content = #{content},
+		emp_id = #{empId}	
+	WHERE post_id = #{postId}	
+</update>
+
+<!-- 삭제 -->
+<delete id="postDelete" parameterType="int">
+	DELETE FROM post
+	WHERE post_id = #{postId}
+</delete>
+
+</mapper>

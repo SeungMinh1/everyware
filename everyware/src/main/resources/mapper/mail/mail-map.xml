@@ -27,5 +27,67 @@
 		FROM mail
 		WHERE mail_id = #{mailId}
 	</select>
-
+	
+	<select id="selectRe" resultType="MailVO">
+	 	select recipient
+		from mail m
+		left outer join mail_recipient r
+		on m.mail_id = r.mail_id-1 
+		where m.mail_id=#{mailId}
+	</select>
+	
+	<insert id="insertMail" parameterType="MailVO">
+		INSERT ALL
+		   INTO mail
+		       (
+		       mail_id
+		       , sender
+		       , title
+		       , content
+		       , mailbox_id
+		       , emp_id
+		       )
+		   VALUES
+		       (
+		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+		           FROM mail)
+		           , 'mi'
+		           , #{title}
+		           , #{content}
+		           , 'd1'
+		           , 100
+		       )
+		   INTO mail
+		       (
+		       mail_id
+		       , sender
+		       , title
+		       , content
+		       , mailbox_id
+		       , emp_id
+		       )
+		   VALUES
+		       (
+		           (SELECT NVL(MAX(mail_id),0)+2 mail_id
+		           FROM mail)
+		           , 'mi'
+		           , #{title}
+		           , #{content}
+		           , 'd2'
+		           , 100
+		       )
+		       
+		   INTO mail_recipient
+		       (
+		        mail_id
+		        , recipient
+		       )
+		   VALUES
+		       (
+		         (SELECT NVL(MAX(mail_id),0)+2 mail_id
+		        FROM mail) 
+		       , #{recipient}
+		       )
+		SELECT * FROM dual
+	</insert>
 </mapper>
