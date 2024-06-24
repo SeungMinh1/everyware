@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.app.attend.emp.mapper.EmpMapper;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.common.service.CommonVO;
 
 
 @Service
@@ -59,13 +60,29 @@ public class EmpServiceImpl implements EmpService{
 	}
 
 	@Override
-	public int resetPwd(int empId) {
-		return empMapper.resetPwd(empId);
+	public int resetPwd(EmpVO empVO) {
+		return empMapper.resetPwd(empVO);
+
 	}
 
 	@Override
 	public int searchEmpId() { //사원번호조회
 		return empMapper.selectEmpId();
+	}
+
+	@Override
+	public List<CommonVO> posList() {
+		return empMapper.selectPosition();
+	}
+
+	@Override
+	public List<CommonVO> departmentList() {
+		return empMapper.selectDepartment();
+	}
+
+	@Override
+	public int cntList() {
+		return empMapper.countList();
 	}
 	
 

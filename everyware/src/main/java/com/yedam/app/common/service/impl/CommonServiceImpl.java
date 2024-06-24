@@ -3,9 +3,9 @@ package com.yedam.app.common.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yedam.app.common.CommonVO;
 import com.yedam.app.common.mapper.CommonMapper;
 import com.yedam.app.common.service.CommonService;
+import com.yedam.app.common.service.CommonVO;
 @Service
 public class CommonServiceImpl implements CommonService{
 	

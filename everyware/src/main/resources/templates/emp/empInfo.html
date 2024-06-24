@@ -185,7 +185,7 @@
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">비밀번호</label>
                         <div class="col-sm-10">
-                          <button type="button" class="btn btn-danger" th:onclick="|location.href='@{/resetPwd/${emp.empId}}'|">비밀번호초기화</button>
+                          <button type="button" class="btn btn-danger" id="resetpwd" th:onclick="|location.href='@{/resetPwd(empId=${emp.empId})}'|">비밀번호초기화</button>
                         </div>
                       </div>
 
@@ -238,6 +238,11 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+
+<script>
+	$('#resetpwd').on('click', ()=>{alert('비밀번호를 초기화 하엿습니다.')});
+</script>
+
 </form>
 </body>
 </html>

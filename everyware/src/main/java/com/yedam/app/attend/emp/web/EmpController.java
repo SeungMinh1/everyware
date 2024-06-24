@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.common.service.CommonVO;
 
 @Controller
 public class EmpController {
@@ -22,7 +25,8 @@ public class EmpController {
 	
 	//전체조회
 	@GetMapping("empList")
-	public String empList(Model model) {
+	public String empList(Model model, @PageableDefault(page=0, size=5, sort="empId") Pageable pageable) {
+		
 		List<EmpVO> list = empService.empList();
 		model.addAttribute("empList", list);
 		return "emp/empList";
@@ -41,7 +45,11 @@ public class EmpController {
 		EmpVO empVO = new EmpVO();
 		int newEmpId = empService.searchEmpId();
 		empVO.setEmpId(newEmpId);
+		List<CommonVO> poslist = empService.posList();
+		List<CommonVO> departmentList = empService.departmentList();
 		model.addAttribute("emp",empVO);
+		model.addAttribute("position", poslist);
+		model.addAttribute("department", departmentList);
 		return "emp/empInsert";
 	}
 	
@@ -56,7 +64,11 @@ public class EmpController {
 	@GetMapping("empUpdate")
 	public String empUpdateForm(EmpVO empVO, Model model) {
 		EmpVO findVO = empService.empInfo(empVO);
+		List<CommonVO> poslist = empService.posList();
+		List<CommonVO> departmentList = empService.departmentList();
 		model.addAttribute("emp", findVO);
+		model.addAttribute("position", poslist);
+		model.addAttribute("department", departmentList);
 		return "emp/empUpdate";
 	}
 	
@@ -77,14 +89,13 @@ public class EmpController {
 	
 	
 	// 비밀번호초기화
-	@PostMapping("resetPwd")
-	@ResponseBody
-	public String resetpassword(@RequestBody int empId) {
-		if(empService.resetPwd(empId) ==1) {
-			return "emp/empList";
-		}else {
-			return "emp/empList";
-		}
+	@GetMapping("resetPwd")
+	public String resetpassword(EmpVO empVO, Model model) {
+		empService.resetPwd(empVO);
+		EmpVO findVO = empService.empInfo(empVO);
+		model.addAttribute("emp", findVO);
+		return "emp/empInfo";
+
 		
 	}
 	
