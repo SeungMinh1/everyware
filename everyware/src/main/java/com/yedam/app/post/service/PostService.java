@@ -6,5 +6,5 @@ public interface PostService {
 	// 전체  게시물 조회
 	public List<PostVO> postList();
 	//단건조회
-	public PostVO postInfo(PostVO postVO)
+	public PostVO postInfo(PostVO postVO);
 }
