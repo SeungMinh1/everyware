@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.calendar.mapper.CalendarMapper">
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> branch 'master' of https://github.com/SeungMinh1/everyware.git
 	<!-- 전체조회 -->
 	<select id = "selectCalendarAll" parameterType = "empVO" resultType="CalendarVO">
 		SELECT calendar_id
@@ -30,7 +25,6 @@
 				, color
 				, emp_id
 		FROM calendar
-<<<<<<< HEAD
 		WHERE calendar_id = #{calendarId}		
 	</select>
 	
@@ -48,11 +42,4 @@
 	
 	
 	
-	
-	
-=======
-		ORDER BY calendar_id
-	</select> 
 
-</mapper>
->>>>>>> branch 'master' of https://github.com/SeungMinh1/everyware.git
