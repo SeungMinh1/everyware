@@ -8,12 +8,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- fullCalendar -->
   <link rel="stylesheet" href="../plugins/fullcalendar/main.css">
+  <link rel="stylesheet" href="../css/calendar.css">
 <!--   <link rel="stylesheet" href="" -->
   <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
 
 </head>
 <body class="hold-transition sidebar-mini">
-
+  <div id="color-dialog" title="색상선택" style="display:none">
+  		<a class="pallete color1" href="#" title ="색상1" data-color="blue"></a>
+  		<a class="pallete color2" href="#" title ="색상2" data-color="yellow"></a>
+  		<a class="pallete color3" href="#" title ="색상3" data-color="Greenyellow"></a>
+  		<a class="pallete color4" href="#" title ="색상4" data-color="red"></a>
+  		<a class="pallete color5" href="#" title ="색상5" data-color="orange"></a>	
+  		<a class="pallete color6" href="#" title ="색상6" data-color="Plum"></a>
+  </div>
 
 
   <!-- Content Wrapper. Contains page content -->
@@ -33,9 +41,9 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-3">
-            <div class="sticky-top mb-3">
-              <div class="card">
+          <div class="col-md-2" >
+            <div class="sticky-top mb-3" >
+              <div class="card" style="position:relative">
               	<div class="card-header">
               		<h4 class="card-title">일정등록</h4>
               	</div>
@@ -44,16 +52,17 @@
                 <div class="card-header">
                   <h4 class="card-title">내 일정목록</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="position:relative">
                   <!-- the events -->
                   <div id="external-events">
                     <div class="checkbox">
-						<table>
+						<table width = "100%">
 							<tbody>
-								<th:block th:each = "cal : ${calList}">
-									<tr>
-										<td th:text ="${cal.calendarBoxName}"></td>
-										<td ><input type="checkbox" checked></td>
+								<th:block th:each = "box : ${boxList}">
+									<tr >
+										<td width="5%"><input type="checkbox" checked></td>
+										<td width="60%" th:text ="${box.calendarBoxName}"></td>
+										<td width="30%"><div class="colorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
 									</tr>
 								</th:block>
 							</tbody>
@@ -152,19 +161,23 @@
 <!-- Page specific script -->
 <script th:inline="javascript">
 	
-	let list = [[${bList}]];
-	list.forEach(lis => console.log(lis.calendarBoxName))
+	const modal = $("#color-dialog")
+	const colorBtn = $(".colorBtn")
 	
-	let list1 = [[${cList}]];
-	list1.forEach(lis => console.log(lis))
+
 	
-/* 	$.ajax({
-		url: '/calendar',
-		type :'GET',
-		success : function(res){
-			var 
-		}
-	}) */
+	colorBtn.click(function(event){
+		const rect = event.target.getBoundingClientRect();
+		const relativeTop = rect.top;
+		const relativeLeft = rect.left;
+
+		modal.css({"display":"flex", "top":relativeTop+ 10, "left":relativeLeft+ 10})
+	
+	})
+
+
+
+
 
   $(function () {
 
@@ -237,11 +250,26 @@
       },
       themeSystem: 'bootstrap',
       //Random default events
-      events: [
-       	
-      ],
-      editable  : true,
-      droppable : true, // this allows things to be dropped onto the calendar !!!
+      eventSources : [{
+    	  events: function(info, successCallback, failureCallback){
+    		  $.ajax({
+  				url: '/calendar',
+  				type: 'POST',
+  				dataType: 'json',
+  				data: {
+  					title : info.calendarBoxId,
+  					start : moment(info.start).format('YYYY-MM-DD HH:mm:ss'),
+  					end : moment(info.end).format('YYYY-MM-DD')
+  				},
+  				success: function(data) {
+  					successCallback(data);
+  				}
+  			});
+    	  }
+      }],
+      displayEventTime : false,
+      editable  : false,
+      droppable : false, // this allows things to be dropped onto the calendar !!!
       drop      : function(info) {
         // is the "remove after drop" checkbox checked?
         if (checkbox.checked) {

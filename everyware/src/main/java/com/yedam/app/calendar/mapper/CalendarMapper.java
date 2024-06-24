@@ -23,4 +23,7 @@ public interface CalendarMapper {
 	
 	//사원별 일정리스트 출력
 	public List<CalendarBoxVO> selectCalBox(CalendarBoxVO calendarBoxVO);
+	
+	//캘린더 색 변경
+	public int updateCalColor(CalendarBoxVO calendarBoxVO);
 }

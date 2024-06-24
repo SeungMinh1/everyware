@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.expression.Lists;
 
 import com.yedam.app.calendar.service.CalendarBoxVO;
 import com.yedam.app.calendar.service.CalendarService;
@@ -22,8 +25,15 @@ public class CalendarController {
 		
 		List<CalendarBoxVO> blist = calendarService.calboxList(calendarBoxVO);
 		List<CalendarVO> clist = calendarService.calList();
-		model.addAttribute("bList", blist);
-		model.addAttribute("cList", clist);
+		model.addAttribute("boxList", blist);
+		model.addAttribute("calList", clist);
 		return "calendar/calendar";
 	}
+	
+	@PostMapping("calendar")
+	@ResponseBody
+	public List<CalendarVO> calInfo(CalendarBoxVO calendarBoxVO, Model model) {
+		return calendarService.calList();
+	}
+	
 }
