@@ -2,7 +2,9 @@ package com.yedam.app.attend.emp.mapper;
 
 import java.util.List;
 
+
 import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.common.service.CommonVO;
 
 public interface EmpMapper {
 	
@@ -21,6 +23,19 @@ public interface EmpMapper {
 	// 삭제
 	public int deleteEmpInfo(int empId);
 	
+	//emp_id 조회
+	public int selectEmpId();
+	
+	//직위 조회
+	public List<CommonVO> selectPosition();
+	
+	//부서 조회
+	public List<CommonVO> selectDepartment();
+	
 	//비밀번호 초기화
-	public int resetPwd(int empId);
+	public int resetPwd(EmpVO empVO);
+	
+	//리스트개수
+	public int countList();
+
 }

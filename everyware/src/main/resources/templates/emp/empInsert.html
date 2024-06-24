@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EmpInsert</title>
+
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>사원등록</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Project Add</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <form name="insertForm" th:action="@{/empInsert}" method="post" th:object="${emp}">
+		
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">개인정보</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="card-body">
+            
+              <div class="form-group">
+                <label for="empId">사원번호</label>
+                <input type="number" class="form-control"  th:field="*{empId}" readonly>
+              </div>
+              <div class="form-group">
+                <label for="empName">이름</label>
+                <input type="text" class="form-control"  th:field="*{empName}">
+              </div>
+               <div class="form-group">
+                <label for="tel">연락처</label>
+                <input type="text" class="form-control"  th:field="*{tel}">
+              </div>
+              <div class="form-group">
+                <label for="mail">이메일</label>
+                <input type="text" class="form-control"  th:field="*{mail}">
+              </div>
+               <div class="form-group">
+                <label for="hireDate">입사일</label>
+                <input type="date" class="form-control"  th:field="*{hireDate}">
+              </div>
+              <div class="form-group">
+                <label for="address">주소</label>
+                <input type="text" class="form-control"  th:field="*{address}"> <!-- 개인사진, 부서이름, 직위이름, 아이디 비번 -->
+              </div>
+              <div class="form-group">
+                <label for="photo">개인사진</label>
+                <input type="text" class="form-control"  th:field="*{photo}">
+              </div>
+              <div class="form-group">
+              	
+                <label for="departmentName">부서</label>
+                <select th:field="*{departmentName}">
+                	<th:block th:each="dep : ${department}">
+					    <option th:value="${dep.codeName}">  [[ ${dep.codeName} ]]</option>
+				  	</th:block>
+				</select>
+				
+              </div>
+              <div class="form-group">
+                <label for="posName">직위</label>
+                <select th:field= "*{posName}">
+                	<th:block th:each="pos : ${position}">
+					    <option th:value="${pos.codeName}">  [[ ${pos.codeName} ]]</option>
+				  	</th:block>
+                </select>
+              </div>
+ 
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+          <div class="card card-secondary">
+            <div class="card-header">
+              <h3 class="card-title">계정정보</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="accountId">아이디</label>
+                <input type="text" class="form-control" th:field="*{accountId}">
+              </div>
+              <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="number" class="form-control" th:field="*{password}" defaultValue=0000>
+              </div>
+              
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      <div class="row">
+      <!--  -->
+        <div class="col-12">
+         <!-- <a href="#" class="btn btn-secondary">Cancel</a>  --> 
+          <input type="submit" value="등록" class="btn btn-success float-right">
+        </div>
+        
+        
+      </div>
+     </form>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+
+
+</body>
+</html>

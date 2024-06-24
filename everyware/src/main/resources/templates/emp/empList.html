@@ -58,7 +58,7 @@
                           사원이름
                       </th>
                       <th style="width: 10%">
-                          사진
+                          부서
                       </th>
                       <th style="width: 10%">
                           전화번호
@@ -87,12 +87,12 @@
                               [[ ${emp.empName} ]]
                           </a>
                           <br/>
-                          <small>
-                              Created 01.01.2019
+                         <small>
+                               [[ ${emp.posName} ]]
                           </small>
                       </td>
                       <td>
-						<img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">    
+						[[ ${emp.departmentName} ]]
                       </td>
                       <td >
                           [[ ${emp.tel} ]]
@@ -128,6 +128,9 @@
         <!-- /.card-body -->
       </div>
       <!-- /.card -->
+      <div>
+      	<button type="button" th:onclick="|location.href='@{empInsert}'|">등록</button>
+      </div>
 
     </section>
     <!-- /.content -->
