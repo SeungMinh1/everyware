@@ -9,7 +9,7 @@ import com.yedam.app.common.service.CommonVO;
 public interface EmpMapper {
 	
 	//전체조회
-	public List<EmpVO> selectEmpAll();
+	public List<EmpVO> selectEmpAll(int page, int cnt, String dosearch);
 	
 	// 단건조회
 	public EmpVO selectEmpInfo(EmpVO empVO);

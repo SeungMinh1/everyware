@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.common.service.CommonVO;
 
 @Controller
@@ -25,10 +26,15 @@ public class EmpController {
 	
 	//전체조회
 	@GetMapping("empList")
-	public String empList(Model model, @PageableDefault(page=0, size=5, sort="empId") Pageable pageable) {
+	public String empList(Model model, Integer page, Integer cnt, String dosearch) {
+		page = page == null ? 1 : page;
+		cnt = cnt == null ? 3 : cnt;
+		int allCount = empService.cntList();
+		PageDTO pg = new PageDTO(page, allCount, cnt);
 		
-		List<EmpVO> list = empService.empList();
+		List<EmpVO> list = empService.empList(page, cnt, dosearch);
 		model.addAttribute("empList", list);
+		model.addAttribute("pg", pg);
 		return "emp/empList";
 	}
 	//단건조회

@@ -8,7 +8,7 @@ import com.yedam.app.common.service.CommonVO;
 public interface EmpService {
 	
 	//전체 사원정보 조회
-	public List<EmpVO> empList();
+	public List<EmpVO> empList(int page, int cnt, String dosearch);
 	//사원정보 조회
 	public EmpVO empInfo(EmpVO empVO);
 	//사원정보 등록

@@ -20,8 +20,8 @@ public class EmpServiceImpl implements EmpService{
 	EmpMapper empMapper;
 
 	@Override
-	public List<EmpVO> empList() {
-		return empMapper.selectEmpAll();
+	public List<EmpVO> empList(int page, int cnt, String dosearch) {
+		return empMapper.selectEmpAll(page, cnt, dosearch);
 	}
 
 	@Override

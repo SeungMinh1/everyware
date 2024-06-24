@@ -83,7 +83,7 @@
               <div class="form-group">
               	
                 <label for="departmentName">부서</label>
-                <select th:field="*{departmentName}">
+                <select class="form-control select2" style="width: 100%;" th:field="*{departmentName}">
                 	<th:block th:each="dep : ${department}">
 					    <option th:value="${dep.codeName}">  [[ ${dep.codeName} ]]</option>
 				  	</th:block>
@@ -92,7 +92,7 @@
               </div>
               <div class="form-group">
                 <label for="posName">직위</label>
-                <select th:field= "*{posName}">
+                <select class="select2-selection__rendered" th:field= "*{posName}">
                 	<th:block th:each="pos : ${position}">
 					    <option th:value="${pos.codeName}">  [[ ${pos.codeName} ]]</option>
 				  	</th:block>
