@@ -46,5 +46,14 @@ public class PostServiceImpl implements PostService {
 	public int postDelete(int postId) {
 		return postMapper.postDelete(postId);
 	}
+	//부서별 게시물 전체조회
+	@Override
+	public List<PostVO> selectDeptAll(PostVO postVO) {
+		return postMapper.selectDeptAll(postVO);
+	}
+	@Override
+	public List<PostVO> selectAnoyAll(PostVO postVO) {
+		return postMapper.selectAnoyAll(postVO);
+	}
 
 }
