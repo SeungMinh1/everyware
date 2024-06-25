@@ -10,6 +10,12 @@ public interface PostService {
 	public List<PostVO> selectMainNotice (PostVO postVO);
 	//공지 전체조회
 	public List<PostVO> selectNoticeAll (PostVO postVO);
+	//부서별 게시물 전체조회
+	public List<PostVO> selectDeptAll (PostVO postVO);
+	
+	//익명 게시물 전체조회
+	public List<PostVO> selectAnoyAll (PostVO postVO);
+	
 	//등록
 	public int postInsert (PostVO postVO);
 	//수정
