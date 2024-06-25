@@ -36,6 +36,40 @@ WHERE board_id = 1 AND notification_YN = 'Y' AND hold_yn = 'Y'
 WHERE board_id = 1 AND notification_YN = 'Y'
 </select>
 
+<!-- 부서별 게시물 전체조회 -->
+<select id="selectDeptAll" resultType="PostVO">
+ SELECT post_id,
+	 		board_id,
+	        notification_yn,
+	        hold_yn,
+	        title,
+	        write_date,
+	        view_cnt,
+	        recommend_cnt,
+	        attachment_group_id,
+	        content,
+	        emp_id
+	    FROM post
+WHERE board_id = 2
+</select>
+
+<!-- 익명 게시판 전체조회 -->
+<select id="selectAnoyAll" resultType="PostVO">
+ SELECT post_id,
+	 		board_id,
+	        notification_yn,
+	        hold_yn,
+	        title,
+	        write_date,
+	        view_cnt,
+	        recommend_cnt,
+	        attachment_group_id,
+	        content,
+	        emp_id
+	    FROM post
+WHERE board_id = 3
+</select>
+
 <!-- 단건 조회 -->
 <select id="postInfo" resultType="PostVO">
 SELECT post_id,
