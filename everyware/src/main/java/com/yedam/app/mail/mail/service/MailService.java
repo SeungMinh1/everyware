@@ -10,8 +10,7 @@ public interface MailService {
 	public MailVO mailInfo(MailVO mailVO);
 	
 	//메일 등록
-	public int mailInsert(MailVO mailVO);
+	public int senderMail(MailVO mailVO);
 	
-	public String recip(MailVO mailVO);
 }
 

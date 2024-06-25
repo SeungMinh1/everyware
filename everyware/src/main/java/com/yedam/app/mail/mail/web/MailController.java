@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
@@ -31,10 +33,7 @@ public class MailController {
 	//단건 메일 상세페이지
 	@GetMapping("mailInfo")
 	public String mailInfo(MailVO mailVO, Model model) {
-		
 		MailVO find = mailService.mailInfo(mailVO);
-		find.setRecipient(mailService.recip(mailVO));
-		
 		model.addAttribute("mail", find);
 		return "mail/mail_info";
 	}
@@ -48,9 +47,9 @@ public class MailController {
 	
 	//메일 등록 - 처리
 	@PostMapping("mailInsert")
-	public String mailInsertProcess(MailVO mailVO) {
-		mailService.mailInsert(mailVO);
-		return "redirect:mailboxInfo?mailboxId=d1";
+	@ResponseBody
+	public int mailInsertProcess(@RequestBody MailVO mailVO) {
+		return mailService.senderMail(mailVO);
 	}
 	
 	
