@@ -14,9 +14,9 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
-  <div id="color-dialog" title="색상선택" style="display:none">
+  <div id="color-dialog" title="색상선택" style="display:none" data-id=0>
   		<a class="pallete color1" href="#" title ="색상1" data-color="blue"></a>
-  		<a class="pallete color2" href="#" title ="색상2" data-color="yellow"></a>
+  		<a class="pallete color2" href="#" title ="색상2" data-color="gold"></a>
   		<a class="pallete color3" href="#" title ="색상3" data-color="Greenyellow"></a>
   		<a class="pallete color4" href="#" title ="색상4" data-color="red"></a>
   		<a class="pallete color5" href="#" title ="색상5" data-color="orange"></a>	
@@ -45,9 +45,10 @@
             <div class="sticky-top mb-3" >
               <div class="card" style="position:relative">
               	<div class="card-header">
-              		<h4 class="card-title">일정등록</h4>
+              		<a href="/insertCal"><h4 class="card-title">일정등록</h4></a>
               	</div>
               </div>
+              <!-- 내 일정 카드 -->
               <div class="card">
                 <div class="card-header">
                   <h4 class="card-title">내 일정목록</h4>
@@ -59,10 +60,11 @@
 						<table width = "100%">
 							<tbody>
 								<th:block th:each = "box : ${boxList}">
-									<tr >
-										<td width="5%"><input type="checkbox" checked></td>
+									<tr th:data-boxId="${box.calendarBoxId}">
+										<td  th:if="${box.expressionYn == 1}" width="5%"><input class="calCheck" type="checkbox" checked></td>
+										<td  th:if="${box.expressionYn == 0}" width="5%"><input class="calCheck" type="checkbox"></td>
 										<td width="60%" th:text ="${box.calendarBoxName}"></td>
-										<td width="30%"><div class="colorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
+										<td width="30%" style="cursor:pointer"><div  class="colorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
 									</tr>
 								</th:block>
 							</tbody>
@@ -70,35 +72,35 @@
                     </div>
                   </div>
                 </div>
-                <!-- /.card-body -->
               </div>
-              <!-- /.card -->
+              <!-- 내 일정 카드 끝 -->
+              <!-- 공유받은 일정 -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Create Event</h3>
+                  <h4 class="card-title">공유받은 일정목록</h4>
                 </div>
-                <div class="card-body">
-                  <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                    <ul class="fc-color-picker" id="color-chooser">
-                      <li><a class="text-primary" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-warning" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-success" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-danger" href="#"><i class="fas fa-square"></i></a></li>
-                      <li><a class="text-muted" href="#"><i class="fas fa-square"></i></a></li>
-                    </ul>
-                  </div>
-                  <!-- /btn-group -->
-                  <div class="input-group">
-                    <input id="new-event" type="text" class="form-control" placeholder="Event Title">
-
-                    <div class="input-group-append">
-                      <button id="add-new-event" type="button" class="btn btn-primary">Add</button>
+                <div class="card-body" style="position:relative">
+                  <!-- the events -->
+                  <div id="external-events">
+                    <div class="checkbox">
+						<table width = "100%">
+							<tbody>
+								<th:block th:each = "box : ${sharedList}">
+									<tr th:data-boxId="${box.calendarBoxId}">
+										<td  th:if="${box.expressionYn == 1}" width="5%"><input class="sharedCalCheck" type="checkbox" checked></td>
+										<td  th:if="${box.expressionYn == 0}" width="5%"><input class="sharedCalCheck" type="checkbox"></td>
+										<td width="60%">[[${box.calendarBoxName}]]([[${box.empName}]])</td>
+										<td width="30%" style="cursor:pointer"><div  class="sharedColorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
                     </div>
-                    <!-- /btn-group -->
                   </div>
-                  <!-- /input-group -->
                 </div>
               </div>
+              <!-- 공유받은 일정 카드 끝 -->
+              
             </div>
           </div>
           <!-- /.col -->
@@ -161,27 +163,144 @@
 <!-- Page specific script -->
 <script th:inline="javascript">
 	
-	const modal = $("#color-dialog")
-	const colorBtn = $(".colorBtn")
+	const modal = $("#color-dialog");
+	const colorBtn = $(".colorBtn");
+	const sharedColorBtn = $(".sharedColorBtn");
+	
+	const pallete = $(".pallete")
+	;
+	
+	$(".calCheck").click(function(event){
+		let expressYn = $(event.target).is(':checked') ? 1 : 0;
+		let boxId = $(event.target).closest('tr').attr('data-boxId')
+		
+
+
+		$.ajax({
+			url: '/changeExpress',
+			type: 'POST',	
+			dataType: 'json',
+			data: {
+				calendarBoxId : boxId,
+				expressionYn : expressYn
+			},
+			success: function(data) {
+				makeCal();
+				calendar.render();
+
+			}
+		});
+	})
+	
+	$(".sharedCalCheck").click(function(event){
+		let expressYn = $(event.target).is(':checked') ? 1 : 0;
+		let boxId = $(event.target).closest('tr').attr('data-boxId')
+		
+		console.log(boxId, expressYn);
+
+
+		$.ajax({
+			url: '/changeSharedExpress',
+			type: 'POST',	
+			dataType: 'json',
+			data: {
+				calendarBoxId : boxId,
+				expressionYn : expressYn
+			},
+			success: function(data) {
+				makeCal();
+				calendar.render();
+
+			}
+		});
+	})
+	
+	
+	
+	pallete.click(function(event){
+		let afterColor = event.target.dataset.color
+		let changedId = event.target.parentNode.dataset.id
+		
+		let originType = event.target.parentNode.dataset.type
+		
+		console.log(originType);
+		if(originType == 'original'){
+			changeColor(afterColor, changedId);			
+		}else if(originType == 'shared'){
+			changedSharedColor(afterColor, changedId);			
+		}
+		
+	});
 	
 
+	
+	function changeColor(color, id){
+		console.log(color, id)
+		$.ajax({
+				url: '/changedColor',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					calendarBoxId : id,
+					color : color
+				},
+				success: function(data) {
+					console.log(data);
+					makeCal();
+					calendar.render();
+					changedColorBtn(color,id);
+				}
+		});
+	}
+	
+	function changedSharedColor(color, id){
+		console.log(color, id)
+		$.ajax({
+				url: '/changedSharedColor',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					calendarBoxId : id,
+					color : color
+				},
+				success: function(data) {
+					console.log(data);
+					makeCal();
+					calendar.render();
+					changedColorBtn(color,id);
+				}
+		});
+	}
+	
+	function changedColorBtn(color, id){
+		$('#'+id).css({"background-color":color});
+		modal.css({"display":"none"});
+	}
 	
 	colorBtn.click(function(event){
 		const rect = event.target.getBoundingClientRect();
 		const relativeTop = rect.top;
 		const relativeLeft = rect.left;
 
-		modal.css({"display":"flex", "top":relativeTop+ 10, "left":relativeLeft+ 10})
-	
+		modal.css({"display":"flex", "top":relativeTop + 10, "left":relativeLeft + 10});
+		
+		modal.attr('data-id', this.id);
+		modal.attr('data-type', 'original')
 	})
+	
+	sharedColorBtn.click(function(event){
+		const rect = event.target.getBoundingClientRect();
+		const relativeTop = rect.top;
+		const relativeLeft = rect.left;
 
-
-
-
-
-  $(function () {
-
-    /* initialize the external events
+		modal.css({"display":"flex", "top":relativeTop + 10, "left":relativeLeft + 10});
+		
+		modal.attr('data-id', this.id);
+		modal.attr('data-type', 'shared')
+	})
+	
+	// 풀캘린더 작업
+	/* initialize the external events
      -----------------------------------------------------------------*/
     function ini_events(ele) {
       ele.each(function () {
@@ -238,89 +357,62 @@
         };
       }
     });
-    
+
+	let calendar = null;
+	function makeCal(){
+		calendar = new Calendar(calendarEl, {
+	    	// 날짜표시
+	   	   titleFormat: 'yyyy년 MM월' ,
+	      headerToolbar: {
+	        left  : 'title',
+	        right : 'prev,next today'
+	      },
+	      themeSystem: 'bootstrap',
+	      //Random default events
+	      eventSources : [{
+	    	  events: function(info, successCallback, failureCallback){
+	    		  $.ajax({
+	  				url: '/calendar',
+	  				type: 'POST',
+	  				dataType: 'json',
+	  				data: {
+
+	  				},
+	  				success: function(data) {
+
+	  					let ydata = [];
+	  					data.forEach(function(d){
+	  						if(d.expressionYn == 1){	  		
+		  						ydata.push(d);
+		  					}
+	  					})
+	  					successCallback(ydata);
+	  					
+	  				}
+	  			});
+	    	  }
+	      }],
+	      locale : "ko",
+	      displayEventTime : false,
+	      editable  : false,
+	      droppable : false, // this allows things to be dropped onto the calendar !!!
+	      drop      : function(info) {
+	        // is the "remove after drop" checkbox checked?
+	        if (checkbox.checked) {
+	          // if so, remove the element from the "Draggable Events" list
+	          info.draggedEl.parentNode.removeChild(info.draggedEl);
+	        }
+	      }
+	    });
+	};
+	//풀캘린더 end
 
 
-    var calendar = new Calendar(calendarEl, {
-    	// 날짜표시
-   	   titleFormat: 'yyyy년 MM월' ,
-      headerToolbar: {
-        left  : 'title',
-        right : 'prev,next today'
-      },
-      themeSystem: 'bootstrap',
-      //Random default events
-      eventSources : [{
-    	  events: function(info, successCallback, failureCallback){
-    		  $.ajax({
-  				url: '/calendar',
-  				type: 'POST',
-  				dataType: 'json',
-  				data: {
-  					title : info.calendarBoxId,
-  					start : moment(info.start).format('YYYY-MM-DD HH:mm:ss'),
-  					end : moment(info.end).format('YYYY-MM-DD')
-  				},
-  				success: function(data) {
-  					successCallback(data);
-  				}
-  			});
-    	  }
-      }],
-      displayEventTime : false,
-      editable  : false,
-      droppable : false, // this allows things to be dropped onto the calendar !!!
-      drop      : function(info) {
-        // is the "remove after drop" checkbox checked?
-        if (checkbox.checked) {
-          // if so, remove the element from the "Draggable Events" list
-          info.draggedEl.parentNode.removeChild(info.draggedEl);
-        }
-      }
-    });
+  $(function () {
 
+	makeCal();
     calendar.render();
     // $('#calendar').fullCalendar()
-
-    /* ADDING EVENTS */ 
-    var currColor = '#3c8dbc' //Red by default
-    // Color chooser button
-    $('#color-chooser > li > a').click(function (e) {
-      e.preventDefault()
-      // Save color
-      currColor = $(this).css('color')
-      // Add color effect to button
-      $('#add-new-event').css({
-        'background-color': currColor,
-        'border-color'    : currColor
-      })
-    })
-    $('#add-new-event').click(function (e) {
-      e.preventDefault()
-      // Get value and make sure it is not null
-      var val = $('#new-event').val()
-      if (val.length == 0) {
-        return
-      }
-
-      // Create events
-      var event = $('<div />')
-      event.css({
-        'background-color': currColor,
-        'border-color'    : currColor,
-        'color'           : '#fff'
-      }).addClass('external-event')
-      event.text(val)
-      $('#external-events').prepend(event)
-
-      // Add draggable funtionality
-      ini_events(event)
-
-      // Remove event from text input
-      $('#new-event').val('')
-    })
-    
-    
 
   })
 </script>
