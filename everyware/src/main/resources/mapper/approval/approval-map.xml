@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.approval.mapper.ApprovalMapper">
-
+	<!-- 결재자 등록 -->
+	<insert id="approvalInsert" parameterType="ApprovalVO">
+		INSERT INTO approval_path
+			(
+				approval_emp
+			)
+		VALUES
+			(
+				#{approvalEmp}
+			)
+	</insert>
+	
+	<!-- 참조자 등록 -->
+	<insert id="refInsert" parameterType="ApprovalVO">
+		INSERT INTO approval_path
+			(
+				approval_ref
+			)
+		VALUES
+			(
+				#{approvalRef}
+			)
+	</insert>
+	
+	<!-- 열람자 등록 -->
+	<insert id="viewInsert" parameterType="ApprovalVO">
+		INSERT INTO approval_path
+			(
+				approval_view
+			)
+		VALUES
+			(
+				#{approvalView}
+			)
+	</insert>
+	
+	<!-- 결재 -->
 </mapper>
