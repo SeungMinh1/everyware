@@ -8,4 +8,7 @@ public class CalendarBoxVO {
 	private String calendarBoxName;
 	private Integer empId;
 	private String color;
+	private int expressionYn;
+	private int agreementYn;
+	private String empName;
 }

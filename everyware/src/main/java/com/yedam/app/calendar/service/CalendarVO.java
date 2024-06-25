@@ -18,4 +18,5 @@ public class CalendarVO {
 	private String color;
 	private Integer empId;
 	private Integer calendarBoxId;
+	private int expressionYn;
 }
