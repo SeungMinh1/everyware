@@ -223,15 +223,16 @@
 		.fail(err=>console.log(err));
   }; 
  
-  //받는 메일에 적힌 이메일을 value만 꺼내서 recipData에 담음
-  //
+  //sender, recip, title, content 담기
   function getMailInfo(){
+	//recipient 의 value 뽑아서 recipData에 담음.
 	var recipData = [];
-	  $.each(tagify.value, (idx, input) => {
+    $.each(tagify.value, (idx, input) => {
 			var data = input.value;
 	  		recipData.push(data);
-	  });
-	  
+	});
+	
+    //각 input에 value를 배열로 data1 저장 후 return
 	var data1 = {            
 		sender     : $('#sender').val(),           
 		recipList  : recipData,            
