@@ -16,32 +16,33 @@
 	</select>
 	
 	<select id="selectMailInfo" resultType="MailVO">
-		SELECT mail_id 
-		      , sender
-		      , title
-		      , content
-		      , send_date
-		      , emp_id
-		      , mailbox_id
-		      , FIND_CODENAME(MAILBOX_ID)
+		SELECT mail_id
+		    , recipient
+		    , sender
+		    , title
+		    , content
+		    , send_date
+		    , emp_id
+		    , mailbox_id
+		    , FIND_CODENAME(MAILBOX_ID) mailbox_name
 		FROM mail
 		WHERE mail_id = #{mailId}
 	</select>
 	
-	<select id="selectRe" resultType="MailVO">
+<!-- 	<select id="selectRe" resultType="MailVO">
 	 	select recipient
 		from mail m
 		left outer join mail_recipient r
 		on m.mail_id = r.mail_id-1 
 		where m.mail_id=#{mailId}
-	</select>
+	</select> -->
 	
-	<insert id="insertMail" parameterType="MailVO">
-		INSERT ALL
-		   INTO mail
+	<insert id="insertSenderMail" parameterType="MailVO">
+		INSERT INTO mail
 		       (
 		       mail_id
 		       , sender
+		       , recipient
 		       , title
 		       , content
 		       , mailbox_id
@@ -51,16 +52,21 @@
 		       (
 		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
 		           FROM mail)
-		           , 'mi'
+		           , #{sender}
+		           , #{recipient}
 		           , #{title}
 		           , #{content}
-		           , 'd1'
+		           , 'd2'
 		           , 100
 		       )
-		   INTO mail
+	</insert>
+	
+	<insert id="insertRecipMail" parameterType="MailVO">
+		INSERT INTO mail
 		       (
 		       mail_id
 		       , sender
+		       , recipient
 		       , title
 		       , content
 		       , mailbox_id
@@ -70,24 +76,12 @@
 		       (
 		           (SELECT NVL(MAX(mail_id),0)+2 mail_id
 		           FROM mail)
-		           , 'mi'
+		           , #{sender}
+		           , #{recipient}
 		           , #{title}
 		           , #{content}
-		           , 'd2'
+		           , 'd1'
 		           , 100
 		       )
-		       
-		   INTO mail_recipient
-		       (
-		        mail_id
-		        , recipient
-		       )
-		   VALUES
-		       (
-		         (SELECT NVL(MAX(mail_id),0)+2 mail_id
-		        FROM mail) 
-		       , #{recipient}
-		       )
-		SELECT * FROM dual
-	</insert>
+ 	   </insert>
 </mapper>

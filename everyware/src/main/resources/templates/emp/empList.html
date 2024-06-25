@@ -53,7 +53,7 @@
               <thead>
                   <tr>
                       <th style="width: 10%">
-                          사원번호
+                          사원번호호
                       </th>
                       <th style="width: 10%">
                           사원이름
@@ -184,8 +184,16 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script>
-	let searchword = document.getElementById('searchword').value; 
-	$('#searchBtn').on('click',()=>{console.log(searchword)})
+	//let searchword = document.getElementById('searchword').value; 
+	$('#searchBtn').on('click',searchWord)
+	
+	function searchWord(){
+		let searchword = document.getElementById('searchword') 
+		let url = '/empList?dosearch=' + searchword.value;
+		location.href=url;
+	}
+	
+	
 </script>
 </body>
 </html>
