@@ -184,8 +184,16 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script>
-	let searchword = document.getElementById('searchword').value; 
-	$('#searchBtn').on('click',()=>{console.log(searchword)})
+	//let searchword = document.getElementById('searchword').value; 
+	$('#searchBtn').on('click',searchWord)
+	
+	function searchWord(){
+		let searchword = document.getElementById('searchword') 
+		let url = '/empList?dosearch=' + searchword.value;
+		location.href=url;
+	}
+	
+	
 </script>
 </body>
 </html>
