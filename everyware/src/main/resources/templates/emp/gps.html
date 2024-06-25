@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<div id="wrap" style="border:1px solid;width:500px;height:300px;margin:5px 0;position:relative"></div>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=967abc3691ff76b0e5292f256685aae2&libraries=services"
+        type="text/javascript"></script>
+<script>
+  // 우편번호 찾기 화면을 넣을 element
+  const element_wrap = document.getElementById('wrap');
+
+  const daumPostcode = () => {
+    new daum.Postcode({
+      oncomplete: data => {
+        console.log('도로명주소 : ' + data.roadAddress);
+        console.log('지번주소 : ' + data.jibunAddress);
+        console.log('우편번호 : ' + data.zonecode);
+
+        // 위도 및 경도 좌푯값 구하기
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(data.roadAddress, (result, status) => {
+          if (status === kakao.maps.services.Status.OK) {
+            console.log('위도 : ' + result[0].y);
+            console.log('경도 : ' + result[0].x);
+          }
+        });
+      },
+      // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+      onresize: size => {
+        element_wrap.style.height = size.height + 'px';
+      },
+      width: '100%',
+      height: '100%'
+    }).embed(element_wrap, {autoClose: false});
+  }
+
+  daumPostcode();
+</script>
+
+
+
+</body>
+</html>
