@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">	
+</head>
+<body>
+	<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>일정등록</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <form name="insertForm" method="post" >
+		
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary">
+         
+            
+            <div class="card-body">
+            
+              <div class="form-group">
+                <label for="empId"></label>
+                <input type="number" class="form-control" readonly>
+              </div>
+              <div class="form-group">
+                <label for="empName">이름</label>
+                <input type="text" class="form-control"  >
+              </div>
+               <div class="form-group">
+                <label for="tel">연락처</label>
+                <input type="text" class="form-control"  >
+              </div>
+              <div class="form-group">
+                <label for="mail">이메일</label>
+                <input type="text" class="form-control"  >
+              </div>
+               <div class="form-group">
+                <label for="hireDate">입사일</label>
+                <input type="date" class="form-control"  >
+              </div>
+              <div class="form-group">
+                <label for="address">주소</label>
+                <input type="text" class="form-control"  > <!-- 개인사진, 부서이름, 직위이름, 아이디 비번 -->
+              </div>
+              <div class="form-group">
+                <label for="photo">개인사진</label>
+                <input type="text" class="form-control"  >
+              </div>
+              
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        
+      </div>
+      <div class="row">
+      <!--  -->
+        <div class="col-12">
+         <!-- <a href="#" class="btn btn-secondary">Cancel</a>  --> 
+          <input type="submit" value="등록" class="btn btn-success float-right">
+        </div>
+        
+        
+      </div>
+     </form>
+    </section>
+    <!-- /.content -->
+  </div>
+</body>
+</html>

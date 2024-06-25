@@ -6,6 +6,13 @@
 
 }
 
+.sharedColorBtn{
+  width : 15px;
+  height : 15px;
+  border-radius: 50%;
+  text-align : right;
+}
+
 .card{
 	z-index:3;
 }
@@ -25,34 +32,30 @@
 .pallete{
 	width : 15px;
 	height : 15px;
+	margin:3px;
+	
 }
 
 .color1{
 	background-color: blue;
-	margin:3px
 }	
 
 .color2{
-	background-color: yellow;
-	margin:3px
+	background-color: gold;
 }
 
 .color3{
 	background-color: Greenyellow;
-	margin:3px
 }
 
 .color4{
 	background-color: red;
-	margin:3px
 }
 
 .color5{
 	background-color: orange;
-	margin:3px
 }
 
 .color6{
 	background-color: Plum;
-	margin:3px
 }
