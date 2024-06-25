@@ -23,20 +23,24 @@ public class MailServiceImpl implements MailService {
 	public MailVO mailInfo(MailVO mailVO) {
 		return mailMapper.selectMailInfo(mailVO);
 	}
-
-	@Override
-	public int mailInsert(MailVO mailVO) {
-		int result = mailMapper.insertMail(mailVO);
-		if(result == 1) {
-			return mailVO.getMailId();
-		}else {
-			return -1;			
-		}
-	}
-
-	@Override
-	public String recip(MailVO mailVO) {
-		return mailMapper.selectRe(mailVO);
-	}
 	
+	@Override
+	public int senderMail(MailVO mailVO) {
+		//int result = mailMapper.insertSenderMail(mailVO);
+		int result = 0;
+		String ress = "";
+		for(String recip: mailVO.getRecipList()) {
+			ress += recip + ", ";
+		}
+		mailVO.setRecipient(ress);
+		result = mailMapper.insertSenderMail(mailVO); 
+		
+		
+		 for(String recip: mailVO.getRecipList()) { 
+			 mailVO.setRecipient(recip);
+			 result = mailMapper.insertRecipMail(mailVO); 
+		 }
+		 
+		return result;
+	}
 }

@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -88,29 +91,30 @@
           <!-- /.col -->
           
           <div class="col-md-9">
-          <form name="insertForm" th:action="@{/mailInsert}" method="post"
-		  th:object="${mailVO}">
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <button type="submit" class="btn btn-primary mailInsert"><i class="far fa-envelope"></i>보내기</button>
+                <button type="button" id="insertBtn" class="btn btn-primary mailInsert"><i class="far fa-envelope"></i>보내기</button>
                 <button type="button" class="btn btn-default"><i class="fas move_to_inbox"></i> 임시저장</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div class="input-group mb-3">
-				  <input type="text" class="form-control recipient" placeholder="받는사람:" th:field="*{recipient}">
-				  <button class="btn btn-outline-secondary" type="button" id="sender3">주소록</button>
+              	<div class="input-group mb-3">
+				  <input type="text" class="form-control" id="sender" placeholder="보낸사람:">
 				</div>
-               <!--  <div class="input-group mb-3">
-				  <input type="text" class="form-control sender2" placeholder="참조:" >
-				  <button class="btn btn-outline-secondary" type="button" id="sender4">주소록</button>
+                <div class="input-group mb-3">
+				  <input type="text" class="form-control" id="recipient" name="recipient" placeholder="받는사람:">
+				  <button class="btn btn-outline-secondary" type="button" id="recipient">주소록</button>
+				</div>
+              <!--<div class="input-group mb-3">
+				  <input type="text" class="form-control" id="recipient"  placeholder="참조:">
+				  <button class="btn btn-outline-secondary" type="button" id="recipient">주소록</button>
 				</div> -->
                 <div class="input-group mb-3">
-				  <input type="text" class="form-control title" placeholder="제목:" th:field="*{title}">
+				  <input type="text" class="form-control title" id="title" placeholder="제목:">
 				</div>
                 
                 <div class="form-group">
-                    <textarea id="summernote" class="form-control content" th:field="*{content}" style="height: 300px" >
+                    <textarea id="summernote" class="form-control content" style="height: 300px" >
                     
                     </textarea>
                 </div>
@@ -127,7 +131,6 @@
               <!-- /.card-footer -->
             </div>
             <!-- /.card -->
-            </form>
           </div>
           
           <!-- /.col -->
@@ -166,12 +169,84 @@
 <script src="../../js/mail_insert.js"></script>
 <script>
   $(function () {
+    
     //Add text editor
-    $('#summernote').summernote({
-    		height: 300
-    		, lang: 'ko-KR'
+   $('#summernote').summernote({
+	    		height: 300
+	    		, lang: 'ko-KR'
+	    		, callbacks: {
+		        	onImageUpload: function(files, editor, welEditable) {
+		        		for(var i = files.length -1; i>=0; i--) {
+		        			sendFile(files[i], this);
+		        		}
+		        	}
+		        }
+	    })
+ 	})
+   const input = document.querySelector('input[name=recipient]');
+    let tagify = new Tagify(input, {
+    	pattern  :/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+    }); 	
+  $('#insertBtn').on('click', mailInsertfunc);
+  function mailInsertfunc(e){
+	  let info =  getMailInfo();
+	  
+	    if(tagify.value == ''){
+			alert('받는사람 이메일을 입력해 주세요.');
+			/* input.focus(); */
+			return;
+		}
+		if($('#title').val() == ''){
+			alert('제목을 입력해주세요.');
+			$('#title').focus();
+			return;
+		}
+		console.log($('#sender').val());
+		console.log(tagify.value);
+		console.log($('#title').val());
+		console.log($('#summernote').summernote('code'));
+		
+		console.log(info);
+		$.ajax('mailInsert',{
+			type: 'post',
+			contentType : 'application/JSON',
+			data : JSON.stringify(info)
+		})
+		.done(result=>{
+			if(result){
+				alert('성공')
+				let url = '/mailboxInfo?mailboxId=d1'
+				location.href=url;
+			}
+			console.log(result);
+		})
+		.fail(err=>console.log(err));
+  }; 
+ 
+  //받는 메일에 적힌 이메일을 value만 꺼내서 recipData에 담음
+  //
+  function getMailInfo(){
+	var recipData = [];
+	  $.each(tagify.value, (idx, input) => {
+			var data = input.value;
+	  		recipData.push(data);
+	  });
+	  
+	var data1 = {            
+		sender     : $('#sender').val(),           
+		recipList  : recipData,            
+		title      :  $('#title').val(),            
+		content    : $('#summernote').summernote('code')
+	};
+	
+	return data1;
+  }
+ 
+    
+    // 태그가 추가되면 이벤트 발생
+    tagify.on('add', function() {
+      console.log(tagify.value); // 입력된 태그 정보 객체
     })
-  })
 
 </script>
 </body>
