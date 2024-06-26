@@ -1,10 +1,8 @@
 /**
- * mail_insert.js
- * KJM
+ *  mail_update.js
  */
-
-$(function () {
-   //에디터(summernote) 설정
+$(function(){
+	//에디터(summernote) 설정
    $('#summernote').summernote({
 	    		height: 300
 	    		, lang: 'ko-KR'
@@ -15,31 +13,30 @@ $(function () {
 		        		}
 		        	}
 		        }
-	    })
- 
- 	
-  //tagify 이메일 유효성 검사
-  const input = document.querySelector('input[name=recipient]');
-    let tagify = new Tagify(input, {
-    	pattern  :/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
-  }); 	
-  
-  const input1 = document.querySelector('input[name=cc]');
-    let tagify1 = new Tagify(input1, {
-    	pattern  :/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
-  }); 	
-  
-  //tagify 라이브러리
-  //태그추가시(받는사람 입력칸) => 입력된 태그 값 콘솔 출력
-  tagify.on('add', function() {
-      console.log(tagify.value); // 입력된 태그 정보 객체
-  })
+	  });
+	  
+	  const input = document.querySelector('input[name=recipient]');
+	  let tagify = new Tagify(input, {
+	    	pattern  :/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+	  }); 	
+	  
+	  const input1 = document.querySelector('input[name=cc]');
+	  let tagify1 = new Tagify(input1, {
+	    	pattern  :/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
+	  }); 	
+	  
+	  tagify.on('add', function() {
+      	console.log(tagify.value); // 입력된 태그 정보 객체
+  	  })
     
+	
+	
+	//insertBtn 누르면 보내기 등록
   /*================
       메일 보내기
   =================*/
-  $('#insertBtn').on('click', mailInsertfunc);
-  function mailInsertfunc(e){
+  $('#insertBtn').on('click', mailInsertFunc);
+  function mailInsertFunc(e){
 	  // value를 담은 data => info
 	  let info =  getMailInfo();
 	  	
@@ -72,42 +69,33 @@ $(function () {
 		})
 		.fail(err=>console.log(err));
   }; 
-  
- 
-  
-   /*==================
-      임시보관 메일 등록
-   ====================*/
-   $('#draftsBtn').on('click', draftMailInsertfunc);
-   function draftMailInsertfunc(){
-	  let info =  getMailInfo();
-	  
-	  if($('#title').val() == ''){
-			alert('제목을 입력해주세요.');
-			$('#title').focus();
-			return;
-		};
-		
-	  //메일 등록 ajax
-		$.ajax('draftMailInsert',{
-			type: 'post',
-			contentType : 'application/JSON',
-			data : JSON.stringify(info)
-		})
-		.done(result=>{
-			if(result){
-				alert('성공');
-				//성공시 받은메일함으로
-				let url = '/mailboxInfo?mailboxId=d1';
-				location.href=url;
-			}
-			console.log(result);
-		})
-		.fail(err=>console.log(err));
-   };
-  
-  
    /*================
+       임시보관 수정
+  =================*/
+  $('#updateBtn').on('click', draftMailUpdate);
+		function draftMailUpdate(event){
+			//1) 보낼 데이터 확인
+			let info = getMailInfo();
+			($('#sender').val());
+			
+			//2)AJAX
+			$.ajax('draftMailUpdate',{
+				type: 'post',
+				contentType : 'application/JSON',
+				data : JSON.stringify(info)
+			})
+			.done(result=>{
+				if(result.result){
+					alert('정상적으로 수정되었습니다.')
+				}else{
+					alert("수정되지 않았습니다. \n 데이터를 확인해주세요.")
+				}
+				console.log(result);
+			})
+			.fail(err=>console.log(err));
+		};
+			
+  /*================
     input value 저장
   ==================*/
   function getMailInfo(){
@@ -136,6 +124,5 @@ $(function () {
 	
 	return data1;
   };
-  
+	//draftBtn 누르면 수정한거 저장
 })
-  
