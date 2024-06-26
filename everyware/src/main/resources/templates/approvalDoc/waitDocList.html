@@ -51,9 +51,11 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+              	<button class="approval">일괄 결재</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                  	<td><input type="checkbox" id="allChk" name="allChk"></td>
                     <th>기안일</th>
                     <th>결재양식</th>
                     <th>제목</th>
@@ -62,13 +64,14 @@
                   </tr>
                   </thead>
                   <tbody>
- 				  <th:block th:each="waitDoc : ${waitDocList}">
-	                  <tr th:onclick="|location.href='@{docInfo(docId=${waitDoc.docId})}'|">
-	                    <td>[[ ${ #dates.format(waitDoc.draftDate, 'yyyy/MM/dd') } ]]</td>
-	                    <td>[[ ${waitDoc.approvalTask} ]]</td>
-	                    <td>[[ ${waitDoc.docTitle} ]]</td>
-	                    <td>[[ ${waitDoc.approvalFile} ]]</td>
-	                    <td>[[ ${waitDoc.draftEmp} ]]</td>
+ 				  <th:block th:each="Doc : ${waitDocList}">
+	                  <tr>
+	                  	<td><input type="checkbox" th:field="*{waitDocList}" th:value="${Doc.docId}"></td>
+	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
+	                    <td>[[ ${Doc.approvalTask} ]]</td>
+	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
+	                    <td>[[ ${Doc.approvalFile} ]]</td>
+	                    <td>[[ ${Doc.draftEmp} ]]</td>
 	                  </tr>
                   </th:block>
                   </tbody>
@@ -89,37 +92,6 @@
   <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper --> 
-  <!-- ----------------------------------버튼------------------------------------- -->
-   <!--  <div class="row">
-    	<div class="col-sm-12 col-md-5">
-    		<div class="dataTables_info"></div>
-    	</div>
-    	<div class="col-sm-12 col-md-7">
-    		<div class="dataTables_paginate paging_simple_numbers">
-    			<ul class="pagination">
-			    	이전 버튼
-					<th:block th:if="${pg.prev}">
-					    <li class="paginate_button page_item previous disabled">
-					        <a th:href="@{/waitDocList(page=${pg.page-1})}" class="page-link">이전</a>
-					    </li>
-					</th:block>
-					
-					<li>
-					<th:block th:each="pages : ${#numbers.sequence(pg.startPage,pg.endPage)}">	    
-					        <a th:href="@{/waitDocList(page=${pages})}" th:text="${pages}"></a>
-					</th:block>
-					</li>
-					
-					다음 버튼
-					<th:block th:if="${pg.next}">
-					    <li class="paginate_button page_item next disabled">
-					        <a th:href="@{/waitDocList(page=${pg.page+1})}" class="page-link">다음</a>
-					    </li>
-					</th:block>	
-				</ul>	
-			</div>	
-		</div>
-	</div> -->
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -144,21 +116,41 @@
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+	$(function() {
+		$("#example1").DataTable({
+			"responsive" : true,
+			"lengthChange" : false,
+			"autoWidth" : false,
+			"buttons" : [ "copy", "csv", "excel", "pdf", "print", "colvis" ]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+		$('#example2').DataTable({
+			"paging" : true,
+			"lengthChange" : false,
+			"searching" : false,
+			"ordering" : true,
+			"info" : true,
+			"autoWidth" : false,
+			"responsive" : true,
+		});
+	});
+
+	$("#allChk").click(function() {
+		if ($(this).is(":checked")) { 
+			//모든 체크박스 체크
+			$("input:checkbox").attr("checked", true);
+		} else {
+			//모든 체크박스 체크해제
+			$("input:checkbox").attr("checked", false);
+		}
+	});
+	
+	$('.approval').click(function() {
+		if($('input:checkbox:checked').length == 0) {
+			alert('선택된 항목이 없습니다.');
+		}else {
+			alert('모달창 띄우기');
+		}
+	})
 </script>
 </body>
 </html>
