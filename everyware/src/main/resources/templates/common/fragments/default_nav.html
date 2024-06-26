@@ -17,7 +17,7 @@
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a th:href="@{/logout}"class="d-block">Log Out</a>
         </div>
       </div>
 
@@ -274,89 +274,88 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
+              <i class="fas fa-circle nav-icon"></i>
               <p>
                 전자결재
-                <i class="fas fa-angle-left right"></i>
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
             <li class="nav-item">
-            <!-- 결재 모달창 -->
-		                <a href="#" class="nav-link">
+		                <a href="/newTask" class="nav-link">
 		                  <i class="far fa-circle nav-icon"></i>
 		                  <p>새 결재 진행</p>
 		                </a>
 		              </li>
               <li class="nav-item">              	  	           
 		          <a href="#" class="nav-link">
-	                <i class="nav-icon fas fa-table"></i>
+	                <i class="far fa-circle nav-icon"></i>
 	              	<p>
 	                	결재하기
-	               	 <i class="fas fa-angle-left right"></i>
+	               	 <i class="right fas fa-angle-left"></i>
 	              	</p>
 	              </a>
 	              <ul class="nav nav-treeview">
 		              <li class="nav-item">
 		                <a href="/waitDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>결재 대기 문서</p>
 		                </a>
 		              </li>
 		              <li class="nav-item">
 		                <a href="/waitRefViewDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>참조/열람 대기 문서</p>
 		                </a>
 		              </li>
 		              <li class="nav-item">
 		                <a href="/expectedDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>결재 예정 문서</p>
 		                </a>
 		              </li>
 		          </ul>
 		          <a href="#" class="nav-link">
-	                <i class="nav-icon fas fa-table"></i>
+	                <i class="far fa-circle nav-icon"></i>
 	              	<p>
 	                	개인 문서함
-	               	 <i class="fas fa-angle-left right"></i>
+	               	 <i class="right fas fa-angle-left"></i>
 	              	</p>
 	              </a>
 	              <ul class="nav nav-treeview">
 		              <li class="nav-item">
 		                <a href="/draftDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>기안 문서함</p>
 		                </a>
 		              </li>
 		              <li class="nav-item">
 		                <a href="/approvalDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>결재 문서함</p>
 		                </a>
 		              </li>
 		              <li class="nav-item">
 		                <a href="/sendDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>발송 문서함</p>
 		                </a>
 		              </li>
 		              <li class="nav-item">
 		                <a href="/receptionDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>수신 문서함</p>
 		                </a>
 		              </li>
 		              <li class="nav-item">
 		                <a href="/refViewDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>참조/열람 문서함</p>
 		                </a>
 		              </li>
 		              <li class="nav-item">
 		                <a href="/temporaryDocList" class="nav-link">
-		                  <i class="far fa-circle nav-icon"></i>
+		                  <i class="far fa-dot-circle nav-icon"></i>
 		                  <p>임시 저장함</p>
 		                </a>
 		              </li>
@@ -656,12 +655,14 @@
             </a>
           </li>
           <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+          <!-- 1번 -->
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fas fa-circle nav-icon"></i>
               <p>Level 1</p>
             </a>
           </li>
+          <!-- 2번 -->
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
@@ -670,6 +671,7 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <!-- 2-1번~ -->
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -677,6 +679,7 @@
                   <p>Level 2</p>
                 </a>
               </li>
+              <!-- 2-2번 -->
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -685,6 +688,7 @@
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
+                <!-- 2-2-1번~ -->
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -705,6 +709,7 @@
                     </a>
                   </li>
                 </ul>
+                <!-- ~2-2-3번 -->
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -713,6 +718,7 @@
                 </a>
               </li>
             </ul>
+            <!-- ~2-3번 -->
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">

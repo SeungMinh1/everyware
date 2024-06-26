@@ -21,8 +21,11 @@ public class MailVO {
 	private int empId;             //사원번호
 	private String mailboxName;
 	
-	private String recipient;
-	private List<String> recipList;  //받는사람    
+	private String recipient;        //받는사람
+	private List<String> recipList;  //받는사람들    
 	private int receiveStatus;       //수신상태
+	
+	private String cc;			 //참조자	
+	private List<String> ccList; //참조자들
 	
 }

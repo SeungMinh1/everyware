@@ -20,19 +20,20 @@
 	<!-- 단일 일정 조회 -->
 	<select id = "selectCalendarInfo" parameterType ="CalendarVO" resultType="CalendarVO">
 		SELECT calendar_id
-				, start_date
-				, end_date
+				, start_date "start"
+				, end_date "end"
 				, title
 				, content
 				, emp_id
+				, calendar_box_id
 				, calendar_color(calendar_box_id) "color"
-				, calendar_yn(calendar_box_id) "expression_yn"
+				, calendar_yn(calendar_box_id) "expressionYn"
 		FROM calendar
 		WHERE calendar_id = #{calendarId}		
 	</select>
 	
 	<!-- 사원별 일정리스트 출력 -->
-	<select id = "selectCalBox" parameterType ="CalendarBoxVO" resultType="CalendarBoxVO">
+	<select id = "selectCalBox" parameterType ="CalendarVO" resultType="CalendarBoxVO">
 		SELECT calendar_box_id
 				, calendar_box_name
 				, emp_id
@@ -41,6 +42,8 @@
 		FROM calendar_box
 		WHERE emp_id = 100
 	</select>
+	
+	
 	
 	<!-- 캘린더 색변경 -->
 	<update id = "updateCalColor" parameterType = "CalendarBoxVO" >
@@ -76,6 +79,7 @@
 		WHERE s.emp_id = 100 AND agreement_yn = 1
 	</select>
 	
+	<!-- 공유받은 일정 조회 -->
 	<select id="selectSharedCal" parameterType ="CalendarBoxVO" resultType="CalendarVO">
 		SELECT c.calendar_id
                 , c.start_date "start"
@@ -99,7 +103,34 @@
 		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = 100
 	</update>
 	
-	
+	<!-- 일정 등록 -->
+	<insert id ="insertCalendarInfo" parameterType ="CalendarVO">
+		<selectKey keyProperty="calendarId" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(calendar_id),1) + 1
+			FROM calendar
+		</selectKey>
+			insert into calendar
+		    (
+		        calendar_id
+		        , start_date
+		        , end_date
+		        , title
+		        , content
+		        , emp_id
+		        , calendar_box_id
+		        , location
+		    )
+		VALUES (
+		         #{calendarId}
+		         , TO_DATE(#{start}, 'yyyy/MM/dd HH24:MI')
+		         , TO_DATE(#{end}, 'yyyy/MM/dd HH24:MI')
+		         , #{title}
+		         , #{content}
+		         , 100
+		         , #{calendarBoxId}
+		         , #{location}
+		        )
+	</insert>
 </mapper>
 	
 

@@ -11,9 +11,15 @@ public interface MailMapper {
 	//메일 단건조회
 	public MailVO selectMailInfo(MailVO mailVO);
 	
-	//등록 -> 보낸사람 -> 보낸메일함
-	//    -> 받는사람 -> 받은메일함
+	//메일등록 -> 보낸사람 -> 보낸메일함
+	//       -> 받는사람 -> 받은메일함
+	//		 -> 참조    -> 받은메일함
 	public int insertSenderMail(MailVO mailVO);
 	public int insertRecipMail(MailVO mailVO);
-
+	public int insertCcMail(MailVO mailVO);
+	
+	//메일 임시보관 등록
+	public int insertDraftMail(MailVO mailVO);
+	
+	
 }
