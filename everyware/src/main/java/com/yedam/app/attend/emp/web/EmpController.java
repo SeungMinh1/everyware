@@ -19,6 +19,7 @@ import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.common.service.CommonVO;
 
 @Controller
+
 public class EmpController {
 	@Autowired
 	EmpService empService;
