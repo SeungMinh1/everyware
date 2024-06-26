@@ -9,8 +9,7 @@
   <title>EmpList</title>
 </head>
 <body class="hold-transition sidebar-mini">
-
-
+	
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -22,8 +21,10 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Projects</li>
+              <li class="breadcrumb-item"><a th:href="@{/empList(dosearch='관리')}">Home</a></li>
+              <li class="breadcrumb-item active">
+              <input type="text" id="searchword"><button type="button"id="searchBtn" >검색</button>
+              </li>
             </ol>
           </div>
         </div>
@@ -36,8 +37,8 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Projects</h3>
-
+          <h3 class="card-title">접속한사람 : [[ ${accountId} ]]</h3>
+          <h3 class="card-title">사원번호 : [[ ${eid} ]]</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -52,7 +53,7 @@
               <thead>
                   <tr>
                       <th style="width: 10%">
-                          사원번호
+                          사원번호호
                       </th>
                       <th style="width: 10%">
                           사원이름
@@ -134,6 +135,28 @@
 
     </section>
     <!-- /.content -->
+    <div id="page"  >
+		<p>---------------------------여기 버튼달자---------------------------</p>
+		<!-- 이전 버튼 -->
+		<th:block th:if="${pg.prev}">
+		    <li >
+		        <a th:href="@{/empList(page=${pg.page-1})}" >이전</a>
+		    </li>
+		</th:block>
+		
+		<li>
+		<th:block th:each="pages : ${#numbers.sequence(pg.startPage,pg.endPage)}">	    
+		        <a th:href="@{/empList(page=${pages})}" th:text="${pages}"></a>
+		</th:block>
+		</li>
+		
+		<!-- 다음 버튼 -->
+		<th:block th:if="${pg.next}">
+		    <li >
+		        <a th:href="@{/empList(page=${pg.page+1})}" >다음</a>
+		    </li>
+		</th:block>
+	</div>
   </div>
   <!-- /.content-wrapper -->
 
@@ -160,5 +183,17 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<script>
+	//let searchword = document.getElementById('searchword').value; 
+	$('#searchBtn').on('click',searchWord)
+	
+	function searchWord(){
+		let searchword = document.getElementById('searchword') 
+		let url = '/empList?dosearch=' + searchword.value;
+		location.href=url;
+	}
+	
+	
+</script>
 </body>
 </html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>메일쓰기</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>메일쓰기</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <a th:href="@{/mailInsert}" class="btn btn-primary btn-block mb-3">메일쓰기</a>
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">메일함</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body p-0">
+              <ul class="nav nav-pills flex-column">
+                <li class="nav-item active">
+                  <a th:href="@{/mailboxInfo(mailboxId=d1)}" class="nav-link">
+                    <i class="fas fa-inbox"></i> 받은메일함
+                    <span class="badge bg-primary float-right">12</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a th:href="@{/mailboxInfo(mailboxId=d2)}" class="nav-link">
+                    <i class="far fa-envelope"></i> 보낸메일함
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a th:href="@{/mailboxInfo(mailboxId=d3)}" class="nav-link">
+                    <i class="far fa-file-alt"></i> 임시보관함
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a th:href="@{/mailboxInfo(mailboxId=d4)}" class="nav-link">
+                    <i class="fas fa-filter"></i> 스팸메일함
+                    <span class="badge bg-warning float-right">65</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a th:href="@{/mailboxInfo(mailboxId=d5)}" class="nav-link">
+                    <i class="far fa-trash-alt"></i> 휴지통
+                  </a>
+                </li>
+              </ul>
+            </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+          <!-- /.col -->
+          
+          <div class="col-md-9">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <button type="button" id="insertBtn" class="btn btn-primary mailInsert"><i class="far fa-envelope"></i>보내기</button>
+                <button type="button" id="updateBtn" class="btn btn-default"><i class="fas fa-envelope"></i>임시저장</button>
+                <button th:onclick="|location.href='@{/mailDelete(mailId=${draft.mailId})}'|" type="button" id="deleteBtn" class="btn btn-default"><i class="far fa-trash-alt"></i>삭제</button>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+              	<div th:field="*{draft.mailId}"></div>
+              	<div class="input-group mb-3">
+				  <input type="text" class="form-control" id="sender" placeholder="보낸사람" th:field="*{draft.sender}">
+				</div>
+                <div class="input-group mb-3">
+				  <input type="text" class="form-control" id="recipient" name="recipient" placeholder="받는사람" th:field="*{draft.recipient}">
+				  <button class="btn btn-outline-secondary" type="button" id="recipient">주소록</button>
+				</div>
+                <div class="input-group mb-3">
+				  <input type="text" class="form-control" id="cc" name="cc" placeholder="참조" th:field="*{draft.cc}">
+				  <button class="btn btn-outline-secondary" type="button" id="cc">주소록</button>
+				</div>
+                <div class="input-group mb-3">
+				  <input type="text" class="form-control title" id="title" placeholder="제목" th:field="*{draft.title}">
+				</div>
+                
+                <div class="form-group">
+                    <textarea id="summernote" class="form-control content" style="height: 300px" th:field="*{draft.content}" ></textarea>
+                </div>
+                <div class="form-group">
+                  <div class="btn btn-default btn-file">
+                    <i class="fas fa-paperclip"></i> Attachment
+                    <input type="file" name="attachment">
+                  </div>
+                  <p class="help-block">Max. 32MB</p>
+                </div>
+              </div>
+              <!-- /.card-body -->
+              <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- Summernote -->
+<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script th:inline="javascript">
+	var mailId = /*[[ ${draft.mailId} ]]*/"";
+</script>
+<!-- ====================mail update js  ========================-->
+ <script src="../../js/mail_update.js" th:inline="javascript"></script>
+<!-- ====================mail update js  ========================-->
+
+</body>
+</html>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.mail.mail.mapper.MailMapper">
-
 	<select id="selectMailboxInfo" resultType="MailVO">
 		SELECT sender
 			  , title
@@ -16,16 +15,144 @@
 	</select>
 	
 	<select id="selectMailInfo" resultType="MailVO">
-		SELECT mail_id 
-		      , sender
-		      , title
-		      , content
-		      , send_date
-		      , emp_id
-		      , mailbox_id
-		      , FIND_CODENAME(MAILBOX_ID)
+		SELECT mail_id
+		    , recipient
+		    , sender
+		    , cc
+		    , title
+		    , content
+		    , send_date
+		    , emp_id
+		    , mailbox_id
+		    , FIND_CODENAME(MAILBOX_ID) mailbox_name
 		FROM mail
 		WHERE mail_id = #{mailId}
 	</select>
-
+	
+<!-- 	<select id="selectRe" resultType="MailVO">
+	 	select recipient
+		from mail m
+		left outer join mail_recipient r
+		on m.mail_id = r.mail_id-1 
+		where m.mail_id=#{mailId}
+	</select> -->
+	
+	<insert id="insertSenderMail" parameterType="MailVO">
+		INSERT INTO mail
+		       (
+		       mail_id
+		       , sender
+		       , recipient
+		       , cc
+		       , title
+		       , content
+		       , mailbox_id
+		       , emp_id
+		       )
+		VALUES
+		       (
+		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+		           FROM mail)
+		           , #{sender}
+		           , #{recipient}
+		           , #{cc}
+		           , #{title}
+		           , #{content}
+		           , 'd2' <!-- 보낸메일함 -->
+		           , 100
+		       )
+	</insert>
+	
+	<insert id="insertRecipMail" parameterType="MailVO">
+		INSERT INTO mail
+		       (
+		       mail_id
+		       , sender
+		       , recipient
+		       , cc
+		       , title
+		       , content
+		       , mailbox_id
+		       , emp_id
+		       )
+		   VALUES
+		       (
+		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+		           FROM mail)
+		           , #{sender}
+		           , #{recipient}
+		           , #{cc}
+		           , #{title}
+		           , #{content}
+		           , 'd1' <!-- 받은메일함 -->
+		           , 100
+		       )
+ 	  </insert>
+ 	  
+ 	   <insert id="insertCcMail" parameterType="MailVO">
+		INSERT INTO mail
+		       (
+		       mail_id
+		       , sender
+		       , recipient
+		       , cc
+		       , title
+		       , content
+		       , mailbox_id
+		       , emp_id
+		       )
+		   VALUES
+		       (
+		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+		           FROM mail)
+		           , #{sender}
+		           , #{recipient}
+		           , #{cc}
+		           , #{title}
+		           , #{content}
+		           , 'd1' <!-- 받은메일함 -->
+		           , 100
+		       )
+ 	  </insert>
+ 	  
+ 	  <insert id="insertDraftMail" parameterType="MailVO">
+		   	INSERT INTO mail
+			       (
+			       mail_id
+			       , sender
+			       , recipient
+			       , cc
+			       , title
+			       , content
+			       , mailbox_id
+			       , emp_id
+			       )
+		    VALUES
+			       (
+			           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+			           FROM mail)
+			           , #{sender}
+			           , #{recipient}
+			           , #{cc}
+			           , #{title}
+			           , #{content}
+			           , 'd3'  <!-- 임시보관함 -->
+			           , 100
+			       )
+ 	   </insert>
+ 	   
+ 	   <update id="updateDraftMail" parameterType="MailVO">
+ 	     	UPDATE mail
+ 	     	SET sender = #{sender}
+				  , recipient = #{recipient}
+				  , cc = #{cc}
+				  , title = #{title}
+				  , content = #{content}
+			 WHERE mail_id = #{mailId}          
+ 	   </update>
+ 	   
+ 	   <delete id="deleteDraftMail" parameterType="MailVO">
+ 	   	     DELETE FROM mail
+ 	   	     WHERE mail_id = #{mailId}
+ 	   </delete>
 </mapper>

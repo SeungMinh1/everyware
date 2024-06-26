@@ -1,6 +1,7 @@
 package com.yedam.app.mail.mail.service;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -19,4 +20,12 @@ public class MailVO {
 	private String replyMailId;    //답장메일번호
 	private int empId;             //사원번호
 	private String mailboxName;
+	
+	private String recipient;        //받는사람
+	private List<String> recipList;  //받는사람들    
+	private int receiveStatus;       //수신상태
+	
+	private String cc;			 //참조자	
+	private List<String> ccList; //참조자들
+	
 }
