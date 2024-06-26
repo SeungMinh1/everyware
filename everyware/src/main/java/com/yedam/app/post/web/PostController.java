@@ -40,7 +40,7 @@ public class PostController {
 	
 	//단건조회
 	@GetMapping("postInfo")
-	public String postInfo ( Model model, PostVO postVO) {
+	public String postInfo (Model model, PostVO postVO) {
 		PostVO findVO = postService.postInfo(postVO);
 		model.addAttribute("post",findVO);
 		return "post/postInfo";
