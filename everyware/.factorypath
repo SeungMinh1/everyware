@@ -87,6 +87,5 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/com/googlecode/libphonenumber/libphonenumber/8.13.39/libphonenumber-8.13.39.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/googlecode/libphonenumber/prefixmapper/2.233/prefixmapper-2.233.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/bgee/log4jdbc-log4j2/log4jdbc-log4j2-jdbc4.1/1.16/log4jdbc-log4j2-jdbc4.1-1.16.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="PLUGIN" id="net.harawata.mybatipse" enabled="false" runInBatchMode="false"/>
     <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="false" runInBatchMode="false"/>
 </factorypath>

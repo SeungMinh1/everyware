@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>결재 대기 문서</title>
+  <title>수신 문서함</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -51,9 +51,18 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+              	<button class="all">전체</button>
+              	<button class="wait">접수대기</button>
+              	<button class="rec">접수</button>
+              	<button class="prog">진행</button>
+              	<button class="comp">완료</button>
+              	<button class="rej">반려</button>
+              	<button class="re">반송</button>
+              	<button class="down">다운로드</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                  	<td><input type="checkbox" id="allChk" name="allChk"></td>
                     <th>접수일</th>
                     <th>결재양식</th>
                     <th>제목</th>
@@ -65,10 +74,12 @@
                   </thead>
                   <tbody>
  				  <th:block th:each="Doc : ${receptionDocList}">
-	                  <tr th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">
-	                    <td>[[ ${ #dates.format(Doc.receptionDate, 'yyyy/MM/dd') } ]]</td>
+	                  <tr>
+	                  	<td><input type="checkbox" th:field="*{receptionDocList}" th:value="${Doc.docId}"></td>
+	                    <td th:if="${receptionDate != null}">[[ ${ #dates.format(Doc.receptionDate, 'yyyy/MM/dd') } ]]</td>
+	                    <td th:if="${receptionDate == null}"></td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
-	                    <td>[[ ${Doc.docTitle} ]]</td>
+	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
 	                    <td>[[ ${Doc.draftEmp} ]]</td>
 	                    <td>[[ ${Doc.docId} ]]</td>
@@ -132,6 +143,16 @@
       "responsive": true,
     });
   });
+  
+  $("#allChk").click(function() {
+		if ($(this).is(":checked")) {
+			//모든 체크박스 체크
+			$("input:checkbox").attr("checked", true);
+		} else {
+			//모든 체크박스 체크해제
+			$("input:checkbox").attr("checked", false);
+		}
+	});
 </script>
 </body>
 </html>

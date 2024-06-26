@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.app.approval.mapper.DocMapper;
 import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
+import com.yedam.app.approval.service.TaskVO;
 
 @Service
 public class DocServiceImpl implements DocService {
@@ -85,6 +86,16 @@ public class DocServiceImpl implements DocService {
 	@Override
 	public DocVO docInfo(DocVO docVO) {
 		return docMapper.docInfo(docVO);
+	}
+
+	@Override
+	public List<TaskVO> newTask() {
+		return docMapper.newTask();
+	}
+
+	@Override
+	public List<TaskVO> category() {
+		return docMapper.category();
 	}
 
 	@Override

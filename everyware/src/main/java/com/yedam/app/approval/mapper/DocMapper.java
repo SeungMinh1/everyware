@@ -3,6 +3,7 @@ package com.yedam.app.approval.mapper;
 import java.util.List;
 
 import com.yedam.app.approval.service.DocVO;
+import com.yedam.app.approval.service.TaskVO;
 
 public interface DocMapper {
 	// 문서조회
@@ -41,6 +42,10 @@ public interface DocMapper {
 	
 	// 개별 문서 조회
 	public DocVO docInfo(DocVO docVO);
+	
+	// 문서등록(양식)
+	public List<TaskVO> newTask();
+	public List<TaskVO> category();
 	
 	// 문서등록
 	public int docInsert(DocVO docVO);
