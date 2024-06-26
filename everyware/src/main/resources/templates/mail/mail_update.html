@@ -94,7 +94,8 @@
             <div class="card card-primary card-outline">
               <div class="card-header">
                 <button type="button" id="insertBtn" class="btn btn-primary mailInsert"><i class="far fa-envelope"></i>보내기</button>
-                <button th:href="@{/draftMailUpdate}" type="button" id="updateBtn" class="btn btn-default"><i class="fas fa-envelope"></i> 임시저장</button>
+                <button type="button" id="updateBtn" class="btn btn-default"><i class="fas fa-envelope"></i>임시저장</button>
+                <button th:onclick="|location.href='@{/mailDelete(mailId=${draft.mailId})}'|" type="button" id="deleteBtn" class="btn btn-default"><i class="far fa-trash-alt"></i>삭제</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -163,9 +164,11 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
-
+<script th:inline="javascript">
+	var mailId = /*[[ ${draft.mailId} ]]*/"";
+</script>
 <!-- ====================mail update js  ========================-->
- <script src="../../js/mail_update.js"></script>
+ <script src="../../js/mail_update.js" th:inline="javascript"></script>
 <!-- ====================mail update js  ========================-->
 
 </body>

@@ -20,6 +20,9 @@ public interface MailMapper {
 	
 	//메일 임시보관 등록
 	public int insertDraftMail(MailVO mailVO);
+	// 임시보관한 메일 수정
+	public int updateDraftMail(MailVO mailVO);
 	
-	
+	//삭제
+	public int deleteDraftMail(int mailId);
 }

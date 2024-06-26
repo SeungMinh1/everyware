@@ -148,6 +148,11 @@
 				  , cc = #{cc}
 				  , title = #{title}
 				  , content = #{content}
-			 WHERE mail_id = #{mid}          
+			 WHERE mail_id = #{mailId}          
  	   </update>
+ 	   
+ 	   <delete id="deleteDraftMail" parameterType="MailVO">
+ 	   	     DELETE FROM mail
+ 	   	     WHERE mail_id = #{mailId}
+ 	   </delete>
 </mapper>
