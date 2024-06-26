@@ -8,5 +8,7 @@ public class GpsVO {
 	private String gpsName;
 	private double longtitueX;
 	private double lattitueY;
+	private String xxx;
+	private String yyy;
 	
 }

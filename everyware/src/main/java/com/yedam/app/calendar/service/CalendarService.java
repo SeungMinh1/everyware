@@ -7,8 +7,11 @@ public interface CalendarService {
 	//사원별 일정조회
 	public List<CalendarVO> calList(CalendarBoxVO calendarBoxVO);
 	
+	//단건 일정조회
+	public CalendarVO calInfo(CalendarVO calendarVO);
+	
 	//사원별 일정리스트 출력
-	public List<CalendarBoxVO> calboxList(CalendarBoxVO calendarBoxVO);
+	public List<CalendarBoxVO> calboxList(CalendarVO calendarVO);
 	
 	//캘린더 색 변경
 	public Map<String, Object> updateCalColor(CalendarBoxVO calendarBoxVO);
@@ -27,4 +30,7 @@ public interface CalendarService {
 	
 	//공유받은 일정 색 변경
 	public Map<String, Object> updateSharedCalColor(CalendarBoxVO calendarBoxVO);
+	
+	//일정 등록
+	public int insertCal(CalendarVO calendarVO);
 }

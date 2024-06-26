@@ -41,6 +41,10 @@ public interface DocService {
 	// 개별 문서 조회
 	public DocVO docInfo(DocVO docVO);
 	
+	// 문서등록(양식)
+	public List<TaskVO> newTask();
+	public List<TaskVO> category();
+	
 	// 문서등록
 	public int docInsert(DocVO docVO);
 

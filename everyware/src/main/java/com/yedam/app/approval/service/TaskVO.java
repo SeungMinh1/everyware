@@ -11,4 +11,5 @@ public class TaskVO {
 	private String taskCheck;
 	private String taskSelect;
 	private String taskDate;
+	private String category;
 }
