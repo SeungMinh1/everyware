@@ -34,9 +34,9 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public List<CalendarBoxVO> calboxList(CalendarBoxVO calendarBoxVO) {
+	public List<CalendarBoxVO> calboxList(CalendarVO calendarVO) {
 		// TODO Auto-generated method stub
-		return calendarMapper.selectCalBox(calendarBoxVO);
+		return calendarMapper.selectCalBox(calendarVO);
 	}
 
 	@Override
@@ -92,6 +92,20 @@ public class CalendarServiceImpl implements CalendarService{
 			map.put("calendarBoxVO" , calendarBoxVO);
 		}
 		return map;
+	}
+	
+	//일정등록
+	@Override
+	public int insertCal(CalendarVO calendarVO) {
+		int result = calendarMapper.insertCalendarInfo(calendarVO);
+		return result;
+	}
+	
+	//일정 단건조회
+	@Override
+	public CalendarVO calInfo(CalendarVO calendarVO) {
+		
+		return calendarMapper.selectCalendarInfo(calendarVO);
 	}
 
 
