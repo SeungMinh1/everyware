@@ -89,10 +89,11 @@
             <div class="card-body p-0">
               <div class="mailbox-read-info">
                 <h2>[[ ${mail.title} ]]</h2>
-                <h6>보낸사람 : [[ ${mail.sender} ]] (보낸사람 이메일 들어갈곳)</h6>
-                <h6>받은사람 : [[ ${mail.recipient}]] (받은사람 이메일 들어갈곳)</h6>
+                <h6>보낸사람　:　[[ ${mail.sender} ]](보낸사람의 이메일)</h6>
+                <h6>받은사람　:　[[ ${mail.recipient}]]</h6>
+                <h6>참조　:　　　[[ ${mail.cc}]]</h6>
                   <!-- <span class="mailbox-read-time float-right">15 Feb. 2015 11:03 PM</span></h6> -->
-                <h6>보낸날짜 : [[ ${#dates.format(mail.sendDate, 'yy-MM-dd (E) HH:mm:ss')} ]]</h6>
+                <h6>보낸날짜　:　[[ ${#dates.format(mail.sendDate, 'yy-MM-dd (E) HH:mm:ss')} ]]</h6>
               </div>
               <!-- /.mailbox-read-info -->
               <div class="mailbox-controls with-border text-center">
@@ -115,11 +116,13 @@
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
                 <p th:utext="${mail.content}"></p>
+                <p style=height:100px></p>
               </div>
               <!-- /.mailbox-read-message -->
             </div>
             <!-- /.card-body -->
-            <div class="card-footer bg-white">
+            <!-- 첨부파일 -->
+            <!-- <div class="card-footer bg-white">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
                 <li>
                   <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
@@ -166,7 +169,7 @@
                   </div>
                 </li>
               </ul>
-            </div>
+            </div> -->
             <!-- /.card-footer -->
             <div class="card-footer">
               <div class="float-right">

@@ -150,8 +150,12 @@
 	                       <label th:for="${in.mailId}"></label>
 	                     </div>
 	                   </td>
+	                   <!-- th:if="${mailboxId=d3}" -->
 	                   <td class="mailbox-name"><a href="read-mail.html">[[ ${in.sender} ]]</a></td>
-	                   <td class="mailbox-subject"><a th:href="@{/mailInfo(mailId=${in.mailId})}">[[ ${in.title} ]]</a>
+	                   
+	                      <td th:if="${in.mailboxId =='d3'}" class="mailbox-subject"><a th:href="@{/draftMailUpdate(mailId=${in.mailId})}">[[ ${in.title} ]]</a>
+	                   	  <td th:unless="${in.mailboxId =='d3'}" class="mailbox-subject"><a th:href="@{/mailInfo(mailId=${in.mailId})}">[[ ${in.title} ]]</a>
+	                   
 	                   <td class="mailbox-date">[[ ${#dates.format(in.sendDate, 'yy-MM-dd hh:mm:ss')} ]]</td>
 	                 </tr>
                  </th:block>
