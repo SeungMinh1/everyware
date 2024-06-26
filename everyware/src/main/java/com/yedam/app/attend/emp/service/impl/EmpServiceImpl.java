@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.attend.emp.mapper.EmpMapper;
@@ -31,6 +32,8 @@ public class EmpServiceImpl implements EmpService{
 
 	@Override
 	public int empInsert(EmpVO empVO) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		empVO.setPassword(passwordEncoder.encode(empVO.getPassword()));
 		int result = empMapper.insertEmpInfo(empVO);
 		if(result == 1) {
 			return empVO.getEmpId();
@@ -61,6 +64,9 @@ public class EmpServiceImpl implements EmpService{
 
 	@Override
 	public int resetPwd(EmpVO empVO) {
+		empVO.setPassword("0000");
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		empVO.setPassword(passwordEncoder.encode(empVO.getPassword()));
 		return empMapper.resetPwd(empVO);
 
 	}

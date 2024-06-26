@@ -126,7 +126,7 @@
  	
  	<update id="resetPwd" parameterType="empVO">
  		UPDATE account
-		SET password = '0000'
+		SET password = #{password}
 		WHERE emp_id = #{empId}
  		
  	</update>
