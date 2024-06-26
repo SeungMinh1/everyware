@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.emp.service.PageDTO;
+import com.yedam.app.attend.security.service.LoginUserVO;
 import com.yedam.app.common.service.CommonVO;
 
 @Controller
@@ -27,15 +27,22 @@ public class EmpController {
 	
 	//전체조회
 	@GetMapping("empList")
-	public String empList(Model model, Integer page, Integer cnt, String dosearch) {
+	public String empList(Model model, Integer page, Integer cnt, String dosearch,@AuthenticationPrincipal LoginUserVO principal) {
 		page = page == null ? 1 : page;
 		cnt = cnt == null ? 3 : cnt;
 		int allCount = empService.cntList();
 		PageDTO pg = new PageDTO(page, allCount, cnt);
+
+		String aa = principal.getuserVO().getAccountId();
+		int bb = principal.getuserVO().getEmpid();
 		
 		List<EmpVO> list = empService.empList(page, cnt, dosearch);
 		model.addAttribute("empList", list);
 		model.addAttribute("pg", pg);
+		
+		model.addAttribute("accountId", aa);
+		model.addAttribute("eid", bb);
+		
 		return "emp/empList";
 	}
 	//단건조회
