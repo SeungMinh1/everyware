@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>결재 대기 문서</title>
+  <title>참조/열람 문서함</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -51,9 +51,14 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+              	<button class="all">전체</button>
+              	<button class="ref">참조</button>
+              	<button class="view">열람</button>
+              	<button class="down">다운로드</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                  	<td><input type="checkbox" id="allChk" name="allChk"></td>
                     <th>기안일</th>
                     <th>완료일</th>
                     <th>결재양식</th>
@@ -65,11 +70,12 @@
                   </thead>
                   <tbody>
  				  <th:block th:each="Doc : ${refViewDocList}">
-	                  <tr th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">
+	                  <tr>
+	                  	<td><input type="checkbox" th:field="*{refViewDocList}" th:value="${Doc.docId}"></td>
 	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td>[[ ${ #dates.format(Doc.completeDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
-	                    <td>[[ ${Doc.docTitle} ]]</td>
+	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
 	                    <td>[[ ${Doc.docId} ]]</td>
 	                    <td>[[ ${Doc.approvalStatus} ]]</td>
@@ -132,6 +138,32 @@
       "responsive": true,
     });
   });
+  
+  $("#allChk").click(function() {
+		if ($(this).is(":checked")) {
+			//모든 체크박스 체크
+			$("input:checkbox").attr("checked", true);
+		} else {
+			//모든 체크박스 체크해제
+			$("input:checkbox").attr("checked", false);
+		}
+	});
+  
+  $('.all').click(function() {
+	  location.href = 'http://localhost:8100/refViewDocList';
+  })
+  
+  $('.ref').click(function() {
+	  location.href = 'http://localhost:8100/refDocList';
+  })
+  
+  $('.view').click(function() {
+	  location.href = 'http://localhost:8100/viewDocList';
+  })
+  
+  $('.down').click(function() {
+	  
+  })
 </script>
 </body>
 </html>

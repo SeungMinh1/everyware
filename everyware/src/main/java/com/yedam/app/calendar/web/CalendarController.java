@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.calendar.service.CalendarBoxVO;
@@ -23,8 +24,15 @@ public class CalendarController {
 	//캘린더 출력
 	@GetMapping("calendar")
 	public String goCalendar(CalendarBoxVO calendarBoxVO, Model model) {
+		 CalendarVO cvo = new CalendarVO();
+		/*
+		 * int empId = calendarBoxVO.getEmpId();
+		 * cvo.setEmpId(empId);
+		 */
 		
-		List<CalendarBoxVO> blist = calendarService.calboxList(calendarBoxVO);
+		
+		
+		List<CalendarBoxVO> blist = calendarService.calboxList(cvo);
 		List<CalendarVO> clist = calendarService.calList(calendarBoxVO);
 		List<CalendarBoxVO> slist = calendarService.sharedCalBoxList(calendarBoxVO);
 		model.addAttribute("boxList", blist);
@@ -74,8 +82,32 @@ public class CalendarController {
 	
 	//일정등록페이지 이동
 	@GetMapping("insertCal")
-	public String calendarInsertForm() {
+	public String calendarInsertForm(CalendarVO calendarVO, Model model) {
+		List<CalendarBoxVO> blist = calendarService.calboxList(calendarVO);
+		model.addAttribute("boxList", blist);
 		return "calendar/insertCalendar";
+	}
+	
+	//일정 등록
+	@PostMapping("insertCal")
+	@ResponseBody
+	public String InsertCalProcess(CalendarVO caledarVO) {
+		int result = calendarService.insertCal(caledarVO);
+		
+		
+		return "redirect:calendar";
+	}
+	
+	//일정 상세페이지 이동
+	@GetMapping("calInfo")
+	public String calendarInfoForm(CalendarVO calendarVO, Model model, @RequestParam int calendarId) {
+		calendarVO.setCalendarId(calendarId);
+		CalendarVO cVO = calendarService.calInfo(calendarVO);
+		
+		List<CalendarBoxVO> blist = calendarService.calboxList(calendarVO);
+		model.addAttribute("boxList", blist);
+		model.addAttribute("cal", cVO);
+		return "calendar/updateCalendar";
 	}
 	
 	

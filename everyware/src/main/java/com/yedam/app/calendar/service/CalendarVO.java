@@ -9,14 +9,15 @@ import lombok.Data;
 @Data
 public class CalendarVO {
 	private Integer calendarId;
-	@DateTimeFormat(pattern = "yyyy-MM-dd hh시 mm분")
-	private Date start;
-	@DateTimeFormat(pattern = "yyyy-MM-dd hh시 mm분")
-	private Date end;
+	
+	private String start;
+	
+	private String end;
 	private String title;
 	private String content;
 	private String color;
 	private Integer empId;
 	private Integer calendarBoxId;
 	private int expressionYn;
+	private String location;
 }

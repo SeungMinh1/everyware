@@ -44,9 +44,11 @@
           <div class="col-md-2" >
             <div class="sticky-top mb-3" >
               <div class="card" style="position:relative">
+              <a href="/insertCal">
               	<div class="card-header">
-              		<a href="/insertCal"><h4 class="card-title">일정등록</h4></a>
+              		<h4 class="card-title">일정등록</h4>
               	</div>
+              </a>
               </div>
               <!-- 내 일정 카드 -->
               <div class="card">
@@ -392,6 +394,14 @@
 	  			});
 	    	  }
 	      }],
+	      dateClick : function(info){
+	    	  console.log(info.dateStr);
+	    	  location.href='/insertCal?startDate=' + info.dateStr;
+	      },
+	      eventClick : function(info){
+	    	  console.log(info.event.extendedProps.calendarId);
+	    	  location.href='/calInfo?calendarId=' + info.event.extendedProps.calendarId;
+	      },
 	      locale : "ko",
 	      displayEventTime : false,
 	      editable  : false,

@@ -59,3 +59,28 @@
 .color6{
 	background-color: Plum;
 }
+
+.form-control{
+	display: inline-block;
+	width : 60%;
+}
+
+.form-group label{
+	width : 16%;
+}
+
+.form-group *{
+	vertical-align:middle;
+}
+
+.float-center{
+	margin:auto;
+	text-align:center;
+}
+
+a{
+	color: black;
+}
+a:hover{
+	color : black;
+}
