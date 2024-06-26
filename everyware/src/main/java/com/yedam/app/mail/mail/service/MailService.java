@@ -16,6 +16,11 @@ public interface MailService {
 	//등록 : 메일작성 후 임시보관
 	public int draftMail(MailVO mailVO);
 	
+	//수정 : 임시보관 메일 수정
+	public Map<String, Object> updateDraftMail(MailVO mailVO);
+	
+	//삭제 : 메일 삭제
+	public int deleteMail(int mailId);
 	
 }
 

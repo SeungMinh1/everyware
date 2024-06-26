@@ -85,7 +85,7 @@ $(function(){
 				data : JSON.stringify(info)
 			})
 			.done(result=>{
-				if(result.result){
+				if(result){
 					alert('정상적으로 수정되었습니다.')
 				}else{
 					alert("수정되지 않았습니다. \n 데이터를 확인해주세요.")
@@ -115,6 +115,7 @@ $(function(){
 	
     //각 input에 value를 배열로 data1 저장 후 return
 	var data1 = {            
+		mailId : mailId,
 		sender     : $('#sender').val(),           
 		recipList  : recipData,  
 		ccList 	   : ccData,          

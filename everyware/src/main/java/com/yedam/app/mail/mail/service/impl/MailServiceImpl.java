@@ -80,6 +80,40 @@ public class MailServiceImpl implements MailService {
 		result = mailMapper.insertDraftMail(mailVO);
 		return result;
 	}
+	//임시보관 후 수정(다시 임시보관을 누르면 수정됨)
+	@Override
+	public Map<String, Object> updateDraftMail(MailVO mailVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean inSuccessed = false;
+		
+		int result = 0;
+		String recips = "";
+		for(String recip: mailVO.getRecipList()) { 
+			recips += recip + ", ";
+		}
+		mailVO.setRecipient(recips);
+
+		String ccs = "";
+		for(String cc: mailVO.getCcList()) {
+			ccs += cc + ", ";
+		}
+		mailVO.setCc(ccs);
+		
+		result = mailMapper.updateDraftMail(mailVO);
+		
+		if(result == 1) {
+			inSuccessed = true;
+		}
+		map.put("result", inSuccessed);
+		map.put("target", mailVO);
+		
+		return map;
+	}
+
+	@Override
+	public int deleteMail(int mailId) {
+		return mailMapper.deleteDraftMail(mailId);
+	}
 	
 	
 }

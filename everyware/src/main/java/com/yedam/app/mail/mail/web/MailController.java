@@ -68,4 +68,18 @@ public class MailController {
 		model.addAttribute("draft", find);
 		return "mail/mail_update";
 	}
+	
+	//임시보관함 메일 수정 - 처리(저장)
+	@PostMapping("draftMailUpdate")
+	@ResponseBody
+	public Map<String, Object> draftMailUpdate(@RequestBody MailVO mailVO){
+		return mailService.updateDraftMail(mailVO);
+	}
+	
+	//메일 삭제
+	@GetMapping("mailDelete")
+	public String mailDelete(Integer mailId) {
+		mailService.deleteMail(mailId);
+		return "redirect:mailboxInfo?mailboxId=d1";
+	}
 }
