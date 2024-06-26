@@ -68,7 +68,25 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                Footer
+                  <div class="form-group row">
+                      <label for="inputName" class="col-sm-2 col-form-label">이름</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputName">
+                      </div>
+                   </div>
+                   <div class="form-group row">
+                      <label for="xx" class="col-sm-2 col-form-label">위도</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="xx">
+                        </div>
+                     </div>
+                  <div class="form-group row">
+                      <label for="yy" class="col-sm-2 col-form-label">경도</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="yy">
+                        </div>
+                      </div>
+                <button id="insertBtn" type="button">드가자</button>
               </div>
               <!-- /.card-footer-->
             </div>
@@ -112,46 +130,30 @@
 <script>
   // 우편번호 찾기 화면을 넣을 element
   const element_wrap = document.getElementById('wrap');
-
+  let xx = '';
+  let yy = '';
+  let data1 = [];
   const daumPostcode = () => {
     new daum.Postcode({
       oncomplete: data => {
         console.log('도로명주소 : ' + data.roadAddress);
         console.log('지번주소 : ' + data.jibunAddress);
         console.log('우편번호 : ' + data.zonecode);
-		let xx = 0;
-		let yy = 0;
+		
         
         // 위도 및 경도 좌푯값 구하기
         const geocoder = new kakao.maps.services.Geocoder();
         geocoder.addressSearch(data.roadAddress, (result, status) => {
-          if (status === kakao.maps.services.Status.OK) {
+         
             console.log('위도 : ' + result[0].y);
             console.log('경도 : ' + result[0].x);
-            xx = result[0].y;
-            yy = result[0].x;
-          }
+
+            document.getElementById("inputName").value = data.roadAddress;
+            document.getElementById("xx").value = result[0].x;
+            document.getElementById("yy").value = result[0].y;
+
         });
-        var data1 = {            
-    		gpsName  : data.roadAddress,             
-    		longtitueX : xx,    
-    		lattitueY : yy
-    	};
         
-        $.ajax('',{
-			type: 'post',
-			contentType : 'application/JSON',
-			data : JSON.stringify(info)
-		})
-		.done(result=>{
-			if(result){
-				alert('성공')
-				let url = '/mailboxInfo?mailboxId=d1'
-				location.href=url;
-			}
-			console.log(result);
-		})
-		.fail(err=>console.log(err));
         
       },
       // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
@@ -164,6 +166,32 @@
   }
 
   daumPostcode();
+  
+  $('#insertBtn').on('click', doInsert);
+  
+  function doInsert(){
+      data1 = {            
+    		gpsName  : document.getElementById("inputName").value,             
+    		xxx : document.getElementById("xx").value,    
+    		yyy : document.getElementById("yy").value
+    	};
+    	
+        $.ajax('gpsInsert',{
+			type: 'post',
+			contentType : 'application/JSON',
+			data : JSON.stringify(data1)
+		})
+		.done(result=>{
+			if(result){
+				alert('성공')
+				let url = '/empList'
+				location.href=url;
+			}
+			console.log(result);
+		})
+		.fail(err=>console.log(data1));
+  }
+  
 </script>
 
 </body>
