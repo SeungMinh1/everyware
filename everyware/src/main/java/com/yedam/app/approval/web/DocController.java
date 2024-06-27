@@ -3,20 +3,24 @@ package com.yedam.app.approval.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
+import com.yedam.app.approval.service.DraftVO;
 import com.yedam.app.approval.service.PageVO;
 import com.yedam.app.approval.service.TaskVO;
+import com.yedam.app.attend.security.service.LoginUserVO;
 
 @Controller
 public class DocController {
 	@Autowired
 	DocService docService;
-	// 문서조회
+	
+	// 문서 조회
 		// 결재 대기 문서
 		@GetMapping("waitDocList")
 		public String waitDocList(Model model, Integer page, Integer cnt, String dosearch) {
@@ -61,7 +65,7 @@ public class DocController {
 		
 		// 기안 문서
 		@GetMapping("draftDocList")
-		public String draftDocList(Model model, Integer page, Integer cnt, String dosearch) {
+		public String draftDocList(Model model, Integer page, Integer cnt, String dosearch, @AuthenticationPrincipal LoginUserVO principal) {
 			page = page == null ? 1 : page;
 			cnt = cnt == null ? 3 : cnt;
 			int allCount = docService.cntList();
@@ -183,17 +187,25 @@ public class DocController {
 	@GetMapping("newTask")
 	public String newTaskForm(Model model) {
 		List<TaskVO> list = docService.newTask();
+		// List<TaskVO> category = docService.category();
 		model.addAttribute("newTask", list);
+		// model.addAttribute("category", category);
 		return "draft/newTask";
 	}
 	
-	@GetMapping("category")
-	public String category(Model model) {
-		List<TaskVO> list = docService.category();
-		model.addAttribute("category", list);
-		return "draft/newTask";
+	@GetMapping("task")
+	public String task(TaskVO taskVO, DraftVO draftVO, Model model) {
+		TaskVO findVO = docService.task(taskVO);
+		model.addAttribute("task", findVO);
+		
+		if(findVO.getTaskDocPath().equals("taskDraft")) {
+			return "task/taskDraft";
+		} else if(findVO.getTaskDocPath().equals("buyDraft")) {
+			return "task/buyDraft";
+		} else {
+			return null;
+		}
 	}
-	
 	// 문서 등록(페이지)
 	
 	// 문서 등록(처리)

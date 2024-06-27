@@ -43,23 +43,23 @@
             <div class="card-body p-0">
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item active">
-                  <a th:href="@{/mailboxInfo(mailboxId=d1)}" class="nav-link">
+                  <a th:href="@{/mailboxInfo(mailboxId=d1)}" data-no="d1" class="nav-link">
                     <i class="fas fa-inbox"></i> 받은메일함
                     <span class="badge bg-primary float-right">12</span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a th:href="@{/mailboxInfo(mailboxId=d2)}" class="nav-link">
+                <li class="nav-item" >
+                  <a th:href="@{/mailboxInfo(mailboxId=d2)}" data-no="d2" class="nav-link">
                     <i class="far fa-envelope"></i> 보낸메일함
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a th:href="@{/mailboxInfo(mailboxId=d3)}" class="nav-link">
+                  <a th:href="@{/mailboxInfo(mailboxId=d3)}" data-no="d3" class="nav-link">
                     <i class="far fa-file-alt"></i> 임시보관함
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a th:href="@{/mailboxInfo(mailboxId=d4)}" class="nav-link">
+                  <a th:href="@{/mailboxInfo(mailboxId=d4)}" data-no="d4" class="nav-link">
                     <i class="fas fa-filter"></i> 스팸메일함
                     <span class="badge bg-warning float-right">65</span>
                   </a>
@@ -78,7 +78,13 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <!-- <h3 class="card-title">ㅇㅇ메일함위치</h3> -->
+             <h3 class="card-title">
+              <th:block th:if = "${#strings.equals(param.mailboxId, 'd1')}">받은메일함</th:block>
+              <th:block th:if = "${#strings.equals(param.mailboxId, 'd2')}">보낸메일함</th:block>
+              <th:block th:if = "${#strings.equals(param.mailboxId, 'd3')}">임시보관함</th:block>
+              <th:block th:if = "${#strings.equals(param.mailboxId, 'd4')}">스팸메일함</th:block>
+              <th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">휴지통</th:block>
+             </h3>
 
               <div class="card-tools">
                 <div class="input-group input-group-sm">
@@ -154,7 +160,7 @@
 	                   
 	                      <td th:if="${in.mailboxId =='d3'}" class="mailbox-subject"><a th:href="@{/draftMailUpdate(mailId=${in.mailId})}">[[ ${in.title} ]]</a>
 	                   	  <td th:unless="${in.mailboxId =='d3'}" class="mailbox-subject"><a th:href="@{/mailInfo(mailId=${in.mailId})}">[[ ${in.title} ]]</a>
-	                   
+	                   	  
 	                   <td class="mailbox-date">[[ ${#dates.format(in.sendDate, 'yy-MM-dd hh:mm:ss')} ]]</td>
 	                 </tr>
                  </th:block>
@@ -224,13 +230,6 @@
   </aside>
   <!-- /.control-sidebar -->
 
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
 <script>
   $(function () {
     //Enable check and uncheck all functionality
