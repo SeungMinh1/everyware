@@ -20,4 +20,7 @@ public interface DraftService {
 
 	// 첨부파일등록
 	public int fileInsert(DraftVO draftVO);
+	
+	// 기안문서조회
+	public DraftVO draftInfo(DraftVO draftVO);
 }

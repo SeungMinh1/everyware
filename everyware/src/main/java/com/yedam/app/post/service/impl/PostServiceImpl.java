@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.post.mapper.PostMapper;
 import com.yedam.app.post.service.PostService;
 import com.yedam.app.post.service.PostVO;
@@ -54,6 +55,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<PostVO> selectAnoyAll(PostVO postVO) {
 		return postMapper.selectAnoyAll(postVO);
+	}
+	//부서 번호
+	@Override
+	public List<CommonVO> departmentList() {
+		return postMapper.selectDepartment();
 	}
 
 }

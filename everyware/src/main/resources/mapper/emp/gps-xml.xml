@@ -20,7 +20,17 @@
 		)
 	
 	</insert>
-
+	<select id="findDistance" parameterType="GpsVO">
+		SELECT
+	    RTRIM(TO_CHAR((6371*acos(cos(radians(LONGTITUE_X))*cos(radians(#{longtitueX}))*cos(radians(#{lattitueY})
+	
+	    -radians(LATTITUE_Y))+sin(radians(LONGTITUE_X))*sin(radians(#{longtitueX})))), 'FM9990.999999'), '.')
+	    
+	    AS distance
+	
+		FROM gps
+		where gps_id = 1
+	</select>
 
 
 

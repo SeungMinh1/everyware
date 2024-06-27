@@ -58,6 +58,10 @@ public class DraftServiceImpl implements DraftService{
 		
 		return draftMapper.fileInsert(draftVO);
 	}
-	
-	
+
+	@Override
+	public DraftVO draftInfo(DraftVO draftVO) {
+		return draftMapper.draftInfo(draftVO);
+	}
+
 }

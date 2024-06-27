@@ -38,8 +38,8 @@ $(function(){
   $('#insertBtn').on('click', mailInsertFunc);
   function mailInsertFunc(e){
 	  // value를 담은 data => info
-	  let info =  getMailInfo();
-	  	
+	  let info =  getMailInfo2();
+	  	console.log(info)
 	  	//받는사람, 제목 유효성 검사
 	    if(tagify.value == ''){
 			alert('받는사람 이메일을 입력해 주세요.');
@@ -87,6 +87,8 @@ $(function(){
 			.done(result=>{
 				if(result){
 					alert('정상적으로 수정되었습니다.')
+					let url = '/mailboxInfo?mailboxId=d3';
+				location.href=url;
 				}else{
 					alert("수정되지 않았습니다. \n 데이터를 확인해주세요.")
 				}
@@ -126,4 +128,32 @@ $(function(){
 	return data1;
   };
 	//draftBtn 누르면 수정한거 저장
+	
+  function getMailInfo2(){
+	//recipient 의 value를 push => recipData에 담음.
+	//tagify.value == 받는사람 이메일
+	var recipData = [];
+    $.each(tagify.value, (idx, input) => {
+			var data = input.value;
+	  		recipData.push(data);
+	});
+	
+	var ccData = [];
+    $.each(tagify1.value, (idx, input) => {
+			var data = input.value;
+	  		ccData.push(data);
+	});
+	
+    //각 input에 value를 배열로 data1 저장 후 return
+	var data1 = {         
+		sender     : $('#sender').val(),           
+		recipList  : recipData,  
+		ccList 	   : ccData,          
+		title      :  $('#title').val(),            
+		content    : $('#summernote').summernote('code'),//code로 저장
+		empId	   : empId
+	};
+	
+	return data1;
+  };
 })
