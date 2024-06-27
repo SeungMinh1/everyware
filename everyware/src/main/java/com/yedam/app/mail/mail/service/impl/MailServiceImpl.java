@@ -17,8 +17,8 @@ public class MailServiceImpl implements MailService {
 	MailMapper mailMapper;
 	
 	@Override
-	public List<MailVO> mailboxInfo(MailVO mailVO) {
-		return mailMapper.selectMailboxInfo(mailVO);
+	public List<MailVO> mailboxInfo(MailVO mailVO, int empId) {
+		return mailMapper.selectMailboxInfo(mailVO, empId);
 	}
 	
 	@Override

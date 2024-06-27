@@ -6,7 +6,7 @@ import com.yedam.app.mail.mail.service.MailVO;
 
 public interface MailMapper {
 	//단건 메일함
-	public List<MailVO> selectMailboxInfo(MailVO mailVO);
+	public List<MailVO> selectMailboxInfo(MailVO mailVO, int empId);
 	
 	//메일 단건조회
 	public MailVO selectMailInfo(MailVO mailVO);
