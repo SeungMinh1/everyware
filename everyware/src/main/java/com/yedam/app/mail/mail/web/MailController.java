@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.attend.security.service.LoginUserVO;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
 
@@ -22,11 +24,10 @@ public class MailController {
 	
 	//단건 메일함
 	@GetMapping("mailboxInfo")
-	public String mailboxInfo(MailVO mailVO, Model model) {
-		List<MailVO> find = mailService.mailboxInfo(mailVO);
-		if(find == null) {
-			find = new ArrayList<>();
-		}
+	public String mailboxInfo(MailVO mailVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		int empId = principal.getuserVO().getEmpId();
+		List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
+		
 		model.addAttribute("mailboxInfo", find);
 		return "mail/mail_list";
 	}
@@ -41,8 +42,12 @@ public class MailController {
 	
 	//메일 등록 - 페이지
 	@GetMapping("mailInsert")
-	public String mailInsertForm(Model model) {
-		model.addAttribute("mailVO", new MailVO());
+	public String mailInsertForm(Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		MailVO mailVO = new MailVO();
+		int empId = principal.getuserVO().getEmpId();
+		String email = mailService.emailSelect(empId);
+		mailVO.setSender(email);
+		model.addAttribute("mailVO", mailVO);
 		return "mail/mail_insert";
 	}
 	

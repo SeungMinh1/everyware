@@ -31,5 +31,20 @@ public class GpsController {
 		gpsService.insertGps(gpsVO);
 		return "redirect:empList";
 	}
+	
+	@GetMapping("ipgps")
+	public String iii() {
+		return "/emp/ipgps";
+	}
+	
+	@PostMapping("findgps")
+	@ResponseBody
+	public double findg(@RequestBody GpsVO gpsVO) {
+		double x = Double.parseDouble(gpsVO.getXxx());
+		double y = Double.parseDouble(gpsVO.getYyy());
+		gpsVO.setLongtitueX(x);
+		gpsVO.setLattitueY(y);
+		return gpsService.findgps(gpsVO);
+	}
 
 }

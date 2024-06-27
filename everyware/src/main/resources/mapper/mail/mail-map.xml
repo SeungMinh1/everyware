@@ -10,7 +10,7 @@
 			  , FIND_CODENAME(MAILBOX_ID) mailbox_name
 			  , mail_id
 		FROM mail
-		WHERE mailbox_id = #{mailboxId}
+		WHERE mailbox_id = #{mailVO.mailboxId} and emp_id = #{empId} 
 		ORDER BY mail_id DESC
 	</select>
 	
@@ -36,9 +36,19 @@
 		on m.mail_id = r.mail_id-1 
 		where m.mail_id=#{mailId}
 	</select> -->
+	<select id="selectEmpId" resultType="int">
+		SELECT emp_id
+		FROM emp
+		WHERE mail = #{mail}
+	</select>
 	
+	<select id="selectEmail" resultType="String">
+		SELECT mail
+		FROM emp
+		WHERE emp_id = #{empId}
+	</select>
 	<insert id="insertSenderMail" parameterType="MailVO">
-		INSERT INTO mail
+	INSERT INTO mail
 		       (
 		       mail_id
 		       , sender
@@ -58,9 +68,9 @@
 		           , #{cc}
 		           , #{title}
 		           , #{content}
-		           , 'd2' <!-- 보낸메일함 -->
-		           , 100
-		       )
+		           , 'd2'
+		           , #{empId}
+				)
 	</insert>
 	
 	<insert id="insertRecipMail" parameterType="MailVO">
@@ -85,7 +95,7 @@
 		           , #{title}
 		           , #{content}
 		           , 'd1' <!-- 받은메일함 -->
-		           , 100
+		           , #{empId}
 		       )
  	  </insert>
  	  
@@ -111,7 +121,9 @@
 		           , #{title}
 		           , #{content}
 		           , 'd1' <!-- 받은메일함 -->
-		           , 100
+		           , (SELECT emp_id
+					 FROM emp
+					 WHERE mail LIKE '%'||#{cc}||'%')
 		       )
  	  </insert>
  	  
@@ -137,7 +149,7 @@
 			           , #{title}
 			           , #{content}
 			           , 'd3'  <!-- 임시보관함 -->
-			           , 100
+			           , #{empId}
 			       )
  	   </insert>
  	   
