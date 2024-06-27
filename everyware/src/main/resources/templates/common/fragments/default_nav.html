@@ -363,8 +363,8 @@
               </li>                
             </ul>
           </li>
-          <li class="nav-item">
-            <a th:href="@{/mailboxInfo(mailboxId=d1, empId='${#authentication.principal.userVO.empId}')}" class="nav-link">
+          <li class="nav-item">  
+            <a th:href="@{/mailboxInfo(mailboxId=d1, empId=${#authentication.principal.userVO.empId})}" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
               <p>Mailbox</p>
             </a>
