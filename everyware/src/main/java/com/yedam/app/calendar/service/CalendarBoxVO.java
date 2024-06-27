@@ -11,4 +11,5 @@ public class CalendarBoxVO {
 	private int expressionYn;
 	private int agreementYn;
 	private String empName;
+	private int publicYn;
 }

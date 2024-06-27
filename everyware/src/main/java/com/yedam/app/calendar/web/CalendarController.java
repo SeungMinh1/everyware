@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.attend.security.service.LoginUserVO;
 import com.yedam.app.calendar.service.CalendarBoxVO;
 import com.yedam.app.calendar.service.CalendarService;
 import com.yedam.app.calendar.service.CalendarVO;
+
 
 @Controller
 public class CalendarController {
@@ -23,12 +26,13 @@ public class CalendarController {
 	
 	//캘린더 출력
 	@GetMapping("calendar")
-	public String goCalendar(CalendarBoxVO calendarBoxVO, Model model) {
-		 CalendarVO cvo = new CalendarVO();
-		/*
-		 * int empId = calendarBoxVO.getEmpId();
-		 * cvo.setEmpId(empId);
-		 */
+	public String goCalendar(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		CalendarVO cvo = new CalendarVO();
+		
+		int empId = principal.getuserVO().getEmpId();
+		calendarBoxVO.setEmpId(empId);
+		cvo.setEmpId(empId);
+		 
 		
 		
 		
@@ -36,6 +40,7 @@ public class CalendarController {
 		List<CalendarVO> clist = calendarService.calList(calendarBoxVO);
 		List<CalendarBoxVO> slist = calendarService.sharedCalBoxList(calendarBoxVO);
 		model.addAttribute("boxList", blist);
+		model.addAttribute("boxLength", blist.size());
 		model.addAttribute("calList", clist);
 		model.addAttribute("sharedList", slist);
 		return "calendar/calendar";
@@ -109,6 +114,34 @@ public class CalendarController {
 		model.addAttribute("cal", cVO);
 		return "calendar/updateCalendar";
 	}
+	
+	@PostMapping("calInfo")
+	@ResponseBody
+	public String UpdateCalProcess(CalendarVO calendarVO) {
+		
+		calendarService.updateCal(calendarVO);
+		return "redirect:calendar";
+	}
+	
+	//일정목록 추가
+	@PostMapping("insertCalBox")
+	
+	public String InertCalBoxProcess(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		CalendarVO cvo = new CalendarVO();
+
+		int empId = principal.getuserVO().getEmpId();
+		calendarBoxVO.setEmpId(empId);
+		calendarService.insertCalBox(calendarBoxVO);
+		
+		
+		cvo.setEmpId(empId);
+		List<CalendarBoxVO> blist = calendarService.calboxList(cvo);
+		model.addAttribute("boxList", blist);
+		
+		return "calendar/calendar :: calBox";
+	}
+		
+	
 	
 	
 	

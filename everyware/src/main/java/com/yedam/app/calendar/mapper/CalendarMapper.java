@@ -16,7 +16,7 @@ public interface CalendarMapper {
 	public int insertCalendarInfo(CalendarVO calendarVO);
 	
 	//수정
-	public int updateCalendarInfo(CalendarVO calendarVO);
+	public int updateCalInfo(CalendarVO calendarVO);
 	
 	//삭제
 	public int deleteCalendarInfo(CalendarVO calendarVO);
@@ -42,5 +42,7 @@ public interface CalendarMapper {
 	//공유받은 일정 색 변경
 	public int updateSharedCalColor(CalendarBoxVO calendarBoxVO);
 	
+	//일정목록 추가
+	public int insertCalBox(CalendarBoxVO calendarBoxVO);
 	
 }
