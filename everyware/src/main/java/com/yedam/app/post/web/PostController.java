@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.board.web.BoardController;
+import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.post.service.PostService;
 import com.yedam.app.post.service.PostVO;
 
@@ -69,7 +70,15 @@ public class PostController {
 	}
 	// 등록 -페이지
 	@GetMapping ("postInsert")
-	public String postInsertForm() {
+	public String postInsertForm(Model model) {
+	//PostVO postVO = new PostVO();
+    //사원번호 자동으로 입력 받기 int boardId = postService.
+		
+	//post_id 자동으로 등록
+	
+	//부서별 정보 
+	List<CommonVO> departmentList = postService.departmentList();	
+	model.addAttribute("department",departmentList);
 		return "post/postInsert";
 	}
 	
@@ -97,7 +106,7 @@ public class PostController {
 	@GetMapping("postDelete")
 	public String postDelete(@RequestParam Integer postId) {
 		postService.postDelete(postId);
-		return "redirect:postList";
+		return "redirect:selectNoticeAll";
 	}
 	
 }
