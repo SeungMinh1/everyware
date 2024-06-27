@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class UserVO {
 	private String accountId;
 	private String password;
-	private Integer empid;
+	private Integer empId;
 }
