@@ -27,6 +27,7 @@
 	    			or emp_position = find_code(#{dosearch}) or mail like '%'||#{dosearch}||'%' 
 	    			or find_codename(department_id) like '%'||#{dosearch}||'%' 
 	    			or  find_codename(emp_position) like '%'||#{dosearch}||'%'
+	    			or tel like '%'||#{dosearch}||'%'
 	    	</when>
 	    </choose>
 		ORDER BY e.emp_id
