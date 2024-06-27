@@ -41,6 +41,7 @@
 				, emp_id
 				, color
 				, expression_yn
+				, public_yn
 		FROM calendar_box
 		WHERE emp_id = 100
 		ORDER BY calendar_box_id
@@ -158,13 +159,15 @@
 		(
 			calendar_box_id
 			, calendar_box_name
-			, emp_id	
+			, emp_id
+			, public_yn
 		)
 		VALUES
 		(
 			#{calendarBoxId}
 			, #{calendarBoxName}
-			, 100
+			, #{empId}
+			, #{publicYn}
 		)
 	</insert>
 	

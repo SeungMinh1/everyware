@@ -29,13 +29,60 @@
    box-shadow : 0px 0px 5px #444;
 }
 
+#calSetting{
+  position: absolute;
+	transform : translate(50%, 50%);
+  z-index: 11110;
+  width: 50%;
+  height: 50%;
+  background: rgba(255, 255, 255);
+  justify-content: center;
+  align-items: center;
 
+   box-shadow : 0px 0px 5px #444;
+}
+
+#calSetting table th{
+	border : black solid 1px;
+	text-align : center;
+}
+
+#calSetting tr{
+	text-align : center;
+}
+
+#calSetting table{
+	width : 100%;
+}
+
+#calSetting div{
+	justify-content: center;
+    align-items: center;
+    text-align : center;
+	
+}
+
+#calSetting button{
+	transform : translate(0%, 90%);
+}
+
+.calSetCheck{
+	width : 10%;
+}
+
+.calSetName{
+	width : 50%;
+}
+
+.calSetPublic{
+	width : 25%;
+}
 
 #makeCalBox{
   position: absolute;
   z-index: 11110;
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   background: rgba(255, 255, 255);
   align-items: center;
   text-align:center;
@@ -47,7 +94,7 @@
 	margin-top : 5%;
 }
 
-#makeCalBox input{
+#makeCalBoxName{
 	margin-top : 10%;
 	width : 80%;
 }
@@ -56,6 +103,9 @@
 
 }
 
+.fa-pencil{
+	float:right;
+}
 
 .pallete{
 	width : 15px;
