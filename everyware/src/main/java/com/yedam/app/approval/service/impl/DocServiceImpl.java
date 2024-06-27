@@ -99,6 +99,11 @@ public class DocServiceImpl implements DocService {
 	}
 
 	@Override
+	public TaskVO task(TaskVO taskVO) {
+		return docMapper.task(taskVO);
+	}
+
+	@Override
 	public int docInsert(DocVO docVO) {
 		
 		return docMapper.docInsert(docVO);

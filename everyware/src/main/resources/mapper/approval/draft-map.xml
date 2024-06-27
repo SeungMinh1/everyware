@@ -23,4 +23,10 @@
 			)
 	</insert>
 	
+	<!-- 기안내용조회 -->
+	<select id="draftInfo" resultType="DraftVO">
+		SELECT *
+		FROM draft
+		WHERE draft_emp = #{draftEmp}
+	</select>
 </mapper>
