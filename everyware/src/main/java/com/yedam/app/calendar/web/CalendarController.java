@@ -15,6 +15,7 @@ import com.yedam.app.calendar.service.CalendarBoxVO;
 import com.yedam.app.calendar.service.CalendarService;
 import com.yedam.app.calendar.service.CalendarVO;
 
+
 @Controller
 public class CalendarController {
 	
@@ -90,7 +91,7 @@ public class CalendarController {
 	
 	//일정 등록
 	@PostMapping("insertCal")
-	@ResponseBody
+	
 	public String InsertCalProcess(CalendarVO caledarVO) {
 		int result = calendarService.insertCal(caledarVO);
 		
@@ -109,6 +110,24 @@ public class CalendarController {
 		model.addAttribute("cal", cVO);
 		return "calendar/updateCalendar";
 	}
+	
+	@PostMapping("calInfo")
+	
+	public String UpdateCalProcess(CalendarVO calendarVO) {
+		
+		calendarService.updateCal(calendarVO);
+		return "redirect:calendar";
+	}
+	
+	//일정목록 추가
+	@PostMapping("insertCalBox")
+	public String InertCalBoxProcess(CalendarBoxVO calendarBoxVO, @AuthenticationPrincipal LoginUserVO principal) {
+		
+		calendarService.insertCalBox(calendarBoxVO);
+		return "redirect:calendar";
+	}
+		
+	
 	
 	
 	

@@ -22,6 +22,16 @@
   		<a class="pallete color5" href="#" title ="색상5" data-color="orange"></a>	
   		<a class="pallete color6" href="#" title ="색상6" data-color="Plum"></a>
   </div>
+  
+  <div id="makeCalBox" title="내 일정목록추가" style="display:none">
+  	<p>내 일정목록 추가<p>
+  	<div >
+  	<input type="text" id="makeCalBoxName" class="form-control">
+  	</div>
+  	<div>
+  		<button class="btn btn-success">확인</button><button class="btn btn-failure">취소</button>
+  	</div>
+  </div>
 
 
   <!-- Content Wrapper. Contains page content -->
@@ -59,7 +69,7 @@
                   <!-- the events -->
                   <div id="external-events">
                     <div class="checkbox">
-						<table width = "100%">
+						<table style="width:100%">
 							<tbody>
 								<th:block th:each = "box : ${boxList}">
 									<tr th:data-boxId="${box.calendarBoxId}">
@@ -71,6 +81,9 @@
 								</th:block>
 							</tbody>
 						</table>
+                    </div>
+                    <div  style="margin-top:40px;color:grey">
+                    	<h5 id="makeCalBoxBtn" style="font-size:small;"><i class="fa-solid fa-plus"></i> 내 일정목록 추가</h5>
                     </div>
                   </div>
                 </div>
@@ -162,12 +175,16 @@
 
 <!-- the moment-to-fullcalendar connector. must go AFTER the moment lib -->
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.14/index.global.min.js'></script>
+<!-- awesome font -->
+<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
 <!-- Page specific script -->
 <script th:inline="javascript">
 	
 	const modal = $("#color-dialog");
 	const colorBtn = $(".colorBtn");
 	const sharedColorBtn = $(".sharedColorBtn");
+	const makeCalBoxBtn = $("#makeCalBoxBtn");
+	const makeCalBox = $("#makeCalBox");
 	
 	const pallete = $(".pallete")
 	;
@@ -279,6 +296,7 @@
 		modal.css({"display":"none"});
 	}
 	
+	//색변경 모달창 출력
 	colorBtn.click(function(event){
 		const rect = event.target.getBoundingClientRect();
 		const relativeTop = rect.top;
@@ -289,7 +307,7 @@
 		modal.attr('data-id', this.id);
 		modal.attr('data-type', 'original')
 	})
-	
+	//공유받은 일정 색변경 모달창 출력
 	sharedColorBtn.click(function(event){
 		const rect = event.target.getBoundingClientRect();
 		const relativeTop = rect.top;
@@ -300,6 +318,16 @@
 		modal.attr('data-id', this.id);
 		modal.attr('data-type', 'shared')
 	})
+	
+	//일정목록추가 모달창 출력
+	makeCalBoxBtn.click(function(event){
+		const rect = event.target.getBoundingClientRect();
+		const relativeTop = rect.top;
+		const relativeLeft = rect.left;
+		
+		makeCalBox.css({"display":"block", "top":relativeTop + 10, "left":relativeLeft + 100})
+	})
+	
 	
 	// 풀캘린더 작업
 	/* initialize the external events
@@ -371,14 +399,13 @@
 	      },
 	      themeSystem: 'bootstrap',
 	      //Random default events
-	      eventSources : [{
-	    	  events: function(info, successCallback, failureCallback){
+	      events: function(info, successCallback, failureCallback){
 	    		  $.ajax({
 	  				url: '/calendar',
 	  				type: 'POST',
 	  				dataType: 'json',
 	  				data: {
-
+						
 	  				},
 	  				success: function(data) {
 
@@ -392,8 +419,7 @@
 	  					
 	  				}
 	  			});
-	    	  }
-	      }],
+	    	  },
 	      dateClick : function(info){
 	    	  console.log(info.dateStr);
 	    	  location.href='/insertCal?startDate=' + info.dateStr;

@@ -29,6 +29,34 @@
    box-shadow : 0px 0px 5px #444;
 }
 
+
+
+#makeCalBox{
+  position: absolute;
+  z-index: 11110;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255);
+  align-items: center;
+  text-align:center;
+  box-shadow : 0px 0px 5px #444;
+  
+}
+
+#makeCalBox p{
+	margin-top : 5%;
+}
+
+#makeCalBox input{
+	margin-top : 10%;
+	width : 80%;
+}
+#makeCalBox button{
+	margin: 5px;
+
+}
+
+
 .pallete{
 	width : 15px;
 	height : 15px;
@@ -83,4 +111,9 @@ a{
 }
 a:hover{
 	color : black;
+}
+
+#makeCalBoxBtn:hover{
+	color : black;
+	cursor :pointer;
 }
