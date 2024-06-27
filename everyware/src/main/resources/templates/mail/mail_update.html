@@ -101,7 +101,7 @@
               <div class="card-body">
               	<div th:field="*{draft.mailId}"></div>
               	<div class="input-group mb-3">
-				  <input type="text" class="form-control" id="sender" placeholder="보낸사람" th:field="*{draft.sender}">
+				  <input type="text" class="form-control" id="sender" placeholder="보낸사람" th:field="*{draft.sender}" readonly>
 				</div>
                 <div class="input-group mb-3">
 				  <input type="text" class="form-control" id="recipient" name="recipient" placeholder="받는사람" th:field="*{draft.recipient}">
@@ -162,6 +162,7 @@
 <!-- Page specific script -->
 <script th:inline="javascript">
 	var mailId = /*[[ ${draft.mailId} ]]*/"";
+	var empId = /*[[${#authentication.principal.userVO.empId}]]*/"";
 </script>
 <!-- ====================mail update js  ========================-->
  <script src="../../js/mail_update.js" th:inline="javascript"></script>
