@@ -46,6 +46,7 @@ public interface DocMapper {
 	// 문서등록(양식)
 	public List<TaskVO> newTask();
 	public List<TaskVO> category();
+	public TaskVO task(TaskVO taskVO);
 	
 	// 문서등록
 	public int docInsert(DocVO docVO);

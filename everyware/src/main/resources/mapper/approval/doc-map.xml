@@ -212,6 +212,17 @@
 		FROM task
 	</select>
 	
+	<select id="category" resultType="TaskVO">
+		SELECT DISTINCT category
+		FROM task
+	</select>
+	
+	<select id="task" resultType="TaskVO">
+		SELECT *
+		FROM task
+		WHERE approval_task = #{approvalTask}
+	</select>
+	
 	<!-- 문서 등록 -->
 	<insert id="docInsert" parameterType="DocVO">
 		<selectKey	keyProperty="docId"
@@ -262,4 +273,13 @@
 		SELECT count(*)
 		FROM approval_doc
 	</select>
+	
+	<!-- 사원정보 -->
+	<select id="memberInfo" resultType="EmpVO">
+		 
+	</select>
+	
+	
+	
+	
 </mapper>
