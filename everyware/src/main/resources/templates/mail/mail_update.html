@@ -94,27 +94,29 @@
             <div class="card card-primary card-outline">
               <div class="card-header">
                 <button type="button" id="insertBtn" class="btn btn-primary mailInsert"><i class="far fa-envelope"></i>보내기</button>
-                <button type="button" id="draftsBtn" class="btn btn-default"><i class="fas fa-envelope"></i> 임시저장</button>
+                <button type="button" id="updateBtn" class="btn btn-default"><i class="fas fa-envelope"></i>임시저장</button>
+                <button th:onclick="|location.href='@{/mailDelete(mailId=${draft.mailId})}'|" type="button" id="deleteBtn" class="btn btn-default"><i class="far fa-trash-alt"></i>삭제</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+              	<div th:field="*{draft.mailId}"></div>
               	<div class="input-group mb-3">
-				  <input type="text" class="form-control" id="sender" placeholder="보낸사람">
+				  <input type="text" class="form-control" id="sender" placeholder="보낸사람" th:field="*{draft.sender}">
 				</div>
                 <div class="input-group mb-3">
-				  <input type="text" class="form-control" id="recipient" name="recipient" placeholder="받는사람">
+				  <input type="text" class="form-control" id="recipient" name="recipient" placeholder="받는사람" th:field="*{draft.recipient}">
 				  <button class="btn btn-outline-secondary" type="button" id="recipient">주소록</button>
 				</div>
-              <div class="input-group mb-3">
-				  <input type="text" class="form-control" id="cc" name="cc" placeholder="참조">
+                <div class="input-group mb-3">
+				  <input type="text" class="form-control" id="cc" name="cc" placeholder="참조" th:field="*{draft.cc}">
 				  <button class="btn btn-outline-secondary" type="button" id="cc">주소록</button>
 				</div>
                 <div class="input-group mb-3">
-				  <input type="text" class="form-control title" id="title" placeholder="제목">
+				  <input type="text" class="form-control title" id="title" placeholder="제목" th:field="*{draft.title}">
 				</div>
                 
                 <div class="form-group">
-                    <textarea id="summernote" class="form-control content" style="height: 300px"></textarea>
+                    <textarea id="summernote" class="form-control content" style="height: 300px" th:field="*{draft.content}" ></textarea>
                 </div>
                 <div class="form-group">
                   <div class="btn btn-default btn-file">
@@ -125,12 +127,10 @@
                 </div>
               </div>
               <!-- /.card-body -->
-              
               <!-- /.card-footer -->
             </div>
             <!-- /.card -->
           </div>
-          
           <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -164,10 +164,12 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
+<script th:inline="javascript">
+	var mailId = /*[[ ${draft.mailId} ]]*/"";
+</script>
+<!-- ====================mail update js  ========================-->
+ <script src="../../js/mail_update.js" th:inline="javascript"></script>
+<!-- ====================mail update js  ========================-->
 
-<!-- ====================
-       mail insert js 
- ========================-->
-<script src="../../js/mail_insert.js"></script>
 </body>
 </html>

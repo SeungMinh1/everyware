@@ -2,6 +2,7 @@ package com.yedam.app.mail.mail.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,5 +54,32 @@ public class MailController {
 	}
 	
 	
-		
+	//임시보관함 메일 등록 - 처리
+	@PostMapping("draftMailInsert")
+	@ResponseBody
+	public int draftMailInsertProcess(@RequestBody MailVO mailVO) {
+		return mailService.draftMail(mailVO);
+	}
+	
+	//임시보관함 메일 수정 - 페이지
+	@GetMapping("draftMailUpdate")
+	public String draftMailForm(MailVO mailVO, Model model) {
+		MailVO find = mailService.mailInfo(mailVO);
+		model.addAttribute("draft", find);
+		return "mail/mail_update";
+	}
+	
+	//임시보관함 메일 수정 - 처리(저장)
+	@PostMapping("draftMailUpdate")
+	@ResponseBody
+	public Map<String, Object> draftMailUpdate(@RequestBody MailVO mailVO){
+		return mailService.updateDraftMail(mailVO);
+	}
+	
+	//메일 삭제
+	@GetMapping("mailDelete")
+	public String mailDelete(Integer mailId) {
+		mailService.deleteMail(mailId);
+		return "redirect:mailboxInfo?mailboxId=d1";
+	}
 }
