@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface MailService {
 	//조회 : 단건 메일함
-	public List<MailVO> mailboxInfo(MailVO mailVO);
+	public List<MailVO> mailboxInfo(MailVO mailVO, int empId);
 
 	//조회 : 단건 메일
 	public MailVO mailInfo(MailVO mailVO);
