@@ -27,9 +27,7 @@ public class MailController {
 	public String mailboxInfo(MailVO mailVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
 		int empId = principal.getuserVO().getEmpId();
 		List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
-		if(find == null) {
-			find = new ArrayList<>();
-		}
+		
 		model.addAttribute("mailboxInfo", find);
 		return "mail/mail_list";
 	}
@@ -44,8 +42,12 @@ public class MailController {
 	
 	//메일 등록 - 페이지
 	@GetMapping("mailInsert")
-	public String mailInsertForm(Model model) {
-		model.addAttribute("mailVO", new MailVO());
+	public String mailInsertForm(Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		MailVO mailVO = new MailVO();
+		int empId = principal.getuserVO().getEmpId();
+		String email = mailService.emailSelect(empId);
+		mailVO.setSender(email);
+		model.addAttribute("mailVO", mailVO);
 		return "mail/mail_insert";
 	}
 	

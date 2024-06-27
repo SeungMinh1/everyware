@@ -48,8 +48,11 @@ $(function () {
 			alert('받는사람 이메일을 입력해 주세요.');
 			/* input.focus(); */
 			return;
+		}else if($('#recipient').val().trim()==''){
+			alert('받는사람 이메일을 입력해 주세요.');
+			return;
 		};
-		if($('#title').val() == ''){
+		if($('#title').val().trim() == ''){
 			alert('제목을 입력해주세요.');
 			$('#title').focus();
 			return;
@@ -82,7 +85,7 @@ $(function () {
    function draftMailInsertfunc(){
 	  let info =  getMailInfo();
 	  
-	  if($('#title').val() == ''){
+	  if($('#title').val().trim() == ''){
 			alert('제목을 입력해주세요.');
 			$('#title').focus();
 			return;
@@ -131,7 +134,8 @@ $(function () {
 		recipList  : recipData,  
 		ccList 	   : ccData,          
 		title      :  $('#title').val(),            
-		content    : $('#summernote').summernote('code')//code로 저장
+		content    : $('#summernote').summernote('code'),//code로 저장
+		empId      : empId
 	};
 	
 	return data1;
