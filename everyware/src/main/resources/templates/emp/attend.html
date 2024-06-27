@@ -62,17 +62,21 @@
                   <li class="list-group-item">
                   <b>퇴근시간</b> <a class="float-right">13,287</a>
                   </li>
-                  <li class="list-group-item" id="dis">
+                  <li class="list-group-item" >
                     
                     <button id="currentGeoLocation">출근</button><button class="float-right">퇴근</button>
                   </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                <a href="#" class="btn btn-primary btn-block" id="dis"></a>
               </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            
+            <div id="nudge"></div>
+			<div id="startLat"></div>
+			<div id="startLon"></div>
 
             <!-- About Me Box -->
             <div class="card card-primary">
@@ -435,15 +439,15 @@
             var geoOptions = {
                 timeout: 10 * 1000
             };
-           // var element = document.getElementById("nudge");
+            var element = document.getElementById("nudge");
 
-         //   var showNudgeBanner = function () {
-          //      nudge.style.display = "block";
-           // };
+            var showNudgeBanner = function () {
+                nudge.style.display = "block";
+            };
 
-            //var hideNudgeBanner = function () {
-             //   nudge.style.display = "none";
-            //};
+            var hideNudgeBanner = function () {
+                nudge.style.display = "none";
+            };
 
             var nudgeTimeoutId = setTimeout(showNudgeBanner, 5000);
 
@@ -470,6 +474,10 @@
                 // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
                 .done(function(json) {
                 	document.getElementById('dis').innerHTML =  json;
+                	if(json > 0.02){
+                		//alert("출근 실패");
+                		document.getElementById('dis').innerHTML = json;
+                	}
                 })
                 // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
                 .fail(function(xhr, status, errorThrown) {

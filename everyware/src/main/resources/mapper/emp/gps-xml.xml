@@ -29,7 +29,7 @@
 	    AS distance
 	
 		FROM gps
-		where gps_id = 1
+		where gps_id = 4
 	</select>
 
 
