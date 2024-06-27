@@ -22,5 +22,7 @@ public interface MailService {
 	//삭제 : 메일 삭제
 	public int deleteMail(int mailId);
 	
+	//조회 : empId로 email
+	public String emailSelect(int empId);
 }
 
