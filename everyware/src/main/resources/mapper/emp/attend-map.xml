@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.attend.attend.mapper.AttendMapper">
+
+	<!-- 출근 -->
+	<insert id="gowork" parameterType="AttendVO">
+		<selectKey keyProperty="attendId"	
+					resultType="Integer"
+					order="BEFORE">
+			SELECT NVL(MAX(attend_id),0)+1 FROM attend
+		</selectKey>
+		
+		INSERT INTO attend
+		(
+		    attend_id
+		    , attend_type
+		    , go_time
+		    , out_yn
+		    , emp_id
+		)
+		VALUES
+		(
+		     #{attendId}
+		     , find_code(#{attendType})
+		     , sysdate
+		     , 1
+		     , #{empId}
+		)
+	</insert>
+	
+	<!-- 퇴근 -->
+	<update id="endwork" parameterType="AttendVO">
+		UPDATE attend
+		SET leave_time = sysdate
+		    , work_time =  TRUNC((sysdate - go_time)*24*60)
+		    , exceed_work_time = TRUNC(((sysdate - go_time)*24*60) - 9*60) 
+		    , out_yn = 0
+		WHERE emp_id = #{empId} and out_yn = 1
+	</update>
+	
+	<!-- 조회 -->
+	<select id="selectAttendList" resultType="AttendVO">
+		SELECT attend_id
+        , find_codename(attend_type) attendType
+        , go_time
+        , leave_time
+        , work_time
+        , exceed_work_time
+        , out_yn
+        , emp_id
+		FROM attend
+		WHERE emp_id = #{empId}
+	</select>
+	
+		<!-- 단건조회 -->
+	<select id="selectAttend" resultType="AttendVO">
+		SELECT attend_id
+        , find_codename(attend_type) attendType
+        , go_time
+        , leave_time
+        , work_time
+        , exceed_work_time
+        , out_yn
+        , emp_id
+		FROM attend
+		WHERE emp_id = #{empId} and out_yn = 1
+	</select>
+
+
+</mapper>
