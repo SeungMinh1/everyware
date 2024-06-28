@@ -64,7 +64,8 @@
                   </li>
                   <li class="list-group-item" >
                     
-                    <button id="currentGeoLocation">출근</button><button class="float-right">퇴근</button>
+                    <button id="currentGeoLocation">출근</button>
+                    <button class="float-right" id="currentGeoLocation2">퇴근</button>
                   </li>
                 </ul>
 
@@ -143,14 +144,14 @@
                         <span class="description">Shared publicly - 7:30 PM today</span>
                       </div>
                       <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
-                      </p>
-
+						<th:block th:each="attend : ${attnedList}">
+						
+							<p>[[ ${attend.attendType} ]]</p>
+							<p>[[ ${attend.goTime} ]]</p>
+							<p>[[ ${attend.empId} ]]</p>
+							<p>------------------------</p>
+							<br>
+						</th:block>
                       <p>
                         <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
                         <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
@@ -439,27 +440,11 @@
             var geoOptions = {
                 timeout: 10 * 1000
             };
-            var element = document.getElementById("nudge");
-
-            var showNudgeBanner = function () {
-                nudge.style.display = "block";
-            };
-
-            var hideNudgeBanner = function () {
-                nudge.style.display = "none";
-            };
-
-            var nudgeTimeoutId = setTimeout(showNudgeBanner, 5000);
 
             var geoSuccess = function (position) {
-                hideNudgeBanner();
-                // We have the location, don't display banner
-                clearTimeout(nudgeTimeoutId);
 
                 // Do magic with location
                 startPos = position;
-                //document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-                //document.getElementById('startLon').innerHTML = startPos.coords.longitude;
                 
                 data1 = {             
             		xxx : startPos.coords.latitude,    
@@ -471,15 +456,31 @@
 					contentType : 'application/JSON',
 					data : JSON.stringify(data1)
                 })
-                // HTTP 요청이 성공하면 요청한 데이터가 done() 메소드로 전달됨.
-                .done(function(json) {
-                	document.getElementById('dis').innerHTML =  json;
-                	if(json > 0.02){
-                		//alert("출근 실패");
-                		document.getElementById('dis').innerHTML = json;
+                .done(function(distance) {
+                	document.getElementById('dis').innerHTML =  distance;
+                	if(distance > 2.02){
+                		alert("출근 실패");
+                	}else{
+                		workdata = {             
+                			attendType : "출근"
+		            	};
+		            	
+                		$.ajax({
+                   		url: "/gowork", 
+	                    type: 'post',
+						contentType : 'application/JSON',
+						data : JSON.stringify(workdata)
+                	})
+                	.done(function(result){
+                		alert("출근 성공")
+                	})
+                	.fail(function(result){
+                		console.log("err");
+                	})
+                	
+                	
                 	}
                 })
-                // HTTP 요청이 실패하면 오류와 상태에 관한 정보가 fail() 메소드로 전달됨.
                 .fail(function(xhr, status, errorThrown) {
                     alert("error");
                 })
@@ -494,25 +495,94 @@
                 //   3: timed out
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        // The user didn't accept the callout
-                        //document.getElementById('nudge').innerHTML = '위치정보 허용 권한이 없습니다';
-                        showNudgeBanner();
+                         alert("error");
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        // The user didn't accept the callout
-                        //document.getElementById('nudge').innerHTML = '위치 정보를 가져오지 못했습니다';
-                        showNudgeBanner();
+                         alert("error");
                         break;
                     case error.TIMEOUT:
-                        // The user didn't accept the callout
-                        //document.getElementById('nudge').innerHTML = '시간 초과';
-                        showNudgeBanner();
+                         alert("error");
                         break;
                 };
             };
 
             navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
         };
+        
+        //퇴근버튼
+        const currentGeoLocation2 = document.getElementById("currentGeoLocation2");
+
+        currentGeoLocation2.onclick = function() {
+            var startPos;
+            var geoOptions = {
+                timeout: 10 * 1000
+            };
+
+            var geoSuccess = function (position) {
+
+                // Do magic with location
+                startPos = position;
+                
+                data1 = {             
+            		xxx : startPos.coords.latitude,    
+            		yyy : startPos.coords.longitude
+            	};
+                $.ajax({
+                    url: "/findgps", 
+                    type: 'post',
+					contentType : 'application/JSON',
+					data : JSON.stringify(data1)
+                })
+                .done(function(distance) {
+                	document.getElementById('dis').innerHTML =  distance;
+                	if(distance > 2.02){
+                		alert("퇴근 실패");
+                	}else{
+                		
+                		$.ajax({
+                       		url: "/endwork", 
+    	                    type: 'GET',
+
+                    	})
+                    	.done(function(result){
+                    		alert("퇴근 성공")
+                    	})
+                    	.fail(function(result){
+                    		console.log("err");
+                    	})
+                    	
+                		
+                	}
+                })
+                .fail(function(xhr, status, errorThrown) {
+                    alert("error");
+                })
+                
+            };
+            var geoError = function (error) {
+                console.log('Error occurred. Error code: ' + error.code);
+                // error.code can be:
+                //   0: unknown error
+                //   1: permission denied
+                //   2: position unavailable (error response from location provider)
+                //   3: timed out
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                         alert("error");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                         alert("error");
+                        break;
+                    case error.TIMEOUT:
+                         alert("error");
+                        break;
+                };
+            };
+
+            navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+        };
+        
+        
     })();
 </script>
 </body>
