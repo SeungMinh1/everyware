@@ -111,12 +111,9 @@ public class MailController {
 	}
 	
 	//수정: 휴지통에서 메일 복구 (여러개)
-	/*
-	 * @PostMapping("restoreMailUpdate")
-	 * 
-	 * @ResponseBody public String restoreMailUpdate(@RequestBody List<Integer>
-	 * mailIds, Model model) { Map<String, Object> result =
-	 * mailService.moveRestoreMail(mailIds); model.addAttribute("result", result);
-	 * return "redirect:mailboxInfo?mailboxId=d5"; // 결과를 보여줄 뷰의 이름 }
-	 */
+	@PostMapping("restoreMailUpdate")
+	@ResponseBody
+	public int restoreMailUpdate(@RequestBody MailVO mailVO) {
+	    return mailService.moveRestoreMail(mailVO); // 결과를 보여줄 뷰의 이름
+	}
 }

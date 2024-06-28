@@ -48,6 +48,20 @@
 		WHERE emp_id = #{empId}
 	</select>
 
+   <select id="selectRestore" resultType="String">
+   		SELECT restore
+		FROM mail
+		WHERE mail_id = #{mailId}
+   </select>
+   
+	<update id="updateRestoreMail" parameterType="MailVO">
+		UPDATE mail
+		SET mailbox_id = (SELECT restore
+						 FROM mail
+						 WHERE mail_id = #{mailId})
+		WHERE mail_id = #{mailId}
+	</update>
+	
 	<insert id="insertSenderMail" parameterType="MailVO">
 	INSERT INTO mail
 		       (
@@ -204,6 +218,4 @@
    	     WHERE mail_id = #{mailId}
    </delete>
 	
-	
-		
 </mapper>
