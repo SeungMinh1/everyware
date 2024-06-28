@@ -18,69 +18,69 @@ public class DocServiceImpl implements DocService {
 	DocMapper docMapper;
 
 	@Override
-	public  List<DocVO> waitDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> waitDocList(int id) {
 		
-		return docMapper.waitDocList(page, cnt, dosearch);
+		return docMapper.waitDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> waitRefViewDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> waitRefViewDocList(int id) {
 		
-		return docMapper.waitRefViewDocList(page, cnt, dosearch);
+		return docMapper.waitRefViewDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> expectedDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> expectedDocList(int id) {
 		
-		return docMapper.expectedDocList(page, cnt, dosearch);
+		return docMapper.expectedDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> draftDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> draftDocList(int id) {
 		
-		return docMapper.draftDocList(page, cnt, dosearch);
+		return docMapper.draftDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> approvalDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> approvalDocList(int id) {
 		
-		return docMapper.approvalDocList(page, cnt, dosearch);
+		return docMapper.approvalDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> sendDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> sendDocList(int id) {
 		
-		return docMapper.sendDocList(page, cnt, dosearch);
+		return docMapper.sendDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> receptionDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> receptionDocList(int id) {
 		
-		return docMapper.receptionDocList(page, cnt, dosearch);
+		return docMapper.receptionDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> refViewDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> refViewDocList(int id) {
 		
-		return docMapper.refViewDocList(page, cnt, dosearch);
+		return docMapper.refViewDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> refDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> refDocList(int id) {
 		
-		return docMapper.refDocList(page, cnt, dosearch);
+		return docMapper.refDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> viewDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> viewDocList(int id) {
 		
-		return docMapper.viewDocList(page, cnt, dosearch);
+		return docMapper.viewDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> temporaryDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> temporaryDocList(int id) {
 		
-		return docMapper.temporaryDocList(page, cnt, dosearch);
+		return docMapper.temporaryDocList(id);
 	}
 	
 	@Override
@@ -124,12 +124,6 @@ public class DocServiceImpl implements DocService {
 
 	@Override
 	public int docDelete(int docId) {
-		
 		return docMapper.docDelete(docId);
-	}
-
-	@Override
-	public int cntList() {
-		return docMapper.cntList();
 	}
 }

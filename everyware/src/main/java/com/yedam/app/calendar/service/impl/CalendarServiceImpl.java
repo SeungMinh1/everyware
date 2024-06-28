@@ -108,6 +108,40 @@ public class CalendarServiceImpl implements CalendarService{
 		return calendarMapper.selectCalendarInfo(calendarVO);
 	}
 
+	//일정 수정
+	@Override
+	public Map<String, Object> updateCal(CalendarVO calendarVO) {
+		Map<String, Object> map = new HashMap<>();
+		
+		int result = calendarMapper.updateCalInfo(calendarVO);
+		
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	//일정목록 추가
+	@Override
+	public int insertCalBox(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.insertCalBox(calendarBoxVO);
+		return result;
+	}
+
+	@Override
+	public int updateCalBox(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.updateCalBox(calendarBoxVO);
+		return result;
+	}
+
+	@Override
+	public int deleteCalBox(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.deleteCalBox(calendarBoxVO);
+		return result;
+	}
+	
+	
+	
+
 
 	
 }

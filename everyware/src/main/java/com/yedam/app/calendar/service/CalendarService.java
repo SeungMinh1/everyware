@@ -33,4 +33,17 @@ public interface CalendarService {
 	
 	//일정 등록
 	public int insertCal(CalendarVO calendarVO);
+	
+	//일정 변경
+	public Map<String, Object> updateCal(CalendarVO calendarVO);
+	
+	//내 일정목록 추가
+	public int insertCalBox(CalendarBoxVO calendarBoxVO);
+	
+	//내 일정목록 수정
+	public int updateCalBox(CalendarBoxVO calendarBoxVO);
+	
+	//내 일정목록 삭제
+	public int deleteCalBox(CalendarBoxVO calendarBoxVO);
+	
 }

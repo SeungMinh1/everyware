@@ -14,6 +14,8 @@
 
 </head>
 <body class="hold-transition sidebar-mini">
+<div class="container1">
+	<!-- 색상변경 모달 -->
   <div id="color-dialog" title="색상선택" style="display:none" data-id=0>
   		<a class="pallete color1" href="#" title ="색상1" data-color="blue"></a>
   		<a class="pallete color2" href="#" title ="색상2" data-color="gold"></a>
@@ -22,6 +24,25 @@
   		<a class="pallete color5" href="#" title ="색상5" data-color="orange"></a>	
   		<a class="pallete color6" href="#" title ="색상6" data-color="Plum"></a>
   </div>
+  
+  <!-- 일정목록 추가 모달 -->
+  <div id="makeCalBox" title="내 일정목록추가" style="display:none">
+  	<p>내 일정목록 추가<p>
+  	<div >
+  		<input type="text" id="makeCalBoxName" class="form-control">
+  	</div>
+  	<div>
+  
+  		<input type="checkBox" id="calBoxPublic">
+  		<label for="calBoxPublic">비공개</label>
+  	</div>
+  	<div>
+  		<button id="makeCalBoxSubmit" class="btn btn-success">확인</button>
+  		<button id="makeCalBoxCancel" class="btn btn-fail">취소</button>
+  	</div>
+  </div>
+  
+
 
 
   <!-- Content Wrapper. Contains page content -->
@@ -46,20 +67,20 @@
               <div class="card" style="position:relative">
               <a href="/insertCal">
               	<div class="card-header">
-              		<h4 class="card-title">일정등록</h4>
+              		<p class="card-title">일정등록</p>
               	</div>
               </a>
               </div>
               <!-- 내 일정 카드 -->
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">내 일정목록</h4>
+                  <p style="font-size:small;" class="card-title">내 일정목록 </p><i id="calBoxSettingBtn" class="fa-solid fa-pencil"></i>
                 </div>
                 <div class="card-body" style="position:relative">
                   <!-- the events -->
                   <div id="external-events">
-                    <div class="checkbox">
-						<table width = "100%">
+                    <div id="calBoxFrg" th:fragment="calBox" class="checkbox">
+						<table style="width:100%">
 							<tbody>
 								<th:block th:each = "box : ${boxList}">
 									<tr th:data-boxId="${box.calendarBoxId}">
@@ -71,6 +92,41 @@
 								</th:block>
 							</tbody>
 						</table>
+						  <!-- 일정목록 관리 -->
+					  <div id="calSetting" title="일정목록 관리" style="display:none">
+					  	<table>
+					  		<thead>
+					  			<tr>
+					  				<th class="calSetCheck"><input type="checkBox" id="calSettingAllcheck"></th>
+					  				<th class="calSetName">캘린더</th>
+									<th class="calSetPublic">비공개여부</th>
+								</tr>
+					  		</thead>
+					  		<tbody>
+					  			<th:block th:each = "box : ${boxList}">
+					  				<tr class="calSetTr" th:data-calBoxId="${box.calendarBoxId}" >
+					  					<td class="calSetCheck"><input type="checkBox"  class="calSettingcheck"></td>
+					  					<td class="calSetName"><input type="text" class="form-control calSettingName" style="width:80%" th:value="${box.calendarBoxName}"></td>
+					  					<td class="calSetPublic" >
+					  						<select class="selectPublic" th:data-public="${box.publicYn}" th:data-length="${boxList.size}">
+												<option value="1">공개 </option>  					
+												<option value="0">비공개</option>
+					  						</select>
+					  					</td>
+					  				</tr>
+					  			</th:block>
+					  		</tbody>
+					  	</table>
+					  	
+					  	<div>
+					  		<button id ="calSetDel" class="btn btn-del">삭제</button>
+					  		<button id="calSetBtn" class="btn btn-success">변경</button>
+					  		<button id="calSetcancel" class ="btn btn-fail">취소</button>
+					  	</div>
+					  </div>
+                    </div>
+                    <div  style="margin-top:40px;color:grey">
+                    	<h5 id="makeCalBoxBtn" style="font-size:small;"><i class="fa-solid fa-plus"></i> 내 일정목록 추가</h5>
                     </div>
                   </div>
                 </div>
@@ -79,7 +135,7 @@
               <!-- 공유받은 일정 -->
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">공유받은 일정목록</h4>
+                  <p style="font-size:small;" class="card-title">공유받은 일정목록 </p><a href="/setCalendar"><i class="fa-solid fa-pencil"></i></a>
                 </div>
                 <div class="card-body" style="position:relative">
                   <!-- the events -->
@@ -124,7 +180,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+</div>
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.1.0
@@ -162,15 +218,31 @@
 
 <!-- the moment-to-fullcalendar connector. must go AFTER the moment lib -->
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@6.1.14/index.global.min.js'></script>
+<!-- awesome font -->
+<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
 <!-- Page specific script -->
 <script th:inline="javascript">
 	
 	const modal = $("#color-dialog");
 	const colorBtn = $(".colorBtn");
 	const sharedColorBtn = $(".sharedColorBtn");
+	const makeCalBoxBtn = $("#makeCalBoxBtn");
+	const makeCalBox = $("#makeCalBox");
+	const makeCalBoxSubmit = $("#makeCalBoxSubmit");
+	const makeCalBoxCancel = $("#makeCalBoxCancel");
+	const calSettingAllcheck = $("#calSettingAllcheck");
+	const calSettingcheck = $(".calSettingcheck");
+	const calSetBtn = $("#calSetBtn");
+	const calBoxSettingBtn = $("#calBoxSettingBtn");
+	const calSetcancel =$('#calSetcancel');
+	const calSetDel = $('#calSetDel');
 	
-	const pallete = $(".pallete")
-	;
+	
+	
+	
+	const pallete = $(".pallete");
+	
+
 	
 	$(".calCheck").click(function(event){
 		let expressYn = $(event.target).is(':checked') ? 1 : 0;
@@ -279,6 +351,7 @@
 		modal.css({"display":"none"});
 	}
 	
+	//색변경 모달창 출력
 	colorBtn.click(function(event){
 		const rect = event.target.getBoundingClientRect();
 		const relativeTop = rect.top;
@@ -289,7 +362,7 @@
 		modal.attr('data-id', this.id);
 		modal.attr('data-type', 'original')
 	})
-	
+	//공유받은 일정 색변경 모달창 출력
 	sharedColorBtn.click(function(event){
 		const rect = event.target.getBoundingClientRect();
 		const relativeTop = rect.top;
@@ -299,6 +372,40 @@
 		
 		modal.attr('data-id', this.id);
 		modal.attr('data-type', 'shared')
+	})
+	
+	//일정목록추가 모달창 출력
+	makeCalBoxBtn.click(function(event){
+		const rect = event.target.getBoundingClientRect();
+		const relativeTop = rect.top;
+		const relativeLeft = rect.left;
+		
+		makeCalBox.css({"display":"block", "top":relativeTop + 10, "left":relativeLeft + 100})
+	})
+	
+	//일정목록추가 모달창 확인버튼
+	makeCalBoxSubmit.click(function(event){
+		let calBoxPublic = $("#calBoxPublic").is(':checked') ? 0 : 1;
+		console.log(calBoxPublic)
+		
+		$.ajax({
+			url: '/insertCalBox',
+			type: 'POST',
+			data: {
+				calendarBoxName : $('#makeCalBoxName').val(),
+				publicYn : calBoxPublic
+			},
+		
+		})
+		.done(function(res){
+			console.log(res)
+			$('#calBoxFrg').replaceWith(res);
+		}); 
+	})
+	
+	//일정목록추가 모달창 취소버튼
+	makeCalBoxCancel.click(function(event){
+		makeCalBox.css({"display":"none"});
 	})
 	
 	// 풀캘린더 작업
@@ -371,14 +478,13 @@
 	      },
 	      themeSystem: 'bootstrap',
 	      //Random default events
-	      eventSources : [{
-	    	  events: function(info, successCallback, failureCallback){
+	      events: function(info, successCallback, failureCallback){
 	    		  $.ajax({
 	  				url: '/calendar',
 	  				type: 'POST',
 	  				dataType: 'json',
 	  				data: {
-
+						
 	  				},
 	  				success: function(data) {
 
@@ -392,8 +498,7 @@
 	  					
 	  				}
 	  			});
-	    	  }
-	      }],
+	    	  },
 	      dateClick : function(info){
 	    	  console.log(info.dateStr);
 	    	  location.href='/insertCal?startDate=' + info.dateStr;
@@ -425,6 +530,97 @@
     // $('#calendar').fullCalendar()
 
   })
+	
+	//일정목록 열기
+	calBoxSettingBtn.click(function(){
+		$('#calSetting').css('display', 'block');
+	})
+	
+	//일정목록설정 닫기
+	calSetcancel.click(function(){
+		$('#calSetting').css('display', 'none');
+	})
+	
+
+	
+	//일정목록 설정 모달창 select값 불러오기
+	let calBoxLength = $('.selectPublic').attr('data-length');
+	
+	for(let i = 0 ; i<calBoxLength ; i ++){
+		$('.selectPublic:eq('+ i + ')').val($('.selectPublic:eq('+ i + ')').attr('data-public'));
+	}
+	
+	//일정목록 설정 모달창 상위 체크박스
+	
+	calSettingAllcheck.click(function(){
+		if(calSettingAllcheck.is(":checked")){
+			calSettingcheck.prop("checked", true);
+		}else{
+			calSettingcheck.prop("checked", false);
+		}
+	})
+	
+	//일정목록 설정 모달창 하위 체크박스
+	calSettingcheck.click(function(){
+		var total = calSettingcheck.length;
+		var checked =$("input[class=calSettingcheck]:checked").length;
+		
+		if(total != checked){
+			calSettingAllcheck.prop("checked", false);
+		}else{
+			calSettingAllcheck.prop("checked", true);
+		}
+		
+	})
+
+	//일정목록 설정 변경버튼 클릭
+	calSetBtn.click(function(){
+		let calBoxUpdateLength = $("input[class=calSettingcheck]").length;
+		let calBoxList = new Array();
+		for(let i = 0 ; i<calBoxLength ; i ++){
+				calBoxList.push({
+					"calendarBoxId":$('.calSetTr:eq('+i+')').attr('data-calBoxId'),
+					"calendarBoxName" : $('.calSettingName:eq('+i+')').val(),
+					"publicYn" : $('.selectPublic:eq('+i+')').val()
+						})
+			}
+		$.ajax({
+				url: '/updateCalBox',
+				type: 'POST',
+				contentType :'application/json',
+				data: JSON.stringify(calBoxList)
+				
+		})
+		.done(function(res){
+			$('#calBoxFrg').replaceWith(res);
+		});
+	})
+	
+	//일정목록 수정 삭제버튼
+	calSetDel.click(function(){
+		let calBoxLength = $("input[class=calSettingcheck]").length;
+		let calBoxList = new Array();
+		for(let i = 0 ; i < calBoxLength ; i ++){
+			if($('.calSettingcheck:eq(' + i + ')').is(':checked')){
+				calBoxList.push({
+					"calendarBoxId" : $('.calSettingcheck:eq('+i+')').closest('tr').attr('data-calBoxId')
+				});
+			}
+		}
+		$.ajax({
+				url: '/deleteCalBox',
+				type: 'POST',
+				contentType :'application/json',
+				data: JSON.stringify(calBoxList)
+				
+		})
+		.done(function(res){
+			$('#calBoxFrg').replaceWith(res);
+		});
+	})
+	
+	
+	
 </script>
 </body>
 </html>
