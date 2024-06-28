@@ -33,7 +33,8 @@ public interface MailService {
 	//삭제 : 메일 완전 삭제 (단건)
 	public int deleteMailInfo(int mailId);
 	
-	
-	
+	//복구 : 메일 복구
+	public int moveRestoreMail(MailVO mailVO);
+
 }
 

@@ -171,6 +171,16 @@ public class MailServiceImpl implements MailService {
 		return mailMapper.deleteDraftMailInfo(mailId);
 	}
 
+	@Override
+	public int moveRestoreMail(MailVO mailVO) {
+		int result = 0;
+		for(Integer mailIds: mailVO.getMailIdList()) {
+			mailVO.setMailId(mailIds);
+			result = mailMapper.updateRestoreMail(mailVO);
+		}
+		return result;
+	}
+
 
 	
 	

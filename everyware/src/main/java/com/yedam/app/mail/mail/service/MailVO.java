@@ -29,6 +29,6 @@ public class MailVO {
 	private String cc;			 //참조자	
 	private List<String> ccList; //참조자들
 	
-	
+	private List<Integer> mailIdList;
 	
 }

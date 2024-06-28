@@ -21,6 +21,7 @@ public interface MailMapper {
 	
 	public int selectEmpId(String mail);  //mail로 empId 찾기
 	public String selectEmail(int empId);  //empId로 email 찾기 
+	public String selectRestore(int mailId);
 	
 	//메일 임시보관 등록
 	public int insertDraftMail(MailVO mailVO);
