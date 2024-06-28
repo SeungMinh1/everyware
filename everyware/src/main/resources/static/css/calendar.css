@@ -31,10 +31,10 @@
 
 #calSetting{
   position: absolute;
-	transform : translate(50%, 50%);
+ transform : translate(30%);
   z-index: 11110;
-  width: 50%;
-  height: 50%;
+  width: 600px;
+  height: 500px;
   background: rgba(255, 255, 255);
   justify-content: center;
   align-items: center;
@@ -167,3 +167,38 @@ a:hover{
 	color : black;
 	cursor :pointer;
 }
+
+#calSetX{
+	float:right;
+	margin : 10px;
+	font-size : large;
+}
+
+.btn-fail{
+	border : gray 0.5px solid;
+}
+
+.btn-del{
+	border : gray 0.5px solid;
+	background-color : red;
+	color : white;
+}
+
+i{
+	cursor:pointer;
+}
+
+.divTable{
+	justify-content: center;
+    align-items: center;
+    text-align : center;
+    width : 100%;
+	text-align : center;
+
+.calTable{
+	width : 100%;
+	border : gray 0.5px solid;
+	float : none;
+	text-align : center;
+}
+
