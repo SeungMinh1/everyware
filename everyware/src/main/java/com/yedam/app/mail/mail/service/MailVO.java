@@ -16,10 +16,11 @@ public class MailVO {
 	private Date deleteDate;       //삭제일자
 	private String readYn;         //읽은여부
 	private String sendYn;         //보낸여부
-	private String deleteYn;       //삭제여부
 	private String replyMailId;    //답장메일번호
 	private int empId;             //사원번호
-	private String mailboxName;
+	private String mailboxName;	   //메일함이름
+	
+	private String restore;		   //복구메일함이름
 	
 	private String recipient;        //받는사람
 	private List<String> recipList;  //받는사람들    
@@ -27,5 +28,7 @@ public class MailVO {
 	
 	private String cc;			 //참조자	
 	private List<String> ccList; //참조자들
+	
+	
 	
 }
