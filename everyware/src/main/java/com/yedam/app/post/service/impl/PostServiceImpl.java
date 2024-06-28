@@ -61,5 +61,10 @@ public class PostServiceImpl implements PostService {
 	public List<CommonVO> departmentList() {
 		return postMapper.selectDepartment();
 	}
+	//게시판 번호
+	@Override
+	public List<CommonVO> selectBoard() {
+		return postMapper.selectBoard();
+	}
 
 }

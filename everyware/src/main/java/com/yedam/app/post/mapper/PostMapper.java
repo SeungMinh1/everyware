@@ -28,5 +28,7 @@ public interface PostMapper {
 		public int postDelete (int postId);
 	//부서 번호 조회
 		public List<CommonVO> selectDepartment();		
+	//게시판 번호 조회
+		public List<CommonVO> selectBoard();
 
 }
