@@ -53,7 +53,19 @@ WHERE board_id = 1 AND notification_YN = 'Y'
 WHERE board_id = 2
 </select>
 
-<!-- 부서 -->
+<!-- 게시판 번호 조회-->
+<select id="selectBoard" resultType="CommonVO">
+		SELECT code_id
+        , code_name
+        , code_type
+        , code_desc
+	FROM common_code
+	WHERE code_id LIKE 'f%'
+</select>
+
+
+
+<!-- 부서 조회-->
 <select id="selectDepartment" resultType="CommonVO">
 	SELECT code_id
        , code_name
