@@ -2,8 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.attend.gps.mapper.GpsMapper">
 	
+	<!-- GPS등록 -->
 	<insert id="insertGpsInfo" parameterType="GpsVO">
-
+	
+		
 		INSERT INTO gps
 		(
 		    gps_id
@@ -20,6 +22,10 @@
 		)
 	
 	</insert>
+	
+
+	
+	<!--  GPS거리 측정 -->
 	<select id="findDistance" parameterType="GpsVO">
 		SELECT
 	    RTRIM(TO_CHAR((6371*acos(cos(radians(LONGTITUE_X))*cos(radians(#{longtitueX}))*cos(radians(#{lattitueY})
@@ -29,7 +35,7 @@
 	    AS distance
 	
 		FROM gps
-		where gps_id = 4
+		where gps_id = 1
 	</select>
 
 
