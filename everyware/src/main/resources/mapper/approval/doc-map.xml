@@ -3,200 +3,129 @@
 <mapper namespace="com.yedam.app.approval.mapper.DocMapper">
 	<!-- 결재 대기 문서 -->
 	<select id="waitDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '결재대기'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND approval_emp = (SELECT emp_name
+						 FROM emp
+						 WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 참조/열람 대기 문서 -->
 	<select id="waitRefViewDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '참조열람대기'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND (ref_emp = (SELECT emp_name
+                    	FROM emp
+                    	WHERE emp_id = #{empId})
+		OR view_emp = (SELECT emp_name
+                		FROM emp
+                		WHERE emp_id = #{empId}))
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 결재 예정 문서 -->
 	<select id="expectedDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '결재예정'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND approval_emp = (SELECT emp_name
+						 FROM emp
+						 WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 기안 문서 -->
 	<select id="draftDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '기안'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND draft_emp = (SELECT emp_name
+						 FROM emp
+						 WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 결재 문서 -->
 	<select id="approvalDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '결재'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND approval_emp = (SELECT emp_name
+							FROM emp
+							WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 발송 문서 -->
 	<select id="sendDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '발송'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND send_emp = (SELECT emp_name
+							FROM emp
+							WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 수신 문서 -->
 	<select id="receptionDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '수신'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND reception_emp = (SELECT emp_name
+							FROM emp
+							WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 참조/열람 문서 -->
 	<select id="refViewDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '참조' OR doc_type = '열람'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		WHERE (ref_emp = (SELECT emp_name
+                    		FROM emp
+                    		WHERE emp_id = #{empId})
+		OR view_emp = (SELECT emp_name
+                		FROM emp
+                		WHERE emp_id = #{empId}))
+		AND (doc_type = '참조' OR doc_type = '열람')
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 참조 문서 -->
 	<select id="refDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '참조'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND ref_emp = (SELECT emp_name
+							FROM emp
+							WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 열람 문서 -->
 	<select id="viewDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE doc_type = '열람'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND view_emp = (SELECT emp_name
+							FROM emp
+							WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 임시 문서 -->
 	<select id="temporaryDocList" resultType="DocVO">
-		SELECT * FROM(SELECT rownum AS rs, a.* FROM
-		(SELECT *
+		SELECT *
 		FROM approval_doc
 		WHERE approval_status = '임시저장'
-		<choose>
-			<when test="dosearch != null">
-				WHERE doc_title LIKE '%'||#{dosearch}||'%' OR 
-					draft_emp LIKE '%'||#{dosearch}||'%' OR
-					approval_task LIKE '%'||#{dosearch}||'%'
-			</when>
-		</choose>
+		AND draft_emp = (SELECT emp_name
+						 FROM emp
+						 WHERE emp_id = #{empId})
 		ORDER BY doc_id
-		)a WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 개별 문서 조회 -->
@@ -267,19 +196,4 @@
 		DELETE FROM approval_doc
 		WHERE doc_id = #{docId}
 	</delete>
-	
-	<!-- 리스트 개수 -->
-	<select id="cntList" resultType="int">
-		SELECT count(*)
-		FROM approval_doc
-	</select>
-	
-	<!-- 사원정보 -->
-	<select id="memberInfo" resultType="EmpVO">
-		 
-	</select>
-	
-	
-	
-	
 </mapper>
