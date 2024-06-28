@@ -126,6 +126,18 @@ public class CalendarServiceImpl implements CalendarService{
 		int result = calendarMapper.insertCalBox(calendarBoxVO);
 		return result;
 	}
+
+	@Override
+	public int updateCalBox(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.updateCalBox(calendarBoxVO);
+		return result;
+	}
+
+	@Override
+	public int deleteCalBox(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.deleteCalBox(calendarBoxVO);
+		return result;
+	}
 	
 	
 	

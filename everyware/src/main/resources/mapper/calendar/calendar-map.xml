@@ -171,6 +171,32 @@
 		)
 	</insert>
 	
+	<!-- 일정목록 변경 -->
+	<update id="updateCalBox" parameterType="CalendarBoxVO">
+		UPDATE calendar_box
+		SET
+			calendar_box_name = #{calendarBoxName}
+			, public_yn = #{publicYn}
+		WHERE calendar_box_id = #{calendarBoxId}
+	</update>
+	
+	<!-- 일정목록 삭제 -->
+	<delete id ="deleteCalBox" parameterType="CalendarBoxVO">
+		DELETE calendar_box
+		WHERE calendar_box_id = #{calendarBoxId}
+	</delete>
+	
+	<!-- 내가 관심일정으로 등록한 일정목록 -->
+	<select id = "selectShareCalBox" parameterType = "CalendarBoxVo" resultType="CalendarBoxVO">
+		SELECT b.calendar_box_id
+		        , b.calendar_box_name
+		        , b.emp_id
+		        , s.agreement_yn  
+		FROM shared_cal s
+		    JOIN calendar_box b
+		    ON s.calendar_box_id = b.calendar_box_id
+		WHERE s.emp_id = #{empId}
+	</select>
 </mapper>
 	
 

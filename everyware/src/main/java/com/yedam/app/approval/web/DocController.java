@@ -7,12 +7,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
 import com.yedam.app.approval.service.DraftVO;
-import com.yedam.app.approval.service.PageVO;
 import com.yedam.app.approval.service.TaskVO;
+import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.security.service.LoginUserVO;
 
 @Controller
@@ -23,155 +26,100 @@ public class DocController {
 	// 문서 조회
 		// 결재 대기 문서
 		@GetMapping("waitDocList")
-		public String waitDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.waitDocList(page, cnt, dosearch);
-			model.addAttribute("waitDocList", list);
-			model.addAttribute("pg", pg);
+		public String waitDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {	
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.waitDocList(id);
+			model.addAttribute("waitDocList", list);			
 			return "approvalDoc/waitDocList";
 		}
 		
 		// 참조/열람 대기 문서
 		@GetMapping("waitRefViewDocList")
-		public String waitRefViewDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.waitRefViewDocList(page, cnt, dosearch);
-			model.addAttribute("waitRefViewDocList", list);
-			model.addAttribute("pg", pg);
+		public String waitRefViewDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.waitRefViewDocList(id);
+			model.addAttribute("waitRefViewDocList", list);			
 			return "approvalDoc/waitRefViewDocList";
 		}
 		
 		// 결재 예정 문서
 		@GetMapping("expectedDocList")
-		public String expectedDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.expectedDocList(page, cnt, dosearch);
+		public String expectedDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.expectedDocList(id);
 			model.addAttribute("expectedDocList", list);
-			model.addAttribute("pg", pg);
 			return "approvalDoc/expectedDocList";
 		}
 		
 		// 기안 문서
 		@GetMapping("draftDocList")
-		public String draftDocList(Model model, Integer page, Integer cnt, String dosearch, @AuthenticationPrincipal LoginUserVO principal) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.draftDocList(page, cnt, dosearch);
+		public String draftDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.draftDocList(id);
 			model.addAttribute("draftDocList", list);
-			model.addAttribute("pg", pg);
 			return "approvalDoc/draftDocList";
 		}
 		
 		// 결재 문서
 		@GetMapping("approvalDocList")
-		public String approvalDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.approvalDocList(page, cnt, dosearch);
+		public String approvalDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.approvalDocList(id);
 			model.addAttribute("approvalDocList", list);
-			model.addAttribute("pg", pg);
 			return "approvalDoc/approvalDocList";
 		}
 		
 		// 발송 문서
 		@GetMapping("sendDocList")
-		public String sendDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.sendDocList(page, cnt, dosearch);
+		public String sendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.sendDocList(id);
 			model.addAttribute("sendDocList", list);
-			model.addAttribute("pg", pg);
 			return "approvalDoc/sendDocList";
 		}
 		
 		// 수신 문서
 		@GetMapping("receptionDocList")
-		public String receptionDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.receptionDocList(page, cnt, dosearch);
+		public String receptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.receptionDocList(id);
 			model.addAttribute("receptionDocList", list);
-			model.addAttribute("pg", pg);
 			return "approvalDoc/receptionDocList";
 		}
 		
 		// 참조/열람 문서
 		@GetMapping("refViewDocList")
-		public String refViewDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.refViewDocList(page, cnt, dosearch);
+		public String refViewDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.refViewDocList(id);
 			model.addAttribute("refViewDocList", list);
-			model.addAttribute("pg", pg);
 			return "approvalDoc/refViewDocList";
 		}
 		
 			// 참조 문서
 			@GetMapping("refDocList")
-			public String refDocList(Model model, Integer page, Integer cnt, String dosearch) {
-				page = page == null ? 1 : page;
-				cnt = cnt == null ? 3 : cnt;
-				int allCount = docService.cntList();
-				PageVO pg = new PageVO(page, allCount, cnt);
-				
-				List<DocVO> list = docService.refDocList(page, cnt, dosearch);
+			public String refDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+				int id = principal.getuserVO().getEmpId();
+				List<DocVO> list = docService.refDocList(id);
 				model.addAttribute("refDocList", list);
-				model.addAttribute("pg", pg);
 				return "approvalDoc/refDocList";
 			}
 			
 			// 열람 문서
 			@GetMapping("viewDocList")
-			public String viewDocList(Model model, Integer page, Integer cnt, String dosearch) {
-				page = page == null ? 1 : page;
-				cnt = cnt == null ? 3 : cnt;
-				int allCount = docService.cntList();
-				PageVO pg = new PageVO(page, allCount, cnt);
-				
-				List<DocVO> list = docService.viewDocList(page, cnt, dosearch);
+			public String viewDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+				int id = principal.getuserVO().getEmpId();
+				List<DocVO> list = docService.viewDocList(id);
 				model.addAttribute("viewDocList", list);
-				model.addAttribute("pg", pg);
 				return "approvalDoc/viewDocList";
 			}
 			
 		// 임시 문서
 		@GetMapping("temporaryDocList")
-		public String temporaryDocList(Model model, Integer page, Integer cnt, String dosearch) {
-			page = page == null ? 1 : page;
-			cnt = cnt == null ? 3 : cnt;
-			int allCount = docService.cntList();
-			PageVO pg = new PageVO(page, allCount, cnt);
-			
-			List<DocVO> list = docService.temporaryDocList(page, cnt, dosearch);
+		public String temporaryDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getuserVO().getEmpId();
+			List<DocVO> list = docService.temporaryDocList(id);
 			model.addAttribute("temporaryDocList", list);
-			model.addAttribute("pg", pg);
 			return "approvalDoc/temporaryDocList";
 		}
 	
@@ -213,5 +161,11 @@ public class DocController {
 	// 문서 수정
 	
 	// 문서 삭제
-	
+	@PostMapping("docDelete")
+	@ResponseBody
+	public String docDelete(@RequestBody String docId) {
+		int id = Integer.parseInt(docId);
+		docService.docDelete(id);
+		return "redirect:temporaryDocList";
+	}
 }

@@ -45,4 +45,9 @@ public interface CalendarMapper {
 	//일정목록 추가
 	public int insertCalBox(CalendarBoxVO calendarBoxVO);
 	
+	//일정목록 변경
+	public int updateCalBox(CalendarBoxVO calendarBoxVO);
+	
+	//내 일정목록 삭제
+	public int deleteCalBox(CalendarBoxVO calendarBoxVO);
 }
