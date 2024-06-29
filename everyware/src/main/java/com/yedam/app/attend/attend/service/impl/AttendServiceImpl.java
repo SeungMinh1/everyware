@@ -18,16 +18,16 @@ public class AttendServiceImpl implements AttendService {
 	public int gowork(AttendVO attendVO) {
 		return attendMapper.gowork(attendVO);
 	}
+	@Override
+	public int endwork(AttendVO attendVO) {
+		return attendMapper.endwork(attendVO);
+	}
 
 	@Override
 	public List<AttendVO> selectAttendAll(AttendVO attendVO) {
 		return attendMapper.selectAttendList(attendVO);
 	}
 
-	@Override
-	public int endwork(AttendVO attendVO) {
-		return attendMapper.endwork(attendVO);
-	}
 
 	@Override
 	public AttendVO selectAttend(AttendVO attendVO) {

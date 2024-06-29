@@ -21,6 +21,7 @@ public class AttendController {
 	@Autowired
 	AttendService attendService;
 	
+	//조회
 	@GetMapping("attend")
 	public String attendhome(Model model, @AuthenticationPrincipal LoginUserVO principal) {
 		int empId = principal.getuserVO().getEmpId();
@@ -32,6 +33,7 @@ public class AttendController {
 		return "emp/attend";
 	}
 	
+	//출근
 	@PostMapping("gowork")
 	@ResponseBody
 	public int startWork(@RequestBody AttendVO attendVO, @AuthenticationPrincipal LoginUserVO principal) {
@@ -40,13 +42,16 @@ public class AttendController {
 		return attendService.gowork(attendVO);
 	}
 	
-	@GetMapping("endwork")
+	//퇴근
+	@PostMapping("endwork")
 	@ResponseBody
-	public int endWork( @AuthenticationPrincipal LoginUserVO principal) {
-		AttendVO attendVO = new AttendVO();
+	public int endWork(@RequestBody AttendVO attendVO2,  @AuthenticationPrincipal LoginUserVO principal) {
+		String state = attendVO2.getAttendType();
 		int empId = principal.getuserVO().getEmpId();
-		attendVO.setEmpId(empId);
-		AttendVO findatt = attendService.selectAttend(attendVO);
+		attendVO2.setEmpId(empId);
+		AttendVO findatt = attendService.selectAttend(attendVO2);
+		findatt.setAttendType(state);
+		
 		return attendService.endwork(findatt);
 	}
 	

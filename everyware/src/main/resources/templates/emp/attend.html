@@ -458,7 +458,7 @@
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  distance;
-                	if(distance > 2.02){
+                	if(distance > 5.02){
                 		alert("출근 실패");
                 	}else{
                 		workdata = {             
@@ -535,13 +535,19 @@
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  distance;
-                	if(distance > 2.02){
+                	if(distance > 5.02){
                 		alert("퇴근 실패");
                 	}else{
                 		
+                		workdata2 = {             
+                			attendType : "퇴근"
+		            	};
+		            	
                 		$.ajax({
                        		url: "/endwork", 
-    	                    type: 'GET',
+                            type: 'post',
+        					contentType : 'application/JSON',
+        					data : JSON.stringify(workdata2)
 
                     	})
                     	.done(function(result){
