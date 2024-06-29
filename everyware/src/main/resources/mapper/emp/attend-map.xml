@@ -32,6 +32,7 @@
 	<update id="endwork" parameterType="AttendVO">
 		UPDATE attend
 		SET leave_time = sysdate
+			, attend_type =  find_code(#{attendType})
 		    , work_time =  TRUNC((sysdate - go_time)*24*60)
 		    , exceed_work_time = TRUNC(((sysdate - go_time)*24*60) - 9*60) 
 		    , out_yn = 0
