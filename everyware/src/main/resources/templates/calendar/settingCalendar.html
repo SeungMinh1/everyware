@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/calendar.css">
+ <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
+</head>
+<body class="hold-transition sidebar-mini">
+	<div class="content-wrapper">
+	 <section class="content-header" style="text-align:center">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">  	
+            <h1> <a href="calendar"><i style="font-size:large" class="fa-solid fa-chevron-left"></i></a>&emsp;일정 설정</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    
+    <section class="content" style="margin:auto">
+    	<div class="row">
+    	<div class="divTable col-md-12" style="margin:auto">
+		<table class="calTable">
+	  		<thead>
+	  			<tr>
+	  				<th><input type="checkbox"></th>
+	  				<th>이름</th>
+	  				<th>일정</th>
+	  				<th>상태</th>
+				</tr>
+	  		</thead>
+	  		<tbody>
+	  			<tr>
+	  				
+	  			</tr>
+	  		</tbody>
+	  		<tbody>
+	  			<th:block th:each = "box : ${boxList}">
+	  				<tr class="calSetTr" th:data-calBoxId="${box.calendarBoxId}" >
+	  					<td class="calSetCheck"><input type="checkBox"  class="calSettingcheck"></td>
+	  					<td class="calSetName"><input type="text" class="form-control calSettingName" style="width:80%" th:value="${box.calendarBoxName}"></td>
+	  					<td class="calSetPublic" >
+
+	  					</td>
+	  				</tr>
+	  			</th:block>
+	  		</tbody>
+	  	</table>
+	  	</div>
+	</div>
+	  	</section>
+
+	</div>
+	<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
+</body>
+</html>

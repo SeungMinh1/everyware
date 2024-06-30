@@ -10,7 +10,7 @@
 			  , FIND_CODENAME(MAILBOX_ID) mailbox_name
 			  , mail_id
 		FROM mail
-		WHERE mailbox_id = #{mailboxId}
+		WHERE mailbox_id = #{mailVO.mailboxId} and emp_id = #{empId} 
 		ORDER BY mail_id DESC
 	</select>
 	
@@ -36,9 +36,34 @@
 		on m.mail_id = r.mail_id-1 
 		where m.mail_id=#{mailId}
 	</select> -->
+	<select id="selectEmpId" resultType="int">
+		SELECT emp_id
+		FROM emp
+		WHERE mail = #{mail}
+	</select>
+	
+	<select id="selectEmail" resultType="String">
+		SELECT mail
+		FROM emp
+		WHERE emp_id = #{empId}
+	</select>
+
+   <select id="selectRestore" resultType="String">
+   		SELECT restore
+		FROM mail
+		WHERE mail_id = #{mailId}
+   </select>
+   
+	<update id="updateRestoreMail" parameterType="MailVO">
+		UPDATE mail
+		SET mailbox_id = (SELECT restore
+						 FROM mail
+						 WHERE mail_id = #{mailId})
+		WHERE mail_id = #{mailId}
+	</update>
 	
 	<insert id="insertSenderMail" parameterType="MailVO">
-		INSERT INTO mail
+	INSERT INTO mail
 		       (
 		       mail_id
 		       , sender
@@ -48,6 +73,7 @@
 		       , content
 		       , mailbox_id
 		       , emp_id
+		       , restore
 		       )
 		VALUES
 		       (
@@ -58,9 +84,10 @@
 		           , #{cc}
 		           , #{title}
 		           , #{content}
-		           , 'd2' <!-- 보낸메일함 -->
-		           , 100
-		       )
+		           , 'd2'
+		           , #{empId}
+		           , 'd2'
+				)
 	</insert>
 	
 	<insert id="insertRecipMail" parameterType="MailVO">
@@ -74,6 +101,7 @@
 		       , content
 		       , mailbox_id
 		       , emp_id
+		       , restore
 		       )
 		   VALUES
 		       (
@@ -85,11 +113,12 @@
 		           , #{title}
 		           , #{content}
 		           , 'd1' <!-- 받은메일함 -->
-		           , 100
+		           , #{empId}
+		           , 'd1'
 		       )
  	  </insert>
  	  
- 	   <insert id="insertCcMail" parameterType="MailVO">
+ 	<insert id="insertCcMail" parameterType="MailVO">
 		INSERT INTO mail
 		       (
 		       mail_id
@@ -100,6 +129,7 @@
 		       , content
 		       , mailbox_id
 		       , emp_id
+		       , restore
 		       )
 		   VALUES
 		       (
@@ -111,48 +141,81 @@
 		           , #{title}
 		           , #{content}
 		           , 'd1' <!-- 받은메일함 -->
-		           , 100
+		           , (SELECT emp_id
+					 FROM emp
+					 WHERE mail LIKE '%'||#{cc}||'%')
+				   , 'd1'
 		       )
- 	  </insert>
+ 	</insert>
  	  
- 	  <insert id="insertDraftMail" parameterType="MailVO">
-		   	INSERT INTO mail
-			       (
-			       mail_id
-			       , sender
-			       , recipient
-			       , cc
-			       , title
-			       , content
-			       , mailbox_id
-			       , emp_id
-			       )
-		    VALUES
-			       (
-			           (SELECT NVL(MAX(mail_id),0)+1 mail_id
-			           FROM mail)
-			           , #{sender}
-			           , #{recipient}
-			           , #{cc}
-			           , #{title}
-			           , #{content}
-			           , 'd3'  <!-- 임시보관함 -->
-			           , 100
-			       )
- 	   </insert>
+    <insert id="insertDraftMail" parameterType="MailVO">
+	   	INSERT INTO mail
+		       (
+		       mail_id
+		       , sender
+		       , recipient
+		       , cc
+		       , title
+		       , content
+		       , mailbox_id
+		       , emp_id
+		       , restore
+		       )
+	    VALUES
+		       (
+		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+		           FROM mail)
+		           , #{sender}
+		           , #{recipient}
+		           , #{cc}
+		           , #{title}
+		           , #{content}
+		           , 'd3'  <!-- 임시보관함 -->
+		           , #{empId}
+		           , 'd3'
+		       )
+ 	</insert>
  	   
- 	   <update id="updateDraftMail" parameterType="MailVO">
- 	     	UPDATE mail
- 	     	SET sender = #{sender}
-				  , recipient = #{recipient}
-				  , cc = #{cc}
-				  , title = #{title}
-				  , content = #{content}
-			 WHERE mail_id = #{mailId}          
- 	   </update>
+ 	<update id="updateDraftMail" parameterType="MailVO">
+     	UPDATE mail
+     	SET sender = #{sender}
+		  , recipient = #{recipient}
+		  , cc = #{cc}
+		  , title = #{title}
+		  , content = #{content}
+		WHERE mail_id = #{mailId}          
+ 	</update>
  	   
- 	   <delete id="deleteDraftMail" parameterType="MailVO">
- 	   	     DELETE FROM mail
- 	   	     WHERE mail_id = #{mailId}
- 	   </delete>
+	<!-- ==== 휴지통 ==== -->
+	<update id="updateTrashMail" parameterType="java.util.List">
+		UPDATE mail
+		SET mailbox_id = 'd5'
+		WHERE mail_id IN
+		<foreach item="item" index="index" collection="list" 
+				 open="(" separator="," close=")">
+			#{item, jdbcType=INTEGER}
+		</foreach>
+	</update>
+
+	<update id="updateTrashMailInfo" parameterType="MailVO">
+		UPDATE mail
+		SET mailbox_id = 'd5'
+		WHERE mail_id = #{mailId}
+	</update>
+	
+   <!-- ==== 삭제 ==== -->
+   <delete id="deleteDraftMail" parameterType="java.util.List">
+		 DELETE FROM mail
+   	     WHERE mail_id IN
+		<foreach item="item" index="index" collection="list" 
+				 open="(" separator="," close=")">
+			#{item, jdbcType=INTEGER}
+		</foreach>
+	</delete>
+   
+   <delete id="deleteDraftMailInfo" parameterType="MailVO">
+   	     DELETE FROM mail
+   	     WHERE mail_id = #{mailId}
+   </delete>
+	
 </mapper>

@@ -85,22 +85,21 @@
                 <a href="#" class="btn btn-tool" title="Next"><i class="fas fa-chevron-right"></i></a>
               </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-              <div class="mailbox-read-info">
-                <h2>[[ ${mail.title} ]]</h2>
-                <h6>보낸사람　:　[[ ${mail.sender} ]](보낸사람의 이메일)</h6>
-                <h6>받은사람　:　[[ ${mail.recipient}]]</h6>
-                <h6>참조　:　　　[[ ${mail.cc}]]</h6>
-                  <!-- <span class="mailbox-read-time float-right">15 Feb. 2015 11:03 PM</span></h6> -->
-                <h6>보낸날짜　:　[[ ${#dates.format(mail.sendDate, 'yy-MM-dd (E) HH:mm:ss')} ]]</h6>
-              </div>
-              <!-- /.mailbox-read-info -->
-              <div class="mailbox-controls with-border text-center">
+            <!-- /.mailbox-read-info -->
+              <div class="mailbox-controls with-border">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm" data-container="body" title="Delete">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
+                 <!-- mailboxId 가 d5일때 완전 삭제 (delete) -->
+                  <th:block th:if = "${mail.mailboxId == 'd5'}">
+                     <button th:onclick="|location.href='@{/mailInfoDelete(mailId=${mail.mailId})}'|" type="button" class="btn btn-default btn-sm deleteInfoBtn" data-container="body" title="Delete">
+                        <i class="far fa-trash-alt"></i>
+                     </button>
+                  </th:block>
+                  <!-- mailboxId가 d5가 아닐때 휴지통으로 이동 (update) -->
+                  <th:block th:unless = "${mail.mailboxId == 'd5'}">
+                  	 <button type="button" class="btn btn-default btn-sm moveTrashInfoBtn" data-container="body" title="Delete">
+                        <i class="far fa-trash-alt"></i>
+                     </button>
+                  </th:block>
                   <button type="button" class="btn btn-default btn-sm" data-container="body" title="Reply">
                     <i class="fas fa-reply"></i>
                   </button>
@@ -113,6 +112,17 @@
                   <i class="fas fa-print"></i>
                 </button>
               </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="mailbox-read-info">
+                <h2>[[ ${mail.title} ]]</h2>
+                <h6>보낸사람　:　[[ ${mail.sender} ]]</h6>
+                <h6>받은사람　:　[[ ${mail.recipient}]]</h6>
+                <h6>참조　:　　　[[ ${mail.cc}]]</h6>
+                  <!-- <span class="mailbox-read-time float-right">15 Feb. 2015 11:03 PM</span></h6> -->
+                <h6>보낸날짜　:　[[ ${#dates.format(mail.sendDate, 'yy-MM-dd (E) HH:mm:ss')} ]]</h6>
+              </div>
+        
               <!-- /.mailbox-controls -->
               <div class="mailbox-read-message">
                 <p th:utext="${mail.content}"></p>
@@ -121,7 +131,7 @@
               <!-- /.mailbox-read-message -->
             </div>
             <!-- /.card-body -->
-            <!-- 첨부파일 -->
+            <!--====== 첨부파일 =========-->
             <!-- <div class="card-footer bg-white">
               <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
                 <li>
@@ -187,6 +197,13 @@
       </div>
       <!-- /.row -->
       </div><!-- /.container-fluid -->
+      
+      
+      
+      
+      
+      
+      
     </section>
     <!-- /.content -->
   </div>
@@ -202,7 +219,10 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-
+<script th:inline="javascript">
+	var mailId = /*[[ ${mail.mailId} ]]*/"";
+	var empId = /*[[${#authentication.principal.userVO.empId}]]*/"";
+</script>
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -212,6 +232,8 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<!-- ============= 휴지통으로 이동 ============= -->
+<script src="../../js/mail_trash.js" th:inline="javascript"></script>
 
 </body>
 </html>

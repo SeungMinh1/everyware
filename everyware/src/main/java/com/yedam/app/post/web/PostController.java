@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.board.web.BoardController;
+import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.post.service.PostService;
 import com.yedam.app.post.service.PostVO;
 
@@ -69,15 +70,31 @@ public class PostController {
 	}
 	// 등록 -페이지
 	@GetMapping ("postInsert")
-	public String postInsertForm() {
+	public String postInsertForm(Model model) {
+		PostVO postVO = new PostVO();
+		List<CommonVO> departmentList = postService.departmentList();	
+		List<CommonVO> selectBoard = postService.selectBoard();	
+		model.addAttribute("post",postVO);
+		model.addAttribute("department",departmentList);
+		model.addAttribute("board",selectBoard);
 		return "post/postInsert";
 	}
 	
 	//등록 - 처리
 	@PostMapping("postInsert")
-	public String postInsertProcess (PostVO postVO) {
-		postService.postInsert(postVO);
-		return "redirect:postList";
+	public String postInsertProcess (@RequestParam String codeId) {
+		//int boardType = postService.selectBoard(codeId);
+		postService.selectBoard();
+		
+		if("f1".equals(codeId)){
+			return "redirect:selectNoticeAll";
+		}else if("f2".equals(codeId)){
+			return "redirect:selectDeptAll";
+	   }else if("f3".equals(codeId)){
+		   return "redirect:selectAnoyAll";
+	   }else {
+		   return "redirect:postInsert";
+	   }
 	}
 	
 	//수정 - 페이지
@@ -97,7 +114,7 @@ public class PostController {
 	@GetMapping("postDelete")
 	public String postDelete(@RequestParam Integer postId) {
 		postService.postDelete(postId);
-		return "redirect:postList";
+		return "redirect:selectNoticeAll";
 	}
 	
 }

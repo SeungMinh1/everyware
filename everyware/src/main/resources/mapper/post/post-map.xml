@@ -53,6 +53,28 @@ WHERE board_id = 1 AND notification_YN = 'Y'
 WHERE board_id = 2
 </select>
 
+<!-- 게시판 번호 조회-->
+<select id="selectBoard" resultType="CommonVO">
+		SELECT code_id
+        , code_name
+        , code_type
+        , code_desc
+	FROM common_code
+	WHERE code_id LIKE 'f%'
+</select>
+
+
+
+<!-- 부서 조회-->
+<select id="selectDepartment" resultType="CommonVO">
+	SELECT code_id
+       , code_name
+       , code_type
+       , code_desc
+FROM common_code
+WHERE code_id LIKE 'g%'
+</select>
+
 <!-- 익명 게시판 전체조회 -->
 <select id="selectAnoyAll" resultType="PostVO">
  SELECT post_id,
@@ -82,6 +104,7 @@ SELECT post_id,
 	        recommend_cnt,
 	        attachment_group_id,
 	        content,
+	        emp_id_name(emp_id) "empName",
 	        emp_id
 	    FROM post
 WHERE post_id = #{postId}    
@@ -90,9 +113,9 @@ WHERE post_id = #{postId}
 <insert id="PostInsert" parameterType="PostVO">
 	<selectKey	keyProperty="postId"
 					resultType="Integer"
-					order="AFTER">
-			SELECT post_id_seq.CURRVAL
-			FROM dual					
+					order="BEFORE">
+			SELECT NVL(MAX(post_id),1)+1
+			FROM post				
 	</selectKey>
 	INSERT INTO post
 		(post_id,
@@ -106,7 +129,7 @@ WHERE post_id = #{postId}
 		attachment_group_id,
 		content,
 		emp_id)
- VALUES (post_id_seq.CURRVAL,
+ VALUES (
  		#{postId},
 		#{notificationYn},
 		#{holdYn},
