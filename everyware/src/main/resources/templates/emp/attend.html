@@ -51,13 +51,13 @@
 
                 </div>
 
-                <h3 class="profile-username text-center">사원이름</h3>
+                <h3 class="profile-username text-center">[[ ${user.empName} ]]</h3>
 
-                <p class="text-muted text-center">부서   직급</p>
+                <p class="text-muted text-center">[[ ${user.departmentName} ]] ([[ ${user.posName} ]])</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                      <b>출근시간</b> <a class="float-right">543</a>
+                      <b>출근시간</b> <a class="float-right" id="startTime"></a>
                   </li>
                   <li class="list-group-item">
                   <b>퇴근시간</b> <a class="float-right">13,287</a>
@@ -143,15 +143,8 @@
                         </span>
                         <span class="description">Shared publicly - 7:30 PM today</span>
                       </div>
-                      <!-- /.user-block -->
-						<th:block th:each="attend : ${attnedList}">
-						
-							<p>[[ ${attend.attendType} ]]</p>
-							<p>[[ ${attend.goTime} ]]</p>
-							<p>[[ ${attend.empId} ]]</p>
-							<p>------------------------</p>
-							<br>
-						</th:block>
+ 
+					
                       <p>
                         <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
                         <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
@@ -449,6 +442,7 @@
                 data1 = {             
             		xxx : startPos.coords.latitude,    
             		yyy : startPos.coords.longitude
+            		
             	};
                 $.ajax({
                     url: "/findgps", 
@@ -458,11 +452,14 @@
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  distance;
+                	
                 	if(distance > 5.02){
                 		alert("출근 실패");
                 	}else{
+                		let nowTime = new Date();
                 		workdata = {             
-                			attendType : "출근"
+                			attendType : "출근",
+                			goTime : nowTime
 		            	};
 		            	
                 		$.ajax({
@@ -473,6 +470,40 @@
                 	})
                 	.done(function(result){
                 		alert("출근 성공")
+                		
+                		//출근시간조회
+               			$.ajax({
+                   		url: "/findattend", 
+	                    type: 'post',
+
+	                	})
+	                	.done(function(result){
+	                		console.log(result.goTime);
+	                		let timenow = result.goTime;
+	                		
+	                		//let hours = ('0' + timenow.getHours()).slice(-2);
+	                		//let minutes =  ('0' + timenow.getMinutes()).slice(-2);
+	                		//let seconds =('0' + timenow.getSeconds()).slice(-2); 
+	                		//let fulltime = hours + ':' + minutes + ':' + seconds;
+	                		//console.log(fulltime);
+	                		//document.getElementById('startTime').innerHTML = fulltime;
+	               
+
+	                		var hours = ('0' + nowTime.getHours()).slice(-2); 
+	                		var minutes = ('0' + nowTime.getMinutes()).slice(-2);
+	                		var seconds = ('0' + nowTime.getSeconds()).slice(-2); 
+
+	                		var timeString = hours + ':' + minutes  + ':' + seconds;
+
+	                		console.log(timeString);
+	                		//해야되는거 출근시간찍고 퇴근시간찍기
+	                		
+	                	})
+	                	.fail(function(result){
+	                		console.log("err");
+	                	})
+                	
+                		
                 	})
                 	.fail(function(result){
                 		console.log("err");
