@@ -144,12 +144,14 @@
 						<table width = "100%">
 							<tbody>
 								<th:block th:each = "box : ${sharedList}">
+								<div th:if = "${box.agreementYn == 1}">
 									<tr th:data-boxId="${box.calendarBoxId}">
 										<td  th:if="${box.expressionYn == 1}" width="5%"><input class="sharedCalCheck" type="checkbox" checked></td>
 										<td  th:if="${box.expressionYn == 0}" width="5%"><input class="sharedCalCheck" type="checkbox"></td>
 										<td width="60%">[[${box.calendarBoxName}]]([[${box.empName}]])</td>
 										<td width="30%" style="cursor:pointer"><div  class="sharedColorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
 									</tr>
+								</div>
 								</th:block>
 							</tbody>
 						</table>
@@ -481,7 +483,7 @@
 	      events: function(info, successCallback, failureCallback){
 	    		  $.ajax({
 	  				url: '/calendar',
-	  				type: 'POST',
+	  				type: 'POST'	,
 	  				dataType: 'json',
 	  				data: {
 						
@@ -490,7 +492,7 @@
 
 	  					let ydata = [];
 	  					data.forEach(function(d){
-	  						if(d.expressionYn == 1){	  		
+	  						if(d.expressionYn == 1 && d.agreementYn != 0){	  		
 		  						ydata.push(d);
 		  					}
 	  					})
@@ -504,8 +506,13 @@
 	    	  location.href='/insertCal?startDate=' + info.dateStr;
 	      },
 	      eventClick : function(info){
-	    	  console.log(info.event.extendedProps.calendarId);
-	    	  location.href='/calInfo?calendarId=' + info.event.extendedProps.calendarId;
+	    	  console.log(info.event.extendedProps.agreementYn);
+			if(info.event.extendedProps.agreementYn == 1){
+				location.href='/sharedCalInfo?calendarId=' + info.event.extendedProps.calendarId;
+			}else{
+				location.href='/calInfo?calendarId=' + info.event.extendedProps.calendarId;
+			}
+	    	 
 	      },
 	      locale : "ko",
 	      displayEventTime : false,

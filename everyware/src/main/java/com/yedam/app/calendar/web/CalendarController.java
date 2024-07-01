@@ -59,16 +59,21 @@ public class CalendarController {
 		List<CalendarBoxVO> blist = calendarService.calboxList(cvo);
 		List<CalendarVO> clist = calendarService.calList(calendarBoxVO);
 		List<CalendarBoxVO> slist = calendarService.sharedCalBoxList(calendarBoxVO);
+		List<CalendarBoxVO> shlist = calendarService.selectMySahred(calendarBoxVO);
 		model.addAttribute("boxList", blist);
 		model.addAttribute("boxLength", blist.size());
 		model.addAttribute("calList", clist);
 		model.addAttribute("sharedList", slist);
+		model.addAttribute("myshared", shlist);
 		return "calendar/settingCalendar";
 	}
 	
 	@PostMapping("calendar")
 	@ResponseBody
-	public List<CalendarVO> calInfo(CalendarBoxVO calendarBoxVO, Model model) {
+	public List<CalendarVO> calInfo(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		int empId = principal.getuserVO().getEmpId();
+		calendarBoxVO.setEmpId(empId);
+		
 		List<CalendarVO> clist = calendarService.calList(calendarBoxVO);
 		clist.addAll(calendarService.sharedCalList(calendarBoxVO));
 		return clist;
@@ -134,6 +139,18 @@ public class CalendarController {
 		return "calendar/updateCalendar";
 	}
 	
+	//공유받은 일정 상세페이지 이동
+	@GetMapping("sharedCalInfo")
+	public String sharedClaendarInfoForm(CalendarVO calendarVO, Model model, @RequestParam int calendarId) {
+		calendarVO.setCalendarId(calendarId);
+		CalendarVO cVO = calendarService.calInfo(calendarVO);
+		
+		List<CalendarBoxVO> blist = calendarService.calboxList(calendarVO);
+		model.addAttribute("boxList", blist);
+		model.addAttribute("cal", cVO);
+		return "calendar/sharedCalendarInfo";
+	}
+	
 	@PostMapping("calInfo")
 	@ResponseBody
 	public String updateCalProcess(CalendarVO calendarVO) {
@@ -190,9 +207,22 @@ public class CalendarController {
 		
 		
 		return "calendar/calendar :: calBox";
+	
 	}
 	
-	
+	//공유신청 수락
+	@PostMapping("approveShare")
+	public String approveShareProcess(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		calendarService.updateApproveShare(calendarBoxVO);
+		
+		int empId = principal.getuserVO().getEmpId();
+		calendarBoxVO.setEmpId(empId);
+		
+		List<CalendarBoxVO> shlist = calendarService.selectMySahred(calendarBoxVO);
+		model.addAttribute("myshared", shlist);
+		
+		return "calendar/settingCalendar :: iShare";
+	}
 	
 	
 }

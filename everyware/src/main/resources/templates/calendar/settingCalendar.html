@@ -10,9 +10,11 @@
  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
-	<div class="content-wrapper">
+	<div class="content-wrapper settingCal">
 	 <section class="content-header" style="text-align:center">
+
       <div class="container-fluid">
+      
         <div class="row mb-2">
           <div class="col-sm-6">  	
             <h1> <a href="calendar"><i style="font-size:large" class="fa-solid fa-chevron-left"></i></a>&emsp;일정 설정</h1>
@@ -22,8 +24,42 @@
     </section>
     
     <section class="content" style="margin:auto">
-    	<div class="row">
-    	<div class="divTable col-md-12" style="margin:auto">
+    	<div class="calSetCategory">
+    		<input type="radio" id="calSetMy" name="share" checked> <label for="calSetMy"> 내가 등록한 관심일정 </label>&emsp;
+    		<input type="radio" id="calSetShare" name="share"> <label for="calSetShare"> 내 일정 보고있는 동료 </label>
+    	</div>
+    	 <div class="buttonGroup">
+			<button id="shareDelBtn" class="btn btn-del" style="width:50px;font-size:12px">삭제</button>
+			<button id="shareDeclineBtn" class="btn btn-del" style="width:50px;font-size:12px;display:none">거절</button>
+		</div>
+    	<div id="otherShare" class="row" th:fragment="otherShare">
+    	<div class="divTable col-md-8" style="margin:auto">
+		<table class="calTable">
+	  		<thead>
+	  			<tr>
+	  				<th><input id="shareAllCheck" type="checkbox"></th>
+	  				<th>이름</th>
+	  				<th>일정</th>
+	  				<th>상태</th>
+				</tr>
+	  		</thead>
+	  		<tbody>
+	  			<th:block th:each = "list : ${sharedList}">
+	  				<tr class="calSetTr" th:data-calBoxId="${list.calendarBoxId}" >
+	  					<td class="calSetCheck"><input type="checkBox"  class="shareCheck"></td>
+	  					<td class="calSetEmpName">[[${list.empName}]] [[${list.empPosition}]]</td>
+	  					<td class="calSetName" > [[${list.calendarBoxName}]]</td>
+	  					<td class="calSetStatus" th:if="${list.agreementYn == 1}">공유중</td>
+	  					<td class="calSetStatus" th:if="${list.agreementYn == 0}">신청대기</td>
+	  				</tr>
+	  			</th:block>
+	  		</tbody>
+	  	</table>
+	  	</div>
+	</div>
+	
+	<div id="iShare" class="row" th:fragment="iShare" style="display:none">
+    	<div class="divTable col-md-8" style="margin:auto">
 		<table class="calTable">
 	  		<thead>
 	  			<tr>
@@ -34,18 +70,14 @@
 				</tr>
 	  		</thead>
 	  		<tbody>
-	  			<tr>
-	  				
-	  			</tr>
-	  		</tbody>
-	  		<tbody>
-	  			<th:block th:each = "box : ${boxList}">
-	  				<tr class="calSetTr" th:data-calBoxId="${box.calendarBoxId}" >
+	  			<th:block th:each = "list : ${myshared}">
+	  				<tr class="calSetTr" th:data-empId="${list.empId}" th:data-calBoxId="${list.calendarBoxId}" >
 	  					<td class="calSetCheck"><input type="checkBox"  class="calSettingcheck"></td>
-	  					<td class="calSetName"><input type="text" class="form-control calSettingName" style="width:80%" th:value="${box.calendarBoxName}"></td>
-	  					<td class="calSetPublic" >
-
-	  					</td>
+	  					<td class="calSetEmpName">[[${list.empName}]] [[${list.empPosition}]]</td>
+	  					<td class="calSetName" > [[${list.calendarBoxName}]]</td>
+	  					<td class="calSetStatus" th:if="${list.agreementYn == 1}">공유중</td>
+	  					<td class="calSetStatus" th:if="${list.agreementYn == 0}" th:data-empId="${list.empId}" th:data-calBoxId="${list.calendarBoxId}">신청대기&emsp;<button class="submitShareBtn btn-fail">수락</button></td>
+	  					<td class="calSetStatus" th:if="${list.agreementYn == 2}">공유거절됨</td>
 	  				</tr>
 	  			</th:block>
 	  		</tbody>
@@ -55,6 +87,78 @@
 	  	</section>
 
 	</div>
+	
+	
 	<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
+	<script>
+		$("#calSetMy").click(function(){
+			$("#otherShare").css("display", 'block')
+			$("#iShare").css("display" ,"none")
+			$("#shareDelBtn").css("display", 'block')
+			$("#shareDeclineBtn").css("display", 'none')
+		});
+		
+		$("#calSetShare").click(function(){
+			$("#otherShare").css("display", 'none')
+			$("#iShare").css("display" ,"block")
+			$("#shareDelBtn").css("display", 'none')
+			$("#shareDeclineBtn").css("display", 'block')
+		});
+		
+		$(".submitShareBtn").click(function(event){
+			console.log($(event.target).closest('tr').attr('data-empId'));
+			const calendarBoxId = $(event.target).closest('tr').attr('data-calBoxId');
+			const empId = $(event.target).closest('tr').attr('data-empId');
+			
+			$.ajax({
+				url: '/approveShare',
+				type: 'POST',
+				data: {
+					calendarBoxId : calendarBoxId,
+					empId : empId
+				},
+			
+			})
+			.done(function(res){
+				$("td[data-empId=" + empId + "][data-calBoxId="+ calendarBoxId +"]").text('공유중')
+			});
+		})
+		
+		$("#shareDelBtn").click(function(event){
+			
+		})
+		
+		//상위체크박스1
+		$("#shareAllCheck").click(function(event){
+			if($("#shareAllCheck").is(":checked")){
+				$(".shareCheck").prop("checked", true);
+			}else{
+				$(".shareCheck").prop("checked", false);
+			}
+		})
+		
+		//하위체크박스1
+		$(".shareCheck").click(function(event){
+			var total = $(".shareCheck").length;
+			var checked = $("input[class=shareCheck]:checked").length
+			
+			if(total != checked){
+				$("#shareAllCheck").prop("checked", false);
+			}else{
+				$("#shareAllCheck").prop("checked", true);
+			}
+		})
+		
+		//삭제버튼
+		$("#shareDelBtn").click(function(){
+			let shareBoxLength = $("input[class=shareCheck]").length;
+			let shareBoxList = new Array();
+			for(let i = 0 ; i < shareBoxLength ; i++ ){
+				if($('.shareCheck:eq('+i+')').is(':checked')){
+					
+				}
+			}
+		})
+	</script>
 </body>
 </html>

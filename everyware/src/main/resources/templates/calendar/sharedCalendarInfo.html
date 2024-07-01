@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">	
+  <link rel="stylesheet" href="../css/calendar.css">
+</head>
+<body>
+	<div class="content-wrapper">
+	
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="text-align:center">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          	
+            <h1> <a href="calendar"><i style="font-size:large" class="fa-solid fa-chevron-left"></i></a>&emsp;일정 상세</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <div>
+    <section class="content" style="margin:auto">
+    <form name="insertForm" method="post">
+    <th:block th:each = "c : ${cal}">
+      <div class="row" >
+        <div class="col-md-8" style="margin:auto">
+          <div class="card card-primary">
+            <div class="card-body" >
+              <div class="form-group">
+              	<th:block th:each = "c : ${cal}">
+                <label for="title">일정 이름</label>
+                <input id="title" th:value="${c.title}" type="text" class="form-control" readonly>
+                </th:block>
+              </div>
+          
+               <div class="form-group">
+               <th:block th:each = "c : ${cal}">
+               
+                <input readonly id="startDate" th:value="${#strings.substring(c.start, 0,10)}" type="date" class="form-control" style="width:15%;margin-left:16%">
+                <input readonly id="startTime" th:value="${#strings.substring(c.start, 11)}" type="time" class="form-control" style="width:15%">
+                <span style="font-size:x-large;">&emsp;~&emsp;</span> 
+                <input readonly id="endDate" th:value="${#strings.substring(c.end, 0,10)}" type="date" class="form-control" style="width:15%">
+                <input readonly id="endTime" th:value="${#strings.substring(c.end, 11)}" type="time" class="form-control" style="width:15%">	
+                </th:block>
+              </div>
+               <div class="form-group">
+                <label for="calList">내 일정목록</label>
+                <th:block th:each = "c : ${cal}">
+                	<select class="form-control" disabled id="calList" th:data-calId="${c.calendarBoxId}">
+                
+                <th:block th:each = "box : ${boxList}">
+                		
+                		<option  th:id = "${box.calendarBoxId}" th:value ="${box.calendarBoxId}">[[${box.calendarBoxName}]]</option>
+                	</th:block>
+                </select>
+                </th:block>
+              </div>
+              <div class="form-group">
+              <th:block th:each = "c : ${cal}">
+                <label for="location">장소</label>
+                <input readonly id="location" type="text" class="form-control" th:value="${c.location}" >
+              </th:block>
+              </div>
+              <div class="form-group">
+              <th:block th:each = "c : ${cal}">
+                <label for="content">내용</label>
+                <textarea readonly id="content" rows="10" class="form-control" >[[${c.content}]]</textarea>
+              </th:block>
+              </div>
+              
+  
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        
+      </div>
+
+      <!--  -->
+
+        
+        
+
+	
+     </form>
+     
+    </section>
+    </div>
+    <!-- /.content -->
+  </div>
+</body>
+<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
+<script>
+	//현재날짜 구하는 함수
+	function getTodayDate(){
+		var curDate = new Date();
+		var y = curDate.getFullYear();
+		var m = curDate.getMonth() + 1;
+		var d = curDate.getDate();
+		
+		var today = y+"-"+(("00"+m.toString()).slice(-2))+"-"+(("00"+d.toString()).slice(-2));
+		
+		return today;
+	}
+	
+	
+	
+	//현재시간 구하는 함수
+	function getCurTime(){
+		var curTime = new Date();
+		var h = curTime.getHours();
+		var m = curTime.getMinutes();
+		
+		var time = (("00"+h.toString()).slice(-2)) + ":" + (("00"+m.toString()).slice(-2));
+		return time;
+	}
+	
+	//1시간 후 시간 구하는 함수
+	function getLaterHourTime(){
+		var curTime = new Date();
+		var h = curTime.getHours()+ 1;
+		var m = curTime.getMinutes();
+		
+		var time = (("00"+h.toString()).slice(-2)) + ":" + (("00"+m.toString()).slice(-2));
+		return time;
+	}
+	
+	//내 일정목록에 맞춰 select
+	$('#calList').val($('#calList').attr('data-calId'));
+	
+	let url = window.location.href;
+	let params = new URL(location.href).searchParams;
+	
+	console.log(params.get("calendarId"));
+	
+	
+	
+	
+		
+	let today = getTodayDate();
+	let time = getCurTime();
+	let laterTime = getLaterHourTime();
+	
+	
+	
+
+
+
+
+	$('#updateCal').click(function(){
+		console.log();
+		 $.ajax({
+			url :'/calInfo',
+			type :'POST',
+			dataType :'application/json',
+			data : {
+				calendarId : params.get("calendarId"),
+				start : $('#startDate').val() + ' ' + $('#startTime').val(),
+				end : $('#endDate').val() + ' ' + $('#endTime').val(),
+				title : $('#title').val(),
+				content : $('#content').val(),
+				calendarBoxId : $('#calList').val(),
+				location : $('#location').val()
+				
+			}
+			
+		})
+		.done(
+				location.href='/calendar'
+			);  
+			
+		
+	})
+
+	
+	 
+</script>
+</html>
