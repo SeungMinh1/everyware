@@ -74,6 +74,10 @@
 	width : 50%;
 }
 
+.calSetEmpName{
+	width : 20%;
+}
+
 .calSetPublic{
 	width : 25%;
 }
@@ -194,11 +198,34 @@ i{
     text-align : center;
     width : 100%;
 	text-align : center;
-
+}
 .calTable{
 	width : 100%;
 	border : gray 0.5px solid;
 	float : none;
 	text-align : center;
+}
+
+.calTable tr{
+	border : solid 0.5px gray;
+	height : 60px;
+}
+
+.buttonGroup{
+	justify-content: center;
+    align-items: center;
+    text-align : left;
+    margin-bottom : 20px;
+    margin-left : 20%;
+}
+
+.calSetCategory{
+	margin-left : 15%;
+	justify-content: center;
+}
+
+.calSetCategory label{
+	font-weight:lighter;
+	font-size : small;
 }
 

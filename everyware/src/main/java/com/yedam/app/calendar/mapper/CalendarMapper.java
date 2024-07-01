@@ -50,4 +50,13 @@ public interface CalendarMapper {
 	
 	//내 일정목록 삭제
 	public int deleteCalBox(CalendarBoxVO calendarBoxVO);
+	
+	//공유신청받은 내 일정목록
+	public List<CalendarBoxVO> selectMyShared(CalendarBoxVO calendarBoxVO);
+	
+	//공유신청 수락
+	public int updateApproveShare(CalendarBoxVO calendarBoxVO);
+	
+	
+	
 }
