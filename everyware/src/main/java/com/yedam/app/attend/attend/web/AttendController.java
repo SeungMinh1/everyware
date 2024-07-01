@@ -41,9 +41,11 @@ public class AttendController {
 		if(attendService.countAttend(attendVO) != 0) {
 			AttendVO att = attendService.selectAttend(attendVO);
 			model.addAttribute("att", att);
-			int week = 0;
-			List<AttendVO> thisWeekTime =  attendService.countWorkTime(att, week);
-			model.addAttribute("thisweek", thisWeekTime);
+			AttendVO totalTime =  attendService.countWorkTime(att);
+
+			model.addAttribute("totalTime", totalTime);
+			//model.addAttribute("totalWork", totalWork);
+			//model.addAttribute("totalExtraWork", totalExtraWork);
 		};
 		
 		

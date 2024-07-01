@@ -159,15 +159,46 @@
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Shared publicly - 7:30 PM today</span>
-                         <th:block th:if="${thisweek} != null">
-                        	<p>[[ ${thisweek[0].workTime} ]]</p>
-                        </th:block>
+                       <table class="table table-striped-columns">
+                       		<tr>
+                       			<th>이번주 누적근무시간</th>
+                       			<th>이번주 초과근무시간</th>
+                       			<th>지난주 누적근무시간</th>
+                       			<th>지난주 초과근무시간</th>
+                       		</tr>
+                       		
+                       		<tr>
+                       			<th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.totalwork1} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       			 <th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.extrawork1} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       			 
+                       			 <th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.totalwork2} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       			 <th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.extrawork2} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       		</tr>
+                       		
+                       		
+                       			
+                       </table>
+
                       </div>
  
 					

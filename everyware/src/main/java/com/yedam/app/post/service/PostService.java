@@ -3,6 +3,7 @@ package com.yedam.app.post.service;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.common.service.CommonVO;
 
 public interface PostService {
@@ -20,7 +21,7 @@ public interface PostService {
 	//부서 조회
 	public List<CommonVO> departmentList();
 	//게시판 번호 조회
-	public List<CommonVO> selectBoard();
+	public List<BoardVO> selectBoard();
 	//등록
 	public int postInsert (PostVO postVO);
 	//수정

@@ -29,7 +29,21 @@
   	width: 100%;
 	height: 70%;
 	justify-content: center;
-	flex-direction: row
+	flex-direction: column;
+}
+/* 모달 버튼 */
+.modal-button {
+	flex-direction: row;
+}
+
+.modal-box {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.org {
+	margin-right: 150px;
 }
 /* 모달 닫기 버튼 스타일 */
 .close {
