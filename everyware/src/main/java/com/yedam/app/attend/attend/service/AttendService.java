@@ -16,5 +16,6 @@ public interface AttendService {
 	
 	public int countAttend(AttendVO attendV);
 	
-	public List<AttendVO> countWorkTime(AttendVO attendVO, int week);
+	//근무누적
+	public AttendVO countWorkTime(AttendVO attendVO);
 }

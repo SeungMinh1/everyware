@@ -25,5 +25,15 @@ public class AttendVO {
 	private String empPosition;
 	private String empNmae;
 	
+	private int totalwork1;
+	private int totalwork2;
+	private int totalwork3;
+	private int totalwork4;
+	
+	private int extrawork1;
+	private int extrawork2;
+	private int extrawork3;
+	private int extrawork4;
+	
 }
 
