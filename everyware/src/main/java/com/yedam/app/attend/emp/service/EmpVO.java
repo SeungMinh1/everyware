@@ -1,6 +1,7 @@
 package com.yedam.app.attend.emp.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,5 +27,5 @@ public class EmpVO {
 	//게정
 	private String accountId; //계정 아이디
 	private String password; //계정 비밀번호
-
+	private List<EmpVO> empInfo;
 }

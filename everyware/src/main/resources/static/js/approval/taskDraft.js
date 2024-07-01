@@ -4,6 +4,8 @@
 // 모달창
 $('#req').on('click', function() {
 	$('#mreq').css('display', 'block');
+	var msg = $('#msg').val();
+	$('#text').text(msg);
 })
 
 $('#can').on('click', function() {
@@ -64,9 +66,8 @@ $('#save').on('click', function() {
 
 // 결재요청
 $('#request').on('click', function() {
-	$()
+	
 })
-
 
 
 

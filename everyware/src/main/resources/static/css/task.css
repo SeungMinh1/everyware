@@ -1,0 +1,110 @@
+.task{
+	border: 0px solid rgb(0, 0, 0); border-image: none; width: 800px; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 1px; border-collapse: collapse;
+}
+
+.title{
+	background: white; padding: 0px !important; border: 0px currentColor; border-image: none; height: 90px; text-align: center; color: black; font-size: 36px; font-weight: bold; vertical-align: middle;
+}
+
+.board{
+	background: white; padding: 0px !important; border: currentColor; border-image: none; text-align: left; color: black; font-size: 12px; font-weight: normal; vertical-align: top;
+}
+
+.boardTable{
+	border: 1px solid rgb(0, 0, 0); border-image: none; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 1px; border-collapse: collapse; margin-left: 10px;
+}
+
+.draft{
+	background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 12px; font-weight: bold; vertical-align: middle;
+}
+
+.draftName{
+	background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;
+}
+
+.dept{
+	background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 12px; font-weight: bold; vertical-align: middle;
+}
+
+.deptName{
+	background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;
+}
+
+.date{
+	background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 12px; font-weight: bold; vertical-align: middle;
+}
+
+.sysdate{
+	background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;
+}
+
+.signBox{
+	border: 1px solid black; float:right;
+}
+
+.approval{
+	border: 1px solid black; background: rgb(221, 221, 221); font-size: 12px; font-weight: normal;
+}
+
+.approvalPosition{
+	padding: 5px; text-align: center; font-size: 12px; font-weight: normal; height: 30px; width: 80px;
+}
+
+.approvalName{
+	padding: 20px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal; height: 80px; width: 80px;
+}
+
+.signBox2{
+	border: 1px solid black; float:right;
+}
+
+.draft{
+	border: 1px solid black; background: rgb(221, 221, 221); font-size: 12px; font-weight: normal;
+}
+
+.draftPosition{
+	padding: 5px; text-align: center; font-size: 12px; font-weight: normal; height: 30px; width: 80px;
+}
+
+.draftEmp{
+	padding: 20px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal; height: 80px; width: 80px;
+}
+
+.inputBox{
+	border: 0px solid rgb(0, 0, 0); border-image: none; width: 800px; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 10px; border-collapse: collapse;
+}
+
+.inputDate{
+	background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; width:200px; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;
+}
+
+.inputDateBox{
+	background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;
+}
+
+.inputTitle{
+	background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;
+}
+
+.inputTitleBox{
+	background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;
+}
+
+.textarea{
+	background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 350px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

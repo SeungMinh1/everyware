@@ -1,6 +1,7 @@
 package com.yedam.app.approval.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -133,18 +134,23 @@ public class DocController {
 	
 	// 문서 등록(양식)
 	@GetMapping("newTask")
-	public String newTaskForm(Model model) {
-		List<TaskVO> list = docService.newTask();
-		// List<TaskVO> category = docService.category();
+	public String newTaskForm(Model model, TaskVO taskVO) {
+		List<TaskVO> list = docService.category();
 		model.addAttribute("newTask", list);
-		// model.addAttribute("category", category);
+		
 		return "draft/newTask";
 	}
 	
 	@GetMapping("task")
-	public String task(TaskVO taskVO, DraftVO draftVO, Model model) {
-		TaskVO findVO = docService.task(taskVO);
+	public String task(TaskVO taskVO, DraftVO draftVO, Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal, String departmentId) {
+		TaskVO findVO = docService.newTask(taskVO);
+		int id = principal.getuserVO().getEmpId();
+		EmpVO findEmp = docService.empInfo(id);
+		List<EmpVO> list = docService.allDept();
+		
 		model.addAttribute("task", findVO);
+		model.addAttribute("empInfo", findEmp);
+		model.addAttribute("empList", list);
 		
 		if(findVO.getTaskDocPath().equals("taskDraft")) {
 			return "task/taskDraft";
@@ -152,7 +158,7 @@ public class DocController {
 			return "task/buyDraft";
 		} else {
 			return null;
-		}
+		}	
 	}
 	// 문서 등록(페이지)
 	
@@ -163,9 +169,7 @@ public class DocController {
 	// 문서 삭제
 	@PostMapping("docDelete")
 	@ResponseBody
-	public String docDelete(@RequestBody String docId) {
-		int id = Integer.parseInt(docId);
-		docService.docDelete(id);
-		return "redirect:temporaryDocList";
+	public Map<String, Object> docDelete(@RequestBody List<Integer> docId) {
+		return docService.docDelete(docId);
 	}
 }
