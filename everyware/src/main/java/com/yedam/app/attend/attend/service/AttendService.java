@@ -13,4 +13,8 @@ public interface AttendService {
 	public List<AttendVO> selectAttendAll(AttendVO attendVO);
 	
 	public AttendVO selectAttend(AttendVO attendVO);
+	
+	public int countAttend(AttendVO attendV);
+	
+	public List<AttendVO> countWorkTime(AttendVO attendVO, int week);
 }

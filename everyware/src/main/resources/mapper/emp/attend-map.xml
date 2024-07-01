@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.attend.attend.mapper.AttendMapper">
 
+	
+	
 	<!-- 출근 -->
 	<insert id="gowork" parameterType="AttendVO">
 		<selectKey keyProperty="attendId"	
@@ -31,10 +33,10 @@
 	<!-- 퇴근 -->
 	<update id="endwork" parameterType="AttendVO">
 		UPDATE attend
-		SET leave_time = sysdate
+		SET leave_time = #{leaveTime}
 			, attend_type =  find_code(#{attendType})
 		    , work_time =  TRUNC((sysdate - go_time)*24*60)
-		    , exceed_work_time = TRUNC(((sysdate - go_time)*24*60) - 9*60) 
+		    , exceed_work_time = #{exceedWorkTime}
 		    , out_yn = 0
 		WHERE emp_id = #{empId} and out_yn = 1
 	</update>
@@ -53,7 +55,7 @@
 		WHERE emp_id = #{empId}
 	</select>
 	
-		<!-- 단건조회 -->
+	<!-- 단건조회 -->
 	<select id="selectAttend" resultType="AttendVO">
 		SELECT attend_id
         , find_codename(attend_type) attendType
@@ -72,6 +74,15 @@
 		WHERE a.emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd')
 	</select>
 	
+	
+	<select id="countAttend" resultType="int">
+		SELECT count(*)
+		FROM attend a
+            INNER JOIN emp e
+            on a.emp_id = e.emp_id
+		WHERE a.emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd')
+	</select>
+	
 <!-- 
 하루전 조회
 select *
@@ -81,5 +92,20 @@ from emp e
 WHERE e.emp_id = 105 and (go_time like (trunc(sysdate)-1) or go_time like  (trunc(sysdate)-2));
 
  -->
+ 
+ 	<select id="countWorkTime" resultType="AttendVO">
+	 	SELECT attend_id
+		    , go_time
+		    , leave_time
+		    ,work_time
+		    , exceed_work_time
+		    , emp_id
+		FROM attend
+		WHERE (go_time between TRUNC(sysdate-#{week},'iw') and TRUNC(sysdate-#{week},'iw')+6) AND emp_id = #{attendVO.empId}
+ 	
+ 	</select>
+ 
+ 
+ 
 
 </mapper>
