@@ -86,7 +86,7 @@ public class PostController {
 	//등록 - 처리
 	@PostMapping("postInsert")
 	@ResponseBody
-	public String postInsertProcess (@RequestBody PostVO postVO) {
+	public String postInsertProcess (MultipartFile[] uploadFile, @RequestBody PostVO postVO) {
 		//int boardType = postService.selectBoard(codeId);
 		postService.postInsert(postVO);
 		
