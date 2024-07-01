@@ -11,6 +11,7 @@ import lombok.Data;
 public class PostVO {
 	private Integer postId;  			//게시물 번호
 	private Integer boardId; 			//게시판 번호 
+	private String boardType;
 	private String notificationYn;  	//공지 여부
 	private String holdYn;  			//글고정 여부
 	private String title; 				//제목
@@ -22,6 +23,8 @@ public class PostVO {
 	private String content;  			//내용 
 	private Integer empId;  			//사원번호
 	private String empName;
+	
+	
 	
 	
 
