@@ -116,4 +116,23 @@ public class MailController {
 	public int restoreMailUpdate(@RequestBody MailVO mailVO) {
 	    return mailService.moveRestoreMail(mailVO); // 결과를 보여줄 뷰의 이름
 	}
+	
+	//조회 및 수정 - 답장 
+	@GetMapping("replyMail")
+	public String replyMailForm(MailVO mailVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		MailVO info = mailService.mailInfo(mailVO);
+		String sender1 = info.getSender();
+		String recip = info.getRecipient();
+		info.setRecipient(sender1);
+		
+		int empId = principal.getuserVO().getEmpId();
+		String email = mailService.emailSelect(empId);
+		info.setSender(email);
+		
+		model.addAttribute("sender", sender1);
+		model.addAttribute("recip", recip);
+		model.addAttribute("info", info);
+		
+		return "mail/mail_reply";
+	}
 }

@@ -99,7 +99,6 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<div th:field="*{draft.mailId}"></div>
               	<div class="input-group mb-3">
               	<span class="input-group-text" id="inputGroup-sizing-default">보낸사람</span>
 				  <input type="text" class="form-control" id="sender" placeholder="보낸사람" th:field="*{draft.sender}" readonly>
@@ -159,19 +158,23 @@
 <!-- ./wrapper -->
 
 
-
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
 <!-- Summernote -->
 <script src="../../plugins/summernote/summernote-bs4.min.js"></script>
-
 <!-- Page specific script -->
 <script th:inline="javascript">
 	var mailId = /*[[ ${draft.mailId} ]]*/"";
 	var empId = /*[[${#authentication.principal.userVO.empId}]]*/"";
 </script>
 <!-- ====================mail update js  ========================-->
- <script src="../../js/mail_update.js" th:inline="javascript"></script>
+ <script src="../../js/mail/mail_update.js" th:inline="javascript"></script>
 <!-- mail delete js / 삭제 / 휴지통이동 -->
- <script src="../../js/mail_trash.js"></script>
+ <script src="../../js/mail/mail_trash.js"></script>
 
 </body>
 </html>

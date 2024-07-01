@@ -99,7 +99,7 @@ $(function () {
 		})
 		.done(result=>{
 			if(result){
-				alert('성공');
+				alert('임시저장되었습니다.');
 				//성공시 받은메일함으로
 				let url = '/mailboxInfo?mailboxId=d1';
 				location.href=url;
