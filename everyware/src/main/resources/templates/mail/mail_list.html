@@ -182,7 +182,7 @@
 	                   <!-- d3이 아닐때 단건 조회 -->
 	                   <td th:unless="${in.mailboxId =='d3'}" class="mailbox-subject">
 	                     	<a th:href="@{/mailInfo(mailId=${in.mailId})}" class="mailInfoLink">[[ ${in.title} ]]</a>
-	                   <td class="mailbox-date">[[ ${#dates.format(in.sendDate, 'yy-MM-dd hh:mm:ss')} ]]</td>
+	                   <td class="mailbox-date">[[ ${#dates.format(in.sendDate, 'yy-MM-dd HH:mm:ss')} ]]</td>
 	                 </tr>
                  </th:block>
                    </tbody>
