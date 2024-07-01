@@ -7,7 +7,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>메일</title>
-
+  <style>
+  a.mailInfoLink:link{ 
+  		color: black;
+  }
+  a.mailInfoLink:visited{
+  		color: gray;
+  }
+  
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
   <!-- Content Wrapper. Contains page content -->
@@ -117,13 +125,10 @@
                         <i class="far fa-trash-alt"></i>
                      </button>
                   </th:block>
+                </div>
                   <button type="button" class="btn btn-default btn-sm">
                     <i class="fas fa-reply"></i>
                   </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div>
                 <!-- mailboxId 가 d5일때 복구버튼 (update) -->
                 <th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">
 	                <button type="button" class="btn btn-default btn-sm moveRestoreBtn">
@@ -146,7 +151,7 @@
                 <!-- /.float-right -->
               </div>
               <div class="table-responsive mailbox-messages">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover">
                   <thead>
                   	<tr>
                   		<th></th>
@@ -170,11 +175,13 @@
 	                     </div>
 	                   </td>
 	                   <!-- th:if="${mailboxId=d3}" -->
-	                   <td class="mailbox-name"><a href="read-mail.html">[[ ${in.sender} ]]</a></td>
-	                   
-	                      <td th:if="${in.mailboxId =='d3'}" class="mailbox-subject"><a th:href="@{/draftMailUpdate(mailId=${in.mailId})}">[[ ${in.title} ]]</a>
-	                   	  <td th:unless="${in.mailboxId =='d3'}" class="mailbox-subject"><a th:href="@{/mailInfo(mailId=${in.mailId})}">[[ ${in.title} ]]</a>
-	                   	  
+	                   <td class="mailbox-name"><a>[[ ${in.sender} ]]</a></td>
+	                   <!-- d3(임시보관함)일때 draftMailUpdate 로 --> 
+	                   <td th:if="${in.mailboxId =='d3'}" class="mailbox-subject">
+	                   		<a th:href="@{/draftMailUpdate(mailId=${in.mailId})}" class="mailInfoLink">[[ ${in.title} ]]</a>
+	                   <!-- d3이 아닐때 단건 조회 -->
+	                   <td th:unless="${in.mailboxId =='d3'}" class="mailbox-subject">
+	                     	<a th:href="@{/mailInfo(mailId=${in.mailId})}" class="mailInfoLink">[[ ${in.title} ]]</a>
 	                   <td class="mailbox-date">[[ ${#dates.format(in.sendDate, 'yy-MM-dd hh:mm:ss')} ]]</td>
 	                 </tr>
                  </th:block>
@@ -204,13 +211,10 @@
                         <i class="far fa-trash-alt"></i>
                      </button>
                   </th:block>
+                </div>
                   <button type="button" class="btn btn-default btn-sm">
                     <i class="fas fa-reply"></i>
                   </button>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button>
-                </div>
                 <!-- mailboxId 가 d5일때 복구버튼 (update) -->
                 <th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">
 	                <button type="button" class="btn btn-default btn-sm moveRestoreBtn">
@@ -252,7 +256,12 @@
  <!-- Control Sidebar -->
  <aside class="control-sidebar control-sidebar-dark">
  </aside>
-
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
 <script>
   $(function () {
     //Enable check and uncheck all functionality
@@ -285,6 +294,6 @@
     })
   })
 </script>
-<script src="../../js/mail_trash.js"></script>
+<script src="../../js/mail/mail_trash.js"></script>
 </body>
 </html>
