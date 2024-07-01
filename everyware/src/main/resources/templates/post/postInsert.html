@@ -5,7 +5,7 @@
 	layout:fragment="content">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-type" name="viewport" content="width=device-width, initial-scale=1">
 <title>등록 페이지</title>
 <style>
 .form-group label {
@@ -61,22 +61,25 @@ margin-right:10px;
 						</div>
 						<!-- /.card-header -->
 						<!-- form start -->
-						<form name= "insertForm" th:action="@{/postInsert}" method="post" th:object="${post}" >
+						<form  id="ins" name= "insertForm" th:action="@{/postInsert}" method="post" th:object="${post}" >
 							<div class="card-body">
-				
+								<input type ="hidden" name="boardType" th:value="${board[0].boardType}">
 								<div class="form-group">
 								 <label for="selectBoard">게시판 선택</label>
-								  <select name="board" id="board" >
-								    <option value="notice">공지사항</option>
-								    <option value="department">부서별</option>
-								    <option value="noName">익명</option>
+								  <select name="board" id="board" th:field="*{boardId}">
+								  <th:block th:each="board : ${board}">
+								  <option th:value="${board.boardId}" th:data-boardtype="${board.boardType}">[[${board.boardTitle}]]</option>
+								  </th:block>
 								  </select>
-								  
-								 <select name="category" >
+								</div>
+								
+								<!--/* <div class="form-group">
+								 <select name="category" th:field="*{}">
 	    							 <option value="underNotice">공지</option>
 	    							 <option value="normal">일반</option>
 								 </select>	
-			                   </div>
+			                   </div> */-->
+			                            
 								<div class="form-group">
 									<label for="title">제목</label>
 									 <input type="text" class="form-control" th:field="*{title}" placeholder="제목">
@@ -91,7 +94,7 @@ margin-right:10px;
 									<div class="input-group">
 										<div class="custom-file">
 											<input type="file" class="custom-file-input"
-												th:field="*{attachmentGroupId}"> <label
+												name="files"> <label
 												class="custom-file-label" for="exampleInputFile">파일을
 												선택하세요</label>
 										</div>
@@ -104,14 +107,14 @@ margin-right:10px;
 								</div>
 								<div class="form-check">
 									<input type="checkbox" class="form-check-input"
-										id="exampleCheck1"> <label class="form-check-label"
+									 	th:field="*{notificationYn}" value="Y"> <label class="form-check-label"
 										for="exampleCheck1">공지로 등록</label>
 								</div>
 							</div>
 							<!-- /.card-body -->
 
 							<div class="card-footer">
-								<input type="submit" value="등록" class="btn btn-primary">등록</button>
+								<input type="submit" value="등록" class="btn btn-primary" id="addBtn">
 							</div>
 						</form>
 					</div>
@@ -141,11 +144,28 @@ margin-right:10px;
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-	document.
-	$(function() {
-		bsCustomFileInput.init();
-	});
 	
+	let boardSelect = document.querySelector('#board')
+	
+	boardSelect.addEventListener('change',function(){
+		insertForm.boardType.value=this.options[this.selectedIndex].dataset.boardtype
+	})
+	
+	$('#addBtn').on('click',function(){
+		$.ajax({
+			url : 'postInsert',
+			type: 'post',
+			data :JSON.stringify($("#ins").serializeArray()),
+			contentType :'application/json',
+		})
+		.done(result => {
+			if(result){
+				alert('선택된 항목이 삭제되었습니다.');
+			}else{
+				alert('등록 실패');
+			}
+		})
+	})
 	
 </script>
 </body>

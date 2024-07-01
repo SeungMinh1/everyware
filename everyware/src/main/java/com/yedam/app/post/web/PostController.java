@@ -1,3 +1,4 @@
+
 package com.yedam.app.post.web;
 
 import java.util.List;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.board.web.BoardController;
 import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.post.service.PostService;
@@ -73,7 +76,7 @@ public class PostController {
 	public String postInsertForm(Model model) {
 		PostVO postVO = new PostVO();
 		List<CommonVO> departmentList = postService.departmentList();	
-		List<CommonVO> selectBoard = postService.selectBoard();	
+		List<BoardVO> selectBoard = postService.selectBoard();	
 		model.addAttribute("post",postVO);
 		model.addAttribute("department",departmentList);
 		model.addAttribute("board",selectBoard);
@@ -82,15 +85,16 @@ public class PostController {
 	
 	//등록 - 처리
 	@PostMapping("postInsert")
-	public String postInsertProcess (@RequestParam String codeId) {
+	@ResponseBody
+	public String postInsertProcess (@RequestBody PostVO postVO) {
 		//int boardType = postService.selectBoard(codeId);
-		postService.selectBoard();
+		postService.postInsert(postVO);
 		
-		if("f1".equals(codeId)){
+		if("f1".equals(postVO.getBoardType())){
 			return "redirect:selectNoticeAll";
-		}else if("f2".equals(codeId)){
+		}else if("f2".equals(postVO.getBoardType())){
 			return "redirect:selectDeptAll";
-	   }else if("f3".equals(codeId)){
+	   }else if("f3".equals(postVO.getBoardType())){
 		   return "redirect:selectAnoyAll";
 	   }else {
 		   return "redirect:postInsert";

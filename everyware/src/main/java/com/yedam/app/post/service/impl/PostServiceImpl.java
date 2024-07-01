@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.post.mapper.PostMapper;
 import com.yedam.app.post.service.PostService;
@@ -63,7 +64,7 @@ public class PostServiceImpl implements PostService {
 	}
 	//게시판 번호
 	@Override
-	public List<CommonVO> selectBoard() {
+	public List<BoardVO> selectBoard() {
 		return postMapper.selectBoard();
 	}
 
