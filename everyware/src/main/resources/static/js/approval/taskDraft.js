@@ -24,23 +24,6 @@ $('.close').on('click', function() {
 	$('.modal').css('display', 'none');
 })
 
-// 결재정보
-$('#line').on('click', function() {
-	
-})
-
-$('#ref').on('click', function() {
-	
-})
-
-$('#view').on('click', function() {
-	
-})
-
-$('#rec').on('click', function() {
-	
-})
-
 // 확인
 $('#ok').on('click', function() {
 	location.href="/draftDocList";
@@ -59,6 +42,10 @@ $('#ccclose').on('click', function() {
 	$('.modal').css('display', 'none');
 })
 
+$('#cccclose').on('click', function() {
+	$('.modal').css('display', 'none');
+})
+
 // 임시저장
 $('#save').on('click', function() {
 	$()
@@ -69,7 +56,10 @@ $('#request').on('click', function() {
 	
 })
 
-
+// 결재정보 저장
+$('#saveInfo').on('clikc', function() {
+	
+})
 
 
 

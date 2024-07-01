@@ -173,6 +173,10 @@
 				, approval_task
 				, approval_file
 				, approval_status
+				, approval_emp
+				, reception_emp
+				, ref_emp
+				, view_emp
 			)
 		VALUES
 			(
@@ -185,12 +189,53 @@
 				, #{approvalTask}
 				, #{approvalFile}
 				, #{approvalStatus}
+				, #{approvalEmp}
+				, #{receptionEmp}
+				, #{refEmp}
+				, #{viewEmp}
 			)
 	</insert>
 	
 	<!-- 문서 등록(임시 저장) -->
 	<insert id="tempInsert" parameterType="DocVO">
-	
+		<selectKey	keyProperty="docId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT doc_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
+		INSERT INTO approval_doc
+			(
+				doc_id
+				, doc_type
+				, doc_title
+				, draft_emp
+				, draft_emp_dept
+				, draft_date
+				, approval_task
+				, approval_file
+				, approval_status
+				, approval_emp
+				, reception_emp
+				, ref_emp
+				, view_emp
+			)
+		VALUES
+			(
+				doc_id_seq.NEXTVAL
+				, null
+				, #{docTitle}
+				, #{draftEmp}
+				, #{draftEmpDept}
+				, sysdate
+				, #{approvalTask}
+				, #{approvalFile}
+				, '임시저장'
+				, #{approvalEmp}
+				, #{receptionEmp}
+				, #{refEmp}
+				, #{viewEmp}
+			)
 	</insert>
 	
 	<!-- 문서 수정(임시 저장함) -->

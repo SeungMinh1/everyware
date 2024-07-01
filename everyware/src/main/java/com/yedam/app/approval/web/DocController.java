@@ -164,6 +164,13 @@ public class DocController {
 	
 	// 문서 등록(처리)
 	
+	// 문서 임시저장(처리)
+	@PostMapping("tempInsert")
+	@ResponseBody
+	public int tempInsert(@RequestBody DocVO docVO) {
+		return docService.tempInsert(docVO);
+	}
+	
 	// 문서 수정
 	
 	// 문서 삭제
