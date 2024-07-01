@@ -20,6 +20,9 @@ public class AttendServiceImpl implements AttendService {
 	}
 	@Override
 	public int endwork(AttendVO attendVO) {
+		if(attendVO.getWorkTime() < 9*60) {
+			attendVO.setExceedWorkTime(0);
+		}
 		return attendMapper.endwork(attendVO);
 	}
 
@@ -32,6 +35,14 @@ public class AttendServiceImpl implements AttendService {
 	@Override
 	public AttendVO selectAttend(AttendVO attendVO) {
 		return attendMapper.selectAttend(attendVO);
+	}
+	@Override
+	public int countAttend(AttendVO attendV) {
+		return attendMapper.countAttend(attendV);
+	}
+	@Override
+	public List<AttendVO> countWorkTime(AttendVO attendVO, int week) {
+		return attendMapper.countWorkTime(attendVO, week);
 	}
 
 }

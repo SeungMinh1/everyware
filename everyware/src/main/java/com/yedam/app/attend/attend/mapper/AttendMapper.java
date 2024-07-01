@@ -18,7 +18,9 @@ public interface AttendMapper {
 	public List<AttendVO> selectAttendList(AttendVO attendVO);
 	//단건조회
 	public AttendVO selectAttend(AttendVO attendVO);
+	//개수조회
+	public int countAttend(AttendVO attendV);
 	
-	
-
+	//근무시간
+	public List<AttendVO> countWorkTime(AttendVO attendVO, int week);
 }
