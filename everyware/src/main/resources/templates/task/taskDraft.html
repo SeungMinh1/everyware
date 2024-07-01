@@ -19,6 +19,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/task.css">
+  <link rel="stylesheet" href="css/org.css">
 </head>
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
@@ -58,111 +60,109 @@
 									<button type="button" class="btn" id="tem">임시저장</button>
 									<button type="button" class="btn" id="info">결재정보</button>
 									<div id="container" th:style="${'width:1000px; height:1000px; border:3px solid #ccc; z-index: 1; margin-top:20px'}">
-										<table style="border: 0px solid rgb(0, 0, 0); border-image: none; width: 800px; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 1px; border-collapse: collapse;">
+										<table class="task">
 											<colgroup>
 												<col width="310">
 												<col width="490">
 											</colgroup>
 											<tbody>
+											<th:block th:each="emp : ${empInfo}">
 												<tr>
-													<td style="background: white; padding: 0px !important; border: 0px currentColor; border-image: none; height: 90px; text-align: center; color: black; font-size: 36px; font-weight: bold; vertical-align: middle;" colspan="2" class>
+													<td class="title" colspan="2">
 														<span>업 무 기 안</span>
 													</td>
 												</tr>
 												<tr>
-													<td style="background: white; padding: 0px !important; border: currentColor; border-image: none; text-align: left; color: black; font-size: 12px; font-weight: normal; vertical-align: top;">
-														<table style="border: 1px solid rgb(0, 0, 0); border-image: none; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 1px; border-collapse: collapse; margin-left: 10px;">
+													<td class="board">
+														<table class="boardTable">
 															<colgroup>
 																<col width="90">
 																<col width="210">
 															</colgroup>
 															<tbody>
 																<tr>
-																	<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 12px; font-weight: bold; vertical-align: middle;">
+																	<td class="draft">
 																		기안자
 																	</td>
-																	<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-																		
+																	<td class="draftName">
+																		[[ ${emp.empName} ]]
 																	</td>
 																</tr>
 																<tr>
-																	<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 12px; font-weight: bold; vertical-align: middle;">
+																	<td class="dept">
 																		소속
 																	</td>
-																	<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-																	
+																	<td class="deptName">
+																		[[ ${emp.departmentId} ]]
 																	</td>
 																</tr>
 																<tr>
-																	<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 18px; text-align: center; color: rgb(0, 0, 0); font-size: 12px; font-weight: bold; vertical-align: middle;">
+																	<td class="date">
 																		기안일
 																	</td>
-																	<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 12px; font-weight: normal; vertical-align: middle;">
-																	
+																	<td class="sysdate">
+																		<span th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"></span>
 																	</td>
 																</tr>																
 															</tbody>
 														</table>
 													</td>													
 													<td>
-														<table style="border: 1px solid black; float:right;">															
+														<table class="signBox">																													
 															<tbody>
 																<tr>
-																	<td rowspan="4" style="border: 1px solid black; background: rgb(221, 221, 221); font-size: 12px; font-weight: normal;">승인</td>	
-																	<td style="padding: 5px; text-align: center; font-size: 12px; font-weight: normal;">대표이사</td>														
+																	<td class="approval" rowspan="4">승인</td>	
+																	<td class="approvalPosition"></td>														
 																</tr>
 																<tr>																	
-																	<td rowspan="2" style=" padding: 20px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal;">김상훈</td>
-																</tr>
-																<tr>																																		
-																</tr>
-																<tr>																	
-																	<td style="padding: 5px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal;">공백</td>
-																</tr>
+																	<td class="approvalName" rowspan="2"></td>
+																</tr>															
 															</tbody>
 														</table>
-														<table style="border: 1px solid black; float:right;">															
+														<table class="signBox2">															
 															<tbody>
 																<tr>
-																	<td rowspan="4" style="border: 1px solid black; background: rgb(221, 221, 221); font-size: 12px; font-weight: normal;">신청</td>	
-																	<td style="padding: 5px; text-align: center; font-size: 12px; font-weight: normal;">대표이사</td>														
+																	<td class="draft" rowspan="4">신청</td>	
+																	<td class="draftPosition">[[ ${emp.empPosition} ]]</td>														
 																</tr>
 																<tr>																	
-																	<td rowspan="2" style="padding: 20px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal;">김상훈</td>
-																</tr>
-																<tr>																																		
-																</tr>
-																<tr>																	
-																	<td style="padding: 5px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal;">공백</td>
-																</tr>
+																	<td class="draftEmp" rowspan="2">[[ ${emp.empName} ]]</td>
+																</tr>																
 															</tbody>
 														</table>
 													</td>												
 												</tr>											
 											</tbody>
 										</table>
-										<table style="border: 0px solid rgb(0, 0, 0); border-image: none; width: 800px; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 10px; border-collapse: collapse;">
+										<table class="inputBox">
 											<tbody>
 												<tr>
-													<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; width:200px; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
+													<td class="inputDate">
 													시행일자</td>
-													<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;">
+													<td class="inputDateBox">
 													<input type="date"></td>
 												</tr>											
 												<tr>
-													<td style="background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;">
+													<td class="inputTitle">
 													제목</td>
-													<td style="background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;">
-													<input type="text" id="msg"></td>
+													<td class="inputTitleBox">
+													<input type="text" id="msg" placeholder="필수값 입니다" style="width: 600px;"></td>
 												</tr>
 												<tr>								
-													<td colspan="2" style="background: rgb(255, 255, 255); border-width: medium 1px 1px; border-style: none solid solid; border-color: currentColor black black; padding: 5px; height: 350px; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: top;">
+													<td class="textarea" colspan="2">
               											<textarea id="summernote"></textarea>
 										            </td>
 												</tr>
 											</tbody>
 										</table>
-										<h1>파일첨부 자리</h1>
+										<table>
+											<tr>
+												<th><span>파일첨부</span></th>
+												<td>
+													<div></div>
+												</td>
+											</tr>
+										</table>
 									</div>
 								</div>
 							</div>
@@ -172,6 +172,7 @@
 			</section>
 		</div>
 	</div>
+</div>
 <!-- 결재요청 모달 -->
 <div id="mreq" class="modal">
 	<div class="modal-body">
@@ -224,19 +225,50 @@
 <div id="minfo" class="modal">
 	<div class="modal-body">
 		<div class="modal-header">
-			<button type="button" class="btn" id="line">결재선</button>
-			<button type="button" class="btn" id="ref">참조자</button>
-			<button type="button" class="btn" id="view">열람자</button>
-			<button type="button" class="btn" id="rec">수신자</button>
+			<h3>결재정보</h3>
 			<span class="close">&times;</span>
 		</div>
 		<div class="modal-footer">
-			
+			<div>
+				<div>
+					<ul id="myUL">
+						<li th:each="deptList : ${empList}">
+							<span th:data-dept="${deptList.departmentId}">
+							[[ ${deptList.departmentName} ]]
+							</span>
+							<ul>
+								<li th:each="empList : ${deptList.empInfo}"><a>
+								[[ ${empList.empName} ]] [[ ${empList.empPosition} ]]</a></li>
+							</ul>
+						</li>
+					</ul>		
+				</div>
+				<div>
+					<table>
+						<thead>
+							<tr>
+								<th>타입</th>
+								<th>이름</th>
+								<th>부서</th>
+								<th>상태</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="emp : ${empInfo}">
+								<td>기안</td>
+								<td>[[ ${emp.empName} ]]</td>
+								<td>[[ ${emp.departmentId} ]]</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
-	
-
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -294,5 +326,6 @@
 	
 </script>
 <script src="../js/approval/taskDraft.js"></script>
+<script src="../js/approval/org.js"></script>
 </body>
 </html>
