@@ -42,10 +42,9 @@
 		<!-- Main content -->
 		<section class="content">
 			<div class="row">
-				
-					<div class="card">
+					<div class="card" th:each="category : ${newTask}">
 						<div class="card-header">
-							<h3 class="card-title"></h3>
+							<h3 class="card-title">[[ ${category.category} ]]</h3>
 
 							<div class="card-tools">
 								<button type="button" class="btn btn-tool"
@@ -54,10 +53,10 @@
 								</button>
 							</div>
 						</div>
-						<th:block th:each="task : ${newTask}">
+						
 						<div class="card-body p-0">
 							<ul class="nav nav-pills flex-column">
-								<li class="nav-item active"><a th:href="@{task(approvalTask=${task.approvalTask})}" class="nav-link">
+								<li class="nav-item active" th:each="task : ${category.taskList}"><a th:href="@{task(approvalTask=${task.approvalTask})}" class="nav-link">
 										<i class="fas fa-inbox"></i>  [[ ${task.approvalTask} ]]
 								</a></li>							
 							</ul>

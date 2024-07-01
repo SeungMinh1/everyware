@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="css/modal.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -51,8 +52,8 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<button class="del">문서 삭제</button>
-              	<button class="down">다운로드</button>
+              	<button type="button" class="btn" id="del">문서 삭제</button>          
+              	<button type="button" class="btn" id="down">다운로드</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
@@ -67,7 +68,7 @@
                   <tbody>
  				  <th:block th:each="Doc : ${temporaryDocList}">
 	                  <tr>
-	                  	<td><input type="checkbox" th:field="*{temporaryDocList}" th:value="${Doc.docId}"></td>
+	                  	<td><input type="checkbox" class="chk" th:field="*{temporaryDocList}" th:value="${Doc.docId}"></td>
 	                    <td th:if="${createDate != null}">[[ ${ #dates.format(tDoc.createDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td th:if="${createDate == null}"></td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
@@ -95,6 +96,32 @@
 </div>
 <!-- ./wrapper --> 
 
+<!-- 삭제 모달 -->
+<div id="mdel" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3 >삭제하시겠습니까?</h3>
+			<button type="button" class="btn" id="ok">확인</button>
+			<button type="button" class="btn" id="close">닫기</button>
+		</div>
+	</div>
+</div>
+<!-- 선택항목 X -->
+<div id="mno" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3>선택된 항목이 없습니다</h3>
+			<button type="button" class="btn" id="cclose">닫기</button>
+		</div>	
+	</div>
+</div>
+
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -118,23 +145,26 @@
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
   
-  $("#allChk").click(function() {
+	$(function() {
+		$("#example1").DataTable({
+			"responsive" : true,
+			"lengthChange" : false,
+			"autoWidth" : false,
+			"buttons" : [ "copy", "csv", "excel", "pdf", "print", "colvis" ]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+		$('#example2').DataTable({
+			"paging" : true,
+			"lengthChange" : false,
+			"searching" : false,
+			"ordering" : true,
+			"info" : true,
+			"autoWidth" : false,
+			"responsive" : true,
+		});
+	});
+
+	$("#allChk").click(function() {
 		if ($(this).is(":checked")) {
 			//모든 체크박스 체크
 			$("input:checkbox").attr("checked", true);
@@ -143,6 +173,8 @@
 			$("input:checkbox").attr("checked", false);
 		}
 	});
+
 </script>
+<script src="../js/approval/temporaryDocList.js"></script>
 </body>
 </html>

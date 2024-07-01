@@ -88,7 +88,7 @@ $(function(){
 				if(result){
 					alert('정상적으로 수정되었습니다.')
 					let url = '/mailboxInfo?mailboxId=d3';
-				location.href=url;
+					location.href=url;
 				}else{
 					alert("수정되지 않았습니다. \n 데이터를 확인해주세요.")
 				}

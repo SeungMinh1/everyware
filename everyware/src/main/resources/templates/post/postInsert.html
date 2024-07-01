@@ -7,7 +7,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>등록 페이지</title>
+<style>
+.form-group label {
+	margin-right:10px;
+}
 
+#board{
+margin-right:10px;
+}
+
+</style>
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -17,6 +26,8 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+
+<body>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
@@ -50,35 +61,29 @@
 						</div>
 						<!-- /.card-header -->
 						<!-- form start -->
-						<form name= "insertForm" th:action="@{/postInsert}" method="post" >
+						<form name= "insertForm" th:action="@{/postInsert}" method="post" th:object="${post}" >
 							<div class="card-body">
-								<div class="btn-group">
-									<button type="button" class="btn btn-default">게시판 선택</button>
-									<button type="button"
-										class="btn btn-default dropdown-toggle dropdown-icon"
-										data-toggle="dropdown">
-										<span class="sr-only">Toggle Dropdown</span>
-									</button>
-									<div class="dropdown-menu" role="menu">
-										<a class="dropdown-item" href="#">공지사항</a> <a
-											class="dropdown-item" href="#">부서별</a> <a
-											class="dropdown-item" href="#">익명 게시판</a>
-
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Separated link</a>
-									</div>
-								</div>
+				
 								<div class="form-group">
-			                     <label for="departmentName">부서 이름</label>
-			                    <input type="text" class="form-control" id="title" placeholder="제목">
+								 <label for="selectBoard">게시판 선택</label>
+								  <select name="board" id="board" >
+								    <option value="notice">공지사항</option>
+								    <option value="department">부서별</option>
+								    <option value="noName">익명</option>
+								  </select>
+								  
+								 <select name="category" >
+	    							 <option value="underNotice">공지</option>
+	    							 <option value="normal">일반</option>
+								 </select>	
 			                   </div>
 								<div class="form-group">
 									<label for="title">제목</label>
-									 <input type="text" class="form-control" id="title" placeholder="제목">
+									 <input type="text" class="form-control" th:field="*{title}" placeholder="제목">
 								</div>
 								<div class="form-group">
 									<label for="content">내용</label>
-									<textarea class="form-control" id="content" rows=3
+									<textarea class="form-control" th:field="*{content}" rows=3
 										placeholder="내용을 입력하세요"></textarea>
 								</div>
 								<div class="form-group">
@@ -86,13 +91,14 @@
 									<div class="input-group">
 										<div class="custom-file">
 											<input type="file" class="custom-file-input"
-												id="exampleInputFile"> <label
+												th:field="*{attachmentGroupId}"> <label
 												class="custom-file-label" for="exampleInputFile">파일을
 												선택하세요</label>
 										</div>
 										<div class="input-group-append">
 											<span class="input-group-text">업로드</span>
 										</div>
+
 
 									</div>
 								</div>
@@ -105,7 +111,7 @@
 							<!-- /.card-body -->
 
 							<div class="card-footer">
-								<button type="submit" class="btn btn-primary">등록</button>
+								<input type="submit" value="등록" class="btn btn-primary">등록</button>
 							</div>
 						</form>
 					</div>
@@ -135,9 +141,12 @@
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
+	document.
 	$(function() {
 		bsCustomFileInput.init();
 	});
+	
+	
 </script>
 </body>
 </html>

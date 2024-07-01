@@ -18,4 +18,11 @@ public class AttendVO {
 	private int exceedWorkTime;
 	private int outYn;
 	private int empId; 
+	
+	private String departmentName;
+	private String departmentId;
+	private String posName;
+	private String empPosition;
+	private String empNmae;
+	
 }

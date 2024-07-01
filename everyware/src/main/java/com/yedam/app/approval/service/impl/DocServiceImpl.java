@@ -11,6 +11,7 @@ import com.yedam.app.approval.mapper.DocMapper;
 import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
 import com.yedam.app.approval.service.TaskVO;
+import com.yedam.app.attend.emp.service.EmpVO;
 
 @Service
 public class DocServiceImpl implements DocService {
@@ -18,69 +19,69 @@ public class DocServiceImpl implements DocService {
 	DocMapper docMapper;
 
 	@Override
-	public  List<DocVO> waitDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> waitDocList(int id) {
 		
-		return docMapper.waitDocList(page, cnt, dosearch);
+		return docMapper.waitDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> waitRefViewDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> waitRefViewDocList(int id) {
 		
-		return docMapper.waitRefViewDocList(page, cnt, dosearch);
+		return docMapper.waitRefViewDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> expectedDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> expectedDocList(int id) {
 		
-		return docMapper.expectedDocList(page, cnt, dosearch);
+		return docMapper.expectedDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> draftDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> draftDocList(int id) {
 		
-		return docMapper.draftDocList(page, cnt, dosearch);
+		return docMapper.draftDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> approvalDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> approvalDocList(int id) {
 		
-		return docMapper.approvalDocList(page, cnt, dosearch);
+		return docMapper.approvalDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> sendDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> sendDocList(int id) {
 		
-		return docMapper.sendDocList(page, cnt, dosearch);
+		return docMapper.sendDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> receptionDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> receptionDocList(int id) {
 		
-		return docMapper.receptionDocList(page, cnt, dosearch);
+		return docMapper.receptionDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> refViewDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> refViewDocList(int id) {
 		
-		return docMapper.refViewDocList(page, cnt, dosearch);
+		return docMapper.refViewDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> refDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> refDocList(int id) {
 		
-		return docMapper.refDocList(page, cnt, dosearch);
+		return docMapper.refDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> viewDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> viewDocList(int id) {
 		
-		return docMapper.viewDocList(page, cnt, dosearch);
+		return docMapper.viewDocList(id);
 	}
 
 	@Override
-	public  List<DocVO> temporaryDocList(int page, int cnt, String dosearch) {
+	public  List<DocVO> temporaryDocList(int id) {
 		
-		return docMapper.temporaryDocList(page, cnt, dosearch);
+		return docMapper.temporaryDocList(id);
 	}
 	
 	@Override
@@ -89,24 +90,35 @@ public class DocServiceImpl implements DocService {
 	}
 
 	@Override
-	public List<TaskVO> newTask() {
-		return docMapper.newTask();
+	public TaskVO newTask(TaskVO taskVO) {
+		return docMapper.newTask(taskVO);
 	}
 
 	@Override
 	public List<TaskVO> category() {
-		return docMapper.category();
+		List<TaskVO> list = docMapper.category();
+		
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setTaskList(docMapper.task(list.get(i).getCategory()));
+		}
+		
+		return list;
 	}
 
 	@Override
-	public TaskVO task(TaskVO taskVO) {
-		return docMapper.task(taskVO);
+	public List<TaskVO> task(String approvalTask) {
+		return docMapper.task(approvalTask);
 	}
 
 	@Override
 	public int docInsert(DocVO docVO) {
 		
 		return docMapper.docInsert(docVO);
+	}
+
+	@Override
+	public int tempInsert(DocVO docVO) {
+		return docMapper.tempInsert(docVO);
 	}
 
 	@Override
@@ -123,13 +135,40 @@ public class DocServiceImpl implements DocService {
 	}
 
 	@Override
-	public int docDelete(int docId) {
+	public Map<String, Object> docDelete(List<Integer> docId) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			docMapper.docDelete(docId);
+			result.put("result", true);
+		} catch (Exception e) {
+			result.put("result", false);
+			result.put("message", e.getMessage());
+		}
+		return result;
+	}
+	
+	@Override
+	public List<EmpVO> allDept() {
+		// 부서 목록
+		List<EmpVO> list = docMapper.allDept();
 		
-		return docMapper.docDelete(docId);
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setEmpInfo(docMapper.deptEmp(list.get(i).getDepartmentId()));
+		}
+		
+		return list;
 	}
 
 	@Override
-	public int cntList() {
-		return docMapper.cntList();
+	public List<EmpVO> deptEmp(String departmentId) {
+		return docMapper.deptEmp(departmentId);
 	}
+
+	@Override
+	public EmpVO empInfo(int id) {
+		return docMapper.empInfo(id);
+	}
+	
+	
 }
+

@@ -47,6 +47,21 @@
 		FROM emp
 		WHERE emp_id = #{empId}
 	</select>
+
+   <select id="selectRestore" resultType="String">
+   		SELECT restore
+		FROM mail
+		WHERE mail_id = #{mailId}
+   </select>
+   
+	<update id="updateRestoreMail" parameterType="MailVO">
+		UPDATE mail
+		SET mailbox_id = (SELECT restore
+						 FROM mail
+						 WHERE mail_id = #{mailId})
+		WHERE mail_id = #{mailId}
+	</update>
+	
 	<insert id="insertSenderMail" parameterType="MailVO">
 	INSERT INTO mail
 		       (
@@ -58,6 +73,7 @@
 		       , content
 		       , mailbox_id
 		       , emp_id
+		       , restore
 		       )
 		VALUES
 		       (
@@ -70,6 +86,7 @@
 		           , #{content}
 		           , 'd2'
 		           , #{empId}
+		           , 'd2'
 				)
 	</insert>
 	
@@ -84,6 +101,7 @@
 		       , content
 		       , mailbox_id
 		       , emp_id
+		       , restore
 		       )
 		   VALUES
 		       (
@@ -96,10 +114,11 @@
 		           , #{content}
 		           , 'd1' <!-- 받은메일함 -->
 		           , #{empId}
+		           , 'd1'
 		       )
  	  </insert>
  	  
- 	   <insert id="insertCcMail" parameterType="MailVO">
+ 	<insert id="insertCcMail" parameterType="MailVO">
 		INSERT INTO mail
 		       (
 		       mail_id
@@ -110,6 +129,7 @@
 		       , content
 		       , mailbox_id
 		       , emp_id
+		       , restore
 		       )
 		   VALUES
 		       (
@@ -124,47 +144,78 @@
 		           , (SELECT emp_id
 					 FROM emp
 					 WHERE mail LIKE '%'||#{cc}||'%')
+				   , 'd1'
 		       )
- 	  </insert>
+ 	</insert>
  	  
- 	  <insert id="insertDraftMail" parameterType="MailVO">
-		   	INSERT INTO mail
-			       (
-			       mail_id
-			       , sender
-			       , recipient
-			       , cc
-			       , title
-			       , content
-			       , mailbox_id
-			       , emp_id
-			       )
-		    VALUES
-			       (
-			           (SELECT NVL(MAX(mail_id),0)+1 mail_id
-			           FROM mail)
-			           , #{sender}
-			           , #{recipient}
-			           , #{cc}
-			           , #{title}
-			           , #{content}
-			           , 'd3'  <!-- 임시보관함 -->
-			           , #{empId}
-			       )
- 	   </insert>
+    <insert id="insertDraftMail" parameterType="MailVO">
+	   	INSERT INTO mail
+		       (
+		       mail_id
+		       , sender
+		       , recipient
+		       , cc
+		       , title
+		       , content
+		       , mailbox_id
+		       , emp_id
+		       , restore
+		       )
+	    VALUES
+		       (
+		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+		           FROM mail)
+		           , #{sender}
+		           , #{recipient}
+		           , #{cc}
+		           , #{title}
+		           , #{content}
+		           , 'd3'  <!-- 임시보관함 -->
+		           , #{empId}
+		           , 'd3'
+		       )
+ 	</insert>
  	   
- 	   <update id="updateDraftMail" parameterType="MailVO">
- 	     	UPDATE mail
- 	     	SET sender = #{sender}
-				  , recipient = #{recipient}
-				  , cc = #{cc}
-				  , title = #{title}
-				  , content = #{content}
-			 WHERE mail_id = #{mailId}          
- 	   </update>
+ 	<update id="updateDraftMail" parameterType="MailVO">
+     	UPDATE mail
+     	SET sender = #{sender}
+		  , recipient = #{recipient}
+		  , cc = #{cc}
+		  , title = #{title}
+		  , content = #{content}
+		WHERE mail_id = #{mailId}          
+ 	</update>
  	   
- 	   <delete id="deleteDraftMail" parameterType="MailVO">
- 	   	     DELETE FROM mail
- 	   	     WHERE mail_id = #{mailId}
- 	   </delete>
+	<!-- ==== 휴지통 ==== -->
+	<update id="updateTrashMail" parameterType="java.util.List">
+		UPDATE mail
+		SET mailbox_id = 'd5'
+		WHERE mail_id IN
+		<foreach item="item" index="index" collection="list" 
+				 open="(" separator="," close=")">
+			#{item, jdbcType=INTEGER}
+		</foreach>
+	</update>
+
+	<update id="updateTrashMailInfo" parameterType="MailVO">
+		UPDATE mail
+		SET mailbox_id = 'd5'
+		WHERE mail_id = #{mailId}
+	</update>
+	
+   <!-- ==== 삭제 ==== -->
+   <delete id="deleteDraftMail" parameterType="java.util.List">
+		 DELETE FROM mail
+   	     WHERE mail_id IN
+		<foreach item="item" index="index" collection="list" 
+				 open="(" separator="," close=")">
+			#{item, jdbcType=INTEGER}
+		</foreach>
+	</delete>
+   
+   <delete id="deleteDraftMailInfo" parameterType="MailVO">
+   	     DELETE FROM mail
+   	     WHERE mail_id = #{mailId}
+   </delete>
+	
 </mapper>
