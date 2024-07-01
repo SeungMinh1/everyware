@@ -26,4 +26,9 @@ public class DocVO {
 	private String approvalTask;
 	private String approvalFile;
 	private String approvalStatus;
+	private String approvalEmp;
+	private String receptionEmp;
+	private String sendEmp;
+	private String refEmp;
+	private String viewEmp;
 }

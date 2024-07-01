@@ -1,5 +1,7 @@
 package com.yedam.app.approval.service;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +15,5 @@ public class TaskVO {
 	private String taskDate;
 	private String category;
 	private String taskDocPath;
+	private List<TaskVO> taskList;
 }
