@@ -28,9 +28,7 @@ public class MailServiceImpl implements MailService {
 		return mailMapper.selectMailInfo(mailVO);
 	}
 	
-	//메일 등록 -> 보낸사람 -> 보낸메일함
-	//		  -> 받는사람(들) -> 받은메일함
-	//		  -> 참조자(들)  -> 받은메일함
+	//메일 등록
 	@Override
 	public int senderMail(MailVO mailVO) {
 		int result = 0;
@@ -170,7 +168,8 @@ public class MailServiceImpl implements MailService {
 	public int deleteMailInfo(int mailId) {
 		return mailMapper.deleteDraftMailInfo(mailId);
 	}
-
+	
+	//메일 복구
 	@Override
 	public int moveRestoreMail(MailVO mailVO) {
 		int result = 0;

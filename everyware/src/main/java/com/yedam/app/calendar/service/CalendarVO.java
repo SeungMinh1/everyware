@@ -20,4 +20,5 @@ public class CalendarVO {
 	private Integer calendarBoxId;
 	private int expressionYn;
 	private String location;
+	private String agreementYn;
 }

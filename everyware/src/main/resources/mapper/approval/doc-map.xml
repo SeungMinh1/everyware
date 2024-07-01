@@ -137,19 +137,21 @@
 	
 	<!-- 문서 등록(양식) -->
 	<select id="newTask" resultType="TaskVO">
-		SELECT approval_task
-		FROM task
-	</select>
-	
-	<select id="category" resultType="TaskVO">
-		SELECT DISTINCT category
-		FROM task
-	</select>
-	
-	<select id="task" resultType="TaskVO">
 		SELECT *
 		FROM task
 		WHERE approval_task = #{approvalTask}
+	</select>
+	
+	<select id="category" resultType="TaskVO">
+		SELECT code_id as category_id , code_name as category
+		FROM common_code
+		WHERE code_type = '0i'
+	</select>
+	
+	<select id="task" resultType="TaskVO">
+		SELECT approval_task
+		FROM task
+		WHERE category = #{category}
 	</select>
 	
 	<!-- 문서 등록 -->
@@ -186,14 +188,44 @@
 			)
 	</insert>
 	
+	<!-- 문서 등록(임시 저장) -->
+	<insert id="tempInsert" parameterType="DocVO">
+	
+	</insert>
+	
 	<!-- 문서 수정(임시 저장함) -->
 	<update id="docUpdate">
 		
 	</update>
 	
 	<!-- 문서 삭제 -->
-	<delete id="docDelete" parameterType="int">
+	<delete id="docDelete" parameterType="java.util.List">
 		DELETE FROM approval_doc
-		WHERE doc_id = #{docId}
+		WHERE doc_id IN
+		<foreach item="item" index="index" collection="list"
+				 open="(" separator="," close=")">
+			#{item, jdbcType=INTEGER}		 
+		</foreach>
 	</delete>
+	
+	<!-- 전체 부서 목록 -->
+	<select id="allDept" resultType="EmpVO">
+		SELECT code_id as department_id , code_name as department_name
+		FROM common_code
+		WHERE code_type = '0G'
+	</select>
+	
+	<!-- 부서별 사원 정보 -->
+	<select id="deptEmp" resultType="EmpVO">
+		SELECT emp_name, emp_position
+		FROM emp
+		WHERE department_id = #{departmentId}
+	</select>
+	
+	<!-- 사원 정보 -->
+	<select id="empInfo" resultType="EmpVO">
+		SELECT emp_name, emp_position, department_id
+		FROM emp
+		WHERE emp_id = #{empId}
+	</select>
 </mapper>
