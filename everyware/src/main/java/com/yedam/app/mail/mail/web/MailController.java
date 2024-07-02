@@ -24,7 +24,7 @@ public class MailController {
 	//조회 : 단건 메일함
 	@GetMapping("mailboxInfo")
 	public String mailboxInfo(MailVO mailVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId();
 		List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
 		
 		model.addAttribute("mailboxInfo", find);
@@ -43,7 +43,7 @@ public class MailController {
 	@GetMapping("mailInsert")
 	public String mailInsertForm(Model model, @AuthenticationPrincipal LoginUserVO principal) {
 		MailVO mailVO = new MailVO();
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId();
 		String email = mailService.emailSelect(empId);
 		mailVO.setSender(email);
 		model.addAttribute("mailVO", mailVO);
@@ -86,7 +86,7 @@ public class MailController {
 	public String moveTrashMail(@RequestBody List<Integer> mailIds, Model model) {
 	    Map<String, Object> result = mailService.moveTrashMail(mailIds);
 	    model.addAttribute("result", result);
-	    return "redirect:mailboxInfo?mailboxId=d1"; // 결과를 보여줄 뷰의 이름
+	    return "redirect:mailboxInfo?mailboxId=d1";
 	}
 	
 	// 수정 : 휴지통 이동 (단건)
@@ -114,22 +114,22 @@ public class MailController {
 	@PostMapping("restoreMailUpdate")
 	@ResponseBody
 	public int restoreMailUpdate(@RequestBody MailVO mailVO) {
-	    return mailService.moveRestoreMail(mailVO); // 결과를 보여줄 뷰의 이름
+	    return mailService.moveRestoreMail(mailVO);
 	}
 	
-	//조회 및 수정 - 답장 
+	//답장: mailInfo가져와서 조회
 	@GetMapping("replyMail")
 	public String replyMailForm(MailVO mailVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
 		MailVO info = mailService.mailInfo(mailVO);
-		String sender1 = info.getSender();
-		String recip = info.getRecipient();
-		info.setRecipient(sender1);
+		String sender1 = info.getSender(); //Original 보낸 사람
+		String recip = info.getRecipient();//Original 받는 사람
+		info.setRecipient(sender1); //Original 보낸사람을 받는사람에 넣기
 		
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId(); //empId로 email 조회
 		String email = mailService.emailSelect(empId);
-		info.setSender(email);
+		info.setSender(email);	//보낸사람에 로그인한 사원의 email 넣기
 		
-		model.addAttribute("sender", sender1);
+		model.addAttribute("sender", sender1); 
 		model.addAttribute("recip", recip);
 		model.addAttribute("info", info);
 		
