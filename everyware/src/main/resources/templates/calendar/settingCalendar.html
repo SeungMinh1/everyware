@@ -32,8 +32,13 @@
 			<button id="shareDelBtn" class="btn btn-del" style="width:50px;font-size:12px">삭제</button>
 			<button id="shareDeclineBtn" class="btn btn-del" style="width:50px;font-size:12px;display:none">거절</button>
 		</div>
-    	<div id="otherShare" class="row" th:fragment="otherShare">
-    	<div class="divTable col-md-8" style="margin:auto">
+		
+		<div id="otherShare" class="row" th:fragment="otherShare">
+		<div class="divTable col-md-8" style="margin:auto">
+		<div class="card card-primary">
+		<div class="card-body">
+    	
+    	
 		<table class="calTable">
 	  		<thead>
 	  			<tr>
@@ -57,13 +62,17 @@
 	  	</table>
 	  	</div>
 	</div>
+	</div>
+	</div>
 	
+	<div class="divTable col-md-8" style="margin:auto">
 	<div id="iShare" class="row" th:fragment="iShare" style="display:none">
-    	<div class="divTable col-md-8" style="margin:auto">
+    	<div class="card card-primary">
+		<div class="card-body">
 		<table class="calTable">
 	  		<thead>
 	  			<tr>
-	  				<th><input type="checkbox"></th>
+	  				<th><input id="otherShareAllCheck" type="checkbox"></th>
 	  				<th>이름</th>
 	  				<th>일정</th>
 	  				<th>상태</th>
@@ -72,7 +81,7 @@
 	  		<tbody>
 	  			<th:block th:each = "list : ${myshared}">
 	  				<tr class="calSetTr" th:data-empId="${list.empId}" th:data-calBoxId="${list.calendarBoxId}" >
-	  					<td class="calSetCheck"><input type="checkBox"  class="calSettingcheck"></td>
+	  					<td class="calSetCheck"><input type="checkBox" class="otherShareCheck"></td>
 	  					<td class="calSetEmpName">[[${list.empName}]] [[${list.empPosition}]]</td>
 	  					<td class="calSetName" > [[${list.calendarBoxName}]]</td>
 	  					<td class="calSetStatus" th:if="${list.agreementYn == 1}">공유중</td>
@@ -83,6 +92,8 @@
 	  		</tbody>
 	  	</table>
 	  	</div>
+	</div>
+	</div>
 	</div>
 	  	</section>
 
@@ -124,9 +135,6 @@
 			});
 		})
 		
-		$("#shareDelBtn").click(function(event){
-			
-		})
 		
 		//상위체크박스1
 		$("#shareAllCheck").click(function(event){
@@ -149,15 +157,77 @@
 			}
 		})
 		
+		//상위체크박스2
+		$("#otherShareAllCheck").click(function(event){
+			if($("#otherShareAllCheck").is(":checked")){
+				$(".otherShareCheck").prop("checked", true);
+			}else{
+				$(".otherShareCheck").prop("checked", false);
+			}
+		})
+		
+		//하위체크박스2
+		$(".otherShareCheck").click(function(event){
+			var total = $(".otherShareCheck").length;
+			var checked = $("input[class=otherShareCheck]:checked").length
+			
+			if(total != checked){
+				$("#otherShareAllCheck").prop("checked", false);
+			}else{
+				$("#otherShareAllCheck").prop("checked", true);
+			}
+		})
+		
 		//삭제버튼
 		$("#shareDelBtn").click(function(){
 			let shareBoxLength = $("input[class=shareCheck]").length;
 			let shareBoxList = new Array();
 			for(let i = 0 ; i < shareBoxLength ; i++ ){
 				if($('.shareCheck:eq('+i+')').is(':checked')){
-					
+					shareBoxList.push({
+						"calendarBoxId" : $('.shareCheck:eq('+i+')').closest('tr').attr('data-calBoxId')
+					})
 				}
 			}
+			$.ajax({
+				url: '/deleteShare',
+				type: 'POST',
+				contentType :'application/json',
+				data: JSON.stringify(shareBoxList)
+				
+		})
+		.done(function(res){
+			console.log(res)
+			$('#otherShare').replaceWith(res);
+		})
+			
+		})
+		
+		//거절버튼
+		$("#shareDeclineBtn").click(function(){
+			let shareBoxLength = $("input[class=otherShareCheck]").length;
+			let shareBoxList = new Array();
+			for(let i = 0 ; i < shareBoxLength ; i++ ){
+				if($('.otherShareCheck:eq('+i+')').is(':checked')){
+					shareBoxList.push({
+						"calendarBoxId" : $('.otherShareCheck:eq('+i+')').closest('tr').attr('data-calBoxId'),
+						"empId" : $('.otherShareCheck:eq('+i+')').closest('tr').attr('data-empId')
+					})
+				}
+			}
+			console.log(shareBoxList)
+			 $.ajax({
+				url: '/deleteShare',
+				type: 'POST',
+				contentType :'application/json',
+				data: JSON.stringify(shareBoxList)
+				
+		})
+		.done(function(res){
+			console.log(res)
+			$('#iShare').replaceWith(res);
+		})  
+			
 		})
 	</script>
 </body>

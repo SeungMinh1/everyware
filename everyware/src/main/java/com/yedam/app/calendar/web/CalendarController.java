@@ -224,5 +224,40 @@ public class CalendarController {
 		return "calendar/settingCalendar :: iShare";
 	}
 	
+	//관심일정 삭제
+	@PostMapping("deleteShare")
+	public String deleteShareProcess(@RequestBody List<CalendarBoxVO> list, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		int empId = principal.getuserVO().getEmpId();
+		CalendarBoxVO cBox = new CalendarBoxVO();
+		
+		for (CalendarBoxVO c : list) {
+			c.setEmpId(empId);
+			calendarService.deleteApproveShare(c);
+		}
+		
+		cBox.setEmpId(empId);
+		List<CalendarBoxVO> slist = calendarService.sharedCalBoxList(cBox);
+		model.addAttribute("sharedList", slist);
+		
+		return "calendar/settingCalendar :: otherShare";
+	}
+	
+	//공유신청 거절
+		@PostMapping("declineShare")
+		public String declineShareProcess(@RequestBody List<CalendarBoxVO> list, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+			int empId = principal.getuserVO().getEmpId();
+			CalendarBoxVO cBox = new CalendarBoxVO();
+			
+			for (CalendarBoxVO c : list) {
+				calendarService.deleteApproveShare(c);
+			}
+			
+			cBox.setEmpId(empId);
+			List<CalendarBoxVO> shlist = calendarService.selectMySahred(cBox);
+			model.addAttribute("myshared", shlist);
+			
+			return "calendar/settingCalendar :: iShare";
+		}
+	
 	
 }

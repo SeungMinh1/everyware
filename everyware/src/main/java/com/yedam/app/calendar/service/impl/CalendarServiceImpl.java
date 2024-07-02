@@ -150,6 +150,12 @@ public class CalendarServiceImpl implements CalendarService{
 		int result = calendarMapper.updateApproveShare(calendarBoxVO);
 		return result;
 	}
+
+	@Override
+	public int deleteApproveShare(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.deleteApproveShare(calendarBoxVO);
+		return result;
+	}
 	
 	
 	

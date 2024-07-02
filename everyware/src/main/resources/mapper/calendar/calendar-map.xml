@@ -210,10 +210,11 @@
 	</update>
 	
 	<!-- 관심일정 삭제 -->
-	<delete id="deleteShare" parameterType="CalendarBoxVO">
+	<delete id="deleteApproveShare" parameterType="CalendarBoxVO">
 		DELETE shared_cal
 		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = #{empId}
 	</delete>
+	
 </mapper>
 	
 

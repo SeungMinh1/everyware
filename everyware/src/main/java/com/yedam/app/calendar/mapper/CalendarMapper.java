@@ -57,6 +57,9 @@ public interface CalendarMapper {
 	//공유신청 수락
 	public int updateApproveShare(CalendarBoxVO calendarBoxVO);
 	
+	//관심일정 삭제
+	public int deleteApproveShare(CalendarBoxVO calendarBoxVO);
+	
 	
 	
 }
