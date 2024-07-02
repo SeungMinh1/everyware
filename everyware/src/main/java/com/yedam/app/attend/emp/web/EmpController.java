@@ -33,8 +33,8 @@ public class EmpController {
 		int allCount = empService.cntList();
 		PageDTO pg = new PageDTO(page, allCount, cnt);
 
-		String aa = principal.getuserVO().getAccountId();
-		int bb = principal.getuserVO().getEmpId();
+		String aa = principal.getUserVO().getAccountId();
+		int bb = principal.getUserVO().getEmpId();
 		
 		List<EmpVO> list = empService.empList(page, cnt, dosearch);
 		model.addAttribute("empList", list);
