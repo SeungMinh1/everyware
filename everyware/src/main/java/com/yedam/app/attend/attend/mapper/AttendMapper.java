@@ -16,9 +16,11 @@ public interface AttendMapper {
 	
 	//조회
 	public List<AttendVO> selectAttendList(AttendVO attendVO);
+	
 	//단건조회
 	public AttendVO selectAttend(AttendVO attendVO);
-	//개수조회
+	
+	//근무기록조회(개수)
 	public int countAttend(AttendVO attendV);
 	
 	//근무시간

@@ -44,17 +44,17 @@ public class AttendServiceImpl implements AttendService {
 		return attendMapper.countAttend(attendV);
 	}
 	@Override
-	public AttendVO countWorkTime(AttendVO attendVO) {
+	public AttendVO countWorkTime(AttendVO attendVO) { //누적근무시간
 		AttendVO result = new AttendVO();
 		
 		//이번주
 		int week = 0; 
 		int totalWork = 0;
 		int totalExtraWork = 0;
-		List<AttendVO> list1 = attendMapper.countWorkTime(attendVO, week);
+		List<AttendVO> list1 = attendMapper.countWorkTime(attendVO, week); //이번주 근무기록
 		for(int i=0; i< list1.size(); i++) {
-			totalWork += list1.get(i).getWorkTime();
-			totalExtraWork += list1.get(i).getExceedWorkTime();
+			totalWork += list1.get(i).getWorkTime(); //이번주 누적 근무기록
+			totalExtraWork += list1.get(i).getExceedWorkTime(); //이번주 누적 초과근무기록
 		}
 		result.setExtrawork1(totalExtraWork);
 		result.setTotalwork1(totalWork);
@@ -63,10 +63,10 @@ public class AttendServiceImpl implements AttendService {
 		week =7;
 		totalWork = 0;
 		totalExtraWork = 0;
-		List<AttendVO> list2 = attendMapper.countWorkTime(attendVO, week);
+		List<AttendVO> list2 = attendMapper.countWorkTime(attendVO, week); //저번주 근무기록
 		for(int i=0; i< list2.size(); i++) {
-			totalWork += list2.get(i).getWorkTime();
-			totalExtraWork += list2.get(i).getExceedWorkTime();
+			totalWork += list2.get(i).getWorkTime(); //저번주 누적 근무기록
+			totalExtraWork += list2.get(i).getExceedWorkTime(); //저번주 누적 초과근무기록
 		}
 		result.setExtrawork2(totalExtraWork);
 		result.setTotalwork2(totalWork);
