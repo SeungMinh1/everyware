@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.approval.service.DocService;
+import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.security.service.LoginUserVO;
 import com.yedam.app.calendar.service.CalendarBoxVO;
 import com.yedam.app.calendar.service.CalendarService;
@@ -25,6 +27,8 @@ public class CalendarController {
 	@Autowired
 	CalendarService calendarService;
 	
+	@Autowired
+	DocService docService;
 	//캘린더 출력
 	@GetMapping("calendar")
 	public String goCalendar(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
@@ -34,12 +38,13 @@ public class CalendarController {
 		calendarBoxVO.setEmpId(empId);
 		cvo.setEmpId(empId);
 		 
-		
+		List<EmpVO> list = docService.allDept();
 		
 		
 		List<CalendarBoxVO> blist = calendarService.calboxList(cvo);
 		List<CalendarVO> clist = calendarService.calList(calendarBoxVO);
 		List<CalendarBoxVO> slist = calendarService.sharedCalBoxList(calendarBoxVO);
+		model.addAttribute("empList", list);
 		model.addAttribute("boxList", blist);
 		model.addAttribute("boxLength", blist.size());
 		model.addAttribute("calList", clist);

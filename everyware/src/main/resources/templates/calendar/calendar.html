@@ -9,6 +9,8 @@
   <!-- fullCalendar -->
   <link rel="stylesheet" href="../plugins/fullcalendar/main.css">
   <link rel="stylesheet" href="../css/calendar.css">
+  <link rel="stylesheet" href="../css/modal.css">
+  <link rel="stylesheet" href="css/org.css">
 <!--   <link rel="stylesheet" href="" -->
   <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
 
@@ -42,7 +44,61 @@
   	</div>
   </div>
   
-
+  <!-- 일정공유 신청 모달 -->
+<div id="shareModal" class="modal" style="display:block;z-index:1111111">
+	<div class="modal-body">
+		<div class="modal-header">
+			<h3>일정목록</h3>
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<div class="modal-box">
+				<div class="org">
+					<ul id="myUL">
+						<li th:each="deptList : ${empList}">
+							<span class="caret" th:data-dept="${deptList.departmentId}">
+							[[ ${deptList.departmentName} ]]
+							</span>
+							<ul class="nested">
+								<li th:each="empList : ${deptList.empInfo}">
+									<a th:data-empId="${empList.empId}">
+										[[ ${empList.empName} ]] [[ ${empList.empPosition} ]]
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>		
+				</div>
+				<div class="approvalLine">
+					<table>
+						<thead>
+							<tr>
+								<th>타입</th>
+								<th>이름</th>
+								<th>부서</th>
+								<th>상태</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="emp : ${empInfo}">
+								<td>기안</td>
+								<td>[[ ${emp.empName} ]]</td>
+								<td>[[ ${emp.departmentId} ]]</td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-button">
+				<button type="button" class="btn" id="saveInfo">확인</button>
+				<button type="button" class="btn" id="cccclose">닫기</button>	
+			</div>
+		</div>
+	</div>
+</div>
 
 
   <!-- Content Wrapper. Contains page content -->
@@ -157,6 +213,9 @@
 						</table>
                     </div>
                   </div>
+                  <div  style="margin-top:40px;color:grey">
+                    	<h5 id="makeCalBoxBtn" style="font-size:small;"><i class="fa-solid fa-plus"></i> 내 일정목록 추가</h5>
+                    </div>
                 </div>
               </div>
               <!-- 공유받은 일정 카드 끝 -->
@@ -626,8 +685,12 @@
 		});
 	})
 	
-	
+	//공유신청 x버튼
+	$(".close").click(function(){
+		$("#shareModal").css('display','none');
+	})
 	
 </script>
+<script src="../js/approval/org.js"></script>
 </body>
 </html>
