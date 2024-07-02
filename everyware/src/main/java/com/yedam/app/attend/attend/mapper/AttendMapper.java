@@ -25,4 +25,8 @@ public interface AttendMapper {
 	
 	//근무시간
 	public List<AttendVO> countWorkTime(AttendVO attendVO, int week);
+	
+	//날짜로 근무정보조회
+	public AttendVO dateAttend(AttendVO attendVO);
+	
 }
