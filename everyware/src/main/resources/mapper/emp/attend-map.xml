@@ -116,6 +116,7 @@
 			, go_time
 			, to_char(go_time, 'hh24:mm:ss') go_time2
             , to_char(leave_time, 'hh24:mm:ss') leave_time2
+            , work_time
 			, exceed_work_time
 			, out_yn
 			, emp_id

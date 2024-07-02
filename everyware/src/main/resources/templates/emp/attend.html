@@ -30,14 +30,16 @@
 	  border-radius: 25px;
 	  margin-top: 36px;
 	  float: left;
-	  width: 42%;
-	  padding: 46px 0 26px;
-	  background: #c98cc9;
+	  width: 40%;
+	  padding: 20px 0 15px;
+	  background: #ff8585;
 	}
 	.my-calendar .calendar-box {
 	  float: right;
 	  width: 58%;
-	  padding-left: 30px;
+	  padding-left: 5 px;
+	  margin-left:5px;
+	  background : white;
 	}
 	
 	.clicked-date .cal-day {
@@ -51,6 +53,7 @@
 	  padding: 0 16px;
 	  margin-bottom: 20px;
 	  font-size: 20px;
+	  background : skyblue;
 	}
 	.ctr-box .btn-cal {
 	  position: relative;
@@ -348,8 +351,27 @@
                           <div class="container">
 							  <div class="my-calendar clearfix">
 							    <div class="clicked-date">
-							      <div class="cal-day" id="time1"></div>
-							      <div class="cal-date" id="time2"></div>
+							    
+							      <div class="cal-day" >
+							      	<table class="table">
+							      		<tr>
+							      			<th>출근시간</th>
+							      			<td id="time1"></td>
+							      		</tr>
+							      		<tr>
+							      			<th>퇴근시간</th>
+							      			<td id="time2"></td>
+							      		</tr>
+							      		<tr>
+							      			<th>근무시간</th>
+							      			<td id="time3"></td>
+							      		</tr>
+							      		
+							      	</table>
+							      </div>
+							      
+							      <div class="cal-date" ></div>
+							      
 							    </div>
 							    <div class="calendar-box">
 							      <div class="ctr-box clearfix">
@@ -1025,8 +1047,18 @@
 			})
 			.done(function(result){
 				console.log(result);
-				$("#time2").append("<span>'출근시간' : " + result.goTime2 +"</span>"
-						 + "<br><span>'퇴근시간' : " + result.leaveTime2 +"</span>");
+				if(result == null || result == ''){
+					document.getElementById('time1').innerHTML = 0;
+					document.getElementById('time2').innerHTML = 0;
+					document.getElementById('time3').innerHTML = 0;
+					
+				}else{
+					document.getElementById('time1').innerHTML = result.goTime2;
+					document.getElementById('time2').innerHTML = result.leaveTime2;
+					document.getElementById('time3').innerHTML = result.workTime + '분';
+				}
+				//$("#time1").innerText = result.goTime2 ;
+				//$("#time2").innerHTML = result.leaveTime2;
 				
 			})
 			.fail(function(result){
