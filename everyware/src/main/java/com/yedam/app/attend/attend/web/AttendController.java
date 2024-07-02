@@ -18,6 +18,11 @@ import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.security.service.LoginUserVO;
 
+/**
+ * 사원들의 출, 퇴근 등 근태르 관리하는 컨트롤러
+ * @author admin
+ */
+
 
 @Controller
 public class AttendController {
@@ -72,6 +77,7 @@ public class AttendController {
 	}
 	
 	
+	
 	@PostMapping("findattend")
 	@ResponseBody
 	public AttendVO findToday( @AuthenticationPrincipal LoginUserVO principal) {
@@ -81,5 +87,18 @@ public class AttendController {
 		return attendService.selectAttend(attendVO);
 	}
 	
-
+	
+	//
+	@PostMapping("dateAttend")
+	@ResponseBody
+	public AttendVO findDateAttend(AttendVO attendVO, @AuthenticationPrincipal LoginUserVO principal) {
+		int empId = principal.getUserVO().getEmpId();
+		attendVO.setEmpId(empId);
+		return attendService.selectDateAttend(attendVO);
+	}
+	
+	
+	
+	
+	
 }
