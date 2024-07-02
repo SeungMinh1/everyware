@@ -73,5 +73,9 @@ public class AttendServiceImpl implements AttendService {
 		
 		return result;
 	}
+	@Override
+	public AttendVO selectDateAttend(AttendVO attendVO) {
+		return attendMapper.dateAttend(attendVO);
+	}
 
 }
