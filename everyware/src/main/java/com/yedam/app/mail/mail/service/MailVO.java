@@ -22,13 +22,13 @@ public class MailVO {
 	
 	private String restore;		   //복구메일함이름
 	
-	private String recipient;        //받는사람
-	private List<String> recipList;  //받는사람들    
-	private int receiveStatus;       //수신상태
+	private String recipient;       //받는사람
+	private List<String> recipList; //받는사람들    
+	private int receiveStatus;      //수신상태
 	
-	private String cc;			 //참조자	
-	private List<String> ccList; //참조자들
+	private String cc;			    //참조자	
+	private List<String> ccList;    //참조자들
 	
-	private List<Integer> mailIdList;
+	private List<Integer> mailIdList; //메일번호 리스트
 	
 }
