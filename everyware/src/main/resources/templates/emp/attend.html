@@ -348,8 +348,8 @@
                           <div class="container">
 							  <div class="my-calendar clearfix">
 							    <div class="clicked-date">
-							      <div class="cal-day"></div>
-							      <div class="cal-date"></div>
+							      <div class="cal-day" id="time1"></div>
+							      <div class="cal-date" id="time2"></div>
 							    </div>
 							    <div class="calendar-box">
 							      <div class="ctr-box clearfix">
@@ -914,10 +914,13 @@
 	* @param {number} date
 	* @param {number} dayIn
 	*/
-	function loadDate (date, dayIn) {  // 수정하면될듯 출근 퇴근 시간으로
-		document.querySelector('.cal-date').textContent = date;
-		document.querySelector('.cal-day').textContent = init.dayList[dayIn];
-	}
+	
+	
+	//function loadDate (date, dayIn) {  // 수정하면될듯 출근 퇴근 시간으로
+		//document.querySelector('.cal-date').textContent = date;
+		//document.querySelector('.cal-day').textContent = init.dayList[dayIn];
+	//}
+	
 	
 	/**
 	* @param {date} fullDate
@@ -989,7 +992,7 @@
 	
 	
 	loadYYMM(init.today);
-	loadDate(init.today.getDate(), init.today.getDay());
+	//loadDate(init.today.getDate(), init.today.getDay());
 	
 	$btnNext.addEventListener('click', () => loadYYMM(init.nextMonth()));
 	$btnPrev.addEventListener('click', () => loadYYMM(init.prevMonth()));
@@ -1000,18 +1003,18 @@
 	   			init.activeDTag.classList.remove('day-active');
 		 }
 		 let day = Number(e.target.textContent);
-		 loadDate(day, e.target.cellIndex);
+		 //loadDate(day, e.target.cellIndex);
 		 e.target.classList.add('day-active');
 		 init.activeDTag = e.target;
 		 init.activeDate.setDate(day);
 		 
  		let datemonth = ('0' + (init.activeDate.getMonth() + 1)).slice(-2);
 		let dateday = ('0' + day).slice(-2); 
-		let fulldate = init.activeDate.getFullYear()+'-'+datemonth+'-'+dateday;
-		console.log(new Date(fulldate));
+		let fulldate = init.activeDate.getFullYear()+datemonth+dateday;
+		console.log(fulldate);
 		
 			datedata = {             
-				goTime : fulldate
+				goTime2 : fulldate
 	    	};
 	    	
 			$.ajax({
@@ -1021,12 +1024,9 @@
 			data : JSON.stringify(datedata)
 			})
 			.done(function(result){
-				if(result != null){
-					console.log(result);
-				}else{
-					console.log(0);
-				}
-				
+				console.log(result);
+				$("#time2").append("<span>'출근시간' : " + result.goTime2 +"</span>"
+						 + "<br><span>'퇴근시간' : " + result.leaveTime2 +"</span>");
 				
 			})
 			.fail(function(result){

@@ -114,13 +114,13 @@
 		SELECT attend_id
 			, find_codename(attend_type) attendType
 			, go_time
-			, leave_time
-			, work_time
+			, to_char(go_time, 'hh24:mm:ss') go_time2
+            , to_char(leave_time, 'hh24:mm:ss') leave_time2
 			, exceed_work_time
 			, out_yn
 			, emp_id
 		FROM attend 
-		WHERE emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like #{goTime}
+		WHERE emp_id = #{empId}and to_char(go_time, 'yyyymmdd') like #{goTime2}
  	
  	</select>
 

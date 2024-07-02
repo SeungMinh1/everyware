@@ -1,7 +1,9 @@
 package com.yedam.app.attend.attend.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -91,9 +93,10 @@ public class AttendController {
 	//
 	@PostMapping("dateAttend")
 	@ResponseBody
-	public AttendVO findDateAttend(AttendVO attendVO, @AuthenticationPrincipal LoginUserVO principal) {
+	public AttendVO findDateAttend(@RequestBody AttendVO attendVO, @AuthenticationPrincipal LoginUserVO principal) throws ParseException {
 		int empId = principal.getUserVO().getEmpId();
 		attendVO.setEmpId(empId);
+	
 		return attendService.selectDateAttend(attendVO);
 	}
 	
