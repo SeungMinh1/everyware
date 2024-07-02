@@ -61,7 +61,7 @@
 							</span>
 							<ul class="nested">
 								<li th:each="empList : ${deptList.empInfo}">
-									<a th:data-empId="${empList.empId}">
+									<a class="shareEmpId" th:data-empId="${empList.empId}">
 										[[ ${empList.empName} ]] [[ ${empList.empPosition} ]]
 									</a>
 								</li>
@@ -69,32 +69,22 @@
 						</li>
 					</ul>		
 				</div>
-				<div class="approvalLine">
+				<div>
 					<table>
 						<thead>
 							<tr>
-								<th>타입</th>
-								<th>이름</th>
-								<th>부서</th>
-								<th>상태</th>
-								<th>삭제</th>
+								<th>일정</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="emp : ${empInfo}">
-								<td>기안</td>
-								<td>[[ ${emp.empName} ]]</td>
-								<td>[[ ${emp.departmentId} ]]</td>
-								<td></td>
-								<td></td>
-							</tr>
+							<th:block th:fragment="" th:each = "box : ${boxList}">
+								<tr>
+									<td></td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 				</div>
-			</div>
-			<div class="modal-button">
-				<button type="button" class="btn" id="saveInfo">확인</button>
-				<button type="button" class="btn" id="cccclose">닫기</button>	
 			</div>
 		</div>
 	</div>
@@ -191,7 +181,7 @@
               <!-- 공유받은 일정 -->
               <div class="card">
                 <div class="card-header">
-                  <p style="font-size:small;" class="card-title">공유받은 일정목록 </p><a href="/setCalendar"><i class="fa-solid fa-pencil"></i></a>
+                  <p style="font-size:small;" class="card-title">관심 일정목록 </p><a href="/setCalendar"><i class="fa-solid fa-pencil"></i></a>
                 </div>
                 <div class="card-body" style="position:relative">
                   <!-- the events -->
@@ -214,7 +204,7 @@
                     </div>
                   </div>
                   <div  style="margin-top:40px;color:grey">
-                    	<h5 id="makeCalBoxBtn" style="font-size:small;"><i class="fa-solid fa-plus"></i> 내 일정목록 추가</h5>
+                    	<h5 id="shareModalBtn" style="font-size:small;"><i class="fa-solid fa-plus"></i> 관심 일정 추가</h5>
                     </div>
                 </div>
               </div>
@@ -688,6 +678,26 @@
 	//공유신청 x버튼
 	$(".close").click(function(){
 		$("#shareModal").css('display','none');
+	})
+	
+	//관심일정 추가 버튼
+	$("#shareModalBtn").click(function(){
+		$("#shareModal").css('display','block');
+	})
+	
+	//관심일정 사원클릭 이벤트
+	$(".shareEmpId").click(function(event){
+		console.log($(this).attr("data-empId"));
+		$.ajax({
+			url: '/updateCalBox',
+			type: 'POST',
+			contentType :'application/json',
+			data: JSON.stringify(calBoxList)
+			
+	})
+	.done(function(res){
+		$('#calBoxFrg').replaceWith(res);
+	});
 	})
 	
 </script>

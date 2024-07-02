@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -128,9 +130,12 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public int updateCalBox(CalendarBoxVO calendarBoxVO) {
-		int result = calendarMapper.updateCalBox(calendarBoxVO);
-		return result;
+	@Transactional //에러시 전부 롤백
+	public int updateCalBox(List<CalendarBoxVO> list) {
+		int result = 0;
+		list.forEach(cal -> calendarMapper.updateCalBox(cal));	
+		
+		return 1;
 	}
 
 	@Override

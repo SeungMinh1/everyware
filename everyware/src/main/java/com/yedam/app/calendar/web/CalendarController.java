@@ -19,8 +19,15 @@ import com.yedam.app.attend.security.service.LoginUserVO;
 import com.yedam.app.calendar.service.CalendarBoxVO;
 import com.yedam.app.calendar.service.CalendarService;
 import com.yedam.app.calendar.service.CalendarVO;
+import com.yedam.app.common.util.AuthUtil;
 
-
+/**
+ *  일정 조회, 등록, 공유, 수정, 삭제 처리하는 컨트롤러 클래스
+ *  @author 송재현
+ *  @since 240620
+ *  @version 1.0
+ *  @see
+ */
 @Controller
 public class CalendarController {
 	
@@ -31,12 +38,13 @@ public class CalendarController {
 	DocService docService;
 	//캘린더 출력
 	@GetMapping("calendar")
-	public String goCalendar(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+	public String goCalendar(CalendarBoxVO calendarBoxVO, Model model) {
 		CalendarVO cvo = new CalendarVO();
 		
-		int empId = principal.getuserVO().getEmpId();
+		Integer empId = AuthUtil.getEmpId();
 		calendarBoxVO.setEmpId(empId);
 		cvo.setEmpId(empId);
+		System.out.println(empId);
 		 
 		List<EmpVO> list = docService.allDept();
 		
@@ -57,7 +65,7 @@ public class CalendarController {
 	public String goSetCalendar(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal ) {
 		CalendarVO cvo = new CalendarVO();
 		
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId();
 		calendarBoxVO.setEmpId(empId);
 		cvo.setEmpId(empId);
 		
@@ -73,10 +81,11 @@ public class CalendarController {
 		return "calendar/settingCalendar";
 	}
 	
+	
 	@PostMapping("calendar")
 	@ResponseBody
 	public List<CalendarVO> calInfo(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId();
 		calendarBoxVO.setEmpId(empId);
 		
 		List<CalendarVO> clist = calendarService.calList(calendarBoxVO);
@@ -125,11 +134,11 @@ public class CalendarController {
 	//일정 등록
 	@PostMapping("insertCal")
 	@ResponseBody
-	public String insertCalProcess(CalendarVO caledarVO) {
+	public int insertCalProcess(CalendarVO caledarVO) {
 		int result = calendarService.insertCal(caledarVO);
 		
 		
-		return "redirect:calendar";
+		return result;
 	}
 	
 	//일정 상세페이지 이동
@@ -158,23 +167,33 @@ public class CalendarController {
 	
 	@PostMapping("calInfo")
 	@ResponseBody
-	public String updateCalProcess(CalendarVO calendarVO) {
+	public Map<String, Object> updateCalProcess(CalendarVO calendarVO) {
 		
-		calendarService.updateCal(calendarVO);
-		return "redirect:calendar";
+		return  calendarService.updateCal(calendarVO);
+		 
 	}
 	
 	//일정목록 추가
 	@PostMapping("insertCalBox")
 	
-	public String inertCalBoxProcess(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
-		CalendarVO cvo = new CalendarVO();
+	public String inertCalBoxProcess(CalendarBoxVO calendarBoxVO, 
+			                         Model model, 
+			                         @AuthenticationPrincipal LoginUserVO principal) {
 
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId();
 		calendarBoxVO.setEmpId(empId);
 		calendarService.insertCalBox(calendarBoxVO);
 		
 		
+		return "forward:/calBox";
+	}
+	
+	
+	@PostMapping("calBox")
+	public String calBoxList(Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		int empId = principal.getUserVO().getEmpId();
+		
+		CalendarVO cvo = new CalendarVO();
 		cvo.setEmpId(empId);
 		List<CalendarBoxVO> blist = calendarService.calboxList(cvo);
 		model.addAttribute("boxList", blist);
@@ -186,32 +205,25 @@ public class CalendarController {
 	@PostMapping("updateCalBox")
 	
 	public String updateCalBoxProcess(@RequestBody List<CalendarBoxVO> list , Model model, @AuthenticationPrincipal LoginUserVO principal) {
-		CalendarVO cvo = new CalendarVO();
-		int empId = principal.getuserVO().getEmpId();
 		
-		list.forEach(cal -> calendarService.updateCalBox(cal));;	
 		
-		cvo.setEmpId(empId);
-		List<CalendarBoxVO> blist = calendarService.calboxList(cvo);
-		model.addAttribute("boxList", blist);
 		
-		return "calendar/calendar :: calBox";
+		calendarService.updateCalBox(list);
+		
+		
+		
+		return "forward:/calBox";
 	}
 	
 	//일정목록 삭제
 	@PostMapping("deleteCalBox")
 	public String deleteCalBoxProcess(@RequestBody List<CalendarBoxVO> list, Model model, @AuthenticationPrincipal LoginUserVO principal) {
-		CalendarVO cvo = new CalendarVO();
-		int empId = principal.getuserVO().getEmpId();
+		
+		int empId = principal.getUserVO().getEmpId();
 		
 		list.forEach(cal -> calendarService.deleteCalBox(cal));
 		
-		cvo.setEmpId(empId);
-		List<CalendarBoxVO> blist = calendarService.calboxList(cvo);
-		model.addAttribute("boxList", blist);
-		
-		
-		return "calendar/calendar :: calBox";
+		return "forward:/calBox";
 	
 	}
 	
@@ -220,7 +232,7 @@ public class CalendarController {
 	public String approveShareProcess(CalendarBoxVO calendarBoxVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
 		calendarService.updateApproveShare(calendarBoxVO);
 		
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId();
 		calendarBoxVO.setEmpId(empId);
 		
 		List<CalendarBoxVO> shlist = calendarService.selectMySahred(calendarBoxVO);
@@ -232,7 +244,7 @@ public class CalendarController {
 	//관심일정 삭제
 	@PostMapping("deleteShare")
 	public String deleteShareProcess(@RequestBody List<CalendarBoxVO> list, Model model, @AuthenticationPrincipal LoginUserVO principal) {
-		int empId = principal.getuserVO().getEmpId();
+		int empId = principal.getUserVO().getEmpId();
 		CalendarBoxVO cBox = new CalendarBoxVO();
 		
 		for (CalendarBoxVO c : list) {
@@ -249,19 +261,28 @@ public class CalendarController {
 	
 	//공유신청 거절
 		@PostMapping("declineShare")
-		public String declineShareProcess(@RequestBody List<CalendarBoxVO> list, Model model, @AuthenticationPrincipal LoginUserVO principal) {
-			int empId = principal.getuserVO().getEmpId();
+		public String declineShareProcess(@RequestBody List<CalendarBoxVO> list, Model model) {
+			
 			CalendarBoxVO cBox = new CalendarBoxVO();
 			
 			for (CalendarBoxVO c : list) {
 				calendarService.deleteApproveShare(c);
 			}
 			
-			cBox.setEmpId(empId);
+			cBox.setEmpId(AuthUtil.getEmpId());
 			List<CalendarBoxVO> shlist = calendarService.selectMySahred(cBox);
 			model.addAttribute("myshared", shlist);
 			
 			return "calendar/settingCalendar :: iShare";
+		}
+	
+	//공유신청
+		@PostMapping("applyShare")
+		public String applyShareProcess(CalendarBoxVO calendarBoxVO, Model model) {
+			
+			AuthUtil.getEmpId();
+			
+			return "calendar/calendar :: ";
 		}
 	
 	

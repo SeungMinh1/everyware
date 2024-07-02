@@ -10,11 +10,11 @@
 				, content
 				, emp_id
 				, calendar_box_id
-				, calendar_color(calendar_box_id) "color"
-				, calendar_yn(calendar_box_id) "expressionYn"
+				, calendar_color(calendar_box_id) color
+				, calendar_yn(calendar_box_id) expression_yn
 				, location
 		FROM calendar
-		WHERE emp_id = 100
+		WHERE emp_id = #{empId}
 		ORDER BY calendar_id
 	</select>
 	
@@ -43,7 +43,7 @@
 				, expression_yn
 				, public_yn
 		FROM calendar_box
-		WHERE emp_id = 100
+		WHERE emp_id = #{empId}
 		ORDER BY calendar_box_id
 	</select>
 	
@@ -66,8 +66,9 @@
 	<!-- 공유받은 캘린더 출력 여부 -->
 	<update id ="updateSharedCalExpress" parameterType="CalendarBoxVO">
         UPDATE shared_cal
-		SET expression_yn = #{expressionYn}
-		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = 100
+		   SET expression_yn = #{expressionYn}
+		 WHERE calendar_box_id = #{calendarBoxId} 
+		   AND emp_id = #{empId}
 	</update>
 	
 	<!-- 공유받은 일정리스트 조회 -->
@@ -75,13 +76,14 @@
 		SELECT b.calendar_box_id 
 		        , b.calendar_box_name 
 		        , EMP_ID_NAME(b.emp_id) "emp_name"
-		        , s.color, agreement_yn
+		        , s.color
+		        , agreement_yn
 		        , s.expression_yn
 		        , FIND_CODENAME(emp_id_position(b.emp_id)) "emp_position"
 		FROM calendar_box b
 		    JOIN shared_cal s
 		    ON b.calendar_box_id = s.calendar_box_id
-		WHERE s.emp_id = 100
+		WHERE s.emp_id = #{empId}
 	</select>
 	
 	<!-- 공유받은 일정 조회 -->
@@ -96,17 +98,17 @@
                 , s.color
                 , s.expression_yn
                 , s.agreement_yn
-        FROM calendar c
-            JOIN shared_cal s
-            ON c.calendar_box_id = s.calendar_box_id
-        WHERE s.emp_id = #{empId}
+         FROM calendar c
+         JOIN shared_cal s
+           ON ( c.calendar_box_id = s.calendar_box_id AND s.emp_id = #{empId} )
 	</select>
 	
 	<!-- 공유받은 일정 색 변경 -->
 	<update id = "updateSharedCalColor" parameterType="CalendarBoxVO">
 		UPDATE shared_cal
-		SET color = #{color}
-		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = 100
+		   SET color = #{color}
+		 WHERE calendar_box_id = #{calendarBoxId} 
+		   AND emp_id = #{empId}
 	</update>
 	
 	<!-- 일정 등록 -->
