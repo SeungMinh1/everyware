@@ -1,5 +1,8 @@
 package com.yedam.app.attend.attend.web;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -35,8 +38,20 @@ public class AttendController {
 		
 		AttendVO attendVO = new AttendVO();
 		attendVO.setEmpId(empId);
-		//List<AttendVO> list = attendService.selectAttendAll(attendVO);
-		//model.addAttribute("attnedList", list);
+		if(attendService.countAttend(attendVO) != 0) {
+			AttendVO att = attendService.selectAttend(attendVO);
+			model.addAttribute("att", att);
+			AttendVO totalTime =  attendService.countWorkTime(att);
+
+			model.addAttribute("totalTime", totalTime);
+			//model.addAttribute("totalWork", totalWork);
+			//model.addAttribute("totalExtraWork", totalExtraWork);
+		};
+		
+		
+		//List<AttendVO> lastWeekTime =  attendService.countWorkTime(attendVO, 7);
+		
+		//model.addAttribute("thisweek", thisWeekTime);
 		
 		return "emp/attend";
 	}
@@ -56,10 +71,11 @@ public class AttendController {
 	public int endWork(@RequestBody AttendVO attendVO2,  @AuthenticationPrincipal LoginUserVO principal) {
 		String state = attendVO2.getAttendType();
 		int empId = principal.getuserVO().getEmpId();
+		Date leaveTime = attendVO2.getLeaveTime();
 		attendVO2.setEmpId(empId);
 		AttendVO findatt = attendService.selectAttend(attendVO2);
 		findatt.setAttendType(state);
-		
+		findatt.setLeaveTime(leaveTime);
 		return attendService.endwork(findatt);
 	}
 	

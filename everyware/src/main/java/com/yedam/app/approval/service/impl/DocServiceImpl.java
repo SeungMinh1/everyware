@@ -118,7 +118,10 @@ public class DocServiceImpl implements DocService {
 
 	@Override
 	public int tempInsert(DocVO docVO) {
-		return docMapper.tempInsert(docVO);
+		int result = 0;
+		
+		result = docMapper.tempInsert(docVO);
+		return result;
 	}
 
 	@Override

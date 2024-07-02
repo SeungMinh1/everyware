@@ -20,6 +20,12 @@ public class AttendServiceImpl implements AttendService {
 	}
 	@Override
 	public int endwork(AttendVO attendVO) {
+		if(attendVO.getWorkTime() < 9*60) {
+			attendVO.setExceedWorkTime(0);
+		}else {
+			int extratime = attendVO.getWorkTime() - 9*60;
+			attendVO.setExceedWorkTime(extratime);
+		}
 		return attendMapper.endwork(attendVO);
 	}
 
@@ -32,6 +38,40 @@ public class AttendServiceImpl implements AttendService {
 	@Override
 	public AttendVO selectAttend(AttendVO attendVO) {
 		return attendMapper.selectAttend(attendVO);
+	}
+	@Override
+	public int countAttend(AttendVO attendV) {
+		return attendMapper.countAttend(attendV);
+	}
+	@Override
+	public AttendVO countWorkTime(AttendVO attendVO) {
+		AttendVO result = new AttendVO();
+		
+		//이번주
+		int week = 0; 
+		int totalWork = 0;
+		int totalExtraWork = 0;
+		List<AttendVO> list1 = attendMapper.countWorkTime(attendVO, week);
+		for(int i=0; i< list1.size(); i++) {
+			totalWork += list1.get(i).getWorkTime();
+			totalExtraWork += list1.get(i).getExceedWorkTime();
+		}
+		result.setExtrawork1(totalExtraWork);
+		result.setTotalwork1(totalWork);
+		
+		//지난주
+		week =7;
+		totalWork = 0;
+		totalExtraWork = 0;
+		List<AttendVO> list2 = attendMapper.countWorkTime(attendVO, week);
+		for(int i=0; i< list2.size(); i++) {
+			totalWork += list2.get(i).getWorkTime();
+			totalExtraWork += list2.get(i).getExceedWorkTime();
+		}
+		result.setExtrawork2(totalExtraWork);
+		result.setTotalwork2(totalWork);
+		
+		return result;
 	}
 
 }

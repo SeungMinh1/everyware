@@ -13,4 +13,9 @@ public interface AttendService {
 	public List<AttendVO> selectAttendAll(AttendVO attendVO);
 	
 	public AttendVO selectAttend(AttendVO attendVO);
+	
+	public int countAttend(AttendVO attendV);
+	
+	//근무누적
+	public AttendVO countWorkTime(AttendVO attendVO);
 }

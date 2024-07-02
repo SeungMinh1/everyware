@@ -57,15 +57,37 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                      <b>출근시간</b> <a class="float-right" id="startTime"></a>
+                      <b>출근시간</b> 
+                      <th:block th:if="${att} != null"> 
+                      	<a class="float-right" id="startTime2">[[ ${#dates.format(att.goTime, 'HH:mm:ss')} ]]</a>
+                      </th:block>
+                      <th:block th:unless="${att} != null">
+                      	<a class="float-right" id="startTime"></a>
+                      </th:block>
                   </li>
-                  <li class="list-group-item">
-                  <b>퇴근시간</b> <a class="float-right">13,287</a>
+                  <li class="list-group-item" id="endtimeli">
+                  <b>퇴근시간</b> 
+                     <th:block th:if="${att} != null">
+                     	<a class="float-right" id="endTime2">[[ ${#dates.format(att.leaveTime, 'HH:mm:ss')} ]]</a>
+                     </th:block>
+                     <th:block th:unless="${att} != null ">
+                     	<a class="float-right" id="endTime"></a>
+                     </th:block>
                   </li>
                   <li class="list-group-item" >
-                    
-                    <button id="currentGeoLocation">출근</button>
-                    <button class="float-right" id="currentGeoLocation2">퇴근</button>
+                    <th:block th:if="${att} == null">
+                    	<button id="goworkBtn">출근</button>
+                    </th:block>
+                    <th:block th:unless="${att} == null">
+                    	<button id="goworkBtn" disabled='disabled'>출근</button>
+                    </th:block>
+                    <th:block th:if="${att} != null and ${att.outYn} == 1">
+                   		<button class="float-right" id="gohome">퇴근</button>
+                    </th:block>
+                    <th:block th:unless="${att} != null and ${att.outYn} == 1">
+                    	<button class="float-right" id="gohome" disabled='disabled'>퇴근</button>
+                    </th:block>
+
                   </li>
                 </ul>
 
@@ -83,6 +105,7 @@
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">About Me</h3>
+                
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -136,12 +159,46 @@
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Shared publicly - 7:30 PM today</span>
+                       <table class="table table-striped-columns">
+                       		<tr>
+                       			<th>이번주 누적근무시간</th>
+                       			<th>이번주 초과근무시간</th>
+                       			<th>지난주 누적근무시간</th>
+                       			<th>지난주 초과근무시간</th>
+                       		</tr>
+                       		
+                       		<tr>
+                       			<th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.totalwork1} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       			 <th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.extrawork1} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       			 
+                       			 <th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.totalwork2} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       			 <th:block th:if="totalTime != null">
+                        			<td >[[ ${totalTime.extrawork2} ]] 분</td>
+                       			 </th:block>
+                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                       			 </th:block>
+                       		</tr>
+                       		
+                       		
+                       			
+                       </table>
+
                       </div>
  
 					
@@ -410,14 +467,88 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
 
+	<!-- 모달창: 퇴근 확인 -->
+	<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title">퇴근 확인</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	               <p id ="modal1p1"></p>
+	               <p id ="modal1p2"></p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" id ="currentGeoLocation2">네</button>
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >아니오</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- 모달창: 출근 확인 -->
+	<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title">출근 확인</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	               <p id ="modal2p1"></p>
+	               <p id ="modal2p2"></p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" id ="currentGeoLocation">네</button>
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >아니오</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	
 
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+		<!-- 모달창 자바스크립트: 삭제 확인 -->
+		<script>
+		    $(document).ready(function () {
+		        // 퇴근 버튼 클릭 시 모달 창 표시
+		        $("#gohome").click(function () {
+		            $("#modal1").modal("show");
+		            let nowTime = new Date();
+		            let hours = ('0' + nowTime.getHours()).slice(-2); 
+            		let minutes = ('0' + nowTime.getMinutes()).slice(-2);
+            		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
+
+            		let timeString = '현재시각은 ' + hours + '시 ' + minutes  + '분 ' + seconds + '초 입니다.';
+		            $("#modal1p1").text(timeString); 
+		            $("#modal1p2").text("퇴근하시겠습니까?"); 
+		        });
+		        
+		        // 출근 버튼 클릭 시 모달 창 표시
+		        $("#goworkBtn").click(function () {
+		            $("#modal2").modal("show");
+		            let nowTime = new Date();
+		            let hours = ('0' + nowTime.getHours()).slice(-2); 
+            		let minutes = ('0' + nowTime.getMinutes()).slice(-2);
+            		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
+
+            		let timeString = '현재시각은 ' + hours + '시 ' + minutes  + '분 ' + seconds + '초 입니다.';
+		            $("#modal2p1").text(timeString); 
+		            $("#modal2p2").text("출근하시겠습니까?"); 
+		        });
+		        
+		        
+		        
+		        
+		    });
+		    
+		</script>
 <script>
     (function() {
         if('geolocation' in navigator) {
@@ -427,12 +558,19 @@
         }
 
         const currentGeoLocation = document.getElementById("currentGeoLocation");
-
+		
         currentGeoLocation.onclick = function() {
+        	$("#goworkBtn").prop("disabled", true);
+        	$("#modal2").hide();
+        	$("#modal2").modal('hide');
+        	
+        	document.getElementById("goworkBtn").disabled = true;
+        	document.getElementById("gohome").disabled = false;
             var startPos;
             var geoOptions = {
                 timeout: 10 * 1000
             };
+            
 
             var geoSuccess = function (position) {
 
@@ -451,7 +589,7 @@
 					data : JSON.stringify(data1)
                 })
                 .done(function(distance) {
-                	document.getElementById('dis').innerHTML =  distance;
+                	document.getElementById('dis').innerHTML =  (distance * 1000) + 'm';
                 	
                 	if(distance > 5.02){
                 		alert("출근 실패");
@@ -469,7 +607,7 @@
 						data : JSON.stringify(workdata)
                 	})
                 	.done(function(result){
-                		alert("출근 성공")
+                		//alert("출근 성공")
                 		
                 		//출근시간조회
                			$.ajax({
@@ -481,22 +619,14 @@
 	                		console.log(result.goTime);
 	                		let timenow = result.goTime;
 	                		
-	                		//let hours = ('0' + timenow.getHours()).slice(-2);
-	                		//let minutes =  ('0' + timenow.getMinutes()).slice(-2);
-	                		//let seconds =('0' + timenow.getSeconds()).slice(-2); 
-	                		//let fulltime = hours + ':' + minutes + ':' + seconds;
-	                		//console.log(fulltime);
-	                		//document.getElementById('startTime').innerHTML = fulltime;
-	               
-
-	                		var hours = ('0' + nowTime.getHours()).slice(-2); 
-	                		var minutes = ('0' + nowTime.getMinutes()).slice(-2);
-	                		var seconds = ('0' + nowTime.getSeconds()).slice(-2); 
+	                		let hours = ('0' + nowTime.getHours()).slice(-2); 
+	                		let minutes = ('0' + nowTime.getMinutes()).slice(-2);
+	                		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
 
 	                		var timeString = hours + ':' + minutes  + ':' + seconds;
 
 	                		console.log(timeString);
-	                		//해야되는거 출근시간찍고 퇴근시간찍기
+	                		document.getElementById('startTime').innerHTML = timeString;
 	                		
 	                	})
 	                	.fail(function(result){
@@ -544,6 +674,9 @@
         const currentGeoLocation2 = document.getElementById("currentGeoLocation2");
 
         currentGeoLocation2.onclick = function() {
+        	$("#gohome").prop("disabled", true);
+        	$("#modal1").hide();
+        	$("#modal1").modal('hide');
             var startPos;
             var geoOptions = {
                 timeout: 10 * 1000
@@ -565,13 +698,14 @@
 					data : JSON.stringify(data1)
                 })
                 .done(function(distance) {
-                	document.getElementById('dis').innerHTML =  distance;
+                	document.getElementById('dis').innerHTML =  (distance * 1000) + 'm';
                 	if(distance > 5.02){
                 		alert("퇴근 실패");
                 	}else{
-                		
+                		let nowTime2 = new Date();
                 		workdata2 = {             
-                			attendType : "퇴근"
+                			attendType : "퇴근",
+                			leaveTime : nowTime2
 		            	};
 		            	
                 		$.ajax({
@@ -579,10 +713,21 @@
                             type: 'post',
         					contentType : 'application/JSON',
         					data : JSON.stringify(workdata2)
-
+        					
                     	})
                     	.done(function(result){
-                    		alert("퇴근 성공")
+                    		//alert("퇴근 성공")
+                    		
+                    		let hours = ('0' + nowTime2.getHours()).slice(-2); 
+                    		let minutes = ('0' + nowTime2.getMinutes()).slice(-2);
+                    		let seconds = ('0' + nowTime2.getSeconds()).slice(-2); 
+
+                    		let timeString = hours + ':' + minutes  + ':' + seconds;
+
+	                		console.log(timeString); //endtimeli
+	                		//$('#endTime').innerHTML = timeString;
+	                		$("#endtimeli").append("<a class='float-right'>" + timeString +"</a>");
+                    		
                     	})
                     	.fail(function(result){
                     		console.log("err");

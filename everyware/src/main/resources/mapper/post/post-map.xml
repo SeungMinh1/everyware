@@ -54,13 +54,11 @@ WHERE board_id = 2
 </select>
 
 <!-- 게시판 번호 조회-->
-<select id="selectBoard" resultType="CommonVO">
-		SELECT code_id
-        , code_name
-        , code_type
-        , code_desc
-	FROM common_code
-	WHERE code_id LIKE 'f%'
+<select id="selectBoard" resultType="boardVO">
+		SELECT board_id
+        , board_type
+        , board_title
+	FROM board
 </select>
 
 
@@ -73,6 +71,7 @@ WHERE board_id = 2
        , code_desc
 FROM common_code
 WHERE code_id LIKE 'g%'
+
 </select>
 
 <!-- 익명 게시판 전체조회 -->
@@ -128,7 +127,8 @@ WHERE post_id = #{postId}
 		recomment_cnt,
 		attachment_group_id,
 		content,
-		emp_id)
+		emp_id,
+		boardType)
  VALUES (
  		#{postId},
 		#{notificationYn},
@@ -140,7 +140,8 @@ WHERE post_id = #{postId}
 		#{recommentCnt},
 		#{attachmentGroupId},
 		#{content},
-		#{empId}
+		#{empId},
+		#{boardType}
  		)
 </insert>
 

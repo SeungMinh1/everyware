@@ -190,8 +190,10 @@
 					<td><textarea style="min-height:100px; width: 400px;"></textarea></td>
 				</tr>
 			</table>
+			<div class="modal-button">
 			<button type="button" class="btn" id="request">요청</button>
 			<button type="button" class="btn" id="ccclose">취소</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -203,8 +205,10 @@
 		</div>
 		<div class="modal-footer">
 			<h3>취소하시겠습니까?</h3>
+			<div class="modal-button">
 			<button type="button" class="btn" id="ok">확인</button>
 			<button type="button" class="btn" id="close">닫기</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -216,8 +220,10 @@
 		</div>
 		<div class="modal-footer">
 			<h3>임시저장 하시겠습니까?</h3>
-			<button type="button" class="btn" id="save">확인</button>
-			<button type="button" class="btn" id="cclose">닫기</button>
+			<div class="modal-button">
+				<button type="button" class="btn" id="save">확인</button>
+				<button type="button" class="btn" id="cclose">닫기</button>	
+			</div>
 		</div>
 	</div>
 </div>
@@ -229,21 +235,21 @@
 			<span class="close">&times;</span>
 		</div>
 		<div class="modal-footer">
-			<div>
-				<div>
+			<div class="modal-box">
+				<div class="org">
 					<ul id="myUL">
 						<li th:each="deptList : ${empList}">
-							<span th:data-dept="${deptList.departmentId}">
+							<span class="caret" th:data-dept="${deptList.departmentId}">
 							[[ ${deptList.departmentName} ]]
 							</span>
-							<ul>
+							<ul class="nested">
 								<li th:each="empList : ${deptList.empInfo}"><a>
 								[[ ${empList.empName} ]] [[ ${empList.empPosition} ]]</a></li>
 							</ul>
 						</li>
 					</ul>		
 				</div>
-				<div>
+				<div class="approvalLine">
 					<table>
 						<thead>
 							<tr>
@@ -265,6 +271,10 @@
 						</tbody>
 					</table>
 				</div>
+			</div>
+			<div class="modal-button">
+				<button type="button" class="btn" id="saveInfo">확인</button>
+				<button type="button" class="btn" id="cccclose">닫기</button>	
 			</div>
 		</div>
 	</div>
