@@ -55,10 +55,10 @@
 		WHERE emp_id = #{empId}
 	</select>
 	
-	<!-- 단건조회 -->
+	<!-- 단건조회  근무기록 + 사원정보(사원이름, 부서, 직위) -->
 	<select id="selectAttend" resultType="AttendVO">
 		SELECT attend_id
-        , find_codename(attend_type) attendType
+        , find_codename(attend_type) attendType  
         , a.go_time
         , a.leave_time
         , a.work_time
