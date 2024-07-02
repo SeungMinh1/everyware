@@ -58,12 +58,8 @@
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
                       <b>출근시간</b> 
-                      <th:block th:if="${att} != null"> 
-                      	<a class="float-right" id="startTime2">[[ ${#dates.format(att.goTime, 'HH:mm:ss')} ]]</a>
-                      </th:block>
-                      <th:block th:unless="${att} != null">
-                      	<a class="float-right" id="startTime"></a>
-                      </th:block>
+                      	<a class="float-right" id="startTime2" th:if="${att} != null">[[ ${#dates.format(att.goTime, 'HH:mm:ss')} ]]</a>
+                      	<a class="float-right" id="startTime" th:unless="${att} != null"></a>
                   </li>
                   <li class="list-group-item" id="endtimeli">
                   <b>퇴근시간</b> 
@@ -75,19 +71,10 @@
                      </th:block>
                   </li>
                   <li class="list-group-item" >
-                    <th:block th:if="${att} == null">
-                    	<button id="goworkBtn">출근</button>
-                    </th:block>
-                    <th:block th:unless="${att} == null">
-                    	<button id="goworkBtn" disabled='disabled'>출근</button>
-                    </th:block>
-                    <th:block th:if="${att} != null and ${att.outYn} == 1">
-                   		<button class="float-right" id="gohome">퇴근</button>
-                    </th:block>
-                    <th:block th:unless="${att} != null and ${att.outYn} == 1">
-                    	<button class="float-right" id="gohome" disabled='disabled'>퇴근</button>
-                    </th:block>
-
+                    	<button id="goworkBtn" th:if="${att} == null">출근</button>
+                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null">출근</button>
+                   		<button class="float-right" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button class="float-right" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
                   </li>
                 </ul>
 
@@ -167,32 +154,22 @@
                        			<th>지난주 초과근무시간</th>
                        		</tr>
                        		
-                       		<tr>
-                       			<th:block th:if="totalTime != null">
-                        			<td >[[ ${totalTime.totalwork1} ]] 분</td>
+                       		<tr>          
+                       		             			
+	                       		<th:block th:if="totalTime != null">
+                        			<td>[[ ${totalTime.totalwork1} ]] 분</td>
+                        			<td>[[ ${totalTime.extrawork1} ]] 분</td>
+                        			<td>[[ ${totalTime.totalwork2} ]] 분</td>
+                        			<td>[[ ${totalTime.extrawork2} ]] 분</td>
                        			 </th:block>
+
                        			<th:block th:unless="totalTime != null">
                         			<td >0분</td>
-                       			 </th:block>
-                       			 <th:block th:if="totalTime != null">
-                        			<td >[[ ${totalTime.extrawork1} ]] 분</td>
-                       			 </th:block>
-                       			<th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                        			<td >0분</td>
                         			<td >0분</td>
                        			 </th:block>
-                       			 
-                       			 <th:block th:if="totalTime != null">
-                        			<td >[[ ${totalTime.totalwork2} ]] 분</td>
-                       			 </th:block>
-                       			<th:block th:unless="totalTime != null">
-                        			<td >0분</td>
-                       			 </th:block>
-                       			 <th:block th:if="totalTime != null">
-                        			<td >[[ ${totalTime.extrawork2} ]] 분</td>
-                       			 </th:block>
-                       			<th:block th:unless="totalTime != null">
-                        			<td >0분</td>
-                       			 </th:block>
+                       			
                        		</tr>
                        		
                        		
@@ -617,13 +594,12 @@
 	                	})
 	                	.done(function(result){
 	                		console.log(result.goTime);
-	                		let timenow = result.goTime;
 	                		
 	                		let hours = ('0' + nowTime.getHours()).slice(-2); 
 	                		let minutes = ('0' + nowTime.getMinutes()).slice(-2);
 	                		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
 
-	                		var timeString = hours + ':' + minutes  + ':' + seconds;
+	                		let timeString = hours + ':' + minutes  + ':' + seconds;
 
 	                		console.log(timeString);
 	                		document.getElementById('startTime').innerHTML = timeString;
@@ -698,7 +674,7 @@
 					data : JSON.stringify(data1)
                 })
                 .done(function(distance) {
-                	document.getElementById('dis').innerHTML =  (distance * 1000) + 'm';
+                	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed(3) + 'm';
                 	if(distance > 5.02){
                 		alert("퇴근 실패");
                 	}else{

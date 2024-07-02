@@ -172,7 +172,7 @@
 			</section>
 		</div>
 	</div>
-</div>
+
 <!-- 결재요청 모달 -->
 <div id="mreq" class="modal">
 	<div class="modal-body">
@@ -243,7 +243,7 @@
 							[[ ${deptList.departmentName} ]]
 							</span>
 							<ul class="nested">
-								<li th:each="empList : ${deptList.empInfo}"><a>
+								<li th:each="empList : ${deptList.empInfo}" th:data-emp="${empList.empName}"><a>
 								[[ ${empList.empName} ]] [[ ${empList.empPosition} ]]</a></li>
 							</ul>
 						</li>
@@ -252,7 +252,8 @@
 				<div class="approvalLine">
 					<table>
 						<thead>
-							<tr>
+							<tr class="lineHead">
+								<th style="width:40px;"></th>
 								<th>타입</th>
 								<th>이름</th>
 								<th>부서</th>
@@ -260,16 +261,82 @@
 								<th>삭제</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr th:each="emp : ${empInfo}">
-								<td>기안</td>
-								<td>[[ ${emp.empName} ]]</td>
-								<td>[[ ${emp.departmentId} ]]</td>
-								<td></td>
-								<td></td>
-							</tr>
-						</tbody>
 					</table>
+					<div class="lineTable">
+						<span>신청</span>
+						<table>
+							<tbody>
+								<tr th:each="emp : ${empInfo}" class="lineBody">
+									<td style="width:40px;">>></td>
+									<td>기안</td>
+									<td>[[ ${emp.empName} ]]</td>
+									<td>[[ ${emp.departmentId} ]]</td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineApp">
+						<span>승인</span>
+						<table>
+							<tbody>
+								<tr th:each="emp : ${empInfo}" class="lineBody">
+									<td style="width:40px;">>></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineRec">
+						<span>수신</span>
+						<table>
+							<tbody>
+								<tr th:each="emp : ${empInfo}" class="lineBody">
+									<td style="width:40px;">>></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineRef">
+						<span>참조</span>
+						<table>
+							<tbody>
+								<tr th:each="emp : ${empInfo}" class="lineBody">
+									<td style="width:40px;">>></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineView">
+						<span>열람</span>
+						<table>
+							<tbody>
+								<tr th:each="emp : ${empInfo}" class="lineBody">
+									<td style="width:40px;">>></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 			<div class="modal-button">
@@ -296,6 +363,7 @@
 <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- Summernote -->
@@ -321,19 +389,6 @@
 			"responsive" : true,
 		});
 	});
-
-	$(function() {
-		// Summernote
-		$('#summernote').summernote()
-
-		// CodeMirror
-		CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-			mode : "htmlmixed",
-			theme : "monokai"
-		});
-	})
-	
-	
 </script>
 <script src="../js/approval/taskDraft.js"></script>
 <script src="../js/approval/org.js"></script>

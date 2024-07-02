@@ -28,7 +28,7 @@ public class DocController {
 		// 결재 대기 문서
 		@GetMapping("waitDocList")
 		public String waitDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {	
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.waitDocList(id);
 			model.addAttribute("waitDocList", list);			
 			return "approvalDoc/waitDocList";
@@ -37,7 +37,7 @@ public class DocController {
 		// 참조/열람 대기 문서
 		@GetMapping("waitRefViewDocList")
 		public String waitRefViewDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.waitRefViewDocList(id);
 			model.addAttribute("waitRefViewDocList", list);			
 			return "approvalDoc/waitRefViewDocList";
@@ -46,7 +46,7 @@ public class DocController {
 		// 결재 예정 문서
 		@GetMapping("expectedDocList")
 		public String expectedDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.expectedDocList(id);
 			model.addAttribute("expectedDocList", list);
 			return "approvalDoc/expectedDocList";
@@ -55,7 +55,7 @@ public class DocController {
 		// 기안 문서
 		@GetMapping("draftDocList")
 		public String draftDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.draftDocList(id);
 			model.addAttribute("draftDocList", list);
 			return "approvalDoc/draftDocList";
@@ -64,7 +64,7 @@ public class DocController {
 		// 결재 문서
 		@GetMapping("approvalDocList")
 		public String approvalDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.approvalDocList(id);
 			model.addAttribute("approvalDocList", list);
 			return "approvalDoc/approvalDocList";
@@ -73,7 +73,7 @@ public class DocController {
 		// 발송 문서
 		@GetMapping("sendDocList")
 		public String sendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.sendDocList(id);
 			model.addAttribute("sendDocList", list);
 			return "approvalDoc/sendDocList";
@@ -82,7 +82,7 @@ public class DocController {
 		// 수신 문서
 		@GetMapping("receptionDocList")
 		public String receptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.receptionDocList(id);
 			model.addAttribute("receptionDocList", list);
 			return "approvalDoc/receptionDocList";
@@ -91,7 +91,7 @@ public class DocController {
 		// 참조/열람 문서
 		@GetMapping("refViewDocList")
 		public String refViewDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.refViewDocList(id);
 			model.addAttribute("refViewDocList", list);
 			return "approvalDoc/refViewDocList";
@@ -100,7 +100,7 @@ public class DocController {
 			// 참조 문서
 			@GetMapping("refDocList")
 			public String refDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-				int id = principal.getuserVO().getEmpId();
+				int id = principal.getUserVO().getEmpId();
 				List<DocVO> list = docService.refDocList(id);
 				model.addAttribute("refDocList", list);
 				return "approvalDoc/refDocList";
@@ -109,7 +109,7 @@ public class DocController {
 			// 열람 문서
 			@GetMapping("viewDocList")
 			public String viewDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-				int id = principal.getuserVO().getEmpId();
+				int id = principal.getUserVO().getEmpId();
 				List<DocVO> list = docService.viewDocList(id);
 				model.addAttribute("viewDocList", list);
 				return "approvalDoc/viewDocList";
@@ -118,7 +118,7 @@ public class DocController {
 		// 임시 문서
 		@GetMapping("temporaryDocList")
 		public String temporaryDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
-			int id = principal.getuserVO().getEmpId();
+			int id = principal.getUserVO().getEmpId();
 			List<DocVO> list = docService.temporaryDocList(id);
 			model.addAttribute("temporaryDocList", list);
 			return "approvalDoc/temporaryDocList";
@@ -144,7 +144,7 @@ public class DocController {
 	@GetMapping("task")
 	public String task(TaskVO taskVO, DraftVO draftVO, Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal, String departmentId) {
 		TaskVO findVO = docService.newTask(taskVO);
-		int id = principal.getuserVO().getEmpId();
+		int id = principal.getUserVO().getEmpId();
 		EmpVO findEmp = docService.empInfo(id);
 		List<EmpVO> list = docService.allDept();
 		

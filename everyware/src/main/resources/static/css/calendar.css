@@ -172,6 +172,11 @@ a:hover{
 	cursor :pointer;
 }
 
+#shareModalBtn:hover{
+		color : black;
+	cursor :pointer;
+}
+
 #calSetX{
 	float:right;
 	margin : 10px;

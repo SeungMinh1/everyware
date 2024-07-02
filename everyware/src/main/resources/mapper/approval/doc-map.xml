@@ -262,14 +262,14 @@
 	
 	<!-- 부서별 사원 정보 -->
 	<select id="deptEmp" resultType="EmpVO">
-		SELECT emp_name, emp_position
+		SELECT emp_name, FIND_CODENAME(emp_position) "emp_position", emp_id
 		FROM emp
 		WHERE department_id = #{departmentId}
 	</select>
 	
 	<!-- 사원 정보 -->
 	<select id="empInfo" resultType="EmpVO">
-		SELECT emp_name, emp_position, department_id
+		SELECT emp_id, emp_name, emp_position, department_id
 		FROM emp
 		WHERE emp_id = #{empId}
 	</select>
