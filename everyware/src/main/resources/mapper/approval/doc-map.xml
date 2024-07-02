@@ -269,7 +269,7 @@
 	
 	<!-- 사원 정보 -->
 	<select id="empInfo" resultType="EmpVO">
-		SELECT emp_name, emp_position, department_id
+		SELECT emp_id, emp_name, emp_position, department_id
 		FROM emp
 		WHERE emp_id = #{empId}
 	</select>

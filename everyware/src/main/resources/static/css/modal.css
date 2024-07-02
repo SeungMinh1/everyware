@@ -58,3 +58,15 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.lineHead th {
+	padding-right: 25px;
+}
+
+.lineBody td {
+	padding-right: 25px;
+}
+
+.lineTable {
+	border: 2px solid #ddd;
+}
