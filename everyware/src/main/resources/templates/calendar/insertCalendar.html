@@ -149,7 +149,7 @@
 		$.ajax({
 			url :'/insertCal',
 			type :'POST',
-			dataType :'application/json',
+			contentType :'application/json',
 			data : {
 				start : $('#startDate').val() + ' ' + $('#startTime').val(),
 				end : $('#endDate').val() + ' ' + $('#endTime').val(),
@@ -161,9 +161,17 @@
 			},
 			
 		})
-		.done(
+		.done(function(res){
+			
 				location.href='/calendar'
-			);
+		}
+			)
+		.fail(
+				function(a, err){
+					console.log(err)
+				}
+				)
+		;
 			
 		
 	})

@@ -41,7 +41,7 @@ public interface CalendarService {
 	public int insertCalBox(CalendarBoxVO calendarBoxVO);
 	
 	//내 일정목록 수정
-	public int updateCalBox(CalendarBoxVO calendarBoxVO);
+	public int updateCalBox(List<CalendarBoxVO> list);
 	
 	//내 일정목록 삭제
 	public int deleteCalBox(CalendarBoxVO calendarBoxVO);
@@ -51,4 +51,7 @@ public interface CalendarService {
 	
 	//공유신청 수락
 	public int updateApproveShare(CalendarBoxVO calendarBoxVO);
+	
+	//관심일정 삭제
+	public int deleteApproveShare(CalendarBoxVO calendarBoxVO);
 }
