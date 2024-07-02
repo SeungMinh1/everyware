@@ -83,16 +83,18 @@
 		WHERE a.emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd')
 	</select>
 	
-<!-- 
-하루전 조회
-select *
-from emp e
-    inner join attend a
-    on e.emp_id = a.emp_id
-WHERE e.emp_id = 105 and (go_time like (trunc(sysdate)-1) or go_time like  (trunc(sysdate)-2));
-
- -->
+	
+	<!-- 
+	하루전 조회
+	select *
+	from emp e
+	    inner join attend a
+	    on e.emp_id = a.emp_id
+	WHERE e.emp_id = 105 and (go_time like (trunc(sysdate)-1) or go_time like  (trunc(sysdate)-2));
+	
+	 -->
  
+ 	<!-- 주단위 근무시간 죄회 -->
  	<select id="countWorkTime" resultType="AttendVO">
 	 	SELECT attend_id
 		    , go_time
@@ -106,6 +108,20 @@ WHERE e.emp_id = 105 and (go_time like (trunc(sysdate)-1) or go_time like  (trun
  	</select>
  
  
- 
+ 	<!-- 날짜로 정보조회 -->
+ 	<select id="dateAttend" resultType="AttendVO">
+ 		
+		SELECT attend_id
+			, find_codename(attend_type) attendType
+			, go_time
+			, to_char(go_time, 'hh24:mm:ss') go_time2
+            , to_char(leave_time, 'hh24:mm:ss') leave_time2
+			, exceed_work_time
+			, out_yn
+			, emp_id
+		FROM attend 
+		WHERE emp_id = #{empId}and to_char(go_time, 'yyyymmdd') like #{goTime2}
+ 	
+ 	</select>
 
 </mapper>

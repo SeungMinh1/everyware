@@ -19,6 +19,9 @@ public class AttendVO {
 	private int outYn;
 	private int empId; 
 	
+	private String goTime2; //문자열
+	private String leaveTime2; //문자열
+	
 	private String departmentName;
 	private String departmentId;
 	private String posName;
