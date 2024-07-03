@@ -14,10 +14,21 @@ public class AuthUtil {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		Integer empId = null;
+		Integer empId = 0;
 		if(authentication != null) {	
 			empId = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getEmpId();
 		}
 		return empId;
+	}
+	
+public static String getEmpName() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		String empName = null;
+		if(authentication != null) {	
+			empName = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getEmpName();
+		}
+		return empName;
 	}
 }
