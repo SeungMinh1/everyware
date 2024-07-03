@@ -88,7 +88,7 @@ public class AttendServiceImpl implements AttendService {
 			AttendVO findA = attendMapper.selectAttend(attendVO);
 			Date startworkTime = findA.getGoTime();
 			System.out.println(startworkTime.getHours());
-			if(startworkTime.getHours() < 9 && startworkTime.getMinutes() > 0) {
+			if(startworkTime.getHours() >= 9 && startworkTime.getMinutes() > 0) {
 				findA.setWorkdetail("late");
 			}else {
 				findA.setWorkdetail("normal");
