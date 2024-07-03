@@ -61,7 +61,7 @@ margin-right:10px;
 						</div>
 						<!-- /.card-header -->
 						<!-- form start -->
-						<form  id="insertForm" name= "insertForm" th:action="@{/postInsert}" method="post" th:object="${post}"  enctype="multipart/form-data" >
+						<form  id="ins" name= "insertForm" th:action="@{/postInsert}" method="post" th:object="${post}"  enctype="multipart/form-data" >
 							<div class="card-body">
 								<input type ="hidden" name="boardType" th:value="${board[0].boardType}">
 								<div class="form-group">
@@ -93,9 +93,9 @@ margin-right:10px;
 									<label for="inputFile">첨부파일</label>
 									<div class="input-group">
 										<div class="custom-file">
-											<input type="file" class="custom-file-input"  id="inputFile"
+											<input type="file" class="custom-file-input"
 												name="uploadFile" multiple> <label
-												class="custom-file-label" for="inputFile">파일을
+												class="custom-file-label" for="exampleInputFile">파일을
 												선택하세요</label>
 										</div>
 										<div class="input-group-append">
@@ -107,8 +107,8 @@ margin-right:10px;
 								</div>
 								<div class="form-check">
 									<input type="checkbox" class="form-check-input"
-									 	id="ynCheck" name="holdYn" th:field="*{holdYn}" value="Y"> <label class="form-check-label"
-										for="ynCheck">공지로 등록</label>
+									 	th:field="*{notificationYn}" value="Y"> <label class="form-check-label"
+										for="exampleCheck1">공지로 등록</label>
 								</div>
 							</div>
 							<!-- /.card-body -->
@@ -149,8 +149,6 @@ margin-right:10px;
   crossorigin="anonymous">
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
 	
 	let boardSelect = document.querySelector('#board')
@@ -159,34 +157,34 @@ margin-right:10px;
 		insertForm.boardType.value=this.options[this.selectedIndex].dataset.boardtype
 	})
 	
-$(document).ready(function() {
 	$('#addBtn').on('click',function(e){
 		
-		e.preventDefault();
+		var formData = new FormData();
 		
-		var formData = new FormData(document.insertForm);
+		var inputFile = $("input[name='uploadFile']");
 		
-		 // 체크박스 상태 확인하여 값 설정
-        if (! $('#ynCheck').is(':checked')) {
-            formData.append('holdYn', 'N');
-        }
+		var files = inputFile[0].files;
 		
-		 $.ajax({
-			url: '/postInsert',
+		console.log(files);
+		//add
+		for(var i = 0; i < files.length; i++){
+			formData.append("uploadFile", files[i]);
+		}
+		
+		$.ajax({
+			url: '',
 			processData:false,
 			contentType: false,
 			data:formData,
 			type: 'POST',
 			success: function(result){
 				alert("Uploaded");
-			},
-			 error: function(xhr, status, error) {
-                 console.error('파일 업로드 중 오류 발생: ' + error);
-                 alert("파일 업로드 중 오류가 발생했습니다.");
-             }
-		}); //$.ajax */
+			}
+			
+		}); //$.ajax
 	});
-})	
+	
+	
 	
 </script>
 </body>

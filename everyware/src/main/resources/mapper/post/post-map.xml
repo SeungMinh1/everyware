@@ -109,7 +109,7 @@ SELECT post_id,
 WHERE post_id = #{postId}    
 </select>
 <!-- 등록 -->
-<insert id="PostInsert" parameterType="PostVO">
+<insert id="postInsert" parameterType="PostVO">
 	<selectKey	keyProperty="postId"
 					resultType="Integer"
 					order="BEFORE">
@@ -118,30 +118,28 @@ WHERE post_id = #{postId}
 	</selectKey>
 	INSERT INTO post
 		(post_id,
-		notification_yn,
 		hold_yn,
 		title,
 		write_date,
 		board_id,
+		notification_yn,
 		view_cnt,
-		recomment_cnt,
-		attachment_group_id,
+		recommend_cnt,
+		   <if test="attachmentGroupId != null and attachmentGroupId!=''">	attachment_group_id,</if>
+	
 		content,
-		emp_id,
-		boardType)
+		emp_id)
  VALUES (
  		#{postId},
-		#{notificationYn},
 		#{holdYn},
 		#{title},
-		#{writeDate},
+		sysdate,
 		#{boardId},
-		#{viewCnt},
-		#{recommentCnt},
-		#{attachmentGroupId},
+		"N",
+		0,
+		0,<if test="attachmentGroupId != null and attachmentGroupId!=''">	#{attachmentGroupId},</if>
 		#{content},
-		#{empId},
-		#{boardType}
+		#{empId}
  		)
 </insert>
 
