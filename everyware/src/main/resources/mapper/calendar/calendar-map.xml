@@ -72,7 +72,7 @@
 	</update>
 	
 	<!-- 공유받은 일정리스트 조회 -->
-	<select id="selectSharedCalBox" parameterType = "CalendarBoxVO">
+	<select id="selectSharedCalBox" resultType="CalendarBoxVO" parameterType = "CalendarBoxVO">
 		SELECT b.calendar_box_id 
 		        , b.calendar_box_name 
 		        , EMP_ID_NAME(b.emp_id) "emp_name"
@@ -84,6 +84,7 @@
 		    JOIN shared_cal s
 		    ON b.calendar_box_id = s.calendar_box_id
 		WHERE s.emp_id = #{empId}
+		ORDER BY agreement_yn DESC
 	</select>
 	
 	<!-- 공유받은 일정 조회 -->
@@ -101,6 +102,7 @@
          FROM calendar c
          JOIN shared_cal s
            ON ( c.calendar_box_id = s.calendar_box_id AND s.emp_id = #{empId} )
+         
 	</select>
 	
 	<!-- 공유받은 일정 색 변경 -->
@@ -134,7 +136,7 @@
 		         , TO_DATE(#{end}, 'yyyy/MM/dd HH24:MI')
 		         , #{title}
 		         , #{content}
-		         , 100
+		         , #{empId}
 		         , #{calendarBoxId}
 		         , #{location}
 		        )
@@ -152,6 +154,12 @@
 				, location = #{location}
 		WHERE calendar_id = #{calendarId}
 	</update>
+	
+	<!-- 일정삭제 -->
+	<delete id="deleteCalInfo" parameterType="CalendarVO">
+		DELETE calendar
+		WHERE calendar_id = #{calendarId}
+	</delete>
 	
 	<!-- 일정목록 추가 -->
 	<insert id ="insertCalBox" parameterType ="CalendarBoxVO">
@@ -202,6 +210,7 @@
             JOIN shared_cal s
             ON b.calendar_box_id = s.calendar_box_id
         WHERE b.emp_id = ${empId}
+        ORDER BY s.agreement_yn
 	</select>
 	
 	<!-- 공유신청 수락 -->
@@ -216,6 +225,27 @@
 		DELETE shared_cal
 		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = #{empId}
 	</delete>
+	
+	<!-- 공유신청 전 조회 -->
+	<select id="checkRedup" parameterType="CalendarBoxVO" resultType="int">
+		SELECT COUNT(*)
+		FROM shared_cal
+		WHERE emp_id = #{empId} AND calendar_box_id = #{calendarBoxId}
+	</select>
+	
+	<!-- 공유신청 -->
+	<insert id="applyShare" parameterType="CalendarBoxVO">
+		INSERT into shared_cal
+		(
+			emp_id
+			, calendar_box_id
+		)
+		VALUES
+		(
+			#{empId}
+			, #{calendarBoxId}
+		)
+	</insert>
 	
 </mapper>
 	

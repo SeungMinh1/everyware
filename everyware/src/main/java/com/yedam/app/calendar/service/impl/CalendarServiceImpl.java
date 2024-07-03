@@ -139,9 +139,10 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public int deleteCalBox(CalendarBoxVO calendarBoxVO) {
-		int result = calendarMapper.deleteCalBox(calendarBoxVO);
-		return result;
+	@Transactional //에러시 전부 롤백
+	public int deleteCalBox(List<CalendarBoxVO> list) {
+		list.forEach(cal->calendarMapper.deleteCalBox(cal));
+		return 1;
 	}
 
 	@Override
@@ -159,6 +160,26 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	public int deleteApproveShare(CalendarBoxVO calendarBoxVO) {
 		int result = calendarMapper.deleteApproveShare(calendarBoxVO);
+		return result;
+	}
+
+	//일정 삭제
+	@Override
+	public int deleteCal(CalendarVO calrendarVO) {
+		int result = calendarMapper.deleteCalInfo(calrendarVO);
+		return result;
+	}
+
+	@Override
+	public int checkRedup(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.checkRedup(calendarBoxVO);
+		return result;
+	}
+
+	@Override
+	public int applyShare(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.applyShare(calendarBoxVO);
+		
 		return result;
 	}
 	
