@@ -19,5 +19,19 @@ public class AuthUtil {
 			empId = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getEmpId();
 		}
 		return empId;
+		
+		
+	}
+	public static String getDepartmentId() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		String departmentId = null;
+		if(authentication != null) {	
+			departmentId = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getDepartmentId();
+		}
+		return departmentId;
+		
+		
 	}
 }

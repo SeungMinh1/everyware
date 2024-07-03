@@ -38,5 +38,7 @@ public class AttendVO {
 	private int extrawork3;
 	private int extrawork4;
 	
+	private String workdetail;
+	
 }
 

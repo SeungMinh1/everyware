@@ -15,16 +15,24 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <style>
+  
+	tr, td {
+	  text-align: center;
+	}
+	th {
+	  text-align: left;
+	  padding-left: 3 px;
+	}
   	/* ======== Calendar ======== */
 	.my-calendar {
-	  width: 700px;
-	  margin: 30px;
+	  width: 80%;
+	  margin: auto;/*30px;*/
 	  padding: 20px 20px 10px;
 	  text-align: center;
 	  font-weight: 800;
 	  border: 1px solid #ddd;
 	  cursor: default;
-	   background: #FFF0F0;
+	  background: #f0f9ff;
 	}
 	.my-calendar .clicked-date {
 	  border-radius: 25px;
@@ -32,7 +40,7 @@
 	  float: left;
 	  width: 40%;
 	  padding: 20px 0 15px;
-	  background: #ff8585;
+	 /* background: skyblue;*/
 	}
 	.my-calendar .calendar-box {
 	  float: right;
@@ -124,6 +132,18 @@
 	  background: #FFC107;
 	}
   
+  	.ten p {
+  		font-size:34px; font-weight:500; text-transform:uppercase;
+		}
+	.ten p:before {
+	    background-color: #c50000;
+	    border-radius: 0.25rem;
+	    content: '';
+	    display: block;
+	    height: 0.25rem;
+	    width: 42px;
+	    margin-bottom: 1.25rem;
+	}
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -304,69 +324,49 @@
                     </div>
                     <!-- /.post -->
 
-                    <!-- Post -->
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
-                      </p>
-
-                      <form class="form-horizontal">
-                        <div class="input-group input-group-sm mb-0">
-                          <input class="form-control form-control-sm" placeholder="Response">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger">Send</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <!-- /.post -->
+      
 
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">Adam Jones</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Posted 5 photos - 5 days ago</span>
+                        <p class="ten">이번달 근무현황</p>
+                        
+                      
                       </div>
                       <!-- /.user-block -->
                       <div class="row mb-3">
-                        <div class="col-sm-6">
                         
-                          <div class="container">
+                        
+                          <div class="container" >
 							  <div class="my-calendar clearfix">
 							    <div class="clicked-date">
 							    
 							      <div class="cal-day" >
 							      	<table class="table">
+							      		
 							      		<tr>
 							      			<th>출근시간</th>
-							      			<td id="time1"></td>
+							      			<td id="time1" th:if="${att} != null"> [[ ${#dates.format(att.goTime, 'HH:mm:ss')} ]]</td>
+							      			<td id="time1" th:unless="${att} != null"></td>
 							      		</tr>
 							      		<tr>
 							      			<th>퇴근시간</th>
-							      			<td id="time2"></td>
+							      			<td id="time2" th:if="${att} != null">[[ ${#dates.format(att.leaveTime, 'HH:mm:ss')} ]]</td>
+							      			<td id="time2" th:unless="${att} != null"></td>
 							      		</tr>
+							      		<!-- 
 							      		<tr>
 							      			<th>근무시간</th>
-							      			<td id="time3"></td>
+							      			<td id="time3" th:if="${att} != null"> [[ ${att.workTime)} ]]</td>
+							      			<td id="time3" th:unless="${att} != null" ></td>
 							      		</tr>
-							      		
+							      		<tr>
+							      			<th>초과근무</th>
+							      			<td id="time4" th:if="${att} != null">[[ ${att.exceedWorkTime} ]]</td>
+							      			<td id="time4" th:unless="${att} != null "></td>
+							      		</tr>
+							      		 -->
+
 							      	</table>
 							      </div>
 							      
@@ -401,7 +401,7 @@
 							  </div>
                         </div>
                         
-                      </div>
+                     
                       <!-- /.row -->
 
                       <p>
@@ -1048,14 +1048,21 @@
 			.done(function(result){
 				console.log(result);
 				if(result == null || result == ''){
-					document.getElementById('time1').innerHTML = 0;
-					document.getElementById('time2').innerHTML = 0;
-					document.getElementById('time3').innerHTML = 0;
+					document.getElementById('time1').innerHTML =' ';
+					document.getElementById('time2').innerHTML = ' ';
+					document.getElementById('time3').innerHTML = ' ';
+					document.getElementById('time4').innerHTML = ' ';
 					
 				}else{
 					document.getElementById('time1').innerHTML = result.goTime2;
 					document.getElementById('time2').innerHTML = result.leaveTime2;
-					document.getElementById('time3').innerHTML = result.workTime + '분';
+					if(result.workTime != 0 ||result.exceedWorkTime != 0){
+						document.getElementById('time3').innerHTML = result.workTime + '분';
+						document.getElementById('time4').innerHTML = result.exceedWorkTime + '분';
+					}else{
+						document.getElementById('time3').innerHTML = ' ';
+						document.getElementById('time4').innerHTML = ' ';
+					}
 				}
 				//$("#time1").innerText = result.goTime2 ;
 				//$("#time2").innerHTML = result.leaveTime2;
