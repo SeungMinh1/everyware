@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.board.web.BoardController;
 import com.yedam.app.common.service.CommonVO;
+import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.post.service.PostService;
 import com.yedam.app.post.service.PostVO;
 
@@ -85,12 +87,13 @@ public class PostController {
 	
 	//등록 - 처리
 	@PostMapping("postInsert")
-	@ResponseBody
-	public String postInsertProcess (@RequestBody PostVO postVO) {
+	public String postInsertProcess (MultipartFile[] uploadFile,  PostVO postVO) {
 		//int boardType = postService.selectBoard(codeId);
+		postVO.setEmpId(AuthUtil.getEmpId());
 		postService.postInsert(postVO);
-		
+
 		if("f1".equals(postVO.getBoardType())){
+			postVO.setNotificationYn("Y");
 			return "redirect:selectNoticeAll";
 		}else if("f2".equals(postVO.getBoardType())){
 			return "redirect:selectDeptAll";

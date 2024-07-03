@@ -53,13 +53,21 @@
                     <tr>
                       <th style="width: 10px;">글번호</th>
                       <th style="text-align: center">게시글 제목</th>
+                      <th style="text-align: center">게시글 내용</th>
                     </tr>
                   </thead>
                   <tbody>
                  	<th:block th:each="list : ${postUpMain}">
                     <tr>
                       <td>[[ ${list.postId} ]]</td>
-                      <td>[[ ${list.content} ]]</td><!-- content에 글자수 제한 걸기 기능을 넣기 -->
+                      <td>
+                      <!--/*<a th:href="@{list()}"></a>  */-->
+                      <a th:href="@{postInfo(postId=${list.postId})}">
+                       [[ ${list.title} ]]
+                      </a>
+                        
+                      </td><!-- content에 글자수 제한 걸기 기능을 넣기 -->
+                      <td>[[ ${list.content} ]]</td>
                     </tr>
                     </th:block>     
                   </tbody>
@@ -96,12 +104,18 @@
                     <tr>
                       <th style="width: 10px;">글번호</th>
                       <th style="text-align: center">게시글 제목</th>
+                      <th style="text-align: center">게시글 내용</th>
                     </tr>
                   </thead>
                   <tbody>
                  	<th:block th:each="depList : ${deptMain}">
                     <tr>
                       <td>[[ ${depList.postId} ]]</td>
+                      <td>
+                      <a th:href="@{postInfo(postId=${depList.postId})}">
+                         [[ ${depList.title} ]]
+                      </a>
+                      </td>
                       <td>[[ ${depList.content} ]]</td><!-- content에 글자수 제한 걸기 기능을 넣기 -->
                     </tr>
                     </th:block>     
