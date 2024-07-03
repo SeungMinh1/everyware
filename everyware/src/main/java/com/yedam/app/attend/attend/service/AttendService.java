@@ -24,4 +24,7 @@ public interface AttendService {
 	//날짜로 근무정보조회
 	public AttendVO selectDateAttend(AttendVO attendVO);
 	
+	//근무 지각처리
+	public int checkWokrLate(AttendVO attendVO);
+	
 }

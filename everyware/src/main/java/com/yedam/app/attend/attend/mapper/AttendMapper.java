@@ -29,4 +29,7 @@ public interface AttendMapper {
 	//날짜로 근무정보조회
 	public AttendVO dateAttend(AttendVO attendVO);
 	
+	//지각확인
+	public int checkWokrLate(AttendVO attendV);
+	
 }

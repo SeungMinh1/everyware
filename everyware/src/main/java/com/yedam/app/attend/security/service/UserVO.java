@@ -32,4 +32,6 @@ public class UserVO {
 	private String departmentEmpId; //부서장사원번호
 	private String empPosition;		//직위
 	private String posName; 		//직위이름
+	
+	private String auth; //ROLE
 }

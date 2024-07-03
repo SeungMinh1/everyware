@@ -1,13 +1,18 @@
 package com.yedam.app.attend.attend.service.impl;
 
+import java.io.Console;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.attend.attend.mapper.AttendMapper;
 import com.yedam.app.attend.attend.service.AttendService;
 import com.yedam.app.attend.attend.service.AttendVO;
+import com.yedam.app.common.util.AuthUtil;
 @Service
 public class AttendServiceImpl implements AttendService {
 
@@ -76,6 +81,23 @@ public class AttendServiceImpl implements AttendService {
 	@Override
 	public AttendVO selectDateAttend(AttendVO attendVO) {
 		return attendMapper.dateAttend(attendVO);
+	}
+	@Override
+	public int checkWokrLate(AttendVO attendVO) {
+		if(AuthUtil.getDepartmentId() != "g3") {
+			AttendVO findA = attendMapper.selectAttend(attendVO);
+			Date startworkTime = findA.getGoTime();
+			System.out.println(startworkTime.getHours());
+			if(startworkTime.getHours() < 9 && startworkTime.getMinutes() > 0) {
+				findA.setWorkdetail("late");
+			}else {
+				findA.setWorkdetail("normal");
+			}
+			return attendMapper.checkWokrLate(findA);
+		}
+		attendVO.setWorkdetail("work");
+		
+		return attendMapper.checkWokrLate(attendVO);
 	}
 
 }
