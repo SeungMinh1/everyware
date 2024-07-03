@@ -109,13 +109,39 @@ public class DocServiceImpl implements DocService {
 	public List<TaskVO> task(String approvalTask) {
 		return docMapper.task(approvalTask);
 	}
-
+	
+	// 문서 등록
 	@Override
 	public int docInsert(DocVO docVO) {
+		int result = 0;
 		
-		return docMapper.docInsert(docVO);
+		// 결재자
+		
+		// 결재자 id
+		
+		// 수신자
+		
+		// 수신자 id
+		
+		// 참조자
+		
+		// 참조자 id
+		
+		// 열람자
+		
+		// 열람자 id
+		
+		// 순차/병렬
+		
+		
+		
+		
+		
+		
+		return result;
 	}
-
+	
+	// 문서 임시저장
 	@Override
 	public int tempInsert(DocVO docVO) {
 		int result = 0;
