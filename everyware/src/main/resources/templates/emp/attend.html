@@ -310,18 +310,9 @@
                       </div>
  
 					
-                      <p>
-                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                        <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                      </p>
 
-                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
                     </div>
+                    <br>
                     <!-- /.post -->
 
       
@@ -354,10 +345,10 @@
 							      			<td id="time2" th:if="${att} != null">[[ ${#dates.format(att.leaveTime, 'HH:mm:ss')} ]]</td>
 							      			<td id="time2" th:unless="${att} != null"></td>
 							      		</tr>
-							      		<!-- 
+							      	
 							      		<tr>
 							      			<th>근무시간</th>
-							      			<td id="time3" th:if="${att} != null"> [[ ${att.workTime)} ]]</td>
+							      			<td id="time3" th:if="${att} != null"> [[ ${att.workTime} ]]</td>
 							      			<td id="time3" th:unless="${att} != null" ></td>
 							      		</tr>
 							      		<tr>
@@ -365,7 +356,7 @@
 							      			<td id="time4" th:if="${att} != null">[[ ${att.exceedWorkTime} ]]</td>
 							      			<td id="time4" th:unless="${att} != null "></td>
 							      		</tr>
-							      		 -->
+							      		
 
 							      	</table>
 							      </div>
