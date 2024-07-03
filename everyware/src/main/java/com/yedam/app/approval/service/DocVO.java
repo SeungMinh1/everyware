@@ -13,6 +13,7 @@ public class DocVO {
 	private String docType;
 	private String docTitle;
 	private String draftEmp;
+	private int draftEmpId;
 	private String draftEmpDept;
 	private String docContent;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -30,21 +31,21 @@ public class DocVO {
 	private String approvalStatus;
 	private String approvalOrder;
 	private String approvalEmp;
-	private int approvalEmpId;
+	private String approvalEmpId;
 	private String receptionEmp;
-	private int receptionEmpId;
+	private String receptionEmpId;
 	private String sendEmp;
-	private int sendEmpId;
+	private String sendEmpId;
 	private String refEmp;
-	private int refEmpId;
+	private String refEmpId;
 	private String viewEmp;
-	private int viewEmpId;
+	private String viewEmpId;
 	private List<String> approvalNameList;
-	private List<Integer> approvalIdList;
-	private List<String> receptionEmpName;
-	private List<Integer> receptionNameList;
+	private List<String> approvalIdList;
+	private List<String> receptionNameList;
+	private List<String> receptionIdList;
 	private List<String> refNameList;
-	private List<Integer> refIdList;
+	private List<String> refIdList;
 	private List<String> viewNameList;
-	private List<Integer> viewIdList;
+	private List<String> viewIdList;
 }
