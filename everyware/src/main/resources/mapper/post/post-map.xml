@@ -135,7 +135,7 @@ WHERE post_id = #{postId}
 		#{title},
 		sysdate,
 		#{boardId},
-		"N",
+		'N',
 		0,
 		0,<if test="attachmentGroupId != null and attachmentGroupId!=''">	#{attachmentGroupId},</if>
 		#{content},
