@@ -1,5 +1,6 @@
 package com.yedam.app.attach.web;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class FileController {
 	@Autowired
     private FileService fileService;
 	
+	/*   /fileTest 가서 test 가능   */
+	
 	@GetMapping("fileTest")
 	public String fileTest() {
 		return "attach/fileUpload";
@@ -41,9 +44,9 @@ public class FileController {
 	}
 	
 	//첨부파일 삭제
-	//@PostMapping("/deleteFile")
-	//@ResponseBody
-	//public ResponseEntity<String> deleteFile(List<FileVO> fileVO){
-	//	return fileService.deleteFile(fileVO);
-	//}
+	@PostMapping("/deleteFile")
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String Type) throws UnsupportedEncodingException{
+		return fileService.deleteFile(fileName, Type);
+	}
 }

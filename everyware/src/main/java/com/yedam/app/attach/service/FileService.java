@@ -1,5 +1,6 @@
 package com.yedam.app.attach.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
@@ -14,5 +15,5 @@ public interface FileService {
 	 public ResponseEntity<Resource> downlodeFile(String fileName);
 	 
 	 //첨부파일 삭제
-	 public int deleteFile(List<FileVO> fileVO);
+	 public ResponseEntity<String> deleteFile(String fileName, String Type) throws UnsupportedEncodingException;
 }
