@@ -28,15 +28,15 @@ public class EmpController {
 	//전체조회
 	@GetMapping("empList")
 	public String empList(Model model, Integer page, Integer cnt, String dosearch,@AuthenticationPrincipal LoginUserVO principal) {
-		page = page == null ? 1 : page;
-		cnt = cnt == null ? 3 : cnt;
-		int allCount = empService.cntList();
-		PageDTO pg = new PageDTO(page, allCount, cnt);
+		page = page == null ? 1 : page; //페이지 default 설정
+		cnt = cnt == null ? 3 : cnt; 	// 사원수 default 설정
+		int allCount = empService.cntList(); // 전체 사원수 count 
+		PageDTO pg = new PageDTO(page, allCount, cnt); //페이징
 
-		String aa = principal.getUserVO().getAccountId();
-		int bb = principal.getUserVO().getEmpId();
+		String aa = principal.getUserVO().getAccountId(); // 계정아이디
+		int bb = principal.getUserVO().getEmpId(); 		  // 사원번호
 		
-		List<EmpVO> list = empService.empList(page, cnt, dosearch);
+		List<EmpVO> list = empService.empList(page, cnt, dosearch); //전체사원리스트
 		model.addAttribute("empList", list);
 		model.addAttribute("pg", pg);
 		
@@ -45,10 +45,10 @@ public class EmpController {
 		
 		return "emp/empList";
 	}
-	//단건조회
+	//사원 단건조회
 	@GetMapping("empInfo")
 	public String empInfo(EmpVO empVO, Model model) {
-		EmpVO findVO = empService.empInfo(empVO);
+		EmpVO findVO = empService.empInfo(empVO); //사원조회
 		model.addAttribute("emp", findVO);
 		return "emp/empInfo";
 	}
@@ -56,11 +56,11 @@ public class EmpController {
 	// 등록 - 페이지
 	@GetMapping("empInsert")
 	public String empInsertForm(Model model) {
-		EmpVO empVO = new EmpVO();
+		EmpVO empVO = new EmpVO(); //등록될 새로운 객체
 		int newEmpId = empService.searchEmpId();
 		empVO.setEmpId(newEmpId);
-		List<CommonVO> poslist = empService.posList();
-		List<CommonVO> departmentList = empService.departmentList();
+		List<CommonVO> poslist = empService.posList(); //직위목록
+		List<CommonVO> departmentList = empService.departmentList(); //부서목록
 		model.addAttribute("emp",empVO);
 		model.addAttribute("position", poslist);
 		model.addAttribute("department", departmentList);
@@ -70,16 +70,16 @@ public class EmpController {
 	//등록 -  처리
 	@PostMapping("empInsert")
 	public String empInsertProcess(EmpVO empVO) {
-		empService.empInsert(empVO);
+		empService.empInsert(empVO); // 사원정보를 바탕으로 Insert
 		return "redirect:empList";
 	}
 	
 	//수정 - 페이지
 	@GetMapping("empUpdate")
 	public String empUpdateForm(EmpVO empVO, Model model) {
-		EmpVO findVO = empService.empInfo(empVO);
-		List<CommonVO> poslist = empService.posList();
-		List<CommonVO> departmentList = empService.departmentList();
+		EmpVO findVO = empService.empInfo(empVO); // 해당사원정보조ㅗ히
+		List<CommonVO> poslist = empService.posList();  //직위목록
+		List<CommonVO> departmentList = empService.departmentList(); //부서목록
 		model.addAttribute("emp", findVO);
 		model.addAttribute("position", poslist);
 		model.addAttribute("department", departmentList);
@@ -90,7 +90,7 @@ public class EmpController {
 	@PostMapping("empUpdate")
 	@ResponseBody
 	public Map<String, Object> empUpdateProcess(@RequestBody EmpVO empVO){
-		return empService.empUpdate(empVO);
+		return empService.empUpdate(empVO); 
 	}
 	
 	//삭제
