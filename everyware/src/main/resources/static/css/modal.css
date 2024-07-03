@@ -63,10 +63,16 @@
 	padding-right: 25px;
 }
 
+.lineHead {
+	padding: 20px;
+}
+
 .lineBody td {
 	padding-right: 25px;
 }
 
 .lineTable {
 	border: 2px solid #ddd;
+	margin-bottom: 10px;
+	padding: 20px;
 }
