@@ -55,7 +55,7 @@
 		WHERE emp_id = #{empId}
 	</select>
 	
-	<!-- 단건조회  근무기록 + 사원정보(사원이름, 부서, 직위) -->
+	<!-- 오늘근무기록 단건조회  근무기록 + 사원정보(사원이름, 부서, 직위) -->
 	<select id="selectAttend" resultType="AttendVO">
 		SELECT attend_id
         , find_codename(attend_type) attendType  
@@ -64,7 +64,9 @@
         , a.work_time
         , a.exceed_work_time
         , a.out_yn
+        , a.workdetail
         , a.emp_id
+        , a.workdetail
         , e.emp_name
         , find_codename(department_id) departmentName
         , find_codename(emp_position) posName 
@@ -102,6 +104,7 @@
 		    ,work_time
 		    , exceed_work_time
 		    , emp_id
+		    
 		FROM attend
 		WHERE (go_time between TRUNC(sysdate-#{week},'iw') and TRUNC(sysdate-#{week},'iw')+6) AND emp_id = #{attendVO.empId}
  	
@@ -120,9 +123,19 @@
 			, exceed_work_time
 			, out_yn
 			, emp_id
+			, workdetail
 		FROM attend 
 		WHERE emp_id = #{empId}and to_char(go_time, 'yyyymmdd') like #{goTime2}
  	
  	</select>
+ 	
+ 	<!-- 지각확인 -->
+ 	<update id="checkWokrLate" parameterType="AttendVO">
+ 		update attend
+		set workdetail = #{workdetail}
+		WHERE emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd')
+ 	
+ 	</update>
+ 	
 
 </mapper>
