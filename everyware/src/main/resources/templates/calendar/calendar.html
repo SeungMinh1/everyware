@@ -45,10 +45,10 @@
   </div>
   
   <!-- 일정공유 신청 모달 -->
-<div id="shareModal" class="modal" style="display:block;z-index:1111111">
+<div id="shareModal" class="modal" style="display:none;z-index:1111111;">
 	<div class="modal-body">
 		<div class="modal-header">
-			<h3>일정목록</h3>
+			<h3>일정 공유신청</h3>
 			<span class="close">&times;</span>
 		</div>
 		<div class="modal-footer">
@@ -61,25 +61,31 @@
 							</span>
 							<ul class="nested">
 								<li th:each="empList : ${deptList.empInfo}">
+									<th:block th:if="${empList.empId != #authentication.principal.userVO.empId}">
 									<a class="shareEmpId" th:data-empId="${empList.empId}">
 										[[ ${empList.empName} ]] [[ ${empList.empPosition} ]]
 									</a>
 								</li>
+							</th:block>
 							</ul>
 						</li>
 					</ul>		
 				</div>
 				<div>
 					<table>
-						<thead>
+						<thead style="border-bottom:1px solid black;">
 							<tr>
-								<th>일정</th>
+								<th>일정 목록</th>
+							</tr>							
+							<tr>
+							
 							</tr>
 						</thead>
-						<tbody>
-							<th:block th:fragment="" th:each = "box : ${boxList}">
-								<tr>
-									<td></td>
+						
+						<tbody th:fragment="calList" id="empCalList">
+							<th:block   th:each = "box : ${empIdBox}">
+								<tr >
+									<td class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -689,16 +695,60 @@
 	$(".shareEmpId").click(function(event){
 		console.log($(this).attr("data-empId"));
 		$.ajax({
-			url: '/updateCalBox',
+			url: '/empIdBox',
 			type: 'POST',
-			contentType :'application/json',
-			data: JSON.stringify(calBoxList)
+			data: {
+				empId : $(this).attr("data-empId")
+			}
 			
-	})
+		})
 	.done(function(res){
-		$('#calBoxFrg').replaceWith(res);
+		$('#empCalList').replaceWith(res);
+		calListClick();
 	});
 	})
+	
+	function calListClick(){
+		$(".empIdCalList").click(function(event){
+		let calBoxId = $(this).attr("data-calBoxId");
+			
+			$.ajax({
+				url: '/checkRedup',
+				type: 'POST',
+				data: {
+					calendarBoxId : calBoxId
+				}
+				
+			})
+			.done(function(res){
+				if(res == 0){
+					applyShare(calBoxId)
+					console.log(calBoxId)
+				}else{
+					alert('이미 공유신청한 일정입니다')
+				}
+			})
+			.fail(function(err){
+				console.log(err)
+			})
+			
+		})
+	}
+	
+	function applyShare(calBoxId){
+		
+		$.ajax({
+			url: '/applyShare',
+			type: 'POST',
+			data: {
+				calendarBoxId : calBoxId
+			}
+			
+		})
+		.done(function(res){
+			alert('공유신청 하였습니다.')
+		})
+	}
 	
 </script>
 <script src="../js/approval/org.js"></script>
