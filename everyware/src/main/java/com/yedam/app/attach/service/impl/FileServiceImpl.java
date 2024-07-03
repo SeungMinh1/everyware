@@ -2,12 +2,14 @@ package com.yedam.app.attach.service.impl;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.aspectj.weaver.tools.UnsupportedPointcutPrimitiveException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -70,15 +72,17 @@ public class FileServiceImpl implements FileService {
             uploadFileName = uuid.toString() + "_" + uploadFileName;
             log.info("UUID 1 : " + uploadFileName);
             log.info("UUID 2 : " + uuid.toString());
-        
-            int index = uploadFileName.indexOf(".");
+            
+            //확장자만 담기
+            int index = uploadFileName.lastIndexOf(".");
             log.info("contentType:" + uploadFileName.substring(index + 1));
+            fileVO.setExt(uploadFileName.substring(index + 1));
             
             //fileVO에 담기
-            fileVO.setUploadFileName(uuid.toString());   					  //UUID -> 업로드파일이름
-            fileVO.setAttachmentType(multipartFile.getContentType());         //첨부파일종류
-            fileVO.setFileSize(multipartFile.getSize());				      //파일 사이즈
-            fileVO.setUploadPath(uploadFolderPath); 						  //업로드 경로	
+            fileVO.setUploadFileName(uuid.toString());   				//UUID -> 업로드파일이름
+            fileVO.setFileType(multipartFile.getContentType());         //첨부파일종류
+            fileVO.setFileSize(multipartFile.getSize());				//파일 사이즈
+            fileVO.setUploadPath(uploadFolderPath); 					//업로드 경로	
             try {
             	File saveFile = new File(uploadPath, uploadFileName);
             	multipartFile.transferTo(saveFile);
@@ -115,10 +119,30 @@ public class FileServiceImpl implements FileService {
 	
 	//첨부파일 삭제
 	@Override
-	public int deleteFile(List<FileVO> fileVO) {
-		return 0;
+	public ResponseEntity<String> deleteFile(String fileName, String Type) throws UnsupportedEncodingException {
+		log.info("deleteFile:" + fileName);
+		
+		File file;
+		
+		try {
+			file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file.delete();
+
+		} catch (UnsupportedPointcutPrimitiveException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return  new ResponseEntity<String>("deleted", HttpStatus.OK);
+
+		// 콘솔 출력
+		//log.info("Original File Name : " + list.getOriginFileName());
+		//log.info("Upload File Size : " + list.getFileSize());
+		//log.info("Upload File Name : " + list.getUploadFileName());
+		//log.info("Upload Path : " + list.getUploadPath());
+		//String fileName = list.getUploadPath().replace("\\", "/") + '/' + list.getUploadFileName() + "_" 
+		//	+ list.getOriginFileName();
+
 	}
-    
 	
 	
 }

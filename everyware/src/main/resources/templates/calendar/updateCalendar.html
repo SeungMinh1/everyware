@@ -84,9 +84,10 @@
       </div>
 
       <!--  -->
-      	<div class="row">
+      	<div style="text-align:center">
          <!-- <a href="#" class="btn btn-secondary">Cancel</a>  --> 
-          <button style="width:7%" type="button" id="updateCal"class="btn btn-success float-center">변경</button>
+          <button  type="button" id="updateCal"class="btn btn-success">변경</button>
+           <button type="button" id="delCal"class="btn btn-del">삭제</button>
    		</div>
         
         
@@ -176,6 +177,24 @@
 			
 		})
 		.done(
+				location.href='/calendar'
+			);  
+			
+		
+	})
+	
+	$('#delCal').click(function(){
+		console.log(params.get("calendarId"));
+		 $.ajax({
+			url :'/deleteCal',
+			type :'POST',
+			data : {
+				calendarId : params.get("calendarId")
+			}
+			
+		})
+		.done(
+				alert('삭제 완료'),
 				location.href='/calendar'
 			);  
 			

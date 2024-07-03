@@ -19,7 +19,7 @@ public interface CalendarMapper {
 	public int updateCalInfo(CalendarVO calendarVO);
 	
 	//삭제
-	public int deleteCalendarInfo(CalendarVO calendarVO);
+	public int deleteCalInfo(CalendarVO calendarVO);
 	
 	//사원별 일정리스트 출력
 	public List<CalendarBoxVO> selectCalBox(CalendarVO calendarVO);
@@ -59,6 +59,12 @@ public interface CalendarMapper {
 	
 	//관심일정 삭제
 	public int deleteApproveShare(CalendarBoxVO calendarBoxVO);
+	
+	//공유신청 전 조회
+	public int checkRedup(CalendarBoxVO calendarBoxVO);
+	
+	//공유신청
+	public int applyShare(CalendarBoxVO calendarBoxVO);
 	
 	
 	

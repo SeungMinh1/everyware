@@ -145,11 +145,16 @@
 
 
 	$('#submitCal').click(function(){
-		console.log($("#calList").val());
+		console.log($('#startDate').val() + ' ' + $('#startTime').val());
+		console.log($('#title').val())
+		if($('#title').val() == ''){
+			alert('일정이름을 입력해주세요')
+			return;
+		}
 		$.ajax({
 			url :'/insertCal',
 			type :'POST',
-			contentType :'application/json',
+			/* contentType :'application/json', */
 			data : {
 				start : $('#startDate').val() + ' ' + $('#startTime').val(),
 				end : $('#endDate').val() + ' ' + $('#endTime').val(),
@@ -161,16 +166,14 @@
 			},
 			
 		})
-		.done(function(res){
-			
+		.done(
 				location.href='/calendar'
-		}
 			)
-		.fail(
+ 		.fail(
 				function(a, err){
 					console.log(err)
 				}
-				)
+				) 
 		;
 			
 		
