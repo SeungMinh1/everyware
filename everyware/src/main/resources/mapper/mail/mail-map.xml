@@ -29,13 +29,7 @@
 		WHERE mail_id = #{mailId}
 	</select>
 	
-<!-- 	<select id="selectRe" resultType="MailVO">
-	 	select recipient
-		from mail m
-		left outer join mail_recipient r
-		on m.mail_id = r.mail_id-1 
-		where m.mail_id=#{mailId}
-	</select> -->
+	<!-- empId, email, restore 조회 -->
 	<select id="selectEmpId" resultType="int">
 		SELECT emp_id
 		FROM emp
@@ -48,13 +42,14 @@
 		WHERE emp_id = #{empId}
 	</select>
 
-   <select id="selectRestore" resultType="String">
+    <select id="selectRestore" resultType="String">
    		SELECT restore
 		FROM mail
 		WHERE mail_id = #{mailId}
-   </select>
-   
-	<update id="updateRestoreMail" parameterType="MailVO">
+    </select>
+    
+    <!-- ====== 복구 ======= -->
+    <update id="updateRestoreMail" parameterType="MailVO">
 		UPDATE mail
 		SET mailbox_id = (SELECT restore
 						 FROM mail
@@ -62,6 +57,7 @@
 		WHERE mail_id = #{mailId}
 	</update>
 	
+	<!-- 등록 (보내기) -->
 	<insert id="insertSenderMail" parameterType="MailVO">
 	INSERT INTO mail
 		       (

@@ -163,6 +163,11 @@ public class DocController {
 	// 문서 등록(페이지)
 	
 	// 문서 등록(처리)
+	@PostMapping("docInsert")
+	@ResponseBody
+	public int docInsert(@RequestBody DocVO docVO) {
+		return docService.docInsert(docVO);
+	}
 	
 	// 문서 임시저장(처리)
 	@PostMapping("tempInsert")

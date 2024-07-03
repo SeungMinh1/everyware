@@ -173,7 +173,8 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public int moveRestoreMail(MailVO mailVO) {
 		int result = 0;
-		for(Integer mailIds: mailVO.getMailIdList()) {
+		//mailIdList에서 mailId를 얻음
+		for(Integer mailIds: mailVO.getMailIdList()) { 
 			mailVO.setMailId(mailIds);
 			result = mailMapper.updateRestoreMail(mailVO);
 		}

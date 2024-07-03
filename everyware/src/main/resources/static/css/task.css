@@ -54,10 +54,6 @@
 	padding: 20px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal; height: 80px; width: 80px;
 }
 
-.signBox2{
-	border: 1px solid black; float:right;
-}
-
 .draft{
 	border: 1px solid black; background: rgb(221, 221, 221); font-size: 12px; font-weight: normal;
 }
