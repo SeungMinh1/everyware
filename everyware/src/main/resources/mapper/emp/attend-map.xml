@@ -152,8 +152,8 @@
 		                from        
 		                (            
 		                    select                 
-		                        to_date((SELECT TO_CHAR((SELECT TRUNC(SYSDATE, 'MM')FROM DUAL), 'YYYYMMDD') FROM dual), 'YYYYMMDD') - 1 START_DT                
-		                        ,to_date((SELECT TO_CHAR((SELECT LAST_DAY(sysdate) FROM DUAL), 'YYYYMMDD') FROM dual), 'YYYYMMDD') END_DT            
+		                        to_date((SELECT TO_CHAR((SELECT TRUNC(SYSDATE -#{months}, 'MM')FROM DUAL), 'YYYYMMDD') FROM dual), 'YYYYMMDD') - 1 START_DT                
+		                        ,to_date((SELECT TO_CHAR((SELECT LAST_DAY(sysdate - #{months}) FROM DUAL), 'YYYYMMDD') FROM dual), 'YYYYMMDD') END_DT            
 		                        from DUAL       
 		                )        
 		                connect by LEVEL <![CDATA[<= ]]> END_DT - START_DT    

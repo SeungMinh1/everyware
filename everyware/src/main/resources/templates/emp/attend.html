@@ -706,7 +706,7 @@
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000) + 'm';
                 	
-                	if(distance > 5.02){
+                	if(distance > 50.02){
                 		alert("출근 실패");
                 	}else{
                 		let nowTime = new Date();
@@ -813,7 +813,7 @@
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed(3) + 'm';
-                	if(distance > 5.02){
+                	if(distance > 50.02){
                 		alert("퇴근 실패");
                 	}else{
                 		let nowTime2 = new Date();

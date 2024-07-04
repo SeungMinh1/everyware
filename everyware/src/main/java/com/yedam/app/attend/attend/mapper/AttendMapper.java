@@ -35,7 +35,7 @@ public interface AttendMapper {
 	public int checkWokrLate(AttendVO attendV);
 	
 	//주차확인
-	public List<WeekVO> findWeeks();
+	public List<WeekVO> findWeeks(int months);
 	
 	//전체사원 누적 근무시간 조회
 	public List<EmpVO> selectAllWorkTime(WeekVO weekVO);

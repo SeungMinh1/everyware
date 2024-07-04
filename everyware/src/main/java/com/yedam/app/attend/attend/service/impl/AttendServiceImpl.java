@@ -102,8 +102,9 @@ public class AttendServiceImpl implements AttendService {
 		return attendMapper.checkWokrLate(attendVO);
 	}
 	@Override
-	public List<WeekVO> findWeeks() {
-		return attendMapper.findWeeks();
+	public List<WeekVO> findWeeks(int months) {
+		months = months * 30;
+		return attendMapper.findWeeks(months);
 	}
 	@Override
 	public List<EmpVO> AllWorkTime(WeekVO weekVO) {
