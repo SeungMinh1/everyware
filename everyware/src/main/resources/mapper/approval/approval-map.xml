@@ -3,13 +3,35 @@
 <mapper namespace="com.yedam.app.approval.mapper.ApprovalMapper">
 	<!-- 결재 등록 -->
 	<insert id="approvalInsert" parameterType="ApprovalVO">
+		<selectKey	keyProperty="approvalId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT approval_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
 		INSERT INTO approval_path
-			(
-				approval_id				
-			)
-		VALUES
-			(
-				#{approvalEmp}
-			)
+	            (
+	                approval_id
+	                , approval_type
+	                , approval_order
+	                , approval_emp_order
+	                , approval_emp
+	                , approval_emp_id
+	                , doc_id
+	                , draft_emp
+	            )
+		        VALUES
+		        (
+		        	approval_id_seq.NEXTVAL
+		        	, #{approvalType}
+		        	, #{approvalOrder}
+		        	, #{approvalEmpOrder}
+		        	, #{approvalEmp}
+		        	, #{approvalEmpId}
+		        	, (SELECT last_number-1
+					  FROM user_sequences 
+					  WHERE sequence_name=UPPER('doc_id_seq'))
+		        	, #{draftEmp}
+		        )
 	</insert>
 </mapper>
