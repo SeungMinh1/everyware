@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class DraftVO {
+	private int draftId;
 	private String draftEmp;
 	private String draftEmpDept;
 	private String draftTitle;

@@ -11,6 +11,7 @@ import lombok.Data;
 public class PostVO {
 	private Integer postId;  			//게시물 번호
 	private Integer boardId; 			//게시판 번호 
+	private String boardTitle;          //게시판 이름 
 	private String boardType;
 	private String notificationYn;  	//공지 여부
 	private String holdYn;  			//글고정 여부
