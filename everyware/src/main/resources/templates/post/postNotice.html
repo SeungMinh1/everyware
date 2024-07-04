@@ -89,6 +89,17 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
 .btn-3 span:hover:after {
   width: 100%;
 }
+
+.btn-search{
+ background-color: rgb(0,172,238);
+ cursor: pointer; 
+}
+
+.btn-search:hover{
+ background-color: rgba(2,126,251,1);
+}
+
+
 </style>
 <body class="hold-transition sidebar-mini">
 
@@ -110,24 +121,46 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
         </div>
       </div><!-- /.container-fluid -->
     </section>
-       
+   
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header">
-
+             <div class="col-12 col-sm-6">
+            <div class="card card-primary card-tabs">
+              <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">공지사항</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">일반</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
+                  <form action ="" class="searchForm" method="get">
+                  	<select class="searchOption" name="option">
+                  		<option value="A" selected>제목+내용</option>
+                  		<option value="T">제목</option>
+                  		<option value="W">작성자</option>
+                  	</select>
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="검색">				  
                     <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
+                      <button type="submit" class="btn btn-search">
                         <i class="fas fa-search"></i>
                       </button>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </form>
+                 </div>
+               </div>
+             </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">

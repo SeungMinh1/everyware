@@ -108,14 +108,16 @@ public class PostController {
 	@GetMapping("postUpdate")
 	public String postUpdateForm(PostVO postVO, Model model) {
 		PostVO findVO = postService.postInfo(postVO);
+		List<CommonVO> departmentList = postService.departmentList();	
 		model.addAttribute("post",findVO);
+		model.addAttribute("department",departmentList);
 		return "post/postUpdate";
 	}
 	//수정 - 처리
 	@PostMapping("postUpdate")
-	@ResponseBody
-	public Map<String,Object>postUpdateAJAXJSON(@RequestBody PostVO postVO){
-		return postService.postUpdate(postVO);
+	public String postUpdate( PostVO postVO){
+		postService.postUpdate(postVO);
+		return "redirect:postInfo?postId="+postVO.getPostId();
 	}
 	//삭제 - 처리 
 	@GetMapping("postDelete")
