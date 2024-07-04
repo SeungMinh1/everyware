@@ -116,20 +116,60 @@ public class DocServiceImpl implements DocService {
 		int result = 0;
 		
 		// 결재자
+		String appEmps = "";
+		for(String appEmp : docVO.getApprovalNameList()) {
+			appEmps += appEmp + " ";
+		}
+		docVO.setApprovalEmp(appEmps);
 		
 		// 결재자 id
+		String appEmpIds = "";
+		for(String appEmpId : docVO.getApprovalIdList()) {
+			appEmpIds += appEmpId + " ";
+		}
+		docVO.setApprovalEmpId(appEmpIds);
 		
 		// 수신자
+		String recEmps = "";
+		for(String recEmp : docVO.getReceptionNameList()) {
+			recEmps += recEmp + " ";
+		}
+		docVO.setReceptionEmp(recEmps);
 		
 		// 수신자 id
+		String recEmpIds = "";
+		for(String recEmpId : docVO.getReceptionIdList()) {
+			recEmpIds += recEmpId + " ";
+		}
+		docVO.setReceptionEmpId(recEmpIds);
 		
 		// 참조자
+		String refEmps = "";
+		for(String refEmp : docVO.getRefNameList()) {
+			refEmps += refEmp + " ";
+		}
+		docVO.setRefEmp(refEmps);
 		
 		// 참조자 id
+		String refEmpIds = "";
+		for(String refEmpId : docVO.getRefIdList()) {
+			refEmpIds += refEmpId + " ";
+		}
+		docVO.setRefEmpId(refEmpIds);
 		
 		// 열람자
+		String viewEmps = "";
+		for(String viewEmp : docVO.getViewNameList()) {
+			viewEmps += viewEmp + " ";
+		}
+		docVO.setViewEmp(viewEmps);
 		
 		// 열람자 id
+		String viewEmpIds = "";
+		for(String viewEmpId : docVO.getViewIdList()) {
+			viewEmpIds += viewEmpId + " ";
+		}
+		docVO.setViewEmpId(viewEmpIds);
 		
 		// 순차/병렬
 		
@@ -137,7 +177,7 @@ public class DocServiceImpl implements DocService {
 		
 		
 		
-		
+		result = docMapper.docInsert(docVO);
 		return result;
 	}
 	

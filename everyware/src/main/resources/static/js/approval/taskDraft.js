@@ -68,22 +68,19 @@ $('#request').on('click', function() {
 	})
 	.done(result => {
 		if(result) {
-			alert('성공');
-			location.href="/draftDocList";
-		}
-		console.log(result);
-	})
-	.fail(err=>console.log(err));
-	
-	$.ajax('draftInsert', {
-		type : 'post'
-		, contentType : 'application/JSON'
-		, data : JSON.stringify(draft)
-	})
-	.done(result => {
-		if(result) {
-			alert('성공');
-			location.href="/draftDocList";
+			$.ajax('draftInsert', {
+				type: 'post'
+				, contentType: 'application/JSON'
+				, data: JSON.stringify(draft)
+			})
+			.done(result => {
+				if (result) {
+					alert('성공');
+					location.href = "/draftDocList";
+				}
+				console.log(result);
+			})
+			.fail(err => console.log(err));
 		}
 		console.log(result);
 	})
@@ -149,6 +146,7 @@ function docInfo() {
 	
 	var data = {
 		docTitle			: $('#msg').val()
+		, draftEmpId 		: $('.boardTable')[0].id
 		, docContent 		: $('#summernote').summernote('code')
 		, draftEmp			: $('.draftName')[0].innerText
 		, draftEmpDept		: $('.deptName')[0].innerText
