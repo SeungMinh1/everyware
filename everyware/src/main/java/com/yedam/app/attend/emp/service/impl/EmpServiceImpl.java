@@ -90,6 +90,12 @@ public class EmpServiceImpl implements EmpService{
 	public int cntList() {
 		return empMapper.countList();
 	}
+
+	@Override
+	public List<EmpVO> prodEmpList() {
+		
+		return empMapper.prodEmpList();
+	}
 	
 
 }

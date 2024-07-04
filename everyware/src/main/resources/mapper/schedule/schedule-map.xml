@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.schedule.mapper.ScheduleMapper">
+	<!-- 조편성 되지 않은 생산팀 출력 -->
+	<select id="prodEmpList" parameterType="EmpVO" resultType="EmpVO">
+		SELECT emp_id
+				, emp_name
+				, FIND_CODENAME(emp_position) "emp_position"
+		FROM emp
+		WHERE department_id= 'g3' 
+		  AND NOT REGEXP_LIKE (emp_id, (REGEXP_REPLACE('(<foreach collection="empIdList" item="empId" index="array" separator="|">${empId}</foreach>)','(\s)','')))  
+		ORDER BY emp_id
+		
+	</select>
+
+</mapper>
