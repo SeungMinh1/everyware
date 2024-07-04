@@ -93,8 +93,10 @@ WHERE board_id = 3
 
 <!-- 단건 조회 -->
 <select id="postInfo" resultType="PostVO">
+
 SELECT post_id,
-	 		board_id,
+	 		p.board_id,
+            board_title,
 	        notification_yn,
 	        hold_yn,
 	        title,
@@ -105,11 +107,14 @@ SELECT post_id,
 	        content,
 	        emp_id_name(emp_id) "empName",
 	        emp_id
-	    FROM post
-WHERE post_id = #{postId}    
+	    FROM post p
+        join board b  
+        on p.board_id = b.board_id
+WHERE post_id = #{postId}
+
 </select>
 <!-- 등록 -->
-<insert id="PostInsert" parameterType="PostVO">
+<insert id="postInsert" parameterType="PostVO">
 	<selectKey	keyProperty="postId"
 					resultType="Integer"
 					order="BEFORE">
@@ -118,30 +123,28 @@ WHERE post_id = #{postId}
 	</selectKey>
 	INSERT INTO post
 		(post_id,
-		notification_yn,
 		hold_yn,
 		title,
 		write_date,
 		board_id,
+		notification_yn,
 		view_cnt,
-		recomment_cnt,
-		attachment_group_id,
+		recommend_cnt,
+		   <if test="attachmentGroupId != null and attachmentGroupId!=''">	attachment_group_id,</if>
+	
 		content,
-		emp_id,
-		boardType)
+		emp_id)
  VALUES (
  		#{postId},
-		#{notificationYn},
 		#{holdYn},
 		#{title},
-		#{writeDate},
+		sysdate,
 		#{boardId},
-		#{viewCnt},
-		#{recommentCnt},
-		#{attachmentGroupId},
+		#{notificationYn},
+		0,
+		0,<if test="attachmentGroupId != null and attachmentGroupId!=''">	#{attachmentGroupId},</if>
 		#{content},
-		#{empId},
-		#{boardType}
+		#{empId}
  		)
 </insert>
 
@@ -149,17 +152,11 @@ WHERE post_id = #{postId}
 <update id="postUpdate" parameterType="PostVO">
 UPDATE post 
 	SET 
-	    post_id = #{postId},
 		notification_yn = #{notificationYn},
 		hold_yn = #{holdYn},
 		title = #{title},
-		write_date = #{writeDate},
-		board_id = #{boardId},
-		view_cnt = #{viewCnt},
-		recomment_cnt = #{recommentCnt},
-		attachment_group_id = #{attachmentGroupId},
-		content = #{content},
-		emp_id = #{empId}	
+		<!-- attachment_group_id = #{attachmentGroupId}, -->
+		content = #{content}	
 	WHERE post_id = #{postId}	
 </update>
 

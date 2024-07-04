@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService {
 	}
 	//수정
 	@Override
-	public Map<String, Object> postUpdate(PostVO postVO) {
+	public int postUpdate(PostVO postVO) {
 		return postMapper.postUpdate(postVO);
 	}
 	//삭제

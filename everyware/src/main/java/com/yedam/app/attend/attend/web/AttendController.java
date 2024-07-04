@@ -19,6 +19,7 @@ import com.yedam.app.attend.attend.service.AttendVO;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.security.service.LoginUserVO;
+import com.yedam.app.common.util.AuthUtil;
 
 /**
  * 사원들의 출, 퇴근 등 근태르 관리하는 컨트롤러
@@ -48,28 +49,30 @@ public class AttendController {
 		if(attendService.countAttend(attendVO) != 0) { // 오늘 근무기록이 있다면(출근을 했다면)
 			AttendVO att = attendService.selectAttend(attendVO);
 			model.addAttribute("att", att);  // 오늘 근무기록 + 해당 사원의 사원정보(이름, 부서, 직위)
+			
 		}
 		AttendVO totalTime =  attendService.countWorkTime(attendVO); // 로그인한 사원의 누적 근무 기록
 		model.addAttribute("totalTime", totalTime);
 		
 		return "emp/attend";
 	}
-	
+	//attendService.checkWokrLate(att);
 	//출근
 	@PostMapping("gowork")
 	@ResponseBody
-	public int startWork(@RequestBody AttendVO attendVO, @AuthenticationPrincipal LoginUserVO principal) {
-		int empId = principal.getUserVO().getEmpId();
+	public int startWork(@RequestBody AttendVO attendVO) {
+		int empId = AuthUtil.getEmpId();
 		attendVO.setEmpId(empId);
-		return attendService.gowork(attendVO); //해당 사원 출근처리
+		attendService.gowork(attendVO);//해당 사원 출근처리
+		return attendService.checkWokrLate(attendVO);
 	}
 	
 	//퇴근
 	@PostMapping("endwork")
 	@ResponseBody
-	public int endWork(@RequestBody AttendVO attendVO2,  @AuthenticationPrincipal LoginUserVO principal) {
+	public int endWork(@RequestBody AttendVO attendVO2) {
 		String state = attendVO2.getAttendType();
-		int empId = principal.getUserVO().getEmpId();
+		int empId = AuthUtil.getEmpId();
 		Date leaveTime = attendVO2.getLeaveTime();
 		attendVO2.setEmpId(empId);
 		AttendVO findatt = attendService.selectAttend(attendVO2); // 해당사원의 근무기록 조회

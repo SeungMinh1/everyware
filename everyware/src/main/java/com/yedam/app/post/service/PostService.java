@@ -25,7 +25,7 @@ public interface PostService {
 	//등록
 	public int postInsert (PostVO postVO);
 	//수정
-	public Map<String,Object> postUpdate (PostVO postVO);
+	public int postUpdate (PostVO postVO);
 	//삭제
 	public int postDelete (int postId);
 }

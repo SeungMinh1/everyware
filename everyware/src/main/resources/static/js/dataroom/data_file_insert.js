@@ -1,11 +1,11 @@
 /**
- * 	file_upload.js
+ * 	data_file_insert.js
  */
 
 $(function () {
 //=========== 크기&확장자 제한 ============
 	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
-	var maxSize = 1048576; // 5MB
+	var maxSize = 10 * 1024 * 1024; // 10MB
 
     function checkExtentsion(fileName, fileSize){
         if (fileSize >= maxSize){
@@ -23,7 +23,7 @@ $(function () {
 	var cloneInputFileDiv = $(".uploadDiv").clone();
 	
 // ====== 미리보기 ( ul 태그 밑에 li 생성 ) ======
-	var uploadResult = $(".uploadResult ul");
+	var uploadResult = $(".uploadResult tbody");
 	
 	//ajax -> result 받아와서 -> each 
 	function showUploadFile(uploadResultArr){
@@ -36,17 +36,29 @@ $(function () {
 		    // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
 			
 			// 미리보기 li생성
-			str += "<li>" + obj.originFileName + "<span data-file=\'"+ fileCallPath +"\'data-type='file'> x </span></li>";
+			str += "<tr>"
+			str += "<td>" + obj.originFileName 
+			str += "</td>"
+			str += "<td>" + obj.fileSize + "</td>"
+			str += "<td>" + obj.ext + "</td>"
+			str += "<td>"+ "<span data-file=\'"+ fileCallPath +"\'data-type='file'> x </span>"+ "</td>"			
+			str += "</tr>";
 			
 			// 다운로드 li생성 
-			str += "<li><a href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"+//
-			 	   "<span data-file=\'" + fileCallPath + "\'data-type='file'> x </span></li>";
+			str += "<tr>"
+			str += "<td>"
+			str += "<a href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
+			str += "</td>"
+			str += "<td>" + obj.fileSize + "</td>"
+			str += "<td>" + obj.ext + "</td>"
+			str += "<td>"+ "<span data-file=\'" + fileCallPath + "\'data-type='file'> x </span>"+ "</td>"
+			str += "</tr>";
 		});
 		uploadResult.append(str);
 	};
 
 	
-// ============ 등록 =============
+// ============ 파일 등록 =============
    $('#uploadBtn').on('click', function(e){
 		var formData = new FormData();
 		var inputFile = $("input[name='uploadFile']");
@@ -54,7 +66,6 @@ $(function () {
 		
 		console.log("=== 1 ===");
 		console.log(files);
-		console.log(files.length);
 		
 		//업로드 된 파일이 있을때
 		if(files.length != 0){
@@ -89,14 +100,41 @@ $(function () {
 			}
 		}).fail(err => console.log(err));	
 	});
-	
+
+
+/*===============
+     자료실 등록
+================*/
+$('.insertBtn').on('click', function(){
+		$('#fileTitle').val();
+		console.log($('.dataSelect option:selected').val());
+		console.log($('#fileTitle').val());
+		
+		var insertData = {
+			title : $('#fileTitle').val(),
+			remarks : $('.dataSelect option:selected').val()
+		}
+		
+		$.ajax('insertData',{
+			type: 'post',
+			contentType : 'application/JSON',
+			data : JSON.stringify(insertData)
+		})
+		.done(result=>{
+			if(result){
+				alert('등록');
+			}
+			console.log(result);
+		})
+		.fail(err=>console.log(err));
+	})	
 // ============= 삭제 ==============
 	$(".uploadResult").on('click', 'span', function(){
 		var targetFile = $(this).data("file");
 		var type = $(this).data("type");
 		console.log(targetFile);
 		console.log(type);
-		var li = $(this).parent();
+		var tr = $(this).parent().parent();
 		
 		$.ajax({
 			url: '/deleteFile',
@@ -105,7 +143,7 @@ $(function () {
 			type : 'POST',
 			success: function(result){
 				alert(result);
-				li.remove();
+				tr.remove();
 			}
 		});//$.ajax
 		
