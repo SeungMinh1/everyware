@@ -144,17 +144,17 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
             </div>
           </div>
                 <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                  <form action ="" class="searchForm" method="get">
-                  	<select class="searchOption" name="option">
+                  <div class="input-group input-group-sm" style="width:100%;">
+                  <form action ="" class="searchForm" method="get" style="width:100%; float:left">
+                  	<select style="display:inline-block" class="searchOption" name="option">
                   		<option value="A" selected>제목+내용</option>
                   		<option value="T">제목</option>
                   		<option value="W">작성자</option>
                   	</select>
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="검색">				  
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-search">
-                        <i class="fas fa-search"></i>
+                    <input style="display:inline-block; width:30%" type="text" name="table_search" class="form-control float-right" placeholder="검색">				  
+                    <div class="input-group-append" >
+                      <button style="display:inline-block" type="submit" class="btn btn-search">
+                        <i  style="display:inline-block" class="fas fa-search"></i>
                       </button>
                     </div>
                   </form>
