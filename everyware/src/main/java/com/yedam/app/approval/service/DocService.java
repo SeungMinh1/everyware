@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.common.service.CommonVO;
 
 public interface DocService {
 	// 문서조회
@@ -68,4 +69,7 @@ public interface DocService {
 	
 	// 사원 정보
 	public EmpVO empInfo(int id);
+	
+	// 직위 코드
+	public int posCode(String codeName);
 }

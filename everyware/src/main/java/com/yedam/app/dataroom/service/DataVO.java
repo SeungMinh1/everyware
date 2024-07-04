@@ -11,5 +11,6 @@ public class DataVO {
 	private String departmentId;   //부서_번호
 	private int empId;			   //사원_번호
 	private String attachmentGroupId; //첨부파일 그룹번호
-	
+	private String title;			  //파일이름
+	private String remarks;			  //비고
 }
