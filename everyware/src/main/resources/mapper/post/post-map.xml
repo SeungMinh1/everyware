@@ -93,8 +93,10 @@ WHERE board_id = 3
 
 <!-- 단건 조회 -->
 <select id="postInfo" resultType="PostVO">
+
 SELECT post_id,
-	 		board_id,
+	 		p.board_id,
+            board_title,
 	        notification_yn,
 	        hold_yn,
 	        title,
@@ -105,8 +107,11 @@ SELECT post_id,
 	        content,
 	        emp_id_name(emp_id) "empName",
 	        emp_id
-	    FROM post
-WHERE post_id = #{postId}    
+	    FROM post p
+        join board b  
+        on p.board_id = b.board_id
+WHERE post_id = #{postId}
+
 </select>
 <!-- 등록 -->
 <insert id="postInsert" parameterType="PostVO">
@@ -135,7 +140,7 @@ WHERE post_id = #{postId}
 		#{title},
 		sysdate,
 		#{boardId},
-		'N',
+		#{notificationYn},
 		0,
 		0,<if test="attachmentGroupId != null and attachmentGroupId!=''">	#{attachmentGroupId},</if>
 		#{content},
@@ -147,17 +152,11 @@ WHERE post_id = #{postId}
 <update id="postUpdate" parameterType="PostVO">
 UPDATE post 
 	SET 
-	    post_id = #{postId},
 		notification_yn = #{notificationYn},
 		hold_yn = #{holdYn},
 		title = #{title},
-		write_date = #{writeDate},
-		board_id = #{boardId},
-		view_cnt = #{viewCnt},
-		recomment_cnt = #{recommentCnt},
-		attachment_group_id = #{attachmentGroupId},
-		content = #{content},
-		emp_id = #{empId}	
+		<!-- attachment_group_id = #{attachmentGroupId}, -->
+		content = #{content}	
 	WHERE post_id = #{postId}	
 </update>
 

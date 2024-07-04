@@ -107,8 +107,13 @@ margin-right:10px;
 								</div>
 								<div class="form-check">
 									<input type="checkbox" class="form-check-input"
-									 	id="ynCheck" name="holdYn" th:field="*{holdYn}" value="Y"> <label class="form-check-label"
-										for="ynCheck">공지로 등록</label>
+									 	id="holdUp3" name="holdYn" th:field="*{holdYn}" value="Y"> <label class="form-check-label"
+										for="holdUp3">상단고정</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input"
+									 	id="notiYN" name="notificationYn" th:field="*{notificationYn}" value="Y"> <label class="form-check-label"
+										for="notiYN">공지로 등록</label>
 								</div>
 							</div>
 							<!-- /.card-body -->
@@ -167,10 +172,12 @@ $(document).ready(function() {
 		var formData = new FormData(document.insertForm);
 		
 		 // 체크박스 상태 확인하여 값 설정
-        if (! $('#ynCheck').is(':checked')) {
+        if (! $('#holdUp3').is(':checked')) {
             formData.append('holdYn', 'N');
         }
-		
+        if (! $('#notiYN').is(':checked')) {
+            formData.append('notificationYn', 'N');
+        }
 		 $.ajax({
 			url: '/postInsert',
 			processData:false,
