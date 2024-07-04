@@ -65,6 +65,7 @@
         , a.exceed_work_time
         , a.out_yn
         , a.workdetail
+        , a.workdetail2
         , a.emp_id
         , a.workdetail
         , e.emp_name
@@ -85,17 +86,7 @@
 		WHERE a.emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd')
 	</select>
 	
-	
-	<!-- 
-	하루전 조회
-	select *
-	from emp e
-	    inner join attend a
-	    on e.emp_id = a.emp_id
-	WHERE e.emp_id = 105 and (go_time like (trunc(sysdate)-1) or go_time like  (trunc(sysdate)-2));
-	
-	 -->
- 
+
  	<!-- 주단위 근무시간 죄회 -->
  	<select id="countWorkTime" resultType="AttendVO">
 	 	SELECT attend_id
@@ -124,6 +115,7 @@
 			, out_yn
 			, emp_id
 			, workdetail
+			, workdetail2
 		FROM attend 
 		WHERE emp_id = #{empId}and to_char(go_time, 'yyyymmdd') like #{goTime2}
  	
@@ -134,8 +126,61 @@
  		update attend
 		set workdetail = #{workdetail}
 		WHERE emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd')
- 	
  	</update>
+ 	
+ 	 <!-- 조퇴확인 -->
+ 	<update id="checkWokrEarly" parameterType="AttendVO">
+ 		update attend
+		set workdetail2 = #{workdetail2}
+		WHERE emp_id = #{empId} and to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd')
+ 	</update>
+ 	
+ 	<!-- 이번달 주차계산 -->
+ 	<select id="findWeeks" resultType="WeekVO">
+	 	with ISO as
+		 (   
+		    select        
+		            to_char(WEEK_START, 'YYYY-MM-DD') WEEK_START       
+		            ,to_char(WEEK_END, 'YYYY-MM-DD') WEEK_END        
+		            ,to_char(WEEK_START, 'WW') WEEK_OF_YEAR_ISO        
+		            ,to_char(WEEK_START, 'W') WEEK_OF_MONTH    
+		            from    
+		            (        
+		                select            
+		                    trunc(START_DT + LEVEL, 'D') WEEK_START           
+		                    ,trunc(START_DT + LEVEL, 'D') + 6 WEEK_END        
+		                from        
+		                (            
+		                    select                 
+		                        to_date((SELECT TO_CHAR((SELECT TRUNC(SYSDATE, 'MM')FROM DUAL), 'YYYYMMDD') FROM dual), 'YYYYMMDD') - 1 START_DT                
+		                        ,to_date((SELECT TO_CHAR((SELECT LAST_DAY(sysdate) FROM DUAL), 'YYYYMMDD') FROM dual), 'YYYYMMDD') END_DT            
+		                        from DUAL       
+		                )        
+		                connect by LEVEL <![CDATA[<= ]]> END_DT - START_DT    
+		            )    
+		            group by WEEK_START, WEEK_END    
+		            order by week_start
+		        )
+		        select     
+		            rownum as weekNum
+		            ,a.* 
+		    from ISO a 
+ 	</select>
+ 	
+ 	
+ 	<!-- 전체사원 주차별 누적 근무시간 조회 -->
+ 	<select id="selectAllWorkTime" resultType="EmpVO">
+ 		SELECT e.emp_id
+		    , e.emp_name
+		    , find_codename(department_id) departmentName
+		    , find_codename(emp_position) posName
+		    ,sum(work_time) weekwtime
+		FROM emp e
+		    LEFT OUTER JOIN ( SELECT * FROM attend WHERE go_time BETWEEN TO_DATE(#{weekStart}, 'YYYY/MM/DD') AND TO_DATE (#{weekEnd}, 'YYYY/MM/DD') )A
+		    ON e.emp_id = a.emp_id
+		GROUP BY e.emp_id,emp_name,department_id,emp_position
+		order by e.emp_id
+ 	</select>
  	
 
 </mapper>
