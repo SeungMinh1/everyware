@@ -55,6 +55,7 @@ $('#save').on('click', function() {
 $('#request').on('click', function() {
 	let doc = docInfo();
 	let draft = draftInfo();
+	let approval = approvalInfo();
 	
 	if($('#msg').val() == '') {
 		alert('제목은 필수값입니다');
@@ -75,14 +76,22 @@ $('#request').on('click', function() {
 			})
 			.done(result => {
 				if (result) {
-					alert('성공');
-					location.href = "/draftDocList";
-				}
-				console.log(result);
+					$.ajax('approvalInsert', {
+						type: 'post'
+						, contentType: 'application/JSON'
+						, data: JSON.stringify(approval)
+					})
+					.done(result => {
+						if(result) {
+							alert('성공');
+							location.href = "/draftDocList";
+						}
+					})
+					.fail(err => console.log(err));
+				}				
 			})
 			.fail(err => console.log(err));
-		}
-		console.log(result);
+		}		
 	})
 	.fail(err=>console.log(err));
 })
@@ -130,8 +139,8 @@ function docInfo() {
 	var qrefId = [];
 	for(var i=1; i<emps2.length; i++) {
 		if($($('.lineBody')[i]).children()[1].textContent == '참조') {
-			qrefEmp.push(emps[i].dataset.name);
-			qrefId.push(emps[i].id);
+			qrefEmp.push(emps2[i].dataset.name);
+			qrefId.push(emps2[i].id);
 		}
 	}
 	
@@ -139,8 +148,8 @@ function docInfo() {
 	var qviewId = [];
 	for(var i=1; i<emps2.length; i++) {
 		if($($('.lineBody')[i]).children()[1].textContent == '열람') {
-			qviewEmp.push(emps[i].dataset.name);
-			qviewId.push(emps[i].id);
+			qviewEmp.push(emps2[i].dataset.name);
+			qviewId.push(emps2[i].id);
 		}
 	}
 	
@@ -180,12 +189,33 @@ function draftInfo() {
 	return data1;
 }
 
+function approvalInfo() {
+	var emps = $('.approvalName');
+	var appEmp = [];
+	
+	for(var i=0; i<emps.length; i++) {
+		if($('.approval')[i].innerText == '승인') {
+			appEmp.push({ approvalEmpId : emps[i].id, approvalEmp : emps[i].dataset.name, 
+						  approvalPosition : $('.approvalPosition')[i].innerText,
+						  approvalOrder : $('input[name=order]:checked').val(),
+						  draftEmp : $('.draftName')[0].innerText });
+		}
+	}
+	
+	var data2 = { 
+		approvalEmpList	: appEmp 
+		, approvalOrder : $('input[name=order]:checked').val()
+	}
+	
+	return data2;
+}
 
 // 결재자 등록
 $('.nested li').draggable({revert: "valid"});
 $('#lineApp').droppable({
 		accept: $('.nested li'),
 		drop: function(e, ui) {
+			
 			var html = "";
 			var name = ui.draggable[0].className.substr(0,3);
 			var id = ui.draggable[0].dataset.id;

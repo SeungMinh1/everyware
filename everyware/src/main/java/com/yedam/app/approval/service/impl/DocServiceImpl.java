@@ -12,6 +12,7 @@ import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
 import com.yedam.app.approval.service.TaskVO;
 import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.common.service.CommonVO;
 
 @Service
 public class DocServiceImpl implements DocService {
@@ -118,64 +119,58 @@ public class DocServiceImpl implements DocService {
 		// 결재자
 		String appEmps = "";
 		for(String appEmp : docVO.getApprovalNameList()) {
-			appEmps += appEmp + " ";
+			appEmps += appEmp + ",";
 		}
 		docVO.setApprovalEmp(appEmps);
 		
 		// 결재자 id
 		String appEmpIds = "";
 		for(String appEmpId : docVO.getApprovalIdList()) {
-			appEmpIds += appEmpId + " ";
+			appEmpIds += appEmpId + ",";
 		}
 		docVO.setApprovalEmpId(appEmpIds);
 		
 		// 수신자
 		String recEmps = "";
 		for(String recEmp : docVO.getReceptionNameList()) {
-			recEmps += recEmp + " ";
+			recEmps += recEmp + ",";
 		}
 		docVO.setReceptionEmp(recEmps);
 		
 		// 수신자 id
 		String recEmpIds = "";
 		for(String recEmpId : docVO.getReceptionIdList()) {
-			recEmpIds += recEmpId + " ";
+			recEmpIds += recEmpId + ",";
 		}
 		docVO.setReceptionEmpId(recEmpIds);
 		
 		// 참조자
 		String refEmps = "";
 		for(String refEmp : docVO.getRefNameList()) {
-			refEmps += refEmp + " ";
+			refEmps += refEmp + ",";
 		}
 		docVO.setRefEmp(refEmps);
 		
 		// 참조자 id
 		String refEmpIds = "";
 		for(String refEmpId : docVO.getRefIdList()) {
-			refEmpIds += refEmpId + " ";
+			refEmpIds += refEmpId + ",";
 		}
 		docVO.setRefEmpId(refEmpIds);
 		
 		// 열람자
 		String viewEmps = "";
 		for(String viewEmp : docVO.getViewNameList()) {
-			viewEmps += viewEmp + " ";
+			viewEmps += viewEmp + ",";
 		}
 		docVO.setViewEmp(viewEmps);
 		
 		// 열람자 id
 		String viewEmpIds = "";
 		for(String viewEmpId : docVO.getViewIdList()) {
-			viewEmpIds += viewEmpId + " ";
+			viewEmpIds += viewEmpId + ",";
 		}
 		docVO.setViewEmpId(viewEmpIds);
-		
-		// 순차/병렬
-		
-		
-		
-		
 		
 		result = docMapper.docInsert(docVO);
 		return result;
@@ -237,7 +232,10 @@ public class DocServiceImpl implements DocService {
 	public EmpVO empInfo(int id) {
 		return docMapper.empInfo(id);
 	}
-	
-	
+
+	@Override
+	public int posCode(String codeName) {
+		return docMapper.posCode(codeName);
+	}
 }
 
