@@ -30,7 +30,7 @@ public interface AttendService {
 	public int checkWokrLate(AttendVO attendVO);
 	
 	//주차확인
-	public List<WeekVO> findWeeks();
+	public List<WeekVO> findWeeks(int months);
 	
 	//전사원 주차별 누적 근무시간
 	public List<EmpVO> AllWorkTime(WeekVO weekVO);
