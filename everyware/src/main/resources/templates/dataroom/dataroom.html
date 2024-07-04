@@ -9,7 +9,7 @@
   <title>자료실</title>
   <style type="text/css">
   	.modalDiv{
-  		height:300px
+  		height:500px
   	
   	}
   
@@ -33,14 +33,16 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-2">
-            <a class="btn btn-primary btn-block mb-3">파일업로드</a>
-			<button class="btn btn-outline-secondary" type="button" id="recipient"
-			data-bs-toggle="modal" data-bs-target="#exampleModal">파일업로드</button>
-			<!-- Modal -->
+        <div class="col-md-3">
+            <div class="card card-primary card-outline">
+              <div class="card-body">
+					<button class="btn btn-outline-primary btn-block mb-3" type="button" id="recipient"
+					data-bs-toggle="modal" data-bs-target="#exampleModal">파일 업로드</button>
+			  <!-- Modal -->
 			<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog modal-lg modal-dialog-centered">
 			    <div class="modal-content">
+			    <!-- ======= 모달 header ======== -->	
 			      <div class="modal-header">
 			        <h1 class="modal-title fs-5" id="exampleModalLabel">파일업로드</h1>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -48,112 +50,82 @@
 			    <!-- ======= 모달 body ======== -->	
 			      <div class="modal-body">
 			      	<div class="modalDiv">
-			        	<div class="input-group mb-3 uploadDiv">
+			      		<div class="form-group">
+	                        <label>대상 자료실 선택</label>
+	                        <select class="form-select dataSelect" aria-label="Default select example">
+		                          <option value="개인">개인자료실</option>
+		                          <option value="부서">부서자료실</option>
+		                          <option value="공통">공통자료실</option>
+	                        </select>
+                        </div>
+			        	<div class="mb-3">
+					  	  <input type="text" class="form-control" id="fileTitle" placeholder="파일이름">
+					    </div>
+						<div class="input-group mb-3 uploadDiv">
 							  <input class="form-control" type="file" name="uploadFile" multiple>
+							  <button class="btn btn-outline-secondary uploadBtn" id="uploadBtn" type="button">업로드</button>
 						</div>
-					
 						<div class="uploadResult">
-						  <table class="table table-hover">
-							 <thead>
-								<tr>
-									<th>파일명</th>
-									<th>크기</th>
-									<th>확장자</th>								
-								</tr>
-							 </thead>
-							 <tbody>
-							 	<tr>
-							 		<td>dd</td>
-							 		<td>dd</td>
-							 		<td>dd</td>
-							 	</tr>
-							 </tbody>
-						  </table>
+						  <div>
+							  <table class="table">
+								 <thead>
+									<tr>
+										<th>파일명</th>
+										<th>크기</th>
+										<th>확장자</th>
+										<th>삭제</th>							
+									</tr>
+								 </thead>
+								 <tbody>
+								 	<tr>
+								 	
+								 	</tr>
+								 </tbody>
+							  </table>
+						  </div>	
 						</div>	
 			      	</div>
 			      </div>
 			     <!-- ======= 모달 body ======== -->	
 			      <div class="modal-footer">
-			        <button class="btn btn-outline-primary uploadBtn" id="uploadBtn" type="button">업로드</button>
+			        <button class="btn btn-outline-primary insertBtn" type="button">등록</button>
 			        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
 			      </div>
 			    </div>
 			  </div>
 			</div>
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">자료실</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <ul class="nav nav-pills flex-column">
-                <li class="nav-item active">
-                  <a  data-no="d1" class="nav-link">
-                    <i class="fas fa-inbox"></i> 공통자료실
+		<!-- ================= Modal ================== -->
+              <ul class="list-group nav nav-pills flex-column">
+                <li class="nav-item active d1">
+                  <a th:href="@{/dataCommon}"data-no="d1" class="nav-link">
+                    <i class="fas fa-inbox"></i>　공통 자료실
                   </a>
                 </li>
               </ul>
-              
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">부서자료실</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                  <a  data-no="d3" class="nav-link">
-                    <i class="fas fa-inbox"></i> ㅇㅇ팀(내부서이름)
+               <ul class="nav nav-pills flex-column">
+                <li class="nav-item d2">
+                  <a th:href="@{/dataDept}" data-no="d2" class="nav-link">
+                    <i class="fas fa-inbox"></i>　부서 자료실
                   </a>
                 </li>
               </ul>
-              
-            </div>
-            
-            <!-- /.card-body -->
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">개인자료실</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="card-body p-0">
-              <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                  <a  data-no="d3" class="nav-link">
-                    <i class="fas fa-inbox"></i> 개인자료
+               <ul class="nav nav-pills flex-column">
+                <li class="nav-item d3">
+                  <a th:href="@{/dataMe}" data-no="d3" class="nav-link">
+                    <i class="fas fa-inbox"></i>　개인 자료실
                   </a>
                 </li>
               </ul>
-              
+              </div>
+              <!-- /.card-body -->
             </div>
-            
-            <!-- /.card-body -->
+            <!-- /.card -->
           </div>
-        </div>
         <!-- /.col -->
-        <div class="col-md-10">
+        <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">Inbox</h3>
+              <h3 class="card-title">자료실</h3>
 
               <div class="card-tools">
                 <div class="input-group input-group-sm">
@@ -203,30 +175,34 @@
                 <!-- /.float-right -->
               </div>
               <div class="table-responsive mailbox-messages">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover">
                   <thead>
                   	<tr>
                   		<th></th>
                   		<th>이름</th>
                   		<th>파일크기</th>
                   		<th>등록날짜</th>
-                  		<th>비고</th>
                   	</tr>
                   </thead>
-                  <tbody>
-                  <tr>
-                    <td>
-                      <div class="icheck-primary">
-                        <input type="checkbox" value="" id="check1">
-                        <label for="check1"></label>
-                      </div>
-                    </td>
-                    <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to find a solution to this problem...</td>
-                    <td class="mailbox-name">12.3 KB</td>
-                    <td class="mailbox-date">24.7.2</td>
-                    <td class="mailbox-text">결재</td>
-                  </tr>
-                
+                  <tbody class="tbody">
+                  <th:block th:if="${datas.size() == 0}">
+	                  <tr>
+		                <td colspan="4" class="text-center">등록된 파일이 없습니다.</td>
+		              </tr>
+                  </th:block>
+                  <th:block th:each="info : ${datas}">
+                    <tr>
+                    	<td>
+                        <div class="icheck-primary">
+                           <input type="checkbox" value="" id="check1">
+                           <label for="check1"></label>
+                        </div>
+	                    </td>
+	                    <td class="title">[[ ${info.title} ]]</td>
+	                    <td class="size">123</td>
+	                    <td class="date">[[ ${#dates.format(info.registrateDate, 'yy.MM.dd')} ]]</td>
+	                  </tr>
+                 	</th:block>
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -271,6 +247,9 @@
     })
   })
 </script>
-<script src="../../js/mail/mail_trash.js"></script>
+
+<script src="../../js/dataroom/data_file_insert.js"></script>
+<script src="../../js/dataroom/data_insert.js"></script>
+<script src="../../js/dataroom/data_list.js"></script>
 </body>
 </html>
