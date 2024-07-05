@@ -41,5 +41,7 @@ public class AttendVO {
 	private String workdetail;
 	private String workdetail2;
 	
+	private int monthworkTime;
+	private int monthExtraworkTime;
 }
 

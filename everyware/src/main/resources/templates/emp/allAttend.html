@@ -42,7 +42,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" >
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -53,7 +53,17 @@
               <!-- /.card-header -->
               <div class="card-body" style="text-align:center">
               	<div>
-              		<button type="button" id="lastMonth">ㅇㅇ</button><span>[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월 </span>
+              		<button type="button" id="golastMonth"  >ㅇㅇ</button>
+              		<span>[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월 </span>
+              		<select id="sel">
+              			<option value="0">[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월</option>
+              			<option value="1">[[ ${#strings.substring(weeks[1].weekStart, 5,7)}-1 ]] 월</option>
+              			<option value="2">[[ ${#strings.substring(weeks[1].weekStart, 5,7)}-2 ]] 월</option>
+              			<option value="3">[[ ${#strings.substring(weeks[1].weekStart, 5,7)}-3 ]] 월</option>
+              			<option value="4">[[ ${#strings.substring(weeks[1].weekStart, 5,7)}-4 ]] 월</option>
+              			<option value="5">[[ ${#strings.substring(weeks[1].weekStart, 5,7)}-5 ]] 월</option>
+              			<option value="6">[[ ${#strings.substring(weeks[1].weekStart, 5,7)}-6 ]] 월</option>
+              		</select>
               	</div>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
@@ -80,6 +90,30 @@
                   </tbody>
 
                 </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    
+      <section class="content" >
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">이번달 누적 근무시간</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" style="text-align:center" id="mainSector">
+					
               </div>
               <!-- /.card-body -->
             </div>
@@ -146,12 +180,24 @@
   });
 </script>
 <script>
-	$("#lastMonth").on('click', goLastMonth);
-	
-	function goLastMonth(){
-		
-	}
+	$("#golastMonth").on('click', function(){
+		$.ajax({
+       		url: "/allAttend?a="+ $("#sel").val(), 
+       		type : 'get'
 
+			
+		})
+  		.done(function(result){
+    		console.log(result);
+    		let url = "/allAttend?a="+ $("#sel").val();
+    		location.replace(url);
+    		
+    	})
+    	.fail(function(result){
+    		console.log("err");
+    	})
+	})
 </script>
+<script src="../../js/attend/attend.js"></script>
 </body>
 </html>

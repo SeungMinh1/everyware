@@ -28,6 +28,9 @@ public interface AttendMapper {
 	//근무시간
 	public List<AttendVO> countWorkTime(AttendVO attendVO, int week);
 	
+	// 한달 기준 누적근무시간
+	public AttendVO countWorkTime2(int empId, int mon);
+	
 	//날짜로 근무정보조회
 	public AttendVO dateAttend(AttendVO attendVO);
 	
