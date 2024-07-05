@@ -42,20 +42,42 @@ label{
 	border-top : 1px solid #17a2b8;
 }
 
+#tbody span{
+	cursor:pointer;
+}
+
+#tbody span:hover{
+	background-color: #c0c0c0
+}
+
 .squadTable th{
 	border-bottom : 1px solid #17a2b8;
 	
 }
 
+.btn{
+	border : 1px solid gray
+}
+
+.btn:hover{
+	background-color :#c0c0c0;
+}
+
 
 #makeCheckBox {
-	text-align: left
+	text-align: left;
 }
 
 #makeCheckBox input{
 	margin-left: 10px;
 	margin-right: 3px;
+	
 }
+
+#makeCheckBox label{
+	font-size: large;
+}
+
 
 .empTd{
 	line-height: 200%;
@@ -74,3 +96,26 @@ label{
   	font-size : smaller;
 	
 }
+
+.squadAddEmp{
+	cursor:pointer;
+}
+
+.squadAddEmp:hover{
+	background-color: #c0c0c0;
+}
+
+.firstStep label{
+	margin-left : 30%;
+	margin-right : 0;
+	width:10%;
+	margin-bottom : 2%;
+}
+
+.firstStep input{
+	width: 20%;
+	display:inline-block;
+}
+
+
+

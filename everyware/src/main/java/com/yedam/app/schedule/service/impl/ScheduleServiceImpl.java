@@ -8,16 +8,43 @@ import org.springframework.stereotype.Service;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.schedule.mapper.ScheduleMapper;
 import com.yedam.app.schedule.service.ScheduleService;
+import com.yedam.app.schedule.service.ScheduleVO;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	ScheduleMapper scheduleMapper;
 
+	//생산팀 중 근무조 편성되지 않은 직원출력
 	@Override
 	public List<EmpVO> prodEmpList(EmpVO empVO) {
 		
 		return scheduleMapper.prodEmpList(empVO);
+	}
+
+	//근무조 편성
+	@Override
+	public int insertSquadEmp(List<ScheduleVO> list) {
+		
+		for(ScheduleVO scheduleVO : list) {
+			scheduleMapper.insertSquadEmp(scheduleVO);
+		}
+		
+		return 1;
+	}
+	
+	//근무조 편성전 db 비우기
+	@Override
+	public int deleteAllSquadEmp() {
+		
+		return scheduleMapper.deleteAllSquadEmp();
+	}
+	
+	//근무조 설정 전 db 비우기
+	@Override
+	public int deleteAllsquad() {
+		// TODO Auto-generated method stub
+		return scheduleMapper.deleteAllsquad();
 	}
 	
 	
