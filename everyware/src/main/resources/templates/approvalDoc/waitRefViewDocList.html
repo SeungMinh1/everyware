@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="css/modal.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -51,7 +52,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<button class="approval">일괄 확인</button>
+              	<button type="button" class="btn" id="approval">일괄 확인</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
@@ -98,6 +99,32 @@
   <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper --> 
+
+<!-- 확인 모달 -->
+<div id="mdel" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3 >결재하시겠습니까?</h3>
+			<button type="button" class="btn" id="ok">확인</button>
+			<button type="button" class="btn" id="close">닫기</button>
+		</div>
+	</div>
+</div>
+<!-- 선택항목 X -->
+<div id="mno" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3>선택된 항목이 없습니다</h3>
+			<button type="button" class="btn" id="cclose">닫기</button>
+		</div>	
+	</div>
+</div>
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -150,13 +177,7 @@
 		}
 	});
 
-	$('.approval').click(function() {
-		if ($('input:checkbox:checked').length == 0) {
-			alert('선택된 항목이 없습니다.');
-		} else {
-			alert('모달창 띄우기');
-		}
-	})
 </script>
+<script src="../js/approval/waitRefViewDocList.js"></script>
 </body>
 </html>

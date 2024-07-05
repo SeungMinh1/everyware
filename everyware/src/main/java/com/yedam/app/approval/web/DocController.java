@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -152,13 +153,20 @@ public class DocController {
 		model.addAttribute("empInfo", findEmp);
 		model.addAttribute("empList", list);
 		
-		if(findVO.getTaskDocPath().equals("taskDraft")) {
-			return "task/taskDraft";
-		} else if(findVO.getTaskDocPath().equals("buyDraft")) {
-			return "task/buyDraft";
-		} else {
-			return null;
-		}	
+		if(findVO.getTaskDocPath().equals("e1")) { return "task/e1"; } else
+		if(findVO.getTaskDocPath().equals("e2")) { return "task/e2"; } else 
+		if(findVO.getTaskDocPath().equals("e3")) { return "task/e3"; } else
+		if(findVO.getTaskDocPath().equals("e4")) { return "task/e4"; } else
+		if(findVO.getTaskDocPath().equals("e5")) { return "task/e5"; } else
+		if(findVO.getTaskDocPath().equals("e6")) { return "task/e6"; } else
+		if(findVO.getTaskDocPath().equals("e7")) { return "task/e7"; } else
+		if(findVO.getTaskDocPath().equals("e8")) { return "task/e8"; } else
+		if(findVO.getTaskDocPath().equals("e9")) { return "task/e9"; } else
+		if(findVO.getTaskDocPath().equals("e10")) { return "task/e10"; } else
+		if(findVO.getTaskDocPath().equals("e11")) { return "task/e11"; } else
+		if(findVO.getTaskDocPath().equals("e12")) { return "task/e12"; } else
+		if(findVO.getTaskDocPath().equals("e13")) { return "task/e13"; } else
+		{ return null; }
 	}
 	// 문서 등록(페이지)
 	
