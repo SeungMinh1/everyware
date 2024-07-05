@@ -114,5 +114,9 @@ public class AttendServiceImpl implements AttendService {
 	public AttendVO countWorkTime2(int empId, int mon) {
 		return attendMapper.countWorkTime2(empId, mon);
 	}
+	@Override
+	public List<EmpVO> AllOverWorkTime(WeekVO weekVO) {
+		return attendMapper.selectAllOverWorkTime(weekVO);
+	}
 
 }

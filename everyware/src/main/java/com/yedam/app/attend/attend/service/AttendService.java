@@ -38,4 +38,7 @@ public interface AttendService {
 	//전사원 주차별 누적 근무시간
 	public List<EmpVO> AllWorkTime(WeekVO weekVO);
 	
+	//전사원 주차별 누적 근무시간
+	public List<EmpVO> AllOverWorkTime(WeekVO weekVO);
+	
 }

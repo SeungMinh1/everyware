@@ -194,5 +194,19 @@
 		order by e.emp_id
  	</select>
  	
+ 	 	<!-- 전체사원 주차별 누적 초과 근무시간 조회 -->
+ 	<select id="selectAllOverWorkTime" resultType="EmpVO">
+ 		SELECT e.emp_id
+		    , e.emp_name
+		    , find_codename(department_id) departmentName
+		    , find_codename(emp_position) posName
+		    ,sum(exceed_work_time) overweekwtime
+		FROM emp e
+		    LEFT OUTER JOIN ( SELECT * FROM attend WHERE go_time BETWEEN TO_DATE(#{weekStart}, 'YYYY/MM/DD') AND TO_DATE (#{weekEnd}, 'YYYY/MM/DD') )A
+		    ON e.emp_id = a.emp_id
+		GROUP BY e.emp_id,emp_name,department_id,emp_position
+		order by e.emp_id
+ 	</select>
+ 	
 
 </mapper>

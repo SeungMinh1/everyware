@@ -297,10 +297,23 @@
                         			<td >0분</td>
                        			 </th:block>
                        			 
-                       			 <td>[[ ${thisMonth.monthworkTime} ]] 분</td>
-                        		<td>[[ ${thisMonth.monthExtraworkTime} ]] 분</td>
-                        		<td>[[ ${lastMonth.monthworkTime} ]] 분</td>
-                        		<td>[[ ${lastMonth.monthExtraworkTime} ]] 분</td>
+                       			<th:block th:if="thisMonth != null">
+	                       			<td>[[ ${thisMonth.monthworkTime} ]] 분</td>
+	                        		<td>[[ ${thisMonth.monthExtraworkTime} ]] 분</td>
+	                        	</th:block>
+	                        	 <th:block th:unless="thisMonth != null">
+	                        	 	<td >0분</td>
+                        			<td >0분</td>
+	                        	 </th:block>
+	                        	 <!-- 여기가문제 -->
+	                        	 <th:block th:if="lastMonth != null">
+	                        		<td>[[ ${lastMonth.monthworkTime} ]] 분</td>
+	                        		<td>[[ ${lastMonth.monthExtraworkTime} ]] 분</td>
+                        		</th:block>
+                        		<th:block th:unless="thisMonth != null">
+	                        	 	<td >0분</td>
+                        			<td >0분</td>
+	                        	 </th:block>
                        		</tr>
                        		
                        </table>

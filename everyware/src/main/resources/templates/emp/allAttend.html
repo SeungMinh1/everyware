@@ -122,13 +122,13 @@
                   </tr>
                   </thead>
                   <tbody>
-    					<th:block th:each="a : ${empList}"  >
+    					<th:block th:each="c : ${empList2}"  >
     						<tr>
-    							<td>[[ ${a.empName} ]]</td>
-    							<td>[[ ${a.departmentName} ]]</td>
-    							<td>[[ ${a.posName} ]]</td>
+    							<td>[[ ${c.empName} ]]</td>
+    							<td>[[ ${c.departmentName} ]]</td>
+    							<td>[[ ${c.posName} ]]</td>
     						
-								<td th:each="b : ${a.workTimeList}" th:text="${b}+' 분'"></td>
+								<td th:each="d : ${c.workTimeList}" th:text="${d}+' 분'"></td>
     						</tr>
     					
 						</th:block>
@@ -167,9 +167,7 @@
   </aside>
   <!-- /.control-sidebar -->
 
-<!-- ./wrapper -->
 
-<!-- jQuery -->
 
 <!-- DataTables  & Plugins -->
 <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
