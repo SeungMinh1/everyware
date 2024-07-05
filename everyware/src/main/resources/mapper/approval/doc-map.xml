@@ -17,11 +17,13 @@
 		SELECT *
 		FROM approval_doc
 		WHERE doc_id IN (SELECT doc_id
-						 FROM approval_doc
-						 WHERE (REGEXP_SUBSTR(ref_emp_id, '[^,]+', 1, 1) = #{empId}
-		            	 AND ref_check = 0)
-		            	 OR (REGEXP_SUBSTR(view_emp_id, '[^,]+', 1, 1) = #{empId}
-		            	 AND view_check = 0))
+						 FROM ref_path
+						 WHERE ref_emp_id = #{empId}
+						 AND ref_status = '참조대기')
+		   OR doc_id IN (SELECT doc_id
+		   				 FROM view_path
+		   				 WHERE view_emp_id = #{empId}
+		   				 AND view_status = '열람대기')
 		ORDER BY doc_id
 	</select>
 	
@@ -54,12 +56,10 @@
 	<select id="approvalDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE approval_emp = (SELECT emp_name
-							  FROM emp
-							  WHERE emp_id = #{empId})
-		AND approval_emp_id = (SELECT emp_id
-                               FROM emp
-                               WHERE emp_id = #{empId})					
+		WHERE doc_id IN (SELECT doc_id
+						 FROM approval_path
+						 WHERE approval_emp_id = #{empId}
+						 AND approval_type = '결재')				
 		ORDER BY doc_id
 	</select>
 	
@@ -67,12 +67,9 @@
 	<select id="sendDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE send_emp = (SELECT emp_name
-					      FROM emp
-					      WHERE emp_id = #{empId})
-		AND send_emp_id = (SELECT emp_id
-                           FROM emp
-                           WHERE emp_id = #{empId})					
+		WHERE doc_id IN (SELECT doc_id
+						 FROM send_path
+						 WHERE send_emp_id = #{empId})				
 		ORDER BY doc_id
 	</select>
 	
@@ -80,12 +77,9 @@
 	<select id="receptionDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE reception_emp = (SELECT emp_name
-							   FROM emp
-							   WHERE emp_id = #{empId})
-		AND reception_emp_id = (SELECT emp_id
-                                FROM emp
-                                WHERE emp_id = #{empId})					
+		WHERE doc_id IN (SELECT doc_id
+						 FROM reception_path
+						 WHERE reception_emp_id = #{empId})				
 		ORDER BY doc_id
 	</select>
 	
@@ -93,19 +87,14 @@
 	<select id="refViewDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE (ref_emp = (SELECT emp_name
-                    	  FROM emp
-                    	  WHERE emp_id = #{empId})
-		OR view_emp = (SELECT emp_name
-                	   FROM emp
-                	   WHERE emp_id = #{empId}))
-        AND (ref_emp_id = (SELECT emp_id
-                           FROM emp
-                           WHERE emp_id = #{empId})
-        OR view_emp_id = (SELECT emp_id
-                          FROM emp
-                          WHERE emp_id = #{empId}))                               		
-		AND (doc_type = '참조' OR doc_type = '열람')
+		WHERE doc_id IN (SELECT doc_id
+						 FROM ref_path
+						 WHERE ref_emp_id = #{empId}
+						 AND ref_status = '참조')
+		   OR doc_id IN (SELECT doc_id
+		   				 FROM view_path
+		   				 WHERE view_emp_id = #{empId}
+		   				 AND view_status = '열람')
 		ORDER BY doc_id
 	</select>
 	
@@ -113,12 +102,10 @@
 	<select id="refDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE ref_emp = (SELECT emp_name
-					     FROM emp
-					     WHERE emp_id = #{empId})
-		AND ref_emp_id = (SELECT emp_id
-                          FROM emp
-                          WHERE emp_id = #{empId})					
+		WHERE doc_id IN (SELECT doc_id
+						 FROM ref_path
+						 WHERE ref_emp_id = #{empId}
+						 AND ref_status = '참조')				
 		ORDER BY doc_id
 	</select>
 	
@@ -126,12 +113,10 @@
 	<select id="viewDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE view_emp = (SELECT emp_name
-						  FROM emp
-						  WHERE emp_id = #{empId})
-		AND view_emp_id = (SELECT emp_id
-                           FROM emp
-                           WHERE emp_id = #{empId})					
+		WHERE doc_id IN	(SELECT doc_id
+		   				 FROM view_path
+		   				 WHERE view_emp_id = #{empId}
+		   				 AND view_status = '열람')	
 		ORDER BY doc_id
 	</select>
 	
@@ -151,6 +136,12 @@
 	
 	<!-- 개별 문서 조회 -->
 	<select id="docInfo" resultType="DocVO">
+		SELECT *
+		FROM approval_doc
+		WHERE doc_id = #{docId}
+	</select>
+	
+	<select id="info" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
 		WHERE doc_id = #{docId}
@@ -199,10 +190,13 @@
 				, approval_emp_id
 				, reception_emp
 				, reception_emp_id
+				, send_emp
+				, send_emp_id
 				, ref_emp
 				, ref_emp_id
 				, view_emp
 				, view_emp_id
+				, doc_info
 			)
 		VALUES
 			(
@@ -220,10 +214,13 @@
 				, #{approvalEmpId}
 				, #{receptionEmp}
 				, #{receptionEmpId}
+				, #{sendEmp}
+				, #{sendEmpId}
 				, #{refEmp}
 				, #{refEmpId}
 				, #{viewEmp}
 				, #{viewEmpId}
+				, #{docInfo}
 			)
 	</insert>
 	
@@ -252,10 +249,13 @@
 				, approval_emp_id
 				, reception_emp
 				, reception_emp_id
+				, send_emp
+				, send_emp_id
 				, ref_emp
 				, ref_emp_id
 				, view_emp
 				, view_emp_id
+				, doc_info
 			)
 		VALUES
 			(
@@ -274,10 +274,13 @@
 				, #{approvalEmpId}
 				, #{receptionEmp}
 				, #{receptionEmpId}
+				, #{sendEmp}
+				, #{sendEmpId}
 				, #{refEmp}
 				, #{refEmpId}
 				, #{viewEmp}
 				, #{viewEmpId}
+				, #{docInfo}
 			)
 	</insert>
 	
