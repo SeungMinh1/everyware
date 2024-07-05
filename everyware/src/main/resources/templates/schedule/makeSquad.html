@@ -26,9 +26,10 @@
 			
 		<section class="content">
 			<div class="row" >	
-			<div class="col-md-8" style="margin:auto;text-align:center">
+			<div class="col-md-10" style="margin:auto;text-align:center">
 			<div class="background">
 				<div class="firstStep">
+				<div style="text-align:left">
 					<label for="squadNum">근무형태</label>
 					<select id="squadNum" class="form-control" style="width:100px;display:inline-block">
 						<option value='1'>1</option>
@@ -40,42 +41,37 @@
 					<input type="number" class="form-control" id="squadDirectNum"  style="width:100px;display:none">
 					<span>조</span>&nbsp;&nbsp;
 					<select id="rotationNum" class="form-control" style="width:100px;display:inline-block">
-						<option value='1'>1</option>
 						<option value='2'>2</option>
 						<option value='3'>3</option>
 						<option value='4'>4</option>
-						<option value='direct'>직접입력</option>
 					</select>
-					<input class="form-control" type="number" id="rotationDirectNum" style="width:100px;display:none">
-					<span>교대</span>
+					<input class="form-control" type="number" max="10" id="rotationDirectNum" style="width:100px;display:none">
+					<span>교대</span><br>
 					
-					<div id="firstAlert"style="display:none">
-						<span style="color:red">값을 입력하여주세요</span>
+					<label>근무 시작일</label>
+					<input id="startDate" type="date" class="form-control"><br>
+					
+					<label for="rotaDay">교대 주기</label>
+					<input type="number" id="rotaDay" class="form-control"> 일
+					
+					<div class="alertGroup" id="firstAlert"style="display:none;text-align:center">
+						<span style="color:red">값을 입력하여 주세요</span>
 					</div>
-					
+					</div>
 					
 					<div class="buttonGroup">
-						<button id="firstNext" class="btn btn-success">다음</button>
+						<button id="firstNext" class="btn">다음</button>
 					</div>
+				
 				</div>
-				<div class="secondStep">
-					<table class="table squadTable" id="selectedTable">
-						<thead>
-							<tr>
-								<th style="width:5%;">조</th>
-								<th>근무자</th>
-							</tr>
-						</thead>
-						<tbody id="tbody">
-
-						</tbody>
-					</table>
+				<div class="secondStep" style="display:none">
+					
 
 					<div id="makeCheckBox">
 						
 					</div>
-					<div>
-						<table class="table">
+					
+						<table class="table"  style="width:30%;display:inline-block;margin-right:50px;">
 							<thead >
 								<tr>
 									<th>사원번호</th>
@@ -91,6 +87,22 @@
 							</th:block>
 							</tbody>
 						</table>
+					
+					<table class="table squadTable" id="selectedTable" style="width:50%;display:inline-block">
+						<thead>
+							<tr>
+								<th style="width:5%;">조</th>
+								<th>근무자</th>
+							</tr>
+						</thead>
+						<tbody id="tbody">
+
+						</tbody>
+					</table>
+					
+					<div class="buttonGroup">
+						<button id="secondPrev" class="btn ">이전</button>
+						<button id="secondNext" class="btn">다음</button>
 					</div>
 					
 				</div>
