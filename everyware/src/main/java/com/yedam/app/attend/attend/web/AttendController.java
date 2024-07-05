@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.attend.attend.service.AttendService;
@@ -55,6 +56,10 @@ public class AttendController {
 		AttendVO totalTime =  attendService.countWorkTime(attendVO); // 로그인한 사원의 누적 근무 기록
 		model.addAttribute("totalTime", totalTime);
 		
+		AttendVO thisMonth = attendService.countWorkTime2(empId, 0);
+		AttendVO lastMonth = attendService.countWorkTime2(empId, 30);
+		model.addAttribute("thisMonth",thisMonth);
+		model.addAttribute("lastMonth",lastMonth);
 		return "emp/attend";
 	}
 	//attendService.checkWokrLate(att);
@@ -106,8 +111,12 @@ public class AttendController {
 	
 	//전체사원 근태조회
 	@GetMapping("allAttend")
-	public String allAttend(Model model) {
-		List<WeekVO> list = attendService.findWeeks(0); //주차
+
+	public String allAttend(Model model,Integer a) {
+		if( a == null) {
+			a = 0;
+		}
+		List<WeekVO> list = attendService.findWeeks(a); //주차
 		
 		//1주차 정보
 		List<EmpVO> empList = attendService.AllWorkTime(list.get(0));
@@ -132,8 +141,8 @@ public class AttendController {
 	//이전달 전체사원 근태조회
 	@PostMapping("lastWeekAll")
 	@ResponseBody
-	public List<EmpVO> lastWorkAllAttend(@RequestBody int month){
-		
+	public List<EmpVO> lastWorkAllAttend(@RequestBody EmpVO empVO){
+		int month = empVO.getEmpId();
 		List<WeekVO> list = attendService.findWeeks(month); //주차
 		
 		//1주차 정보
@@ -155,6 +164,12 @@ public class AttendController {
 	}
 	
 	
+	
+	//부서별 직원 근태관리
+	@GetMapping("deptAttend")
+	public String selectDebtAttend() {
+		return "emp/deptAttend";
+	}
 	
 	
 	

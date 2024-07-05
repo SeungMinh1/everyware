@@ -12,7 +12,8 @@ public interface DataService {
 	public List<DataVO> dataListDept(DataVO dataVO);
 	public List<DataVO> dataListMe(DataVO dataVO);
 	
-	//자료 등록
+	//자료 등록 + 첨부파일 등록
 	public int insertData(DataVO dataVO);
-	public int InsertDataFile(DataVO dataVO);
+	//자료 조회
+	public List<DataVO> selectDataInfo(Integer dataId);
 }

@@ -172,6 +172,20 @@ public class DocServiceImpl implements DocService {
 		}
 		docVO.setViewEmpId(viewEmpIds);
 		
+		// 발송자
+		String sendEmps = "";
+		for(String sendEmp : docVO.getSendNameList()) {
+			sendEmps += sendEmp + ",";
+		}
+		docVO.setSendEmp(sendEmps);
+		
+		// 발송자 id
+		String sendEmpIds = "";
+		for(String sendEmpId : docVO.getSendIdList()) {
+			sendEmpIds += sendEmpId + ",";
+		}
+		docVO.setSendEmpId(sendEmpIds);
+		
 		result = docMapper.docInsert(docVO);
 		return result;
 	}

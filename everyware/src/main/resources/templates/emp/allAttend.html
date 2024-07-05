@@ -42,7 +42,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" >
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -53,7 +53,9 @@
               <!-- /.card-header -->
               <div class="card-body" style="text-align:center">
               	<div>
-              		<button type="button" id="lastMonth">ㅇㅇ</button><span>[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월 </span>
+              		<button type="button" id="golastMonth"  >ㅇㅇ</button>
+              		<span>[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월 </span>
+ 
               	</div>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
@@ -76,7 +78,7 @@
 								<td th:each="b : ${a.workTimeList}" th:text="${b}+' 분'"></td>
     						</tr>
     					
-								</th:block>
+						</th:block>
                   </tbody>
 
                 </table>
@@ -92,6 +94,65 @@
       </div>
       <!-- /.container-fluid -->
     </section>
+    
+        <section class="content" >
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">이번달 누적 초과근무시간</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body" style="text-align:center">
+              	<div>
+              		<button type="button" id="golastMonth"  >ㅇㅇ</button>
+              		<span>[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월 </span>
+ 
+              	</div>
+                <table id="example3" class="table table-bordered table-hover">
+                  <thead>
+                  <tr>
+                  	<th>이름</th>
+                  	<th>부서</th>
+                  	<th>직위</th>
+                  	<th:block th:each="week : ${weeks}">
+                    	<th> [[${week.weekNum}]]주차 ([[ ${#strings.substring(week.weekStart, 5)} ]] ~ [[${#strings.substring(week.weekEnd, 5)} ]])</th>
+ 					</th:block>
+                  </tr>
+                  </thead>
+                  <tbody>
+    					<th:block th:each="a : ${empList}"  >
+    						<tr>
+    							<td>[[ ${a.empName} ]]</td>
+    							<td>[[ ${a.departmentName} ]]</td>
+    							<td>[[ ${a.posName} ]]</td>
+    						
+								<td th:each="b : ${a.workTimeList}" th:text="${b}+' 분'"></td>
+    						</tr>
+    					
+						</th:block>
+                  </tbody>
+
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    
+      
+      
+      
+      
+      
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -143,15 +204,40 @@
       "autoWidth": false,
       "responsive": true,
     });
+    $('#example3').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    
   });
 </script>
 <script>
-	$("#lastMonth").on('click', goLastMonth);
-	
-	function goLastMonth(){
-		
-	}
+	$("#golastMonth").on('click', function(){
+		$.ajax({
+       		url: "/allAttend?a="+ $("#sel").val(), 
+       		type : 'get'
 
+			
+		})
+  		.done(function(result){
+    		console.log(result);
+    		let url = "/allAttend?a="+ $("#sel").val();
+    		location.replace(url);
+    		
+    	})
+    	.fail(function(result){
+    		console.log("err");
+    	})
+	})
 </script>
+<!-- <script src="../../js/attend/attend.js"></script> -->
 </body>
 </html>
+
+
+

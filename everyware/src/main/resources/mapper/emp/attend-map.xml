@@ -100,6 +100,18 @@
 		WHERE (go_time between TRUNC(sysdate-#{week},'iw') and TRUNC(sysdate-#{week},'iw')+6) AND emp_id = #{attendVO.empId}
  	
  	</select>
+ 	<!-- 이번달 누적근무시간 -->
+ 	<select id="countWorkTime2" resultType="AttendVO">
+ 		SELECT 
+           emp_id
+           , sum(work_time) monthworkTime
+           , sum(exceed_work_time) monthExtraworkTime
+		FROM attend 
+        WHERE emp_id = #{empId} and go_time BETWEEN TRUNC(SYSDATE-#{mon}, 'mm') AND (ADD_MONTHS(TRUNC(SYSDATE-#{mon}, 'mm'), 1)-1)
+        GROUP BY emp_id
+ 	
+ 	</select>
+ 	
  
  
  	<!-- 날짜로 정보조회 -->
@@ -108,8 +120,8 @@
 		SELECT attend_id
 			, find_codename(attend_type) attendType
 			, go_time
-			, to_char(go_time, 'hh24:mm:ss') go_time2
-            , to_char(leave_time, 'hh24:mm:ss') leave_time2
+			, to_char(go_time, 'hh24:MI:ss') go_time2
+            , to_char(leave_time, 'hh24:MI:ss') leave_time2
             , work_time
 			, exceed_work_time
 			, out_yn

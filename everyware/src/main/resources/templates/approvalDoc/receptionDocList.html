@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="css/modal.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -51,14 +52,14 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<button class="all">전체</button>
-              	<button class="wait">접수대기</button>
-              	<button class="rec">접수</button>
-              	<button class="prog">진행</button>
-              	<button class="comp">완료</button>
-              	<button class="rej">반려</button>
-              	<button class="re">반송</button>
-              	<button class="down">다운로드</button>
+              	<button type="button" class="btn" id="all">전체</button>
+              	<button type="button" class="btn" id="wait">접수대기</button>
+              	<button type="button" class="btn" id="rec">접수</button>
+              	<button type="button" class="btn" id="prog">진행</button>
+              	<button type="button" class="btn" id="comp">완료</button>
+              	<button type="button" class="btn" id="rej">반려</button>
+              	<button type="button" class="btn" id="re">반송</button>
+              	<button type="button" class="btn" id="down">다운로드</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
@@ -154,5 +155,6 @@
 		}
 	});
 </script>
+<script src="../js/approval/receptionDocList.js"></script>
 </body>
 </html>

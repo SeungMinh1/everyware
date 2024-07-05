@@ -91,5 +91,11 @@ public class DataController {
 		return dataService.insertData(dataVO);
 	}
 	
-	
+	//자료조회
+	@GetMapping("selectData")
+	public int selectData(Integer dataId, Model model) {
+		List<DataVO> dvo = dataService.selectDataInfo(dataId);
+		model.addAttribute("data", dvo);
+		return 1;
+	}
 }
