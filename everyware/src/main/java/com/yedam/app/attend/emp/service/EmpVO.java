@@ -37,6 +37,7 @@ public class EmpVO {
 	
 	private List<Integer> workTimeList;
 	private int weekwtime; // 누적일
+	private int overweekwtime; // 누적일
 	
 	private List<Integer> empIdList; //체크된 사원번호
 }

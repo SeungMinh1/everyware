@@ -132,11 +132,30 @@ public class AttendController {
 				empList.get(j).getWorkTimeList().add(tempList.get(j).getWeekwtime());  //
 			}
 		}
-			
+		
+		//초과근무
+		List<EmpVO> empList2 = attendService.AllOverWorkTime(list.get(0));
+		for(int i=0; i<empList2.size(); i++) {
+			List<Integer> newList = new ArrayList<>();
+			newList.add(empList2.get(i).getWeekwtime());
+			empList2.get(i).setWorkTimeList(newList);
+		}
+		//나머지주차 정보 조회
+		for(int i=1; i<list.size(); i++) {			
+			List<EmpVO> tempList = attendService.AllWorkTime(list.get(i));
+			for(int j=0; j<tempList.size(); j++) {			
+				empList2.get(j).getWorkTimeList().add(tempList.get(j).getWeekwtime());  //
+			}
+		}
+
 		model.addAttribute("empList", empList);
+		model.addAttribute("empList2", empList2);
 		model.addAttribute("weeks", list);
 		return "emp/allAttend";
 	}
+	
+	
+	
 	
 	//이전달 전체사원 근태조회
 	@PostMapping("lastWeekAll")
