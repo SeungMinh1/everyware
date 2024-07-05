@@ -21,8 +21,13 @@ WHERE board_id = 1 AND notification_YN = 'Y' AND hold_yn = 'Y'
 </select>
 <!-- 공지 전체 조회  + 페이징,검색 조건 추가 -->
 <select id="selectNoticeAll" resultType="PostVO">
-select * from(select rownum rs, a.* from
- (SELECT post_id,
+SELECT * FROM(
+	SELECT
+	  rownum AS rs,
+	  a.* 
+	FROM (
+		SELECT 
+			post_id,
 	 		board_id,
 	        notification_yn,
 	        hold_yn,
@@ -34,11 +39,24 @@ select * from(select rownum rs, a.* from
 	        content,
 	        emp_id,
 	        emp_id_name(emp_id) "empName"
-	    FROM post
-WHERE board_id = 1 
-AND (notification_YN = 'Y')
-	) a  where rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)where rs > (#{page}-1) * (#{cnt})
+		    FROM post
+			WHERE board_id = 1 
+			AND (notification_yn = 'Y'
+			<choose>
+				<when test=" orderBy ==  'viewCnt'">
+					ORDER BY view_cnt DESC
+				</when>
+				<when test=" orderBy ==  'recommendCnt'">
+					ORDER BY recommend_cnt DESC
+				</when>
+				<otherwise>
+					ORDER BY write_date DESC
+				</otherwise>
+			</choose>
+		)a
+		WHERE rownum <![CDATA[<= ]]> (#{page} * #{cnt})
+	)
+	WHERE rs > (#{page}-1) * (#{cnt})	
 </select>
 
 
@@ -173,4 +191,10 @@ UPDATE post
 	WHERE post_id = #{postId}
 </delete>
 
+<!-- 게시물 개수 -->
+<select id="postCnt" resultType="int">
+	SELECT *
+	FROM 
+	
+</select>
 </mapper>

@@ -2,7 +2,6 @@
 package com.yedam.app.post.web;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.board.service.BoardVO;
-import com.yedam.app.board.web.BoardController;
 import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.post.service.PostService;
@@ -54,7 +50,12 @@ public class PostController {
 	
 	//전체공지 
 	@GetMapping("selectNoticeAll")
-	public String selectNoticeAll(Model model, PostVO postVO) {
+	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO) {
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		int postCnt = postService.postCnt(); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+		
 		List<PostVO> list = postService.selectNoticeAll(postVO);
 		model.addAttribute("postMain",list);
 		return "post/postNotice";
