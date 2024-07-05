@@ -18,6 +18,47 @@ $(function () {
         }
         return true;
     };
+$("input[type='file']").change(function(){
+	var formData = new FormData();
+		var inputFile = $("input[name='uploadFile']");
+		var files = inputFile[0].files;
+		
+		console.log("=== 1 ===");
+		console.log(files);
+		
+		//업로드 된 파일이 있을때
+		if(files.length != 0){
+			// formData에 데이터 넣기
+			for(var i = 0; i < files.length; i++){
+				if(!checkExtentsion(files[i].name, files[i].size)){
+					return false;
+				}
+				if(files[i].type.indexOf('audio') != -1){
+					alert("오디오 파일이 포함되어 있습니다.")
+					return false;
+				}
+				formData.append("uploadFile", files[i]);
+		    }
+		};
+		
+		$.ajax('/uploadAjax', { 
+			processData : false,
+			contentType : false,
+			data : formData,
+			type : 'post',
+			success: function(result){
+				console.log("=== 2 ===");
+				console.log(result);
+				
+				//업로드된 파일 li로 보여줌
+				showUploadFile(result);
+				
+				//input 파일선택 초기화
+				$(".uploadDiv").html(cloneInputFileDiv.html());
+			}
+		}).fail(err => console.log(err));	
+	
+})
 	
 // ====== 파일첨부 input 복사 ( 초기화 목적 ) ==========
 	var cloneInputFileDiv = $(".uploadDiv").clone();
@@ -56,51 +97,6 @@ $(function () {
 		});
 		uploadResult.append(str);
 	};
-
-	
-// ============ 파일 등록 =============
-   $('#uploadBtn').on('click', function(e){
-		var formData = new FormData();
-		var inputFile = $("input[name='uploadFile']");
-		var files = inputFile[0].files;
-		
-		console.log("=== 1 ===");
-		console.log(files);
-		
-		//업로드 된 파일이 있을때
-		if(files.length != 0){
-			// formData에 데이터 넣기
-			for(var i = 0; i < files.length; i++){
-				if(!checkExtentsion(files[i].name, files[i].size)){
-					return false;
-				}
-				if(files[i].type.indexOf('audio') != -1){
-					alert("오디오 파일이 포함되어 있습니다.")
-					return false;
-				}
-				formData.append("uploadFile", files[i]);
-		    }
-		};
-		
-		$.ajax('/uploadAjax', { 
-			processData : false,
-			contentType : false,
-			data : formData,
-			type : 'post',
-			success: function(result){
-				alert("Upload");
-				console.log("=== 2 ===");
-				console.log(result);
-				
-				//업로드된 파일 li로 보여줌
-				showUploadFile(result);
-				
-				//input 파일선택 초기화
-				$(".uploadDiv").html(cloneInputFileDiv.html());
-			}
-		}).fail(err => console.log(err));	
-	});
-
 
 /*===============
      자료실 등록

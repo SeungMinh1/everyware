@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.attach.service.FileService;
 import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.dataroom.service.DataService;
 import com.yedam.app.dataroom.service.DataVO;
@@ -18,7 +19,9 @@ import com.yedam.app.dataroom.service.DataVO;
 public class DataController {
 	
 	@Autowired
-	private DataService dataService;
+	DataService dataService;
+	@Autowired
+	FileService fileService;
 	
 	//자료실 페이지 홈 
 	@GetMapping("dataroom")
@@ -87,5 +90,6 @@ public class DataController {
 		
 		return dataService.insertData(dataVO);
 	}
+	
 	
 }
