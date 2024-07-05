@@ -28,8 +28,8 @@
 
           	
           	
-		    $('#mainSector').append(html);	
-			
+		    $('#mainSector').append();	
+		
     		
     	})
     	.fail(function(result){

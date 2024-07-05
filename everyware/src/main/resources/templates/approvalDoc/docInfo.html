@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
-
+  
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -18,6 +18,9 @@
   <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/task.css">
+  <link rel="stylesheet" href="css/org.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -46,25 +49,12 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title"></h3>
+              <div class="card-header">          
+                <h3 th:text="${approvalDoc.docTitle}" class="card-title"></h3>
               </div>
               <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover">
-                  <thead>
-                  <tr>
-                   
-                  </tr>
-                  </thead>
-                  <tbody>
- 				  <th:block th:each="waitDoc : ${waitDocList}">
-	                  <tr th:onclick="|location.href='@{docInfo(docId=${waitDoc.docId})}'|">
-	                   
-	                  </tr>
-                  </th:block>
-                  </tbody>
-           		</table>
+              <div class="card-body" th:utext="${approvalDoc.docInfo}">
+                 
               </div>
               <!-- /.card-body -->
             </div>
@@ -121,5 +111,6 @@
     });
   });
 </script>
+<script src="../js/approval/docInfo.js"></script>
 </body>
 </html>

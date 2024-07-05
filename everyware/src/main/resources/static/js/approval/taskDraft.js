@@ -56,6 +56,10 @@ $('#request').on('click', function() {
 	let doc = docInfo();
 	let draft = draftInfo();
 	let approval = approvalInfo();
+	let reception = receptionInfo();
+	let send = sendInfo();
+	let ref = refInfo();
+	let view = viewInfo();
 	
 	if($('#msg').val() == '') {
 		alert('제목은 필수값입니다');
@@ -94,6 +98,62 @@ $('#request').on('click', function() {
 		}		
 	})
 	.fail(err=>console.log(err));
+	
+	if($('#lineRec tr').length > 0) {
+		$.ajax('receptionInsert', {
+			type: 'post'
+			, contentType: 'application/JSON'
+			, data: JSON.stringify(reception)
+		})
+		.done(result => {
+			if (result) {
+				console.log(result);
+			}
+		})
+		.fail(err => console.log(err));
+	}
+	
+	if($('#lineRec tr').length > 0) {
+		$.ajax('sendInsert', {
+			type: 'post'
+			, contentType: 'application/JSON'
+			, data: JSON.stringify(send)
+		})
+		.done(result => {
+			if (result) {
+				console.log(result);
+			}
+		})
+		.fail(err => console.log(err));
+	}
+	
+	if($('#lineRef tr').length > 0) {
+		$.ajax('refInsert', {
+			type: 'post'
+			, contentType: 'application/JSON'
+			, data: JSON.stringify(ref)
+		})
+		.done(result => {
+			if (result) {
+				console.log(result);
+			}
+		})
+		.fail(err => console.log(err));
+	}
+	
+	if($('#lineView tr').length > 0) {
+		$.ajax('viewInsert', {
+			type: 'post'
+			, contentType: 'application/JSON'
+			, data: JSON.stringify(view)
+		})
+		.done(result => {
+			if (result) {
+				console.log(result);
+			}
+		})
+		.fail(err => console.log(err));
+	}
 })
 
 // 결재정보 저장
@@ -134,6 +194,15 @@ function docInfo() {
 		}
 	}
 	
+	var sendEmp = [];
+	var sendId = [];
+	for(var i=0; i<emps.length; i++) {
+		if($('.approval')[i].innerText == '수신') {
+			sendEmp.push($('.draftName')[0].innerText);
+			sendId.push($('.boardTable')[0].id);
+		}
+	}
+	
 	var emps2 = $('.lineBody');
 	var qrefEmp = [];
 	var qrefId = [];
@@ -171,6 +240,10 @@ function docInfo() {
 		, refIdList			: qrefId
 		, viewNameList		: qviewEmp
 		, viewIdList		: qviewId
+		, sendNameList 		: sendEmp
+		, sendIdList		: sendId
+		, docInfo			: $('#container')[0].outerHTML
+		, enforceDate 		: $('.inputDateBox input')[0].value
 	}
 	
 	return data;
@@ -208,6 +281,74 @@ function approvalInfo() {
 	}
 	
 	return data2;
+}
+
+function receptionInfo() {
+	var emps = $('.approvalName');
+	var recEmp = [];
+	
+	for(var i=0; i<emps.length; i++) {
+		if($('.approval')[i].innerText == '수신') {
+			recEmp.push({ receptionEmpId : emps[i].id, receptionEmp : emps[i].dataset.name, 					 
+						  draftEmp : $('.draftName')[0].innerText,
+						  draftEmpId : $('.boardTable')[0].id });
+		}
+	}
+	
+	var data3 = { receptionEmpList	: recEmp }
+	
+	return data3;
+}
+
+function sendInfo() {
+	var emps = $('.approvalName');
+	var sendEmp = [];
+	
+	for(var i=0; i<emps.length; i++) {
+		if($('.approval')[i].innerText == '수신') {
+			sendEmp.push({ sendEmpId : $('.boardTable')[0].id, sendEmp : $('.draftName')[0].innerText, 					 
+						  draftEmp : $('.draftName')[0].innerText,
+						  draftEmpId : $('.boardTable')[0].id });
+		}
+	}
+	
+	var data4 = { sendEmpList	: sendEmp }
+	
+	return data4;
+}
+
+function refInfo() {
+	var emps2 = $('.lineBody');
+	var refEmp = [];
+	
+	for(var i=1; i<emps2.length; i++) {
+		if($($('.lineBody')[i]).children()[1].textContent == '참조') {
+			refEmp.push({ refEmpId : emps2[i].id, refEmp : emps2[i].dataset.name,
+						 draftEmp : $('.draftName')[0].innerText,
+						 draftEmpId : $('.boardTable')[0].id });
+		}
+	}
+	
+	var data5 = { refEmpList : refEmp }
+	
+	return data5;
+}
+
+function viewInfo() {
+	var emps2 = $('.lineBody');
+	var viewEmp = [];
+	
+	for(var i=1; i<emps2.length; i++) {
+		if($($('.lineBody')[i]).children()[1].textContent == '열람') {
+			viewEmp.push({ viewEmpId : emps2[i].id, viewEmp : emps2[i].dataset.name,
+						 draftEmp : $('.draftName')[0].innerText,
+						 draftEmpId : $('.boardTable')[0].id });
+		}
+	}
+	
+	var data6 = { viewEmpList : viewEmp }
+	
+	return data6;
 }
 
 // 결재자 등록
