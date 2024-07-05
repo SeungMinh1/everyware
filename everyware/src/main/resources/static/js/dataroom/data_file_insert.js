@@ -18,10 +18,16 @@ $(function () {
         }
         return true;
     };
-$("input[type='file']").change(function(){
+    
+// 등록한파일의 result값을 담는 변수     
+var fileList =[];
+
+//
+function uploadFile(){
 	var formData = new FormData();
 		var inputFile = $("input[name='uploadFile']");
 		var files = inputFile[0].files;
+		
 		
 		console.log("=== 1 ===");
 		console.log(files);
@@ -50,20 +56,34 @@ $("input[type='file']").change(function(){
 				console.log("=== 2 ===");
 				console.log(result);
 				
-				//업로드된 파일 li로 보여줌
+				//업로드된 파일 tr로 보여줌
 				showUploadFile(result);
+				
+				/*=================================================
+				 result를 fileList에 담음 => fileList는 위에 전역으로 선언함.
+				===================================================*/
+				fileList.push(...result);
 				
 				//input 파일선택 초기화
 				$(".uploadDiv").html(cloneInputFileDiv.html());
+				
+				//input 파일을 새로 그려줬기 때문에 다시 change를 걸어줘야함.
+				$("input[type='file']").change(function(){
+						uploadFile();
+				})
+	
 			}
 		}).fail(err => console.log(err));	
-	
-})
+}
+//====== 파일이 올라갔을때 바로 출력 =======
+	$("input[type='file']").change(function(){
+		uploadFile();
+	})
 	
 // ====== 파일첨부 input 복사 ( 초기화 목적 ) ==========
 	var cloneInputFileDiv = $(".uploadDiv").clone();
 	
-// ====== 미리보기 ( ul 태그 밑에 li 생성 ) ======
+// ====== 미리보기 ( tbody 태그 밑에 tr td 생성 ) ======
 	var uploadResult = $(".uploadResult tbody");
 	
 	//ajax -> result 받아와서 -> each 
@@ -76,7 +96,8 @@ $("input[type='file']").change(function(){
 				obj.uploadPath +"/"+ obj.uploadFileName + "_" + obj.originFileName);
 		    // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
 			
-			// 미리보기 li생성
+			/*			
+			// 미리보기 tr td생성
 			str += "<tr>"
 			str += "<td>" + obj.originFileName 
 			str += "</td>"
@@ -84,8 +105,9 @@ $("input[type='file']").change(function(){
 			str += "<td>" + obj.ext + "</td>"
 			str += "<td>"+ "<span data-file=\'"+ fileCallPath +"\'data-type='file'> x </span>"+ "</td>"			
 			str += "</tr>";
+			*/
 			
-			// 다운로드 li생성 
+			// 다운로드 tr td 생성 
 			str += "<tr>"
 			str += "<td>"
 			str += "<a href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
@@ -108,7 +130,12 @@ $('.insertBtn').on('click', function(){
 		
 		var insertData = {
 			title : $('#fileTitle').val(),
-			remarks : $('.dataSelect option:selected').val()
+			remarks : $('.dataSelect option:selected').val(),
+			attachList : fileList
+		}
+		
+		if(fileList.length > 0){
+			insertData.attachmentGroupId = fileList[0].attachmentGroupId; 
 		}
 		
 		$.ajax('insertData',{
@@ -121,6 +148,8 @@ $('.insertBtn').on('click', function(){
 				alert('등록');
 			}
 			console.log(result);
+			modalEmpty();
+			
 		})
 		.fail(err=>console.log(err));
 	})	
@@ -144,9 +173,17 @@ $('.insertBtn').on('click', function(){
 		});//$.ajax
 		
 	});
-	
-	
-	
+
+//===모달 닫을때 초기화===
+$('.closeModal').on('click',function(){
+	modalEmpty();
+});
+
+function modalEmpty(){
+	$('#fileTitle').val('');
+	$('select[name="dataSelect"]').val("개인");
+	$('.fileTable tbody').empty();
+};
 	
 	
 });
