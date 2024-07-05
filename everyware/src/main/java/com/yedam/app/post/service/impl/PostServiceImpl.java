@@ -67,5 +67,9 @@ public class PostServiceImpl implements PostService {
 	public List<BoardVO> selectBoard() {
 		return postMapper.selectBoard();
 	}
+	@Override
+	public int postCnt() {
+		return postMapper.postCnt();
+	}
 
 }

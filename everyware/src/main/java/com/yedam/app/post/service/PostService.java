@@ -28,4 +28,7 @@ public interface PostService {
 	public int postUpdate (PostVO postVO);
 	//삭제
 	public int postDelete (int postId);
+	
+	//게시물 개수 
+	public int postCnt();
 }

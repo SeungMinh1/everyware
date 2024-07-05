@@ -31,5 +31,7 @@ public interface PostMapper {
 		public List<CommonVO> selectDepartment();		
 	//게시판 번호 조회
 		public List<BoardVO> selectBoard();
+	//게시물 개수	
+        public int postCnt();
 
 }
