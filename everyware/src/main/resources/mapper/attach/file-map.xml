@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.attach.mapper.FileMapper">
+
+	<insert id="insertFile" parameterType="FileVO">
+		<selectKey keyProperty="fileId" resultType="int"
+			order="BEFORE">
+			SELECT FILE_ID_SEQ.NEXTVAL
+			FROM dual
+		</selectKey>
+		INSERT INTO attachment(
+			 file_id
+			, attachment_group_id
+			, file_type
+			, origin_file_name
+			, upload_file_name
+			, upload_path
+			, type
+			, ext
+			, file_size
+			, emp_id
+		)
+		VALUES(
+			#{fileId}
+			, #{attachmentGroupId}
+			, #{fileType}
+			, #{originFileName}
+			, #{uploadFileName}
+			, #{uploadPath}
+			, #{type}
+			, #{ext}
+			, #{fileSize}
+			, #{empId}
+		)
+	</insert>
+
+
+
+</mapper>
