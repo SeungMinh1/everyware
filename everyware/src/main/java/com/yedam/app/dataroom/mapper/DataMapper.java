@@ -17,5 +17,5 @@ public interface DataMapper {
 	//자료 등록 + group Id 체크
 	public int insertData(DataVO dataVO);
 	//자료 조회 
-	public DataVO selectData(int dataId);
+	public List<DataVO> selectData(int dataId);
 }

@@ -54,7 +54,7 @@ public class DataServiceImpl implements DataService {
 
 	//자료조회
 	@Override
-	public DataVO selectDataInfo(int dataId) {
+	public List<DataVO> selectDataInfo(Integer dataId) {
 		return dataMapper.selectData(dataId);
 	}
 	

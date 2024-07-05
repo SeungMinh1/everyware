@@ -15,5 +15,5 @@ public interface DataService {
 	//자료 등록 + 첨부파일 등록
 	public int insertData(DataVO dataVO);
 	//자료 조회
-	public DataVO selectDataInfo(int dataId);
+	public List<DataVO> selectDataInfo(Integer dataId);
 }

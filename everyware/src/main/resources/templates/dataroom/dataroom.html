@@ -96,7 +96,7 @@
 		<!-- ================= Modal end================== -->
               <ul class="list-group nav nav-pills flex-column">
                 <li class="nav-item active d1">
-                  <a th:href="@{/dataCommon}"data-no="d1" class="nav-link">
+                  <a th:href="@{/dataCommon}" data-no="d1" class="nav-link">
                     <i class="fas fa-inbox"></i>　공통 자료실
                   </a>
                 </li>
@@ -142,7 +142,8 @@
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+                	<i class="far fa-square"></i>
                 </button>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default btn-sm">
@@ -190,7 +191,7 @@
 		              </tr>
                   </th:block>
                   <th:block th:each="info : ${datas}">
-                    <tr>
+                    <tr th:id="${info.dataId}">
                     	<td>
                         <div class="icheck-primary">
                            <input type="checkbox" th:value="${info.dataId}" th:id="${info.dataId}">
@@ -250,5 +251,6 @@
 </script>
 
 <script src="../../js/dataroom/data_file_insert.js"></script>
+<script src="../../js/dataroom/data_info.js"></script>
 </body>
 </html>
