@@ -19,14 +19,15 @@
 <style>
 /* 3 */
 .btn-3 {
+float:right;
   background: rgb(0,172,238);
 background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
-  width: 80px;
+  width: 60px;
   height: 40px;
   line-height: 42px;
   padding: 0;
   border: none;
-  position: absolute;
+  position: relative;
   right: 0;
   
 }
@@ -35,6 +36,7 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
   display: block;
   width: 100%;
   height: 100%;
+  left: 0;
 }
 .btn-3:before,
 .btn-3:after {
@@ -100,6 +102,265 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
 }
 
 
+/* ---------------------------------------------
+    Assets
+--------------------------------------------- */
+/* ---------------------------------------------
+    Colors
+--------------------------------------------- */
+/* ---------------------------------------------
+    Fonts
+--------------------------------------------- */
+/* ---------------------------------------------
+    Stylings
+--------------------------------------------- */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  box-pack: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  box-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-flex-align: center;
+  font-family: "Roboto Condensed", sans-serif;
+  background-color: #dedede;
+}
+
+/* ---------------------------------------------
+    Search Style Attributes
+--------------------------------------------- */
+.search {
+  position: relative;
+  z-index: 10;
+}
+.search:before, .search:after {
+  content: "";
+  height: 40px;
+  width: 5px;
+  background-color: #44a8fd;
+  position: absolute;
+  top: 0;
+}
+.search:before {
+  left: -5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.search:after {
+  right: -5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.search .open-button {
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: calc(80% + 10px);
+  height: 60%;
+  z-index: 4;
+  border-radius: 5px;
+}
+.search .open-button:hover {
+  cusor: pointer;
+}
+.search form input,
+.search form button {
+  float: left;
+  border: 0;
+  height: 45px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: none;
+}
+.search form input {
+  width: 0px;
+  background: #ffffff;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  color: #344760;
+}
+.search form input::-webkit-input-placeholder {
+  color: #dedede;
+}
+.search form input::-moz-placeholder {
+  color: #dedede;
+}
+.search form input:-moz-placeholder {
+  color: #dedede;
+}
+.search form input:-ms-input-placeholder {
+  color: #dedede;
+}
+.search form button {
+  width: 55px;
+  background-color: #44a8fd;
+  border: 0;
+  padding: 0;
+  position: relative;
+}
+.search form button:hover {
+  cursor: pointer;
+}
+.search form button i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  -webkit-transition: -webkit-transform 0.6s ease;
+  -moz-transition: -moz-transform 0.6s ease;
+  transition: transform 0.6s ease;
+}
+.search form button i:before, .search form button i:after {
+  content: "";
+  position: absolute;
+}
+.search form button i:before {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  margin-top: -25px;
+  margin-left: -16px;
+  background-color: #44a8fd;
+  z-index: 2;
+}
+.search form button i:after {
+  width: 3px;
+  height: 20px;
+  background-color: #ffffff;
+  -webkit-transform: rotate(130deg);
+  -moz-transform: rotate(130deg);
+  -ms-transform: rotate(130deg);
+  -o-transform: rotate(130deg);
+  transform: rotate(130deg);
+  left: 34px;
+  top: 16px;
+  border-radius: 5px;
+  z-index: 1;
+}
+.search.active form input {
+  width: 245px;
+  padding: 20px 30px;
+}
+.search.active form button i {
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+.search.active .open-button {
+  display: none;
+}
+
+/* ---------------------------------------------
+    Overlay Attributes
+--------------------------------------------- */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+  display: block;
+}
+.overlay.hidden {
+  display: none;
+}
+
+/* ---------------------------------------------
+    Title Style Attributes
+--------------------------------------------- */
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  box-pack: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  box-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-flex-align: center;
+  z-index: -1;
+}
+.title h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #d9d9d9;
+  text-transform: uppercase;
+  font-size: 151px;
+  letter-spacing: 10px;
+}
+
+.searchSelect{
+ display: none;
+ height: 100%;
+ cursor: pointer; 
+
+}
+.searchSelect:hover{
+ background-color:  rgb(0,172,238);
+ }
+ 
+.search.active .searchSelect {
+  display: inline-block;
+}
+ 
 </style>
 <body class="hold-transition sidebar-mini">
 
@@ -125,41 +386,31 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
         <div class="row">
           <div class="col-12">
             <div class="card">
-             <div class="col-12 col-sm-6">
-            <div class="card card-primary card-tabs">
-              <div class="card-header p-0 pt-1">
-                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">공지사항</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">일반</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="card-body">
-                
-              </div>
-              <!-- /.card -->
-            </div>
-          </div>
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width:100%;">
-                  <form action ="" class="searchForm" method="get" style="width:100%; float:left">
-                  	<select style="display:inline-block" class="searchOption" name="option">
-                  		<option value="A" selected>제목+내용</option>
-                  		<option value="T">제목</option>
-                  		<option value="W">작성자</option>
-                  	</select>
-                    <input style="display:inline-block; width:30%" type="text" name="table_search" class="form-control float-right" placeholder="검색">				  
-                    <div class="input-group-append" >
-                      <button style="display:inline-block" type="submit" class="btn btn-search">
-                        <i  style="display:inline-block" class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </form>
-                 </div>
-               </div>
+    
+          <!-- 검색버튼  -->
+          <div class="title">
+			  <h1>Search</h1>
+			</div>
+			<div class="search">
+			  <form  action="@{/searchList}" class="searchForm" method="get">
+			  <span class="searchInput" >
+			  <select class="searchSelect" name="option">
+			  	<option value="A" selected>제목+내용</option>
+			  	<option value="T" selected>제목</option>
+			  	<option value="W" selected>내용</option>
+			  </select>
+			    <input type="text" name="keyword"  placeholder="검색어를 입력하세요">
+			  </span>
+			    <button type="submit" class="searchButton" value="검색">
+			      <i></i>
+			    </button>
+			  </form>
+			  <div class="open-button"></div>
+			</div>
+			<div class="overlay hidden"></div>
+
+			
+		   <!-- 검색버튼 -->
              </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
@@ -189,13 +440,12 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
                     </tr >
                   </tbody>
                 </table>
+                <a th:href="@{postInsert}"><button class="btn-3"><span>등록</span></button></a>
               </div>
               <!-- /.card-body -->
             </div>
-            <a th:href="@{postInsert}"><button class="btn-3"><span>등록</span></button></a>
-           
-            <!-- /.card -->
-          </div>
+            
+
         </div>
         <!-- /.row -->
  </div>       
@@ -208,5 +458,17 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<script>
+$('.open-button').click(function(){
+	  $('.search').addClass('active');
+	  $('.searchSelect').show(); 
+	  $('.searchInput input').focus();// If there are multiple inputs on the page you might want to use an ID
+	});
+
+	$('.overlay').click(function() {
+	  $('.search').removeClass('active');
+	  $('.searchSelect').hide(); 
+	});
+</script>
 </body>
 </html>
