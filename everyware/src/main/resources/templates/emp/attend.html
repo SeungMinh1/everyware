@@ -25,7 +25,7 @@
 	}
   	/* ======== Calendar ======== */
 	.my-calendar {
-	  width: 80%;
+	  width: 85%;
 	  margin: auto;/*30px;*/
 	  padding: 20px 20px 10px;
 	  text-align: center;
@@ -51,10 +51,10 @@
 	}
 	
 	.clicked-date .cal-day {
-	  font-size: 24px;
+	  font-size: 20px;
 	}
 	.clicked-date .cal-date {
-	  font-size: 24px;
+	  font-size: 20px;
 	}
 	
 	.ctr-box {
@@ -281,35 +281,32 @@
                        		<tr>
                        			<th>이번주 누적근무시간</th>
                        			<th>이번주 초과근무시간</th>
-                       			<th>지난주 누적근무시간</th>
-                       			<th>지난주 초과근무시간</th>
+                       			<th>이번달 누적근무시간</th>
+                       			<th>이번달 초과근무시간</th>
+                       			<th>지난달 누적근무시간</th>
+                       			<th>지난달 초과근무시간</th>
                        		</tr>
                        		
                        		<tr>          
-                       		             			
 	                       		<th:block th:if="totalTime != null">
                         			<td>[[ ${totalTime.totalwork1} ]] 분</td>
                         			<td>[[ ${totalTime.extrawork1} ]] 분</td>
-                        			<td>[[ ${totalTime.totalwork2} ]] 분</td>
-                        			<td>[[ ${totalTime.extrawork2} ]] 분</td>
                        			 </th:block>
-
-                       			<th:block th:unless="totalTime != null">
-                        			<td >0분</td>
-                        			<td >0분</td>
+                       			 <th:block th:unless="totalTime != null">
                         			<td >0분</td>
                         			<td >0분</td>
                        			 </th:block>
-                       			
+                       			 
+                       			 <td>[[ ${thisMonth.monthworkTime} ]] 분</td>
+                        		<td>[[ ${thisMonth.monthExtraworkTime} ]] 분</td>
+                        		<td>[[ ${lastMonth.monthworkTime} ]] 분</td>
+                        		<td>[[ ${lastMonth.monthExtraworkTime} ]] 분</td>
                        		</tr>
                        		
-                       		
-                       			
                        </table>
 
                       </div>
  
-					
 
                     </div>
                     <br>
@@ -321,6 +318,7 @@
                     <div class="post">
                       <div class="user-block">
                         <p class="ten">이번달 근무현황</p>
+                        <hr width="100%"  size="10px" color="black">
                         
                       
                       </div>

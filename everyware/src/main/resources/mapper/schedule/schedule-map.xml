@@ -12,5 +12,52 @@
 		ORDER BY emp_id
 		
 	</select>
-
+	
+	<!-- 조편성 전 db 비우기 -->
+	<delete id="deleteAllSquadEmp">
+		DELETE 
+		FROM squad_emp
+	</delete>
+	
+	<!-- 조편성 -->
+	<insert id="insertSquadEmp" parameterType="ScheduleVO">
+		INSERT INTO squad_emp
+		(
+			squad_no
+			, emp_id
+		)
+		VALUES
+		(
+			#{squadNo}
+			, #{empId}
+		)
+	</insert>
+	
+	<!-- 근무조 설정 전 db 비우기 -->
+	<delete id="deleteAllsquad">
+		DELETE
+		FROM squad
+	</delete>
+	
+	<insert id="insertSquad" parameterType="ScheduleVO">
+		<selectKey keyProperty="squadNo" resultType="Integer" order="BEFORE">
+			SELECT NVL(MAX(squad_no),0)+1
+			FROM squad
+		</selectKey>
+		INSERT INTO squad
+		(
+			squad_no
+			, start_date
+			, rotate_circle
+			, rotate_num
+		)
+		VALUES
+		(
+			#{squadNo}
+			, #{startDate}
+			, #{rotateCircle}
+			, #{rotateNum}
+		)
+	</insert>
+	 
 </mapper>

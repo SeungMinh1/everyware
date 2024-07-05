@@ -23,6 +23,9 @@ public interface AttendService {
 	//근무누적
 	public AttendVO countWorkTime(AttendVO attendVO);
 	
+	//근무누적
+	public AttendVO countWorkTime2(int empId, int mon);
+	
 	//날짜로 근무정보조회
 	public AttendVO selectDateAttend(AttendVO attendVO);
 	
