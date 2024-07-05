@@ -1,17 +1,16 @@
 package com.yedam.app.attend.attend.service.impl;
 
-import java.io.Console;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.attend.attend.mapper.AttendMapper;
 import com.yedam.app.attend.attend.service.AttendService;
 import com.yedam.app.attend.attend.service.AttendVO;
+import com.yedam.app.attend.attend.service.WeekVO;
+import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.common.util.AuthUtil;
 @Service
 public class AttendServiceImpl implements AttendService {
@@ -25,11 +24,14 @@ public class AttendServiceImpl implements AttendService {
 	}
 	@Override
 	public int endwork(AttendVO attendVO) {
-		if(attendVO.getWorkTime() < 9*60) {
-			attendVO.setExceedWorkTime(0);
-		}else {
-			int extratime = attendVO.getWorkTime() - 9*60;
-			attendVO.setExceedWorkTime(extratime);
+		if(AuthUtil.getDepartmentId() != "g3") { // 현장직 제외
+			if(attendVO.getWorkTime() < 9*60) {
+				attendVO.setExceedWorkTime(0);
+			}else {
+				int extratime = attendVO.getWorkTime() - 9*60;
+				attendVO.setExceedWorkTime(extratime);
+			}
+			
 		}
 		return attendMapper.endwork(attendVO);
 	}
@@ -98,6 +100,15 @@ public class AttendServiceImpl implements AttendService {
 		attendVO.setWorkdetail("work");
 		
 		return attendMapper.checkWokrLate(attendVO);
+	}
+	@Override
+	public List<WeekVO> findWeeks(int months) {
+		months = months * 30;
+		return attendMapper.findWeeks(months);
+	}
+	@Override
+	public List<EmpVO> AllWorkTime(WeekVO weekVO) {
+		return attendMapper.selectAllWorkTime(weekVO);
 	}
 
 }

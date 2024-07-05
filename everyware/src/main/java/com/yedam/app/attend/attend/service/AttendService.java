@@ -2,6 +2,8 @@ package com.yedam.app.attend.attend.service;
 
 import java.util.List;
 
+import com.yedam.app.attend.emp.service.EmpVO;
+
 public interface AttendService {
 	//출근
 	public int gowork(AttendVO attendVO);
@@ -26,5 +28,11 @@ public interface AttendService {
 	
 	//근무 지각처리
 	public int checkWokrLate(AttendVO attendVO);
+	
+	//주차확인
+	public List<WeekVO> findWeeks(int months);
+	
+	//전사원 주차별 누적 근무시간
+	public List<EmpVO> AllWorkTime(WeekVO weekVO);
 	
 }

@@ -1,9 +1,9 @@
 package com.yedam.app.attend.attend.web;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.attend.attend.service.AttendService;
 import com.yedam.app.attend.attend.service.AttendVO;
+import com.yedam.app.attend.attend.service.WeekVO;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.security.service.LoginUserVO;
@@ -102,6 +103,57 @@ public class AttendController {
 	
 		return attendService.selectDateAttend(attendVO);
 	}
+	
+	//전체사원 근태조회
+	@GetMapping("allAttend")
+	public String allAttend(Model model) {
+		List<WeekVO> list = attendService.findWeeks(0); //주차
+		
+		//1주차 정보
+		List<EmpVO> empList = attendService.AllWorkTime(list.get(0));
+		for(int i=0; i<empList.size(); i++) {
+			List<Integer> newList = new ArrayList<>();
+			newList.add(empList.get(i).getWeekwtime());
+			empList.get(i).setWorkTimeList(newList);
+		}
+		//나머지주차 정보 조회
+		for(int i=1; i<list.size(); i++) {			
+			List<EmpVO> tempList = attendService.AllWorkTime(list.get(i));
+			for(int j=0; j<tempList.size(); j++) {			
+				empList.get(j).getWorkTimeList().add(tempList.get(j).getWeekwtime());  //
+			}
+		}
+			
+		model.addAttribute("empList", empList);
+		model.addAttribute("weeks", list);
+		return "emp/allAttend";
+	}
+	
+	//이전달 전체사원 근태조회
+	@PostMapping("lastWeekAll")
+	@ResponseBody
+	public List<EmpVO> lastWorkAllAttend(@RequestBody int month){
+		
+		List<WeekVO> list = attendService.findWeeks(month); //주차
+		
+		//1주차 정보
+		List<EmpVO> empList = attendService.AllWorkTime(list.get(0));
+		for(int i=0; i<empList.size(); i++) {
+			List<Integer> newList = new ArrayList<>();
+			newList.add(empList.get(i).getWeekwtime());
+			empList.get(i).setWorkTimeList(newList);
+		}
+		//나머지주차 정보 조회
+		for(int i=1; i<list.size(); i++) {			
+			List<EmpVO> tempList = attendService.AllWorkTime(list.get(i));
+			for(int j=0; j<tempList.size(); j++) {			
+				empList.get(j).getWorkTimeList().add(tempList.get(j).getWeekwtime());  //
+			}
+		}
+		
+		return empList;
+	}
+	
 	
 	
 	

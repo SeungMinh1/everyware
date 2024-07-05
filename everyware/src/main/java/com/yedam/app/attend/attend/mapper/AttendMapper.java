@@ -3,6 +3,8 @@ package com.yedam.app.attend.attend.mapper;
 import java.util.List;
 
 import com.yedam.app.attend.attend.service.AttendVO;
+import com.yedam.app.attend.attend.service.WeekVO;
+import com.yedam.app.attend.emp.service.EmpVO;
 
 public interface AttendMapper {
 	//거리측정
@@ -31,5 +33,12 @@ public interface AttendMapper {
 	
 	//지각확인
 	public int checkWokrLate(AttendVO attendV);
+	
+	//주차확인
+	public List<WeekVO> findWeeks(int months);
+	
+	//전체사원 누적 근무시간 조회
+	public List<EmpVO> selectAllWorkTime(WeekVO weekVO);
+	
 	
 }

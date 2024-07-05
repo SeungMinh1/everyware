@@ -134,7 +134,7 @@
                         <span class="username">
                           
                           <a style="font-size: 25px">[[${post.title}]]</a><br>
-                          <a th:href="@{postInsert}"><button class="btn-3"><span>수정</span></button></a>
+                          <a th:href="@{|/postUpdate?postId=${post.postId}|}"><button class="btn-3"><span>수정</span></button></a>
                           <a th:href="@{|/postDelete?postId=${post.postId}|}" class= "float-right btn-tool"><i class="fas fa-times"><!--/*삭제 */--></i></a>
                         </span>
                         

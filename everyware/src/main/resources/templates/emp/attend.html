@@ -348,13 +348,13 @@
 							      	
 							      		<tr>
 							      			<th>근무시간</th>
-							      			<td id="time3" th:if="${att} != null"> [[ ${att.workTime} ]]</td>
-							      			<td id="time3" th:unless="${att} != null" ></td>
+							      			<td id="time3" th:if="${att} != null and ${att.workTime} !=0"> [[ ${att.workTime} ]]</td>
+							      			<td id="time3" th:unless="${att} != null and ${att.workTime} !=0" ></td>
 							      		</tr>
 							      		<tr>
 							      			<th>초과근무</th>
-							      			<td id="time4" th:if="${att} != null">[[ ${att.exceedWorkTime} ]]</td>
-							      			<td id="time4" th:unless="${att} != null "></td>
+							      			<td id="time4" th:if="${att} != null and ${att.exceedWorkTime} !=0">[[ ${att.exceedWorkTime} ]]</td>
+							      			<td id="time4" th:unless="${att} != null and ${att.exceedWorkTime} !=0 "></td>
 							      		</tr>
 							      		
 
@@ -653,6 +653,7 @@
             		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
 
             		let timeString = '현재시각은 ' + hours + '시 ' + minutes  + '분 ' + seconds + '초 입니다.';
+            		
 		            $("#modal2p1").text(timeString); 
 		            $("#modal2p2").text("출근하시겠습니까?"); 
 		        });
@@ -705,7 +706,7 @@
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000) + 'm';
                 	
-                	if(distance > 5.02){
+                	if(distance > 50.02){
                 		alert("출근 실패");
                 	}else{
                 		let nowTime = new Date();
@@ -812,7 +813,7 @@
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed(3) + 'm';
-                	if(distance > 5.02){
+                	if(distance > 50.02){
                 		alert("퇴근 실패");
                 	}else{
                 		let nowTime2 = new Date();

@@ -28,4 +28,15 @@ public class EmpVO {
 	private String accountId; //계정 아이디
 	private String password; //계정 비밀번호
 	private List<EmpVO> empInfo;
+	
+	
+	
+	
+	
+	
+	
+	private List<Integer> workTimeList;
+	private int weekwtime; // 누적일
+	
+	private List<Integer> empIdList; //체크된 사원번호
 }

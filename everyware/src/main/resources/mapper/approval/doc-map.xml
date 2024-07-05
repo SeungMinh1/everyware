@@ -5,12 +5,10 @@
 	<select id="waitDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE approval_emp = (SELECT emp_name
-						    FROM emp
-						    WHERE emp_id = #{empId})
-		AND approval_emp_id = (SELECT emp_id
-                               FROM emp
-                               WHERE emp_id = #{empId})
+		WHERE doc_id IN (SELECT doc_id
+						 FROM approval_path
+						 WHERE approval_emp_id = #{empId}
+						 AND approval_type = '결재대기')
 		ORDER BY doc_id
 	</select>
 	
@@ -18,19 +16,12 @@
 	<select id="waitRefViewDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '참조열람대기'
-		AND (ref_emp = (SELECT emp_name
-                    	FROM emp
-                    	WHERE emp_id = #{empId})
-		OR view_emp = (SELECT emp_name
-                		FROM emp
-                		WHERE emp_id = #{empId}))
-        AND (ref_emp_id = (SELECT emp_id
-                           FROM emp
-                           WHERE emp_id = #{empId})
-        OR view_emp_id = (SELECT emp_id
-                          FROM emp
-                          WHERE emp_id = #{empId}))                       
+		WHERE doc_id IN (SELECT doc_id
+						 FROM approval_doc
+						 WHERE (REGEXP_SUBSTR(ref_emp_id, '[^,]+', 1, 1) = #{empId}
+		            	 AND ref_check = 0)
+		            	 OR (REGEXP_SUBSTR(view_emp_id, '[^,]+', 1, 1) = #{empId}
+		            	 AND view_check = 0))
 		ORDER BY doc_id
 	</select>
 	
@@ -38,13 +29,10 @@
 	<select id="expectedDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '결재예정'
-		AND approval_emp = (SELECT emp_name
-						 FROM emp
-						 WHERE emp_id = #{empId})
-		AND approval_emp_id = (SELECT emp_id
-                               FROM emp
-                               WHERE emp_id = #{empId})				 
+		WHERE doc_id IN (SELECT doc_id
+						 FROM approval_path
+						 WHERE approval_emp_id = #{empId}
+						 AND approval_type = '결재예정')
 		ORDER BY doc_id
 	</select>
 	
@@ -66,10 +54,9 @@
 	<select id="approvalDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '결재'
-		AND approval_emp = (SELECT emp_name
-							FROM emp
-							WHERE emp_id = #{empId})
+		WHERE approval_emp = (SELECT emp_name
+							  FROM emp
+							  WHERE emp_id = #{empId})
 		AND approval_emp_id = (SELECT emp_id
                                FROM emp
                                WHERE emp_id = #{empId})					
@@ -80,10 +67,9 @@
 	<select id="sendDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '발송'
-		AND send_emp = (SELECT emp_name
-					    FROM emp
-					    WHERE emp_id = #{empId})
+		WHERE send_emp = (SELECT emp_name
+					      FROM emp
+					      WHERE emp_id = #{empId})
 		AND send_emp_id = (SELECT emp_id
                            FROM emp
                            WHERE emp_id = #{empId})					
@@ -94,10 +80,9 @@
 	<select id="receptionDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '수신'
-		AND reception_emp = (SELECT emp_name
-							FROM emp
-							WHERE emp_id = #{empId})
+		WHERE reception_emp = (SELECT emp_name
+							   FROM emp
+							   WHERE emp_id = #{empId})
 		AND reception_emp_id = (SELECT emp_id
                                 FROM emp
                                 WHERE emp_id = #{empId})					
@@ -128,10 +113,9 @@
 	<select id="refDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '참조'
-		AND ref_emp = (SELECT emp_name
-					   FROM emp
-					   WHERE emp_id = #{empId})
+		WHERE ref_emp = (SELECT emp_name
+					     FROM emp
+					     WHERE emp_id = #{empId})
 		AND ref_emp_id = (SELECT emp_id
                           FROM emp
                           WHERE emp_id = #{empId})					
@@ -142,10 +126,9 @@
 	<select id="viewDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
-		WHERE doc_type = '열람'
-		AND view_emp = (SELECT emp_name
-						FROM emp
-						WHERE emp_id = #{empId})
+		WHERE view_emp = (SELECT emp_name
+						  FROM emp
+						  WHERE emp_id = #{empId})
 		AND view_emp_id = (SELECT emp_id
                            FROM emp
                            WHERE emp_id = #{empId})					
@@ -332,5 +315,12 @@
 		SELECT emp_id, emp_name, FIND_CODENAME(emp_position) "emp_position", FIND_CODENAME(department_id) "department_id"
 		FROM emp
 		WHERE emp_id = #{empId}
+	</select>
+	
+	<!-- 직위 코드 -->
+	<select id="posCode" resultType="int">
+		SELECT SUBSTR(code_id,2,1)
+		FROM common_code
+		WHERE code_name = #{codeName}
 	</select>
 </mapper>
