@@ -1,6 +1,7 @@
 package com.yedam.app.dataroom.service;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -13,4 +14,6 @@ public class DataVO {
 	private String attachmentGroupId; //첨부파일 그룹번호
 	private String title;			  //파일이름
 	private String remarks;			  //비고
+	
+	private List<FileDataVO> fileList;	//첨부파일
 }

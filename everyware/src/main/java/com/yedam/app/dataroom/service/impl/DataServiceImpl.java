@@ -43,6 +43,11 @@ public class DataServiceImpl implements DataService {
 		return dataMapper.insertData(dataVO);
 	}
 
+	@Override
+	public int InsertDataFile(DataVO dataVO) {
+		return 0;
+	}
+
 	
 	
 

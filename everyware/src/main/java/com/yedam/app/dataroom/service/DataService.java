@@ -14,4 +14,5 @@ public interface DataService {
 	
 	//자료 등록
 	public int insertData(DataVO dataVO);
+	public int InsertDataFile(DataVO dataVO);
 }
