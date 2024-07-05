@@ -91,5 +91,9 @@ public class DataController {
 		return dataService.insertData(dataVO);
 	}
 	
-	
+	//자료조회
+	@GetMapping("selectData")
+	public DataVO selectData(int dataId) {
+		return dataService.selectDataInfo(dataId);
+	}
 }

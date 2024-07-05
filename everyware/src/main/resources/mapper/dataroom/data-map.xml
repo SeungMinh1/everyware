@@ -13,6 +13,7 @@
 		    data_id
 		    , title
 		    , registrate_date
+		    , attachment_group_id
 		    , emp_id
 		    , department_id
 		    , remarks
@@ -25,6 +26,7 @@
 		    data_id
 		    , title
 		    , registrate_date
+		    , attachment_group_id
 		    , emp_id
 		    , department_id
 		    , remarks
@@ -37,6 +39,7 @@
 		    data_id
 		    , title
 		    , registrate_date
+		    , attachment_group_id
 		    , emp_id
 		    , department_id
 		    , remarks
@@ -54,6 +57,9 @@
 		INSERT INTO data_room (
 				data_id
 			  , department_id
+			  <if test="attachmentGroupId != null and attachmentGroupId != ''">
+			  , attachment_group_id
+			  </if>
 			  , emp_id
 			  , title
 			  , remarks		
@@ -61,42 +67,28 @@
 			 VALUES(
 			 	#{dataId}
 			 	, #{departmentId}
+			 	<if test="attachmentGroupId != null and attachmentGroupId != ''">
+			 	, #{attachmentGroupId}
+			 	</if>
 			 	, #{empId}
 			 	, #{title}
 			 	, #{remarks}
 			 )
 	</insert>
 	
-	<!-- ===== 첨부파일등록 ===== -->
-	<insert id="insertDataFile" parameterType="fileVO">
-		<selectKey keyProperty="fileId" resultType="int"
-			order="BEFORE">
-			SELECT FILE_ID_SEQ.NEXTVAL
-			FROM dual
-		</selectKey>
-		INSERT INTO attachment(
-			 file_id
-			, attachment_group_id
-			, file_type
-			, origin_file_name
-			, upload_file_name
-			, upload_path
-			, type
-			, ext
-			, file_size
-			, emp_id
-		)
-		VALUES(
-			#{fileId}
-			, #{attachmentGroupId}
-			, #{fileType}
-			, #{originFileName}
-			, #{uploadFileName}
-			, #{uploadPath}
-			, #{type}
-			, #{ext}
-			, #{fileSize}
-			, #{empId}
-		)
-	</insert>
+	<!-- 자료 조회 -->
+	<select id="selectData" resultType="DataVO">
+		SELECT 
+		     d.data_id 
+		    , a.upload_path
+		    , a.upload_file_name
+		    , a.origin_file_name
+		    , a.attachment_group_id
+		    , a.file_size
+		    , a.ext
+		FROM data_room d
+		INNER JOIN attachment a
+		ON d.attachment_group_id = a.attachment_group_id
+		WHERE data_id = #{dataId}
+	</select>
 </mapper>

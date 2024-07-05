@@ -37,9 +37,9 @@
             <div class="card card-primary card-outline">
               <div class="card-body">
 					<button class="btn btn-outline-primary btn-block mb-3" type="button" id="recipient"
-					data-bs-toggle="modal" data-bs-target="#exampleModal">파일 업로드</button>
-			  <!-- Modal -->
-			<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					data-bs-toggle="modal" data-bs-target="#dataFileUploadModal">파일 업로드</button>
+		<!-- ======= Modal start ======= -->
+			<div class="modal" id="dataFileUploadModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			  <div class="modal-dialog modal-lg modal-dialog-centered">
 			    <div class="modal-content">
 			    <!-- ======= 모달 header ======== -->	
@@ -52,7 +52,7 @@
 			      	<div class="modalDiv">
 			      		<div class="form-group">
 	                        <label>대상 자료실 선택</label>
-	                        <select class="form-select dataSelect" aria-label="Default select example">
+	                        <select class="form-select dataSelect" name="dataSelect" aria-label="Default select example">
 		                          <option value="개인">개인자료실</option>
 		                          <option value="부서">부서자료실</option>
 		                          <option value="공통">공통자료실</option>
@@ -66,7 +66,7 @@
 						</div>
 						<div class="uploadResult">
 						  <div>
-							  <table class="table">
+							  <table class="table fileTable">
 								 <thead>
 									<tr>
 										<th>파일명</th>
@@ -85,15 +85,15 @@
 						</div>	
 			      	</div>
 			      </div>
-			     <!-- ======= 모달 body ======== -->	
+			<!-- ======= 모달 body ======== -->	
 			      <div class="modal-footer">
-			        <button class="btn btn-outline-primary insertBtn" type="button">등록</button>
-			        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+			        <button class="btn btn-outline-primary insertBtn" data-bs-dismiss="modal" type="button">등록</button>
+			        <button type="button" class="btn btn-outline-secondary closeModal" data-bs-dismiss="modal">취소</button>
 			      </div>
 			    </div>
 			  </div>
 			</div>
-		<!-- ================= Modal ================== -->
+		<!-- ================= Modal end================== -->
               <ul class="list-group nav nav-pills flex-column">
                 <li class="nav-item active d1">
                   <a th:href="@{/dataCommon}"data-no="d1" class="nav-link">
@@ -177,10 +177,10 @@
                 <table class="table table-hover">
                   <thead>
                   	<tr>
-                  		<th></th>
-                  		<th>이름</th>
-                  		<th>파일크기</th>
-                  		<th>등록날짜</th>
+                  		<th width="10%"></th>
+                  		<th width="55%">이름</th>
+                  		<th width="15%" >파일크기</th>
+                  		<th width="20%">등록날짜</th>
                   	</tr>
                   </thead>
                   <tbody class="tbody">
@@ -193,13 +193,15 @@
                     <tr>
                     	<td>
                         <div class="icheck-primary">
-                           <input type="checkbox" value="" id="check1">
-                           <label for="check1"></label>
+                           <input type="checkbox" th:value="${info.dataId}" th:id="${info.dataId}">
+                           <label th:for="${info.dataId}"></label>
                         </div>
 	                    </td>
-	                    <td class="title">[[ ${info.title} ]]</td>
+	                    <td class="title" >[[ ${info.title} ]]</td>
 	                    <td class="size">123</td>
-	                    <td class="date">[[ ${#dates.format(info.registrateDate, 'yy.MM.dd')} ]]</td>
+	                    <td class="date">[[ ${#dates.format(info.registrateDate, 'yy.MM.dd')} ]]
+	                    <input type="hidden" th:value="${info.attachmentGroupId}">
+	                    </td>
 	                  </tr>
                  	</th:block>
                   </tbody>

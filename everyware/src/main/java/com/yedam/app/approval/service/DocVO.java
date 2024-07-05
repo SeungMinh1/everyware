@@ -48,4 +48,8 @@ public class DocVO {
 	private List<String> refIdList;
 	private List<String> viewNameList;
 	private List<String> viewIdList;
+	private List<String> sendNameList;
+	private List<String> sendIdList;
+	private String docInfo;
+	private Date enforceDate;
 }

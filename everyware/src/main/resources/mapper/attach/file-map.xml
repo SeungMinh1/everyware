@@ -15,7 +15,6 @@
 			, origin_file_name
 			, upload_file_name
 			, upload_path
-			, type
 			, ext
 			, file_size
 			, emp_id
@@ -27,13 +26,20 @@
 			, #{originFileName}
 			, #{uploadFileName}
 			, #{uploadPath}
-			, #{type}
 			, #{ext}
 			, #{fileSize}
 			, #{empId}
 		)
 	</insert>
 
-
+	<update id="updateGroupId" parameterType="DataVO">
+		UPDATE attachment
+		SET attachment_group_id = #{attachmentGroupId}
+		WHERE file_id IN
+		<foreach item="item" index="index" collection="attachList" 
+				 open="(" separator="," close=")">
+			#{item.fileId, jdbcType=INTEGER}
+		</foreach>
+	</update>
 
 </mapper>

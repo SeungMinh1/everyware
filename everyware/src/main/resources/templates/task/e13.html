@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>증명서신청</title>
+	
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="css/task.css">
+  <link rel="stylesheet" href="css/org.css">
+</head>
+<body class="hold-transition sidebar-mini">
+	<div class="wrapper">
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>증명서신청</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">증명서신청</a></li>
+								<li class="breadcrumb-item active">새 결재 진행</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">증명서신청</h3>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body">
+									<button type="button" class="btn" id="req">결재요청</button>
+									<button type="button" class="btn" id="can">취소</button>
+									<button type="button" class="btn" id="tem">임시저장</button>
+									<button type="button" class="btn" id="info">결재정보</button>
+									<div id="container" th:style="${'width:1000px; height:1000px; border:3px solid #ccc; z-index: 1; margin-top:20px'}">
+										<table class="task">
+											<colgroup>
+												<col width="310">
+												<col width="490">
+											</colgroup>
+											<tbody>
+											<th:block th:each="emp : ${empInfo}">
+												<tr>
+													<td class="title" colspan="2">
+														<span>증 명 서 신 청</span>
+													</td>
+												</tr>
+												<tr>
+													<td class="board">
+														<table class="boardTable" th:id="${emp.empId}">
+															<colgroup>
+																<col width="90">
+																<col width="210">
+															</colgroup>
+															<tbody>
+																<tr>
+																	<td class="draft">
+																		기안자
+																	</td>
+																	<td class="draftName">
+																		[[ ${emp.empName} ]]
+																	</td>
+																</tr>
+																<tr>
+																	<td class="dept">
+																		소속
+																	</td>
+																	<td class="deptName">
+																		[[ ${emp.departmentId} ]]
+																	</td>
+																</tr>
+																<tr>
+																	<td class="date">
+																		기안일
+																	</td>
+																	<td class="sysdate">
+																		<span th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"></span>
+																	</td>
+																</tr>																
+															</tbody>
+														</table>
+													</td>													
+													<td class="allSignBox">														
+														<table class="signBox">															
+															<tbody>
+																<tr>
+																	<td class="draft" rowspan="4">신청</td>	
+																	<td class="draftPosition">[[ ${emp.empPosition} ]]</td>														
+																</tr>
+																<tr>																	
+																	<td class="draftEmp" rowspan="2">[[ ${emp.empName} ]]</td>
+																</tr>																
+															</tbody>
+														</table>
+													</td>												
+												</tr>											
+											</tbody>
+										</table>
+										<table class="inputBox">
+											<tbody>
+												<tr>
+													<td class="inputDate">
+													시행일자</td>
+													<td class="inputDateBox">
+													<input type="date"></td>
+												</tr>											
+												<tr>
+													<td class="inputTitle">
+													제목</td>
+													<td class="inputTitleBox">
+													<input type="text" id="msg" placeholder="필수값 입니다" style="width: 600px;"></td>
+												</tr>
+												<tr>								
+													<td class="textarea" colspan="2">
+              											<textarea id="summernote"></textarea>
+										            </td>
+												</tr>
+											</tbody>
+										</table>
+										<table>
+											<tr>
+												<th><span>파일첨부</span></th>
+												<td>
+													<div></div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+
+<!-- 결재요청 모달 -->
+<div id="mreq" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<table style="width: 100%;">
+				<tr>
+					<th><span>결재문서명</span></th>
+					<td><span id="text"></span></td>
+				</tr>
+				<tr>
+					<th><span>기안의견</span></th>
+					<td><textarea style="min-height:100px; width: 400px;" id="draftContent"></textarea></td>
+				</tr>
+			</table>
+			<div class="modal-button">
+			<button type="button" class="btn" id="request">요청</button>
+			<button type="button" class="btn" id="ccclose">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 취소 모달 -->
+<div id="mcan" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3>취소하시겠습니까?</h3>
+			<div class="modal-button">
+			<button type="button" class="btn" id="ok">확인</button>
+			<button type="button" class="btn" id="close">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 임시저장 모달 -->
+<div id="mtem" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3>임시저장 하시겠습니까?</h3>
+			<div class="modal-button">
+				<button type="button" class="btn" id="save">확인</button>
+				<button type="button" class="btn" id="cclose">닫기</button>	
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 결재정보 모달 -->
+<div id="minfo" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<h3>결재정보</h3>
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<div class="modal-box">
+				<div class="org">
+					<ul id="myUL">
+						<li th:each="deptList : ${empList}">
+							<span class="caret" th:data-dept="${deptList.departmentId}">
+							[[ ${deptList.departmentName} ]]
+							</span>
+							<ul class="nested">
+								<li th:each="empList : ${deptList.empInfo}" th:class="${empList.empName}" th:id="${empList.departmentId}" th:data-pos="${empList.empPosition}" th:data-id="${empList.empId}"><a>
+								[[ ${empList.empName} ]] [[ ${empList.empPosition} ]]</a></li>
+							</ul>
+						</li>
+					</ul>		
+				</div>
+				<div class="approvalLine">
+					<table>
+						<thead>
+							<tr class="lineHead">
+								<th style="width:65px;"></th>
+								<th>타입</th>
+								<th>이름</th>
+								<th>부서</th>
+								<th>상태</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+					</table>
+					<div class="lineTable">
+						<span>신청</span>
+						<table>
+							<tbody>
+								<tr th:each="emp : ${empInfo}" class="lineBody">
+									<td style="width:40px;">>></td>
+									<td>기안</td>
+									<td>[[ ${emp.empName} ]]</td>
+									<td>[[ ${emp.departmentId} ]]</td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineApp">
+						<span>승인</span>
+						<table>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineRec">
+						<span>수신</span>
+						<table>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineRef">
+						<span>참조</span>
+						<table>
+							<tbody></tbody>
+						</table>
+					</div>
+					<div class="lineTable" id="lineView">
+						<span>열람</span>
+						<table>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-order">
+				<span>합의방식 : </span>
+				<span>
+				<input id="ser" type="radio" name="order" value="ser" checked>
+				<label for="ser">순차합의</label>
+				</span>
+				<span>
+				<input id="par" type="radio" name="order" value="par">
+				<label for="par">병렬합의</label>
+				</span>
+			</div>
+			<div class="modal-button">
+				<button type="button" class="btn" id="saveInfo">확인</button>
+				<button type="button" class="btn" id="cccclose">닫기</button>	
+			</div>
+		</div>
+	</div>
+</div>
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- Summernote -->
+<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+	$(function() {
+		$("#example1").DataTable({
+			"responsive" : true,
+			"lengthChange" : false,
+			"autoWidth" : false,
+			"buttons" : [ "copy", "csv", "excel", "pdf", "print", "colvis" ]
+		}).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+		$('#example2').DataTable({
+			"paging" : true,
+			"lengthChange" : false,
+			"searching" : false,
+			"ordering" : true,
+			"info" : true,
+			"autoWidth" : false,
+			"responsive" : true,
+		});
+	});
+</script>
+<script src="../js/approval/taskDraft.js"></script>
+<script src="../js/approval/org.js"></script>
+</body>
+</html>

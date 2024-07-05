@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="css/modal.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -51,10 +52,10 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<button class="all">전체</button>
-              	<button class="ref">참조</button>
-              	<button class="view">열람</button>
-              	<button class="down">다운로드</button>
+              	<button type="button" class="btn" id="all">전체</button>
+              	<button type="button" class="btn" id="ref">참조</button>
+              	<button type="button" class="btn" id="view">열람</button>
+              	<button type="button" class="btn" id="down">다운로드</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
@@ -149,21 +150,7 @@
 		}
 	});
   
-  $('.all').click(function() {
-	  location.href = 'http://localhost:8100/refViewDocList';
-  })
-  
-  $('.ref').click(function() {
-	  location.href = 'http://localhost:8100/refDocList';
-  })
-  
-  $('.view').click(function() {
-	  location.href = 'http://localhost:8100/viewDocList';
-  })
-  
-  $('.down').click(function() {
-	  
-  })
 </script>
+<script src="../js/approval/viewDocList.js"></script>
 </body>
 </html>

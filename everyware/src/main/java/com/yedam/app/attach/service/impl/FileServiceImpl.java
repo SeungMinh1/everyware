@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.aspectj.weaver.tools.UnsupportedPointcutPrimitiveException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -18,8 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.app.attach.mapper.FileMapper;
 import com.yedam.app.attach.service.FileService;
 import com.yedam.app.attach.service.FileVO;
+import com.yedam.app.common.util.AuthUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FileServiceImpl implements FileService {
 
+	@Autowired
+	FileMapper fileMapper;
+	
     //폴더 저장 경로
  	private String getForder() {
  		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -35,6 +41,7 @@ public class FileServiceImpl implements FileService {
  		String str = sdf.format(date);
  		return str.replace("-", File.separator);
  	}
+ 	
  	//첨부파일 등록
     @Override
     public List<FileVO> uploadFiles(MultipartFile[] uploadFile) {
@@ -48,9 +55,14 @@ public class FileServiceImpl implements FileService {
 		if (uploadPath.exists() == false) {
 			uploadPath.mkdirs();
 		}
-		
+
+		//그룹아이디 생성
+        String attachmentGroupId = UUID.randomUUID().toString();
+        
         for (MultipartFile multipartFile : uploadFile) {
         	FileVO fileVO = new FileVO();
+        	
+        	fileVO.setAttachmentGroupId(attachmentGroupId);
         	
             log.info("------------------");
 			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
@@ -63,9 +75,6 @@ public class FileServiceImpl implements FileService {
 			log.info("only file name : " + uploadFileName);
 			//[ fileVO ] 원본파일이름
 			fileVO.setOriginFileName(uploadFileName); 
-			
-			int nameindex = uploadFileName.indexOf('.');
-			log.info("Upload File Name substring : " + uploadFileName.substring(0, nameindex));
 			
 			//UUID 생성
             UUID uuid = UUID.randomUUID(); 
@@ -83,9 +92,14 @@ public class FileServiceImpl implements FileService {
             fileVO.setFileType(multipartFile.getContentType());         //첨부파일종류
             fileVO.setFileSize(multipartFile.getSize());				//파일 사이즈
             fileVO.setUploadPath(uploadFolderPath); 					//업로드 경로	
+            
+            Integer empId = AuthUtil.getEmpId();
+            fileVO.setEmpId(empId);
+            
             try {
             	File saveFile = new File(uploadPath, uploadFileName);
             	multipartFile.transferTo(saveFile);
+            	fileMapper.insertFile(fileVO);
 				list.add(fileVO);
             } catch (Exception e) {
             	e.printStackTrace();
