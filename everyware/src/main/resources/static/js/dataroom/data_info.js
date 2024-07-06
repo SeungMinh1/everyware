@@ -2,27 +2,27 @@
  *  data_info.js
  */
 $(function(){
-	$('tr').click(function() {
-		var dataId = $(this).attr('id');
-     	console.log(dataId);
-
-		/*   
-		 $.ajax('selectData', {
-	      type: 'get'
+	$('.fileName').on('click',function(){
+		console.log('클릭')
+		var fileId = $(this).attr('id');
+		console.log(fileId);
+		let data1 = {
+			 fileId: fileId 
+		}
+		$.ajax('selectFileInfo', {
+	      type: 'POST'
 	      , contentType : 'application/JSON'
-	      , data: { dataId: dataId }
+	      , data: JSON.stringify(data1)
 	      , success: function(data) {
-	        alert('성공:', data);
-	        console.log('성공:', data);
+	        console.log(data);
+	        var fileCallPath = encodeURIComponent(//
+				data.uploadPath  +"/"+ data.uploadFileName + "_" + data.originFileName);
+	        window.location.href= "download?fileName=" + fileCallPath;
 	      },
 	      error: function(error) {
 	        console.log('에러:', error);
 	      }
 	    });
-	    
-	    */
-  
-  
-  });
+	});
 
 })

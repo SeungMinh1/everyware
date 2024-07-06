@@ -1,6 +1,7 @@
 package com.yedam.app.dataroom.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DataService {
 
@@ -15,5 +16,11 @@ public interface DataService {
 	//자료 등록 + 첨부파일 등록
 	public int insertData(DataVO dataVO);
 	//자료 조회
-	public List<DataVO> selectDataInfo(Integer dataId);
+	public List<DataVO> selectDataInfo(DataVO dataVO);
+	
+	//자료삭제 여러개
+	public Map<String, Object> deleteData(List<Integer> dataId);
+	
+	//자료삭제 (+ 프로시저)
+	//public int deleteData(int dataId);
 }

@@ -18,4 +18,11 @@ public class DataVO {
 	private String remarks;			  //비고
 	
 	private List<FileVO> attachList;	//첨부파일
+	
+	private String uploadPath;
+	private String uploadFileName;
+	private String originFileName;
+	private int fileSize;
+	private String ext;
+	private int fileId;
 }

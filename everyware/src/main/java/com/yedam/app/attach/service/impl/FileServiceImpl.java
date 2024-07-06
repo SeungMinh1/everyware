@@ -159,4 +159,11 @@ public class FileServiceImpl implements FileService {
 	}
 	
 	
+	
+	//파일 단건
+	 public FileVO selectFileInfo(FileVO fileVO) {
+		 return fileMapper.selectFileInfo(fileVO);
+	 };
+	
+	
 }

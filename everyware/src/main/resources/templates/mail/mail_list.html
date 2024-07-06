@@ -175,7 +175,7 @@
 	                     </div>
 	                   </td>
 	                   <!-- th:if="${mailboxId=d3}" -->
-	                   <td class="mailbox-name"><a>[[ ${in.sender} ]]</a></td>
+	                   <td class="mailbox-name">[[ ${in.sender} ]]</td>
 	                   <!-- d3(임시보관함)일때 draftMailUpdate 로 --> 
 	                   <td th:if="${in.mailboxId =='d3'}" class="mailbox-subject">
 	                   		<a th:href="@{/draftMailUpdate(mailId=${in.mailId})}" class="mailInfoLink">[[ ${in.title} ]]</a>

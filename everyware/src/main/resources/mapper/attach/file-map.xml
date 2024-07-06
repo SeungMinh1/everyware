@@ -32,6 +32,22 @@
 		)
 	</insert>
 
+	
+	<select id="selectFileInfo" resultType="FileVO">
+		SELECT 
+		   	  file_id
+			, file_type
+			, origin_file_name
+			, upload_file_name
+			, attachment_group_id
+			, emp_id
+			, file_size
+			, upload_path
+			, ext
+		FROM attachment
+		WHERE file_id = #{fileId}
+	</select>
+
 	<update id="updateGroupId" parameterType="DataVO">
 		UPDATE attachment
 		SET attachment_group_id = #{attachmentGroupId}

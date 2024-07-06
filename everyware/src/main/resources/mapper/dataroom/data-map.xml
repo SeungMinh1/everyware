@@ -80,15 +80,38 @@
 	<select id="selectData" resultType="DataVO">
 		SELECT 
 		     d.data_id 
+		    , d.title
+		    , d.registrate_date
 		    , a.upload_path
 		    , a.upload_file_name
 		    , a.origin_file_name
 		    , a.attachment_group_id
 		    , a.file_size
 		    , a.ext
+		    , a.file_id
 		FROM data_room d
 		INNER JOIN attachment a
 		ON d.attachment_group_id = a.attachment_group_id
 		WHERE data_id = #{dataId}
 	</select>
+	
+	<!-- 삭제 -->
+	<delete id="deleteData" parameterType="java.util.List">
+		 DELETE FROM data_room
+		 WHERE data_id IN 
+		<foreach item="item" index="index" collection="list" 
+				 open="(" separator="," close=")">
+			#{item, jdbcType=INTEGER}
+		</foreach>
+	</delete>
+	
+	<select id="seleteFileId" resultType="DataVO">
+		SELECT file_id
+		FROM attachment
+		WHERE attachment_group_id = (SELECT attachment_group_id
+		                             FROM data_room
+		                             WHERE data_id = #{dataId})
+	</select>
+	
+ 	
 </mapper>

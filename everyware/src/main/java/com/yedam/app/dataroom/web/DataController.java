@@ -1,6 +1,7 @@
 package com.yedam.app.dataroom.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,9 +94,16 @@ public class DataController {
 	
 	//자료조회
 	@GetMapping("selectData")
-	public int selectData(Integer dataId, Model model) {
-		List<DataVO> dvo = dataService.selectDataInfo(dataId);
-		model.addAttribute("data", dvo);
-		return 1;
+	public String selectData(DataVO dataVO, Model model) {
+		List<DataVO> dvo = dataService.selectDataInfo(dataVO);
+		model.addAttribute("datas", dvo);
+		return "dataroom/data_info";
+	}
+	
+	//자료삭제(여러개)
+	@PostMapping("deleteData")
+	@ResponseBody
+	public Map<String, Object> mailDelete(@RequestBody List<Integer> dataId) {
+		return dataService.deleteData(dataId);
 	}
 }

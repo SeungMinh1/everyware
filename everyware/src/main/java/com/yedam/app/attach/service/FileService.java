@@ -16,4 +16,7 @@ public interface FileService {
 	 
 	 //첨부파일 삭제
 	 public ResponseEntity<String> deleteFile(String fileName, String Type) throws UnsupportedEncodingException;
+	 
+	 //첨부파일 단건
+	 public FileVO selectFileInfo(FileVO fileVO);
 }

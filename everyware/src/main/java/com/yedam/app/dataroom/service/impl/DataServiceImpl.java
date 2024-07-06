@@ -1,6 +1,8 @@
 package com.yedam.app.dataroom.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,8 +56,23 @@ public class DataServiceImpl implements DataService {
 
 	//자료조회
 	@Override
-	public List<DataVO> selectDataInfo(Integer dataId) {
-		return dataMapper.selectData(dataId);
+	public List<DataVO> selectDataInfo(DataVO dataVO) {
+		return dataMapper.selectData(dataVO);
+	}
+
+	//자료삭제
+	@Override
+	public Map<String, Object> deleteData(List<Integer> dataId) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			dataMapper.deleteData(dataId);
+			result.put("result", true);
+		} catch(Exception e) {
+			result.put("result", false);
+			result.put("message", e.getMessage());
+		}
+		
+		return result;
 	}
 	
 	

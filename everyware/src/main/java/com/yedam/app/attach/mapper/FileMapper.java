@@ -7,6 +7,7 @@ public interface FileMapper {
 	 
 	//--- 공통 ---
 	public int insertFile(FileVO fileVO);
+	public FileVO selectFileInfo(FileVO fileVO);
 	
 	//--- 자료실 ---
 	//파일첨부를 여러번 할 때 groupId를 같은 id로 업데이트
