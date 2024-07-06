@@ -208,5 +208,49 @@
 		order by e.emp_id
  	</select>
  	
+ 	<!-- 자동 퇴근 -->
+ 	<update id="autoUpdate">
+ 		update attend
+		set leave_time = TO_DATE((TO_CHAR(SYSDATE, 'YYYYMMDD') || '1800'), 'YYYYMMDDHH24MISS')
+		    , out_yn = 0
+		    , work_time = TRUNC((TO_DATE((TO_CHAR(SYSDATE, 'YYYYMMDD') || '1800'), 'YYYYMMDDHH24MISS') - go_time)*24*60) 
+		WHERE out_yn = 1 and  emp_id In (select emp_id from emp where department_id != find_code('현장'))
+ 	
+ 	</update>
+ 	
+ 	<!-- 부서별 근태조회 -->
+ 	<select id="deptAttend" resultType="EmpVO">
+ 		SELECT
+            e.emp_id
+            , a.workdetail
+            , e.emp_name
+            , find_codename(department_id) departmentName
+            , find_codename(emp_position) posName 
+            ,attend_id
+            , find_codename(attend_type) attendType  
+            , a.go_time
+            , a.leave_time
+            , a.work_time
+            , a.exceed_work_time
+            , a.out_yn
+            , a.workdetail
+            , a.workdetail2
+		FROM  emp e
+            LEFT OUTER JOIN (select * from attend where to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd') ) a
+            on a.emp_id = e.emp_id
+		WHERE find_codename(department_id) = '관리' ;
+ 	
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
 
 </mapper>
