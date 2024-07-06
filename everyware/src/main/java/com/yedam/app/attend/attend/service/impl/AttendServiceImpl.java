@@ -28,7 +28,7 @@ public class AttendServiceImpl implements AttendService {
 			if(attendVO.getWorkTime() < 9*60) {
 				attendVO.setExceedWorkTime(0);
 			}else {
-				int extratime = attendVO.getWorkTime() - 9*60;
+				int extratime = (attendVO.getWorkTime() - 9*60);
 				attendVO.setExceedWorkTime(extratime);
 			}
 			
@@ -117,6 +117,10 @@ public class AttendServiceImpl implements AttendService {
 	@Override
 	public List<EmpVO> AllOverWorkTime(WeekVO weekVO) {
 		return attendMapper.selectAllOverWorkTime(weekVO);
+	}
+	@Override
+	public List<EmpVO> selectdeptAttend() {
+		return attendMapper.deptAttend();
 	}
 
 }
