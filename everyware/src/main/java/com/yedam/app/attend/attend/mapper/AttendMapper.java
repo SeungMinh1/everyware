@@ -46,4 +46,9 @@ public interface AttendMapper {
 	//전체사원 누적 근무시간 조회
 	public List<EmpVO> selectAllOverWorkTime(WeekVO weekVO);
 	
+	//자동퇴근
+	public int autoUpdate();
+	
+	//부서별 근태조회
+	public List<EmpVO> deptAttend();
 }

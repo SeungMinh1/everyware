@@ -51,15 +51,18 @@ public class AttendController {
 		if(attendService.countAttend(attendVO) != 0) { // 오늘 근무기록이 있다면(출근을 했다면)
 			AttendVO att = attendService.selectAttend(attendVO);
 			model.addAttribute("att", att);  // 오늘 근무기록 + 해당 사원의 사원정보(이름, 부서, 직위)
-			
 		}
 		AttendVO totalTime =  attendService.countWorkTime(attendVO); // 로그인한 사원의 누적 근무 기록
 		model.addAttribute("totalTime", totalTime);
 		
 		AttendVO thisMonth = attendService.countWorkTime2(empId, 0);
-		AttendVO lastMonth = attendService.countWorkTime2(empId, 30);
 		model.addAttribute("thisMonth",thisMonth);
-		model.addAttribute("lastMonth",lastMonth);
+		AttendVO lastMonth = attendService.countWorkTime2(empId, 30);
+		if(lastMonth != null) {
+			model.addAttribute("lastMonth",lastMonth);
+		}else {
+			model.addAttribute("lastMonth", new AttendVO());
+		}
 		return "emp/attend";
 	}
 	//attendService.checkWokrLate(att);
@@ -137,14 +140,14 @@ public class AttendController {
 		List<EmpVO> empList2 = attendService.AllOverWorkTime(list.get(0));
 		for(int i=0; i<empList2.size(); i++) {
 			List<Integer> newList = new ArrayList<>();
-			newList.add(empList2.get(i).getWeekwtime());
+			newList.add(empList2.get(i).getOverweekwtime());
 			empList2.get(i).setWorkTimeList(newList);
 		}
 		//나머지주차 정보 조회
 		for(int i=1; i<list.size(); i++) {			
-			List<EmpVO> tempList = attendService.AllWorkTime(list.get(i));
+			List<EmpVO> tempList = attendService.AllOverWorkTime(list.get(i));
 			for(int j=0; j<tempList.size(); j++) {			
-				empList2.get(j).getWorkTimeList().add(tempList.get(j).getWeekwtime());  //
+				empList2.get(j).getWorkTimeList().add(tempList.get(j).getOverweekwtime());  //
 			}
 		}
 
@@ -190,7 +193,11 @@ public class AttendController {
 		return "emp/deptAttend";
 	}
 	
-	
+	@PostMapping("selectDept")
+	@ResponseBody
+	public List<EmpVO> selectDeptAttend(){
+		return attendService.selectdeptAttend();
+	}
 	
 	
 }
