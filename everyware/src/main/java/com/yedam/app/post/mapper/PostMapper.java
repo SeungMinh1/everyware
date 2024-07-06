@@ -32,6 +32,6 @@ public interface PostMapper {
 	//게시판 번호 조회
 		public List<BoardVO> selectBoard();
 	//게시물 개수	
-        public int postCnt();
+        public int postCnt(PostVO postVO);
 
 }

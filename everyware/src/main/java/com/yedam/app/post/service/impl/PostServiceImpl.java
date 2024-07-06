@@ -67,9 +67,11 @@ public class PostServiceImpl implements PostService {
 	public List<BoardVO> selectBoard() {
 		return postMapper.selectBoard();
 	}
+	//게시물 개수 
 	@Override
-	public int postCnt() {
-		return postMapper.postCnt();
+	public int postCnt(PostVO postVO) {
+		return postMapper.postCnt(postVO);
 	}
+
 
 }

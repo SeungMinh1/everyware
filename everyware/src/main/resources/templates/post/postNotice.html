@@ -412,9 +412,20 @@ body {
 			
 		   <!-- 검색버튼 -->
              </div>
+             <ul class="nav justify-content-end">
+			  <li class="nav-item">
+			    <a class="nav-link active" aria-current="page" href="#">최신순</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">조회순 </a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">추천순</a>
+			  </li>
+			</ul>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
+                <table class="table table-hover ">
                   <thead>
                     <tr>
                       <th>번호</th>
@@ -422,7 +433,6 @@ body {
                       <th>작성자</th>
                       <th>조회수</th>
                       <th>추천수</th>
-                      <th>내용</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -436,7 +446,6 @@ body {
                       <td>[[${list.empId}]]</td>
                       <td>[[${list.viewCnt}]]</td>
                       <td>[[${list.recommentCnt}]]</td>
-                       <td>[[${list.content}]]</td>
                     </tr >
                   </tbody>
                 </table>
@@ -445,7 +454,25 @@ body {
               <!-- /.card-body -->
             </div>
             
-
+			 <nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<!-- 이전 버튼 -->
+				    <li class="page-item" th:if="${pg.prev}">
+				        <a class="page-link"  th:href="@{/selectNoticeAll(page=${pg.page-1})}" >이전</a>
+				    </li>
+				    
+				    <!-- 페이지 번호 -->
+					<li class="page-item" th:each="pages : ${#numbers.sequence(pg.startPage,pg.endPage)}">
+					     <a class="page-link" th:classappend="${pg.page} == ${pages} ? active" th:href="@{/selectNoticeAll(page=${pages})}" th:text="${pages}"></a>
+					</li>
+					
+					<!-- 다음 버튼 -->	
+				    <li class="page-item" th:if="${pg.next}">
+				        <a class="page-link"  th:href="@{/selectNoticeAll(page=${pg.page+1})}" >다음</a>
+				    </li>
+		
+				</ul>
+			</nav>
         </div>
         <!-- /.row -->
  </div>       
