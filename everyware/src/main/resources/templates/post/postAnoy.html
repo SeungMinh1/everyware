@@ -137,7 +137,6 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
                       <th>제목</th>
                       <th>조회수</th>
                       <th>추천수</th>
-                      <th>내용</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -151,7 +150,6 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
                       <td style="display: none;">[[${list.empId}]]</td>
                       <td>[[${list.viewCnt}]]</td>
                       <td>[[${list.recommentCnt}]]</td>
-                       <td>[[${list.content}]]</td>
                     </tr >
                   </tbody>
                 </table>
@@ -159,6 +157,25 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
+            <nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<!-- 이전 버튼 -->
+				    <li class="page-item" th:if="${pg.prev}">
+				        <a class="page-link"  th:href="@{/selectAnoyAll(page=${pg.page-1})}" >이전</a>
+				    </li>
+				    
+				    <!-- 페이지 번호 -->
+					<li class="page-item" th:each="pages : ${#numbers.sequence(pg.startPage,pg.endPage)}">
+					     <a class="page-link" th:classappend="${pg.page} == ${pages} ? active" th:href="@{/selectAnoyAll(page=${pages})}" th:text="${pages}"></a>
+					</li>
+					
+					<!-- 다음 버튼 -->	
+				    <li class="page-item" th:if="${pg.next}">
+				        <a class="page-link"  th:href="@{/selectAnoyAll(page=${pg.page+1})}" >다음</a>
+				    </li>
+		
+				</ul>
+			</nav>
             <a th:href="@{postInsert}"><button class="btn-3"><span>등록</span></button></a>
           </div>
         </div>

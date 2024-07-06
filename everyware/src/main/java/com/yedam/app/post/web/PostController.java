@@ -51,27 +51,55 @@ public class PostController {
 	//전체공지 
 	@GetMapping("selectNoticeAll")
 	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO) {
+		postVO.setBoardId(1);
 		page = page == null? 1 : page; 
 		cnt = cnt == null ? 10 : cnt ;
-		int postCnt = postService.postCnt(); // 게시물 개수 세기
+		
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
 		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
 		
 		List<PostVO> list = postService.selectNoticeAll(postVO);
 		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
 		return "post/postNotice";
 	}	
 	//전체부서별
 	@GetMapping("selectDeptAll")
-	public String selectDeptAll(Model model, PostVO postVO) {
+	public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO) {
+		postVO.setBoardId(2);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+		
 		List<PostVO> list = postService.selectDeptAll(postVO);
 		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
 		return "post/postDept";	
 	}	
 	//전체익명	
 	@GetMapping("selectAnoyAll")
-	public String selectAnoyAll(Model model, PostVO postVO) {
+	public String selectAnoyAll(Model model, Integer page, Integer cnt, PostVO postVO) {
+		postVO.setBoardId(3);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+		
 		List<PostVO> list = postService.selectAnoyAll(postVO);
 		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
 		return "post/postAnoy";			
 	}
 	// 등록 -페이지

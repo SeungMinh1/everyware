@@ -30,5 +30,5 @@ public interface PostService {
 	public int postDelete (int postId);
 	
 	//게시물 개수 
-	public int postCnt();
+	public int postCnt(PostVO postVO);
 }

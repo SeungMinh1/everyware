@@ -39,43 +39,80 @@ SELECT * FROM(
 	        content,
 	        emp_id,
 	        emp_id_name(emp_id) "empName"
-		    FROM post
-			WHERE board_id = 1 
-			AND (notification_yn = 'Y'
-			<choose>
-				<when test=" orderBy ==  'viewCnt'">
+		FROM post
+	    WHERE board_id = 1 
+		AND (notification_yn = 'Y')
+			<!-- <choose>
+				<when test='orderBy == "viewCnt"'>
 					ORDER BY view_cnt DESC
 				</when>
-				<when test=" orderBy ==  'recommendCnt'">
+				<when test='orderBy == "recommendCnt"'>
 					ORDER BY recommend_cnt DESC
 				</when>
 				<otherwise>
 					ORDER BY write_date DESC
 				</otherwise>
-			</choose>
+			</choose> -->
 		)a
-		WHERE rownum <![CDATA[<= ]]> (#{page} * #{cnt})
+	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
 	)
-	WHERE rs > (#{page}-1) * (#{cnt})	
+WHERE rs > (#{page}-1) * #{cnt}	
 </select>
 
 
 
 <!-- 부서별 게시물 전체조회 -->
 <select id="selectDeptAll" resultType="PostVO">
- SELECT post_id,
-	 		board_id,
-	        notification_yn,
-	        hold_yn,
-	        title,
-	        write_date,
-	        view_cnt,
-	        recommend_cnt,
-	        attachment_group_id,
-	        content,
-	        emp_id
-	    FROM post
-WHERE board_id = 2
+SELECT * FROM(
+	SELECT
+	  rownum AS rs,
+	  a.* 
+	FROM (
+		 SELECT post_id,
+			 		board_id,
+			        notification_yn,
+			        hold_yn,
+			        title,
+			        write_date,
+			        view_cnt,
+			        recommend_cnt,
+			        attachment_group_id,
+			        content,
+			        emp_id,
+			        emp_id_name(emp_id) "empName"
+			    FROM post
+		WHERE board_id = 2
+		)a
+	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+	)
+WHERE rs > (#{page}-1) * #{cnt}	
+</select>
+
+<!-- 익명 게시판 전체조회 -->
+<select id="selectAnoyAll" resultType="PostVO">
+SELECT * FROM(
+	SELECT
+	  rownum AS rs,
+	  a.* 
+	FROM (
+		 SELECT post_id,
+			 		board_id,
+			        notification_yn,
+			        hold_yn,
+			        title,
+			        write_date,
+			        view_cnt,
+			        recommend_cnt,
+			        attachment_group_id,
+			        content,
+			        emp_id,
+			        emp_id_name(emp_id) "empName"
+			    FROM post
+		WHERE board_id = 3
+		)a
+	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+	)
+WHERE rs > (#{page}-1) * #{cnt}	
 </select>
 
 <!-- 게시판 번호 조회-->
@@ -97,23 +134,6 @@ WHERE board_id = 2
 FROM common_code
 WHERE code_id LIKE 'g%'
 
-</select>
-
-<!-- 익명 게시판 전체조회 -->
-<select id="selectAnoyAll" resultType="PostVO">
- SELECT post_id,
-	 		board_id,
-	        notification_yn,
-	        hold_yn,
-	        title,
-	        write_date,
-	        view_cnt,
-	        recommend_cnt,
-	        attachment_group_id,
-	        content,
-	        emp_id
-	    FROM post
-WHERE board_id = 3
 </select>
 
 <!-- 단건 조회 -->
@@ -193,8 +213,9 @@ UPDATE post
 
 <!-- 게시물 개수 -->
 <select id="postCnt" resultType="int">
-	SELECT *
-	FROM 
+	SELECT COUNT(*) 
+	FROM post 
+	WHERE board_id = #{boardId}
 	
 </select>
 </mapper>
