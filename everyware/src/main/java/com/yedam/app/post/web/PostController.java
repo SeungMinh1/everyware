@@ -55,14 +55,22 @@ public class PostController {
 		page = page == null? 1 : page; 
 		cnt = cnt == null ? 10 : cnt ;
 		
+		//페이징 
 		postVO.setPage(page);
 		postVO.setCnt(cnt);
 		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
 		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
 		
+		//조회수, 추천수 
+		int updateViewCnt = postService.updateViewCnt(postVO);
+		int updateLikeCnt = postService.updateLikeCnt(postVO);
+		
 		List<PostVO> list = postService.selectNoticeAll(postVO);
 		model.addAttribute("postMain",list);
 		model.addAttribute("pg", pg);
+		
+		model.addAttribute("uvc",updateViewCnt);
+		model.addAttribute("ulc",updateLikeCnt);
 		
 		return "post/postNotice";
 	}	

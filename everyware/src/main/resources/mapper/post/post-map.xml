@@ -42,7 +42,7 @@ SELECT * FROM(
 		FROM post
 	    WHERE board_id = 1 
 		AND (notification_yn = 'Y')
-			<!-- <choose>
+			 <choose>
 				<when test='orderBy == "viewCnt"'>
 					ORDER BY view_cnt DESC
 				</when>
@@ -52,7 +52,7 @@ SELECT * FROM(
 				<otherwise>
 					ORDER BY write_date DESC
 				</otherwise>
-			</choose> -->
+			</choose> 
 		)a
 	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
 	)
@@ -216,6 +216,19 @@ UPDATE post
 	SELECT COUNT(*) 
 	FROM post 
 	WHERE board_id = #{boardId}
-	
 </select>
+<!-- 조회수  -->
+<update id="updateViewCnt" parameterType="PostVO" >
+	UPDATE post
+    SET view_cnt = view_cnt + 1
+    WHERE post_id = #{postId}
+</update>
+
+<!-- 추천수   -->
+<update id="updateLikeCnt" parameterType="PostVO"  >
+	UPDATE post
+    SET recommend_cnt = recommend_cnt + 1
+    WHERE post_id = #{postId}
+</update>
+
 </mapper>

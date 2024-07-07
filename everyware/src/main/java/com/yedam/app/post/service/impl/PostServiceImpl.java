@@ -72,6 +72,16 @@ public class PostServiceImpl implements PostService {
 	public int postCnt(PostVO postVO) {
 		return postMapper.postCnt(postVO);
 	}
+	//조회수 
+	@Override
+	public int updateViewCnt(PostVO postVO) {
+		return postMapper.updateViewCnt(postVO);
+	}
+	//추천수 
+	@Override
+	public int updateLikeCnt(PostVO postVO) {
+		return postMapper.updateLikeCnt (postVO);
+	}
 
 
 }
