@@ -119,8 +119,12 @@ public class AttendServiceImpl implements AttendService {
 		return attendMapper.selectAllOverWorkTime(weekVO);
 	}
 	@Override
-	public List<EmpVO> selectdeptAttend() {
-		return attendMapper.deptAttend();
+	public List<EmpVO> selectdeptAttend(String departmentName) {
+		return attendMapper.deptAttend(departmentName);
+	}
+	@Override
+	public int endworkExWork(AttendVO attendVO) {
+		return attendMapper.endworkExWork(attendVO);
 	}
 
 }

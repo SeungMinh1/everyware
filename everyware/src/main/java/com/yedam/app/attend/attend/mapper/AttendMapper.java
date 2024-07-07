@@ -16,6 +16,9 @@ public interface AttendMapper {
 	//퇴근
 	public int endwork(AttendVO attendVO);
 	
+	//퇴근2
+	public int endworkExWork(AttendVO attendVO);
+	
 	//조회
 	public List<AttendVO> selectAttendList(AttendVO attendVO);
 	
@@ -50,5 +53,5 @@ public interface AttendMapper {
 	public int autoUpdate();
 	
 	//부서별 근태조회
-	public List<EmpVO> deptAttend();
+	public List<EmpVO> deptAttend(String departmentName);
 }

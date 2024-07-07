@@ -36,7 +36,13 @@
 		SET leave_time = #{leaveTime}
 			, attend_type =  find_code(#{attendType})
 		    , work_time =  TRUNC((sysdate - go_time)*24*60)
-		    , exceed_work_time = #{exceedWorkTime}
+		WHERE emp_id = #{empId} and out_yn = 1
+	</update>
+	
+	<!-- 퇴근-초과근무  -->
+	<update id="endworkExWork" parameterType="AttendVO">
+		UPDATE attend
+		SET exceed_work_time = #{exceedWorkTime}
 		    , out_yn = 0
 		WHERE emp_id = #{empId} and out_yn = 1
 	</update>
@@ -226,10 +232,12 @@
             , e.emp_name
             , find_codename(department_id) departmentName
             , find_codename(emp_position) posName 
-            ,attend_id
+            , a.attend_id
             , find_codename(attend_type) attendType  
             , a.go_time
+            , TO_CHAR(go_time, 'HH:MI:SS') goTime2
             , a.leave_time
+            ,  TO_CHAR(leave_time, 'HH:MI:SS') leaveTime2
             , a.work_time
             , a.exceed_work_time
             , a.out_yn
@@ -238,8 +246,8 @@
 		FROM  emp e
             LEFT OUTER JOIN (select * from attend where to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd') ) a
             on a.emp_id = e.emp_id
-		WHERE find_codename(department_id) = '관리' ;
- 	
+		WHERE find_codename(department_id) = #{departmentName}
+ 		ORDER BY emp_id
  	</select>
  	
  	

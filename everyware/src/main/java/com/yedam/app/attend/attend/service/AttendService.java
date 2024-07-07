@@ -10,6 +10,9 @@ public interface AttendService {
 	
 	//퇴근
 	public int endwork(AttendVO attendVO);
+	
+	//퇴근2
+	public int endworkExWork(AttendVO attendVO);
 
 	//조회
 	public List<AttendVO> selectAttendAll(AttendVO attendVO);
@@ -42,6 +45,6 @@ public interface AttendService {
 	public List<EmpVO> AllOverWorkTime(WeekVO weekVO);
 	
 	//부서별 직원 근태관리
-	public List<EmpVO> selectdeptAttend();
+	public List<EmpVO> selectdeptAttend(String departmentName);
 	
 }
