@@ -3,6 +3,7 @@ package com.yedam.app.post.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.post.service.PostVO;
 
@@ -23,12 +24,14 @@ public interface PostMapper {
 	//등록 
 		public int postInsert (PostVO postVO);
 	//수정	
-		public Map<String, Object> postUpdate (PostVO postVO);
+		public int postUpdate (PostVO postVO);
 	//삭제 
 		public int postDelete (int postId);
 	//부서 번호 조회
 		public List<CommonVO> selectDepartment();		
 	//게시판 번호 조회
-		public List<CommonVO> selectBoard();
+		public List<BoardVO> selectBoard();
+	//게시물 개수	
+        public int postCnt(PostVO postVO);
 
 }

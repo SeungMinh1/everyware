@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.attach.mapper.FileMapper">
+
+	<insert id="insertFile" parameterType="FileVO">
+		<selectKey keyProperty="fileId" resultType="int"
+			order="BEFORE">
+			SELECT FILE_ID_SEQ.NEXTVAL
+			FROM dual
+		</selectKey>
+		INSERT INTO attachment(
+			 file_id
+			, attachment_group_id
+			, file_type
+			, origin_file_name
+			, upload_file_name
+			, upload_path
+			, ext
+			, file_size
+			, emp_id
+		)
+		VALUES(
+			#{fileId}
+			, #{attachmentGroupId}
+			, #{fileType}
+			, #{originFileName}
+			, #{uploadFileName}
+			, #{uploadPath}
+			, #{ext}
+			, #{fileSize}
+			, #{empId}
+		)
+	</insert>
+
+	
+	<select id="selectFileInfo" resultType="FileVO">
+		SELECT 
+		   	  file_id
+			, file_type
+			, origin_file_name
+			, upload_file_name
+			, attachment_group_id
+			, emp_id
+			, file_size
+			, upload_path
+			, ext
+		FROM attachment
+		WHERE file_id = #{fileId}
+	</select>
+
+	<update id="updateGroupId" parameterType="DataVO">
+		UPDATE attachment
+		SET attachment_group_id = #{attachmentGroupId}
+		WHERE file_id IN
+		<foreach item="item" index="index" collection="attachList" 
+				 open="(" separator="," close=")">
+			#{item.fileId, jdbcType=INTEGER}
+		</foreach>
+	</update>
+
+</mapper>

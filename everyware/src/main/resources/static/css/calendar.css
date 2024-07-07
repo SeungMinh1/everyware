@@ -24,7 +24,7 @@
   height: 30px;
   background: rgba(255, 255, 255);
   justify-content: center;
-   align-items: center;
+  align-items: center;
 
    box-shadow : 0px 0px 5px #444;
 }
@@ -72,6 +72,10 @@
 
 .calSetName{
 	width : 50%;
+}
+
+.calSetEmpName{
+	width : 20%;
 }
 
 .calSetPublic{
@@ -168,6 +172,11 @@ a:hover{
 	cursor :pointer;
 }
 
+#shareModalBtn:hover{
+		color : black;
+	cursor :pointer;
+}
+
 #calSetX{
 	float:right;
 	margin : 10px;
@@ -194,11 +203,38 @@ i{
     text-align : center;
     width : 100%;
 	text-align : center;
-
+}
 .calTable{
 	width : 100%;
 	border : gray 0.5px solid;
 	float : none;
 	text-align : center;
+}
+
+.calTable tr{
+	border : solid 0.5px gray;
+	height : 60px;
+}
+
+.buttonGroup{
+	justify-content: center;
+    align-items: center;
+    text-align : left;
+    margin-bottom : 20px;
+    margin-left : 20%;
+}
+
+.calSetCategory{
+	margin-left : 15%;
+	justify-content: center;
+}
+
+.calSetCategory label{
+	font-weight:lighter;
+	font-size : small;
+}
+
+.shareModal a, li{
+	cursor : pointer;
 }
 

@@ -24,7 +24,7 @@ public class LoginUserVO implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auths = new ArrayList<>();
-		auths.add(new SimpleGrantedAuthority(userVO.getAccountId()));
+		auths.add(new SimpleGrantedAuthority(userVO.getAuth()));
 		return auths;
 	}
 
@@ -40,12 +40,6 @@ public class LoginUserVO implements UserDetails{
 		return userVO.getAccountId();
 	}
 	
-	public UserVO getuserVO() {
-		return userVO;
-	}
-	public UserVO getUserVO() {
-		return userVO;
-	}
 
 	@Override
 	public boolean isAccountNonExpired() {

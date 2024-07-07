@@ -1,7 +1,7 @@
+
 package com.yedam.app.post.web;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.yedam.app.board.web.BoardController;
+import com.yedam.app.attend.emp.service.PageDTO;
+import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.common.service.CommonVO;
+import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.post.service.PostService;
 import com.yedam.app.post.service.PostVO;
 
@@ -49,23 +50,56 @@ public class PostController {
 	
 	//전체공지 
 	@GetMapping("selectNoticeAll")
-	public String selectNoticeAll(Model model, PostVO postVO) {
+	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO) {
+		postVO.setBoardId(1);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+		
 		List<PostVO> list = postService.selectNoticeAll(postVO);
 		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
 		return "post/postNotice";
 	}	
 	//전체부서별
 	@GetMapping("selectDeptAll")
-	public String selectDeptAll(Model model, PostVO postVO) {
+	public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO) {
+		postVO.setBoardId(2);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+		
 		List<PostVO> list = postService.selectDeptAll(postVO);
 		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
 		return "post/postDept";	
 	}	
 	//전체익명	
 	@GetMapping("selectAnoyAll")
-	public String selectAnoyAll(Model model, PostVO postVO) {
+	public String selectAnoyAll(Model model, Integer page, Integer cnt, PostVO postVO) {
+		postVO.setBoardId(3);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+		
 		List<PostVO> list = postService.selectAnoyAll(postVO);
 		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
 		return "post/postAnoy";			
 	}
 	// 등록 -페이지
@@ -73,7 +107,7 @@ public class PostController {
 	public String postInsertForm(Model model) {
 		PostVO postVO = new PostVO();
 		List<CommonVO> departmentList = postService.departmentList();	
-		List<CommonVO> selectBoard = postService.selectBoard();	
+		List<BoardVO> selectBoard = postService.selectBoard();	
 		model.addAttribute("post",postVO);
 		model.addAttribute("department",departmentList);
 		model.addAttribute("board",selectBoard);
@@ -82,15 +116,17 @@ public class PostController {
 	
 	//등록 - 처리
 	@PostMapping("postInsert")
-	public String postInsertProcess (@RequestParam String codeId) {
+	public String postInsertProcess (MultipartFile[] uploadFile,  PostVO postVO) {
 		//int boardType = postService.selectBoard(codeId);
-		postService.selectBoard();
-		
-		if("f1".equals(codeId)){
+		postVO.setEmpId(AuthUtil.getEmpId());
+		postService.postInsert(postVO);
+
+		if("f1".equals(postVO.getBoardType())){
+			postVO.setNotificationYn("Y");
 			return "redirect:selectNoticeAll";
-		}else if("f2".equals(codeId)){
+		}else if("f2".equals(postVO.getBoardType())){
 			return "redirect:selectDeptAll";
-	   }else if("f3".equals(codeId)){
+	   }else if("f3".equals(postVO.getBoardType())){
 		   return "redirect:selectAnoyAll";
 	   }else {
 		   return "redirect:postInsert";
@@ -101,14 +137,16 @@ public class PostController {
 	@GetMapping("postUpdate")
 	public String postUpdateForm(PostVO postVO, Model model) {
 		PostVO findVO = postService.postInfo(postVO);
+		List<CommonVO> departmentList = postService.departmentList();	
 		model.addAttribute("post",findVO);
+		model.addAttribute("department",departmentList);
 		return "post/postUpdate";
 	}
 	//수정 - 처리
 	@PostMapping("postUpdate")
-	@ResponseBody
-	public Map<String,Object>postUpdateAJAXJSON(@RequestBody PostVO postVO){
-		return postService.postUpdate(postVO);
+	public String postUpdate( PostVO postVO){
+		postService.postUpdate(postVO);
+		return "redirect:postInfo?postId="+postVO.getPostId();
 	}
 	//삭제 - 처리 
 	@GetMapping("postDelete")

@@ -3,23 +3,29 @@
 <mapper namespace="com.yedam.app.approval.mapper.DraftMapper">
 	<!-- 기안 -->
 	<insert id="draftInsert" parameterType="DraftVO">
+		<selectKey	keyProperty="draftId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT draft_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
 		INSERT INTO draft
 			(
-				draft_emp
+				draft_id
+				, draft_emp
 				, draft_emp_dept
 				, draft_title
 				, draft_content
-				, draft_date
-				, draft_status
+				, draft_date				
 			)
 		VALUES
 			(
-				#{draftEmp}
+				draft_id_seq.NEXTVAL
+				, #{draftEmp}
 				, #{draftEmpDept}
 				, #{draftTitle}
 				, #{draftContent}
-				, sysdate
-				, #{draftStatus}
+				, #{draftDate}				
 			)
 	</insert>
 	

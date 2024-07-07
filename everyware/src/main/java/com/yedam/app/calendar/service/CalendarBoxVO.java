@@ -12,4 +12,5 @@ public class CalendarBoxVO {
 	private int agreementYn;
 	private String empName;
 	private int publicYn;
+	private String empPosition;	
 }

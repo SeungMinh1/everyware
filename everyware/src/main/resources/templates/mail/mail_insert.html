@@ -19,6 +19,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
   <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+  <style>
+	.modal-backdrop{
+		height:0; 
+	}
+</style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -103,25 +108,32 @@
 				</div>
                 <div class="input-group mb-3">
 				  <input type="text" class="form-control" id="recipient" name="recipient" placeholder="받는사람">
-				  <button class="btn btn-outline-secondary" type="button" id="recipient">주소록</button>
+				  <button class="btn btn-outline-secondary" type="button" id="recipient"
+				  data-bs-toggle="modal" data-bs-target="#exampleModal">주소록</button>
 				</div>
-              <div class="input-group mb-3">
+                <div class="input-group mb-3">
 				  <input type="text" class="form-control" id="cc" name="cc" placeholder="참조">
 				  <button class="btn btn-outline-secondary" type="button" id="cc">주소록</button>
+				</div>
+				<div>
 				</div>
                 <div class="input-group mb-3">
 				  <input type="text" class="form-control title" id="title" placeholder="제목">
 				</div>
-                
-                <div class="form-group">
-                    <textarea id="summernote" class="form-control content" style="height: 300px"></textarea>
-                </div>
-                <div class="form-group">
+				<!-- 첨부파일 어떤걸로 할지 -->
+				<div class="mb-3">
+				  <input class="form-control" type="file" id="formFileMultiple" multiple>
+				</div>
+				<div class="form-group">
                   <div class="btn btn-default btn-file">
                     <i class="fas fa-paperclip"></i> Attachment
                     <input type="file" name="attachment">
                   </div>
                   <p class="help-block">Max. 32MB</p>
+                </div>
+                
+                <div class="form-group">
+                    <textarea id="summernote" class="form-control content" style="height: 300px"></textarea>
                 </div>
               </div>
               <!-- /.card-body -->
@@ -137,6 +149,26 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+    
+    <!-- 받는사람 Modal -->
+	<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-lg modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">주소록</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        ...
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" >Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+    
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -170,6 +202,6 @@
 <!-- ====================
        mail insert js 
  ========================-->
-<script src="../../js/mail_insert.js" th:inline="javascript"></script>
+<script src="../../js/mail/mail_insert.js" th:inline="javascript"></script>
 </body>
 </html>

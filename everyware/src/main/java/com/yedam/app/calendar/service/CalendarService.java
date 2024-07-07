@@ -37,13 +37,30 @@ public interface CalendarService {
 	//일정 변경
 	public Map<String, Object> updateCal(CalendarVO calendarVO);
 	
+	//일정 삭제
+	public int deleteCal(CalendarVO calrendarVO);
+	
 	//내 일정목록 추가
 	public int insertCalBox(CalendarBoxVO calendarBoxVO);
 	
 	//내 일정목록 수정
-	public int updateCalBox(CalendarBoxVO calendarBoxVO);
+	public int updateCalBox(List<CalendarBoxVO> list);
 	
 	//내 일정목록 삭제
-	public int deleteCalBox(CalendarBoxVO calendarBoxVO);
+	public int deleteCalBox(List<CalendarBoxVO> list);
 	
+	//공유신청받은 내 일정목록
+	public List<CalendarBoxVO> selectMySahred(CalendarBoxVO calendarBoxVO);
+	
+	//공유신청 수락
+	public int updateApproveShare(CalendarBoxVO calendarBoxVO);
+	
+	//관심일정 삭제
+	public int deleteApproveShare(CalendarBoxVO calendarBoxVO);
+	
+	//공유신청전 조회
+	public int checkRedup(CalendarBoxVO calendarBoxVO);
+	
+	//공유신청
+	public int applyShare(CalendarBoxVO calendarBoxVO);
 }

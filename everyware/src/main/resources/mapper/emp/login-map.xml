@@ -3,9 +3,25 @@
 <mapper namespace="com.yedam.app.attend.security.mapper.UserMapper">
 	
 	<select id="selectUser" resultType="UserVO">
-		select *
-		from account
-		WHERE account_id = #{id}
+
+		 SELECT e.emp_id
+ 				, emp_name
+ 				, tel
+ 				, mail
+ 				, hire_date
+ 				, expire_date
+ 				, address
+ 				, photo
+ 				, department_emp_id
+ 				, FIND_CODENAME(department_id) departmentName
+ 				, FIND_CODENAME(emp_position) posName
+ 				, 'ROLE_' || UPPER(department_id) auth
+ 				, a.account_id
+        		, a.password
+		FROM emp e
+			INNER JOIN account a
+			ON e.emp_id = a.emp_id
+        WHERE a.account_id = #{id}
 	
 	</select>
 

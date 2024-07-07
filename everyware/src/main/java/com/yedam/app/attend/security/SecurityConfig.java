@@ -21,7 +21,7 @@ public class SecurityConfig {
 	SecurityFilterChain filterChin(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
 				.antMatchers("/", "/main", "/login","/css/**", "/fonts/**", "/images/**", "/js/**", "/dist/**", "/plugins/**").permitAll()
-				.antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+				.antMatchers("/user/**").hasAnyRole("G2", "ADMIN")  //ROLE에 ROLE_부서코드 넣고 접근가능한 페이지 제한 
 				.antMatchers("/worker/**").hasAnyRole("WORKER", "ADMIN")
 				.antMatchers("/admin/**").hasAnyAuthority("ROLE ADMIN")
 				.anyRequest().authenticated()

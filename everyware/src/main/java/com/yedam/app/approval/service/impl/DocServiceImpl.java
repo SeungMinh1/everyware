@@ -11,6 +11,8 @@ import com.yedam.app.approval.mapper.DocMapper;
 import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
 import com.yedam.app.approval.service.TaskVO;
+import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.common.service.CommonVO;
 
 @Service
 public class DocServiceImpl implements DocService {
@@ -89,24 +91,112 @@ public class DocServiceImpl implements DocService {
 	}
 
 	@Override
-	public List<TaskVO> newTask() {
-		return docMapper.newTask();
+	public TaskVO newTask(TaskVO taskVO) {
+		return docMapper.newTask(taskVO);
 	}
 
 	@Override
 	public List<TaskVO> category() {
-		return docMapper.category();
+		List<TaskVO> list = docMapper.category();
+		
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setTaskList(docMapper.task(list.get(i).getCategory()));
+		}
+		
+		return list;
 	}
 
 	@Override
-	public TaskVO task(TaskVO taskVO) {
-		return docMapper.task(taskVO);
+	public List<TaskVO> task(String approvalTask) {
+		return docMapper.task(approvalTask);
 	}
-
+	
+	// 문서 등록
 	@Override
 	public int docInsert(DocVO docVO) {
+		int result = 0;
 		
-		return docMapper.docInsert(docVO);
+		// 결재자
+		String appEmps = "";
+		for(String appEmp : docVO.getApprovalNameList()) {
+			appEmps += appEmp + ",";
+		}
+		docVO.setApprovalEmp(appEmps);
+		
+		// 결재자 id
+		String appEmpIds = "";
+		for(String appEmpId : docVO.getApprovalIdList()) {
+			appEmpIds += appEmpId + ",";
+		}
+		docVO.setApprovalEmpId(appEmpIds);
+		
+		// 수신자
+		String recEmps = "";
+		for(String recEmp : docVO.getReceptionNameList()) {
+			recEmps += recEmp + ",";
+		}
+		docVO.setReceptionEmp(recEmps);
+		
+		// 수신자 id
+		String recEmpIds = "";
+		for(String recEmpId : docVO.getReceptionIdList()) {
+			recEmpIds += recEmpId + ",";
+		}
+		docVO.setReceptionEmpId(recEmpIds);
+		
+		// 참조자
+		String refEmps = "";
+		for(String refEmp : docVO.getRefNameList()) {
+			refEmps += refEmp + ",";
+		}
+		docVO.setRefEmp(refEmps);
+		
+		// 참조자 id
+		String refEmpIds = "";
+		for(String refEmpId : docVO.getRefIdList()) {
+			refEmpIds += refEmpId + ",";
+		}
+		docVO.setRefEmpId(refEmpIds);
+		
+		// 열람자
+		String viewEmps = "";
+		for(String viewEmp : docVO.getViewNameList()) {
+			viewEmps += viewEmp + ",";
+		}
+		docVO.setViewEmp(viewEmps);
+		
+		// 열람자 id
+		String viewEmpIds = "";
+		for(String viewEmpId : docVO.getViewIdList()) {
+			viewEmpIds += viewEmpId + ",";
+		}
+		docVO.setViewEmpId(viewEmpIds);
+		
+		// 발송자
+		String sendEmps = "";
+		for(String sendEmp : docVO.getSendNameList()) {
+			sendEmps += sendEmp + ",";
+		}
+		docVO.setSendEmp(sendEmps);
+		
+		// 발송자 id
+		String sendEmpIds = "";
+		for(String sendEmpId : docVO.getSendIdList()) {
+			sendEmpIds += sendEmpId + ",";
+		}
+		docVO.setSendEmpId(sendEmpIds);
+		
+		result = docMapper.docInsert(docVO);
+		return result;
+	}
+	
+	// 문서 임시저장
+	@Override
+	public int tempInsert(DocVO docVO) {
+		int result = 0;
+		
+		result = docMapper.tempInsert(docVO);
+		return result;
 	}
 
 	@Override
@@ -123,7 +213,43 @@ public class DocServiceImpl implements DocService {
 	}
 
 	@Override
-	public int docDelete(int docId) {
-		return docMapper.docDelete(docId);
+	public Map<String, Object> docDelete(List<Integer> docId) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			docMapper.docDelete(docId);
+			result.put("result", true);
+		} catch (Exception e) {
+			result.put("result", false);
+			result.put("message", e.getMessage());
+		}
+		return result;
+	}
+	
+	@Override
+	public List<EmpVO> allDept() {
+		// 부서 목록
+		List<EmpVO> list = docMapper.allDept();
+		
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setEmpInfo(docMapper.deptEmp(list.get(i).getDepartmentId()));
+		}
+		
+		return list;
+	}
+
+	@Override
+	public List<EmpVO> deptEmp(String departmentId) {
+		return docMapper.deptEmp(departmentId);
+	}
+
+	@Override
+	public EmpVO empInfo(int id) {
+		return docMapper.empInfo(id);
+	}
+
+	@Override
+	public int posCode(String codeName) {
+		return docMapper.posCode(codeName);
 	}
 }
+

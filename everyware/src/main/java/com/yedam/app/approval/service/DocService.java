@@ -3,6 +3,9 @@ package com.yedam.app.approval.service;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.common.service.CommonVO;
+
 public interface DocService {
 	// 문서조회
 	// 결재 대기 문서
@@ -42,16 +45,31 @@ public interface DocService {
 	public DocVO docInfo(DocVO docVO);
 	
 	// 문서등록(양식)
-	public List<TaskVO> newTask();
+	public TaskVO newTask(TaskVO taskVO);
 	public List<TaskVO> category();
-	public TaskVO task(TaskVO taskVO);
+	public List<TaskVO> task(String category);
 	
 	// 문서등록
 	public int docInsert(DocVO docVO);
+	
+	// 임시저장
+	public int tempInsert(DocVO docVO);
 
 	// 문서수정
 	public Map<String, Object> docUpdate(DocVO docVO);
 
 	// 문서삭제
-	public int docDelete(int docId);
+	public Map<String, Object> docDelete(List<Integer> docId);
+	
+	// 전체 부서 목록
+	public List<EmpVO> allDept();
+	
+	// 부서별 사원 정보
+	public List<EmpVO> deptEmp(String departmentId);
+	
+	// 사원 정보
+	public EmpVO empInfo(int id);
+	
+	// 직위 코드
+	public int posCode(String codeName);
 }

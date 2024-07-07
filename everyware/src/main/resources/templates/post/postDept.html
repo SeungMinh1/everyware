@@ -14,7 +14,82 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 </head>
+<style>
+/* 3 */
+.btn-3 {
+  background: rgb(0,172,238);
+background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+  width: 80px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+  position: absolute;
+  right: 0;
+  
+}
+.btn-3 span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.btn-3:before,
+.btn-3:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  top: 0;
+   background: rgba(2,126,251,1);
+  transition: all 0.3s ease;
+}
+.btn-3:before {
+  height: 0%;
+  width: 2px;
+}
+.btn-3:after {
+  width: 0%;
+  height: 2px;
+}
+.btn-3:hover{
+   background: transparent;
+  box-shadow: none;
+}
+.btn-3:hover:before {
+  height: 100%;
+}
+.btn-3:hover:after {
+  width: 100%;
+}
+.btn-3 span:hover{
+   color: rgba(2,126,251,1);
+}
+.btn-3 span:before,
+.btn-3 span:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+   background: rgba(2,126,251,1);
+  transition: all 0.3s ease;
+}
+.btn-3 span:before {
+  width: 2px;
+  height: 0%;
+}
+.btn-3 span:after {
+  width: 0%;
+  height: 2px;
+}
+.btn-3 span:hover:before {
+  height: 100%;
+}
+.btn-3 span:hover:after {
+  width: 100%;
+}
+</style>
 <body class="hold-transition sidebar-mini">
 
   <!-- Content Wrapper. Contains page content -->
@@ -28,7 +103,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a th:href="@{/postMainNotice}">Home</a></li>
               <li class="breadcrumb-item active">부서별 게시판</li>
             </ol>
           </div>
@@ -63,17 +138,19 @@
                       <th>작성자</th>
                       <th>조회수</th>
                       <th>추천수</th>
-                      <th>내용</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr th:each= "list : ${postMain}">
                       <td>[[${list.postId}]]</td>
-                      <td>[[${list.title}]]</td>
+                      <td>
+                      <a th:href="@{postInfo(postId=${list.postId})}">
+                       [[ ${list.title} ]]
+                      </a>
+                      </td>
                       <td>[[${list.empId}]]</td>
                       <td>[[${list.viewCnt}]]</td>
                       <td>[[${list.recommentCnt}]]</td>
-                       <td>[[${list.content}]]</td>
                     </tr >
                   </tbody>
                 </table>
@@ -82,6 +159,28 @@
             </div>
             <!-- /.card -->
           </div>
+          
+           <nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<!-- 이전 버튼 -->
+				    <li class="page-item" th:if="${pg.prev}">
+				        <a class="page-link"  th:href="@{/selectDeptAll(page=${pg.page-1})}" >이전</a>
+				    </li>
+				    
+				    <!-- 페이지 번호 -->
+					<li class="page-item" th:each="pages : ${#numbers.sequence(pg.startPage,pg.endPage)}">
+					     <a class="page-link" th:classappend="${pg.page} == ${pages} ? active" th:href="@{/selectDeptAll(page=${pages})}" th:text="${pages}"></a>
+					</li>
+					
+					<!-- 다음 버튼 -->	
+				    <li class="page-item" th:if="${pg.next}">
+				        <a class="page-link"  th:href="@{/selectDeptAll(page=${pg.page+1})}" >다음</a>
+				    </li>
+		
+				</ul>
+			</nav>
+			
+          <a th:href="@{postInsert}"><button class="btn-3"><span>등록</span></button></a>
         </div>
         <!-- /.row -->
  </div>       

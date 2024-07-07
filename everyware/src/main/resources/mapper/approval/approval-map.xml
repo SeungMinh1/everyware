@@ -1,41 +1,175 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.approval.mapper.ApprovalMapper">
-	<!-- 결재자 등록 -->
+	<!-- 결재 등록 -->
 	<insert id="approvalInsert" parameterType="ApprovalVO">
+		<selectKey	keyProperty="approvalId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT approval_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
 		INSERT INTO approval_path
-			(
-				approval_emp
-			)
-		VALUES
-			(
-				#{approvalEmp}
-			)
+	            (
+	                approval_id
+	                , approval_type
+	                , approval_order
+	                , approval_emp_order
+	                , approval_emp
+	                , approval_emp_id
+	                , doc_id
+	                , draft_emp
+	            )
+		        VALUES
+		        (
+		        	approval_id_seq.NEXTVAL
+		        	, #{approvalType}
+		        	, #{approvalOrder}
+		        	, #{approvalEmpOrder}
+		        	, #{approvalEmp}
+		        	, #{approvalEmpId}
+		        	, (SELECT last_number-1
+					  FROM user_sequences 
+					  WHERE sequence_name=UPPER('doc_id_seq'))
+		        	, #{draftEmp}
+		        )
+	</insert>
+	
+	<!-- 수신자 등록 -->
+	<insert id="receptionInsert" parameterType="ReceptionVO">
+		<selectKey	keyProperty="receptionId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT reception_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
+		INSERT INTO reception_path
+	            (
+	                reception_id
+	                , reception_emp
+	                , reception_emp_id
+	                , reception_status	            
+	                , doc_id
+	                , draft_emp
+	                , draft_emp_id
+	            )
+		        VALUES
+		        (
+		        	reception_id_seq.NEXTVAL
+		        	, #{receptionEmp}
+		        	, #{receptionEmpId}
+		        	, #{receptionStatus}		       
+		        	, (SELECT last_number
+					  FROM user_sequences 
+					  WHERE sequence_name=UPPER('doc_id_seq'))
+		        	, #{draftEmp}
+		        	, #{draftEmpId}
+		        )
+	</insert>
+	
+	<!-- 발송자 등록 -->
+	<insert id="sendInsert" parameterType="SendVO">
+		<selectKey	keyProperty="sendId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT send_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
+		INSERT INTO send_path
+	            (
+	                send_id
+	                , send_emp
+	                , send_emp_id
+	                , send_status	            
+	                , doc_id
+	                , draft_emp
+	                , draft_emp_id
+	            )
+		        VALUES
+		        (
+		        	send_id_seq.NEXTVAL
+		        	, #{sendEmp}
+		        	, #{sendEmpId}
+		        	, #{sendStatus}		       
+		        	, (SELECT last_number
+					  FROM user_sequences 
+					  WHERE sequence_name=UPPER('doc_id_seq'))
+		        	, #{draftEmp}
+		        	, #{draftEmpId}
+		        )
 	</insert>
 	
 	<!-- 참조자 등록 -->
-	<insert id="refInsert" parameterType="ApprovalVO">
-		INSERT INTO approval_path
-			(
-				approval_ref
-			)
-		VALUES
-			(
-				#{approvalRef}
-			)
+	<insert id="refInsert" parameterType="RefVO">
+		<selectKey	keyProperty="refId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT ref_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
+		INSERT INTO ref_path
+	            (
+	                ref_id
+	                , ref_emp
+	                , ref_emp_id
+	                , ref_status	            
+	                , doc_id
+	                , draft_emp
+	                , draft_emp_id
+	            )
+		        VALUES
+		        (
+		        	ref_id_seq.NEXTVAL
+		        	, #{refEmp}
+		        	, #{refEmpId}
+		        	, #{refStatus}		       
+		        	, (SELECT last_number
+					  FROM user_sequences 
+					  WHERE sequence_name=UPPER('doc_id_seq'))
+		        	, #{draftEmp}
+		        	, #{draftEmpId}
+		        )
 	</insert>
 	
 	<!-- 열람자 등록 -->
-	<insert id="viewInsert" parameterType="ApprovalVO">
-		INSERT INTO approval_path
-			(
-				approval_view
-			)
-		VALUES
-			(
-				#{approvalView}
-			)
+	<insert id="viewInsert" parameterType="ViewVO">
+		<selectKey	keyProperty="viewId"
+					resultType="Integer"
+					order="AFTER">
+			SELECT view_id_seq.CURRVAL
+			FROM dual					
+		</selectKey>
+		INSERT INTO view_path
+	            (
+	                view_id
+	                , view_emp
+	                , view_emp_id
+	                , view_status	            
+	                , doc_id
+	                , draft_emp
+	                , draft_emp_id
+	            )
+		        VALUES
+		        (
+		        	view_id_seq.NEXTVAL
+		        	, #{viewEmp}
+		        	, #{viewEmpId}
+		        	, #{viewStatus}		       
+		        	, (SELECT last_number
+					  FROM user_sequences 
+					  WHERE sequence_name=UPPER('doc_id_seq'))
+		        	, #{draftEmp}
+		        	, #{draftEmpId}
+		        )
 	</insert>
 	
-	<!-- 결재 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

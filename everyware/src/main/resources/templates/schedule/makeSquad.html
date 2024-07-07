@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">	
+  <link rel="stylesheet" href="../css/schedule.css">
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="content-wrapper">
+		<!-- 페이지 헤더 -->
+		<section class="content-header" style="text-align:center">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1>근무조 생성</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+			
+		<section class="content">
+			<div class="row" >	
+			<div class="col-md-10" style="margin:auto;text-align:center">
+			<div class="background">
+				<div class="firstStep">
+				<div style="text-align:left">
+					<label for="squadNum">근무형태</label>
+					<select id="squadNum" class="form-control" style="width:100px;display:inline-block">
+						<option value='1'>1</option>
+						<option value='2'>2</option>
+						<option value='3'>3</option>
+						<option value='4'>4</option>
+						<option value='direct'>직접입력</option>
+					</select>
+					<input type="number" class="form-control" id="squadDirectNum"  style="width:100px;display:none">
+					<span>조</span>&nbsp;&nbsp;
+					<select id="rotationNum" class="form-control" style="width:100px;display:inline-block">
+						<option value='2'>2</option>
+						<option value='3'>3</option>
+						<option value='4'>4</option>
+					</select>
+					<input class="form-control" type="number" max="10" id="rotationDirectNum" style="width:100px;display:none">
+					<span>교대</span><br>
+					
+					<label>근무 시작일</label>
+					<input id="startDate" type="date" class="form-control"><br>
+					
+					<label for="rotaDay">교대 주기</label>
+					<input type="number" id="rotaDay" class="form-control"> 일
+					
+					<div class="alertGroup" id="firstAlert"style="display:none;text-align:center">
+						<span style="color:red">값을 입력하여 주세요</span>
+					</div>
+					</div>
+					
+					<div class="buttonGroup">
+						<button id="firstNext" class="btn">다음</button>
+					</div>
+				
+				</div>
+				<div class="secondStep" style="display:none">
+					
+
+					<div id="makeCheckBox">
+						
+					</div>
+					
+						<table class="table"  style="width:30%;display:inline-block;margin-right:50px;">
+							<thead >
+								<tr>
+									<th>사원번호</th>
+									<th>생산팀 직원목록</th>
+								</tr>
+							</thead>
+							<tbody id="prodEmp" th:fragment="prodEmp" >
+							<th:block th th:each = "list : ${proList}">
+								<tr th:data-empId="${list.empId}">
+									<td>[[${list.empId}]]
+									<td class="squadAddEmp">[[${list.empName}]] [[${list.empPosition}]]</td>
+								</tr>
+							</th:block>
+							</tbody>
+						</table>
+					
+					<table class="table squadTable" id="selectedTable" style="width:50%;display:inline-block">
+						<thead>
+							<tr>
+								<th style="width:5%;">조</th>
+								<th>근무자</th>
+							</tr>
+						</thead>
+						<tbody id="tbody">
+
+						</tbody>
+					</table>
+					
+					<div class="buttonGroup">
+						<button id="secondPrev" class="btn ">이전</button>
+						<button id="secondNext" class="btn">다음</button>
+					</div>
+					
+				</div>
+			</div>
+			</div>
+			</div>
+		</section>
+	</div>
+
+<script src="../js/schedule/makeSquad.js"></script>
+<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
+</body>
+</html>

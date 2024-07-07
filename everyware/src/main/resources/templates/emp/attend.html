@@ -14,6 +14,137 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <style>
+  
+	tr, td {
+	  text-align: center;
+	}
+	th {
+	  text-align: left;
+	  padding-left: 3 px;
+	}
+  	/* ======== Calendar ======== */
+	.my-calendar {
+	  width: 85%;
+	  margin: auto;/*30px;*/
+	  padding: 20px 20px 10px;
+	  text-align: center;
+	  font-weight: 800;
+	  border: 1px solid #ddd;
+	  cursor: default;
+	  background: #f0f9ff;
+	}
+	.my-calendar .clicked-date {
+	  border-radius: 25px;
+	  margin-top: 36px;
+	  float: left;
+	  width: 40%;
+	  padding: 20px 0 15px;
+	 /* background: skyblue;*/
+	}
+	.my-calendar .calendar-box {
+	  float: right;
+	  width: 58%;
+	  padding-left: 5 px;
+	  margin-left:5px;
+	  background : white;
+	}
+	
+	.clicked-date .cal-day {
+	  font-size: 20px;
+	}
+	.clicked-date .cal-date {
+	  font-size: 20px;
+	}
+	
+	.ctr-box {
+	  padding: 0 16px;
+	  margin-bottom: 20px;
+	  font-size: 20px;
+	  background : skyblue;
+	}
+	.ctr-box .btn-cal {
+	  position: relative;
+	  float: left;
+	  width: 25px;
+	  height: 25px;
+	  margin-top: 5px;
+	  font-size: 16px;
+	  cursor: pointer;
+	  border: none;
+	  background: none;
+	}
+	.ctr-box .btn-cal:after {
+	  content: '<';
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  line-height: 25px;
+	  font-weight: bold;
+	  font-size: 20px;
+	}
+	.ctr-box .btn-cal.next {
+	  float: right;
+	}
+	.ctr-box .btn-cal.next:after {
+	  content: '>';
+	}
+	
+	.cal-table {
+	  width: 100%;
+	}
+	.cal-table th {
+	  width: 14.2857%;
+	  padding-bottom: 5px;
+	  font-size: 16px;
+	  font-weight: 900;
+	}
+	.cal-table td {
+	  padding: 3px 0;
+	  height: 50px;
+	  font-size: 15px;
+	  vertical-align: middle;
+	}
+	.cal-table td.day {
+	  position: relative;
+	  cursor: pointer;
+	}
+	.cal-table td.today {
+	  background: #ffd255;
+	  border-radius: 50%;
+	  color: #fff;
+	}
+	.cal-table td.day-active {
+	  background: #ff8585;
+	  border-radius: 50%;
+	  color: #fff;
+	}
+	.cal-table td.has-event:after {
+	  content: '';
+	  display: block;
+	  position: absolute;
+	  left: 0;
+	  bottom: 0;
+	  width: 100%;
+	  height: 4px;
+	  background: #FFC107;
+	}
+  
+  	.ten p {
+  		font-size:34px; font-weight:500; text-transform:uppercase;
+		}
+	.ten p:before {
+	    background-color: #c50000;
+	    border-radius: 0.25rem;
+	    content: '';
+	    display: block;
+	    height: 0.25rem;
+	    width: 42px;
+	    margin-bottom: 1.25rem;
+	}
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 
@@ -51,21 +182,30 @@
 
                 </div>
 
-                <h3 class="profile-username text-center">사원이름</h3>
+                <h3 class="profile-username text-center">[[ ${user.empName} ]]</h3>
 
-                <p class="text-muted text-center">부서   직급</p>
+                <p class="text-muted text-center">[[ ${user.departmentName} ]] ([[ ${user.posName} ]])</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                      <b>출근시간</b> <a class="float-right">543</a>
+                      <b>출근시간</b> 
+                      	<a class="float-right" id="startTime2" th:if="${att} != null">[[ ${#dates.format(att.goTime, 'HH:mm:ss')} ]]</a>
+                      	<a class="float-right" id="startTime" th:unless="${att} != null"></a>
                   </li>
-                  <li class="list-group-item">
-                  <b>퇴근시간</b> <a class="float-right">13,287</a>
+                  <li class="list-group-item" id="endtimeli">
+                  <b>퇴근시간</b> 
+                     <th:block th:if="${att} != null">
+                     	<a class="float-right" id="endTime2">[[ ${#dates.format(att.leaveTime, 'HH:mm:ss')} ]]</a>
+                     </th:block>
+                     <th:block th:unless="${att} != null ">
+                     	<a class="float-right" id="endTime"></a>
+                     </th:block>
                   </li>
                   <li class="list-group-item" >
-                    
-                    <button id="currentGeoLocation">출근</button>
-                    <button class="float-right" id="currentGeoLocation2">퇴근</button>
+                    	<button id="goworkBtn" th:if="${att} == null">출근</button>
+                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null">출근</button>
+                   		<button class="float-right" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button class="float-right" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
                   </li>
                 </ul>
 
@@ -83,6 +223,7 @@
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title">About Me</h3>
+                
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -136,99 +277,133 @@
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Shared publicly - 7:30 PM today</span>
-                      </div>
-                      <!-- /.user-block -->
-						<th:block th:each="attend : ${attnedList}">
-						
-							<p>[[ ${attend.attendType} ]]</p>
-							<p>[[ ${attend.goTime} ]]</p>
-							<p>[[ ${attend.empId} ]]</p>
-							<p>------------------------</p>
-							<br>
-						</th:block>
-                      <p>
-                        <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                        <span class="float-right">
-                          <a href="#" class="link-black text-sm">
-                            <i class="far fa-comments mr-1"></i> Comments (5)
-                          </a>
-                        </span>
-                      </p>
+                       <table class="table table-striped-columns">
+                       		<tr>
+                       			<th>이번주 누적근무시간</th>
+                       			<th>이번주 초과근무시간</th>
+                       			<th>이번달 누적근무시간</th>
+                       			<th>이번달 초과근무시간</th>
+                       			<th>지난달 누적근무시간</th>
+                       			<th>지난달 초과근무시간</th>
+                       		</tr>
+                       		
+                       		<tr>          
+	                       		<th:block th:if="totalTime != null">
+                        			<td>[[ ${totalTime.totalwork1} ]] 분</td>
+                        			<td>[[ ${totalTime.extrawork1} ]] 분</td>
+                       			 </th:block>
+                       			 <th:block th:unless="totalTime != null">
+                        			<td >0분</td>
+                        			<td >0분</td>
+                       			 </th:block>
+                       			 
+                       			<th:block th:if="thisMonth != null">
+	                       			<td>[[ ${thisMonth.monthworkTime} ]] 분</td>
+	                        		<td>[[ ${thisMonth.monthExtraworkTime} ]] 분</td>
+	                        	</th:block>
+	                        	 <th:block th:unless="thisMonth != null">
+	                        	 	<td >0분</td>
+                        			<td >0분</td>
+	                        	 </th:block>
+	                        	 <!-- 여기가문제 -->
+	                        	 <th:block th:if="lastMonth != null">
+		                        	<td>[[ ${lastMonth.monthworkTime} ]] 분</td>
+		                        	<td >[[ ${lastMonth.monthExtraworkTime} ]] 분</td>
+		                        </th:block>
+		                        <th:block th:unless="lastMonth != null">
+		                        	<td>0분</td>
+	                        		<td>0분</td>
+                        		</th:block>
+                       		</tr>
+                       		
+                       </table>
 
-                      <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                      </div>
+ 
+
                     </div>
+                    <br>
                     <!-- /.post -->
 
-                    <!-- Post -->
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
-                      </p>
-
-                      <form class="form-horizontal">
-                        <div class="input-group input-group-sm mb-0">
-                          <input class="form-control form-control-sm" placeholder="Response">
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger">Send</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <!-- /.post -->
+      
 
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
-                        <span class="username">
-                          <a href="#">Adam Jones</a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Posted 5 photos - 5 days ago</span>
+                        <p class="ten">이번달 근무현황</p>
+                        <hr width="100%"  size="10px" color="black">
+                        
+                      
                       </div>
                       <!-- /.user-block -->
                       <div class="row mb-3">
-                        <div class="col-sm-6">
-                          <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
+                        
+                        
+                          <div class="container" >
+							  <div class="my-calendar clearfix">
+							    <div class="clicked-date">
+							    
+							      <div class="cal-day" >
+							      	<table class="table">
+							      		
+							      		<tr>
+							      			<th>출근시간</th>
+							      			<td id="time1" th:if="${att} != null"> [[ ${#dates.format(att.goTime, 'HH:mm:ss')} ]]</td>
+							      			<td id="time1" th:unless="${att} != null"></td>
+							      		</tr>
+							      		<tr>
+							      			<th>퇴근시간</th>
+							      			<td id="time2" th:if="${att} != null">[[ ${#dates.format(att.leaveTime, 'HH:mm:ss')} ]]</td>
+							      			<td id="time2" th:unless="${att} != null"></td>
+							      		</tr>
+							      	
+							      		<tr>
+							      			<th>근무시간</th>
+							      			<td id="time3" th:if="${att} != null and ${att.workTime} !=0"> [[ ${att.workTime} ]]</td>
+							      			<td id="time3" th:unless="${att} != null and ${att.workTime} !=0" ></td>
+							      		</tr>
+							      		<tr>
+							      			<th>초과근무</th>
+							      			<td id="time4" th:if="${att} != null and ${att.exceedWorkTime} !=0">[[ ${att.exceedWorkTime} ]]</td>
+							      			<td id="time4" th:unless="${att} != null and ${att.exceedWorkTime} !=0 "></td>
+							      		</tr>
+							      		
+
+							      	</table>
+							      </div>
+							      
+							      <div class="cal-date" ></div>
+							      
+							    </div>
+							    <div class="calendar-box">
+							      <div class="ctr-box clearfix">
+							        <button type="button" title="prev" class="btn-cal prev">
+							        </button>
+							        <span class="cal-year"></span>
+							        <span class="cal-month"></span>
+							        <span class="cal-month"></span>
+							        <button type="button" title="next" class="btn-cal next">
+							        </button>
+							      </div>
+							      <table class="cal-table">
+							        <thead>
+							          <tr>
+							            <th>일</th>
+							            <th>월</th>
+							            <th>화</th>
+							            <th>수</th>
+							            <th>목</th>
+							            <th>금</th>
+							            <th>토</th>
+							          </tr>
+							        </thead>
+							        <tbody class="cal-body"></tbody>
+							      </table>
+							    </div>
+							  </div>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6">
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <img class="img-fluid mb-3" src="../../dist/img/photo2.png" alt="Photo">
-                              <img class="img-fluid" src="../../dist/img/photo3.jpg" alt="Photo">
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-6">
-                              <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg" alt="Photo">
-                              <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
-                            </div>
-                            <!-- /.col -->
-                          </div>
-                          <!-- /.row -->
-                        </div>
-                        <!-- /.col -->
-                      </div>
+                        
+                     
                       <!-- /.row -->
 
                       <p>
@@ -417,14 +592,89 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
 
+	<!-- 모달창: 퇴근 확인 -->
+	<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title">퇴근 확인</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	               <p id ="modal1p1"></p>
+	               <p id ="modal1p2"></p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" id ="currentGeoLocation2">네</button>
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >아니오</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- 모달창: 출근 확인 -->
+	<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title">출근 확인</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	               <p id ="modal2p1"></p>
+	               <p id ="modal2p2"></p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" id ="currentGeoLocation">네</button>
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >아니오</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	
 
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+		<!-- 모달창 자바스크립트: 삭제 확인 -->
+		<script>
+		    $(document).ready(function () {
+		        // 퇴근 버튼 클릭 시 모달 창 표시
+		        $("#gohome").click(function () {
+		            $("#modal1").modal("show");
+		            let nowTime = new Date();
+		            let hours = ('0' + nowTime.getHours()).slice(-2); 
+            		let minutes = ('0' + nowTime.getMinutes()).slice(-2);
+            		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
+
+            		let timeString = '현재시각은 ' + hours + '시 ' + minutes  + '분 ' + seconds + '초 입니다.';
+		            $("#modal1p1").text(timeString); 
+		            $("#modal1p2").text("퇴근하시겠습니까?"); 
+		        });
+		        
+		        // 출근 버튼 클릭 시 모달 창 표시
+		        $("#goworkBtn").click(function () {
+		            $("#modal2").modal("show");
+		            let nowTime = new Date();
+		            let hours = ('0' + nowTime.getHours()).slice(-2); 
+            		let minutes = ('0' + nowTime.getMinutes()).slice(-2);
+            		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
+
+            		let timeString = '현재시각은 ' + hours + '시 ' + minutes  + '분 ' + seconds + '초 입니다.';
+            		
+		            $("#modal2p1").text(timeString); 
+		            $("#modal2p2").text("출근하시겠습니까?"); 
+		        });
+		        
+		        
+		        
+		        
+		    });
+		    
+		</script>
 <script>
     (function() {
         if('geolocation' in navigator) {
@@ -434,12 +684,19 @@
         }
 
         const currentGeoLocation = document.getElementById("currentGeoLocation");
-
+		
         currentGeoLocation.onclick = function() {
+        	$("#goworkBtn").prop("disabled", true);
+        	$("#modal2").hide();
+        	$("#modal2").modal('hide');
+        	
+        	document.getElementById("goworkBtn").disabled = true;
+        	document.getElementById("gohome").disabled = false;
             var startPos;
             var geoOptions = {
                 timeout: 10 * 1000
             };
+            
 
             var geoSuccess = function (position) {
 
@@ -449,6 +706,7 @@
                 data1 = {             
             		xxx : startPos.coords.latitude,    
             		yyy : startPos.coords.longitude
+            		
             	};
                 $.ajax({
                     url: "/findgps", 
@@ -457,12 +715,15 @@
 					data : JSON.stringify(data1)
                 })
                 .done(function(distance) {
-                	document.getElementById('dis').innerHTML =  distance;
-                	if(distance > 5.02){
+                	document.getElementById('dis').innerHTML =  (distance * 1000) + 'm';
+                	
+                	if(distance > 50.02){
                 		alert("출근 실패");
                 	}else{
+                		let nowTime = new Date();
                 		workdata = {             
-                			attendType : "출근"
+                			attendType : "출근",
+                			goTime : nowTime
 		            	};
 		            	
                 		$.ajax({
@@ -472,7 +733,32 @@
 						data : JSON.stringify(workdata)
                 	})
                 	.done(function(result){
-                		alert("출근 성공")
+                		//alert("출근 성공")
+                		
+                		//출근시간조회
+               			$.ajax({
+                   		url: "/findattend", 
+	                    type: 'post',
+
+	                	})
+	                	.done(function(result){
+	                		console.log(result.goTime);
+	                		
+	                		let hours = ('0' + nowTime.getHours()).slice(-2); 
+	                		let minutes = ('0' + nowTime.getMinutes()).slice(-2);
+	                		let seconds = ('0' + nowTime.getSeconds()).slice(-2); 
+
+	                		let timeString = hours + ':' + minutes  + ':' + seconds;
+
+	                		console.log(timeString);
+	                		document.getElementById('startTime').innerHTML = timeString;
+	                		
+	                	})
+	                	.fail(function(result){
+	                		console.log("err");
+	                	})
+                	
+                		
                 	})
                 	.fail(function(result){
                 		console.log("err");
@@ -513,6 +799,9 @@
         const currentGeoLocation2 = document.getElementById("currentGeoLocation2");
 
         currentGeoLocation2.onclick = function() {
+        	$("#gohome").prop("disabled", true);
+        	$("#modal1").hide();
+        	$("#modal1").modal('hide');
             var startPos;
             var geoOptions = {
                 timeout: 10 * 1000
@@ -534,13 +823,14 @@
 					data : JSON.stringify(data1)
                 })
                 .done(function(distance) {
-                	document.getElementById('dis').innerHTML =  distance;
-                	if(distance > 5.02){
+                	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed(3) + 'm';
+                	if(distance > 50.02){
                 		alert("퇴근 실패");
                 	}else{
-                		
+                		let nowTime2 = new Date();
                 		workdata2 = {             
-                			attendType : "퇴근"
+                			attendType : "퇴근",
+                			leaveTime : nowTime2
 		            	};
 		            	
                 		$.ajax({
@@ -548,10 +838,21 @@
                             type: 'post',
         					contentType : 'application/JSON',
         					data : JSON.stringify(workdata2)
-
+        					
                     	})
                     	.done(function(result){
-                    		alert("퇴근 성공")
+                    		//alert("퇴근 성공")
+                    		
+                    		let hours = ('0' + nowTime2.getHours()).slice(-2); 
+                    		let minutes = ('0' + nowTime2.getMinutes()).slice(-2);
+                    		let seconds = ('0' + nowTime2.getSeconds()).slice(-2); 
+
+                    		let timeString = hours + ':' + minutes  + ':' + seconds;
+
+	                		console.log(timeString); //endtimeli
+	                		//$('#endTime').innerHTML = timeString;
+	                		$("#endtimeli").append("<a class='float-right'>" + timeString +"</a>");
+                    		
                     	})
                     	.fail(function(result){
                     		console.log("err");
@@ -591,5 +892,193 @@
         
     })();
 </script>
+<script>
+	//================================
+	//START YOUR APP HERE
+	//================================
+	const init = {
+		monList: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+		dayList: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+		today: new Date(),
+		monForChange: new Date().getMonth(),
+		activeDate: new Date(),
+		getFirstDay: (yy, mm) => new Date(yy, mm, 1),
+		getLastDay: (yy, mm) => new Date(yy, mm + 1, 0),
+		nextMonth: function () {
+			 let d = new Date();
+			 d.setDate(1);
+			 d.setMonth(++this.monForChange);
+			 this.activeDate = d;
+			 return d;
+		},
+		
+		prevMonth: function () {
+			 let d = new Date();
+			 d.setDate(1);
+			 d.setMonth(--this.monForChange);
+			 this.activeDate = d;
+			 return d;
+		},
+		
+		addZero: (num) => (num < 10) ? '0' + num : num,
+		activeDTag: null,
+		getIndex: function (node) {
+			 let index = 0;
+			 while (node = node.previousElementSibling) {
+			   index++;
+			 }
+			 return index;
+			}
+		};
+	
+	const $calBody = document.querySelector('.cal-body');
+	const $btnNext = document.querySelector('.btn-cal.next');
+	const $btnPrev = document.querySelector('.btn-cal.prev');
+	
+	/**
+	* @param {number} date
+	* @param {number} dayIn
+	*/
+	
+	
+	//function loadDate (date, dayIn) {  // 수정하면될듯 출근 퇴근 시간으로
+		//document.querySelector('.cal-date').textContent = date;
+		//document.querySelector('.cal-day').textContent = init.dayList[dayIn];
+	//}
+	
+	
+	/**
+	* @param {date} fullDate
+	*/
+	function loadYYMM (fullDate) {
+		let yy = fullDate.getFullYear();
+		let mm = fullDate.getMonth();
+		let firstDay = init.getFirstDay(yy, mm);
+		let lastDay = init.getLastDay(yy, mm);
+		let markToday;  // for marking today date
+		
+		if (mm === init.today.getMonth() && yy === init.today.getFullYear()) {
+		 	markToday = init.today.getDate();
+		}
+	
+		document.querySelector('.cal-month').textContent = init.monList[mm];
+		document.querySelector('.cal-year').textContent = yy + '년';
+		
+		let trtd = '';
+		let startCount;
+		let countDay = 0;
+		for (let i = 0; i < 6; i++) {
+		 	trtd += '<tr>';
+		 for (let j = 0; j < 7; j++) {
+			   if (i === 0 && !startCount && j === firstDay.getDay()) {
+			     startCount = 1;
+			   }
+			   if (!startCount) {
+			     trtd += '<td>'
+			   } else {
+			     let fullDate = yy + '.' + init.addZero(mm + 1) + '.' + init.addZero(countDay + 1);
+			     trtd += '<td class="day';
+			     trtd += (markToday && markToday === countDay + 1) ? ' today" ' : '"';
+			     trtd += ` data-date="${countDay + 1}" data-fdate="${fullDate}">`;
+			   }
+			   
+			   trtd += (startCount) ? ++countDay : '';
+			   if (countDay === lastDay.getDate()) { 
+			     	startCount = 0; 
+			   }
+			   
+			   trtd += '</td>';
+			 }
+			 trtd += '</tr>';
+			}
+			$calBody.innerHTML = trtd;
+		}
+	
+	/**
+	* @param {string} val
+	*/
+	function createNewList (val) {
+		let id = new Date().getTime() + '';
+		let yy = init.activeDate.getFullYear();
+		let mm = init.activeDate.getMonth() + 1;
+		let dd = init.activeDate.getDate();
+		const $target = $calBody.querySelector(`.day[data-date="${dd}"]`);
+		
+		let date = yy + '.' + init.addZero(mm) + '.' + init.addZero(dd);
+		
+		let eventData = {};
+		eventData['date'] = date;
+		eventData['memo'] = val;
+		eventData['complete'] = false;
+		eventData['id'] = id;
+		init.event.push(eventData);
+		$todoList.appendChild(createLi(id, val, date));
+	}
+	
+	
+	loadYYMM(init.today);
+	//loadDate(init.today.getDate(), init.today.getDay());
+	
+	$btnNext.addEventListener('click', () => loadYYMM(init.nextMonth()));
+	$btnPrev.addEventListener('click', () => loadYYMM(init.prevMonth()));
+	
+	$calBody.addEventListener('click', (e) => {
+		if (e.target.classList.contains('day')) {
+	 		if (init.activeDTag) {
+	   			init.activeDTag.classList.remove('day-active');
+		 }
+		 let day = Number(e.target.textContent);
+		 //loadDate(day, e.target.cellIndex);
+		 e.target.classList.add('day-active');
+		 init.activeDTag = e.target;
+		 init.activeDate.setDate(day);
+		 
+ 		let datemonth = ('0' + (init.activeDate.getMonth() + 1)).slice(-2);
+		let dateday = ('0' + day).slice(-2); 
+		let fulldate = init.activeDate.getFullYear()+datemonth+dateday;
+		console.log(fulldate);
+		
+			datedata = {             
+				goTime2 : fulldate
+	    	};
+	    	
+			$.ajax({
+	   		url: "/dateAttend", 
+	        type: 'post',
+			contentType : 'application/JSON',
+			data : JSON.stringify(datedata)
+			})
+			.done(function(result){
+				console.log(result);
+				if(result == null || result == ''){
+					document.getElementById('time1').innerHTML =' ';
+					document.getElementById('time2').innerHTML = ' ';
+					document.getElementById('time3').innerHTML = ' ';
+					document.getElementById('time4').innerHTML = ' ';
+					
+				}else{
+					document.getElementById('time1').innerHTML = result.goTime2;
+					document.getElementById('time2').innerHTML = result.leaveTime2;
+					if(result.workTime != 0 ||result.exceedWorkTime != 0){
+						document.getElementById('time3').innerHTML = result.workTime + '분';
+						document.getElementById('time4').innerHTML = result.exceedWorkTime + '분';
+					}else{
+						document.getElementById('time3').innerHTML = ' ';
+						document.getElementById('time4').innerHTML = ' ';
+					}
+				}
+				//$("#time1").innerText = result.goTime2 ;
+				//$("#time2").innerHTML = result.leaveTime2;
+				
+			})
+			.fail(function(result){
+				console.log("err");
+			})
+		 //reloadTodo(); 이벤트
+		}
+	});
+</script>
+
+
 </body>
 </html>

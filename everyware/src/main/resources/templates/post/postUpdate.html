@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layouts/default_layout}"
+	layout:fragment="content">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-type" name="viewport" content="width=device-width, initial-scale=1">
+<title>수정 페이지</title>
+<style>
+.form-group label {
+	margin-right:10px;
+}
+
+#board{
+margin-right:10px;
+}
+
+</style>
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="../../plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+
+<body>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>수정 페이지</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">게시판</a></li>
+						<li class="breadcrumb-item active">수정</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-6">
+					<!-- general form elements -->
+					<div class="card card-primary">
+						<div class="card-header">
+							<h3 class="card-title">글 수정</h3>
+						</div>
+						<!-- /.card-header -->
+						<!-- form start -->
+						<form th:action="@{/postUpdate}" id="updateForm" name= "updateForm" th:object="${post}" method="post">
+							<div class="card-body">
+								<input type ="hidden" name="postId" th:field="*{postId}">
+								<!--/* <div class="form-group">
+								 <select name="category" th:field="*{}">
+	    							 <option value="underNotice">공지</option>
+	    							 <option value="normal">일반</option>
+								 </select>	
+			                   </div> */-->
+			                   
+			                    <div class="form-group">
+									<label for="board" > [[${post.boardTitle}]] </label>
+								</div>
+		
+								<div class="form-group">
+									<label for="title">제목</label>
+									 <input type="text" class="form-control" th:field="*{title}" placeholder="제목">
+								</div>
+								<div class="form-group">
+									<label for="content">내용</label>
+									<textarea class="form-control" th:field="*{content}" rows=3
+										placeholder="내용을 입력하세요"></textarea>
+								</div>
+								<div class="form-group">
+									<label for="inputFile">첨부파일</label>
+									<div class="input-group">
+										<div class="custom-file">
+											<input type="file" class="custom-file-input"
+												name="uploadFile" multiple> <label
+												class="custom-file-label" for="exampleInputFile">파일을
+												선택하세요</label>
+										</div>
+										<div class="input-group-append">
+											<span class="input-group-text">업로드</span>
+										</div>
+
+									</div>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input"
+									 	id="holdUp3" name="holdYn" th:field="*{holdYn}" value="Y"> <label class="form-check-label"
+										for="holdUp3">상단고정</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input"
+									 	id="notiYN" name="notificationYn" th:field="*{notificationYn}" value="Y"> <label class="form-check-label"
+										for="notiYN">공지로 등록</label>
+								</div>
+							</div>
+							<!-- /.card-body -->
+
+							<div class="card-footer">
+								<input type="submit" value="수정" class="btn btn-primary" id="addBtn">
+							</div>
+						</form>
+					</div>
+					<!-- /.card -->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Control Sidebar -->
+	<aside class="control-sidebar control-sidebar-dark">
+		<!-- Control sidebar content goes here -->
+	</aside>
+	<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- bs-custom-file-input -->
+<script
+	src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous">
+</script>
+
+<script>
+	
+	$('#holdUp3').click(function(){
+		$('#holdUp3').val();
+	});
+$(document).ready(function() {
+	
+	$('#addBtn').on('click',function(e){
+		
+		e.preventDefault();
+		console.log( !$('#holdUp3').is(':checked'));
+		var formData = new FormData(document.updateForm);
+		
+		 // 체크박스 상태 확인하여 값 설정
+        if (! $('#holdUp3').is(':checked')) {
+            formData.append('holdYn', 'N');
+        }
+        if (! $('#notiYN').is(':checked')) {
+            formData.append('notificationYn', 'N');
+        }
+		 $.ajax({
+			url: '/postUpdate',
+			processData:false,
+			contentType: false,
+			data:formData,
+			type: 'POST',
+			success: function(result){
+				alert("수정되었습니다");
+			},
+			 error: function(xhr, status, error) {
+                 console.error('파일 업로드 중 오류 발생: ' + error);
+                 alert("오류가 발생했습니다");
+             }
+		}); //$.ajax */
+	});
+})	
+	
+</script>
+</body>
+</html>

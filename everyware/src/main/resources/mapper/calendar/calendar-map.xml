@@ -10,11 +10,11 @@
 				, content
 				, emp_id
 				, calendar_box_id
-				, calendar_color(calendar_box_id) "color"
-				, calendar_yn(calendar_box_id) "expressionYn"
+				, calendar_color(calendar_box_id) color
+				, calendar_yn(calendar_box_id) expression_yn
 				, location
 		FROM calendar
-		WHERE emp_id = 100
+		WHERE emp_id = #{empId}
 		ORDER BY calendar_id
 	</select>
 	
@@ -43,7 +43,7 @@
 				, expression_yn
 				, public_yn
 		FROM calendar_box
-		WHERE emp_id = 100
+		WHERE emp_id = #{empId}
 		ORDER BY calendar_box_id
 	</select>
 	
@@ -66,21 +66,25 @@
 	<!-- 공유받은 캘린더 출력 여부 -->
 	<update id ="updateSharedCalExpress" parameterType="CalendarBoxVO">
         UPDATE shared_cal
-		SET expression_yn = #{expressionYn}
-		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = 100
+		   SET expression_yn = #{expressionYn}
+		 WHERE calendar_box_id = #{calendarBoxId} 
+		   AND emp_id = #{empId}
 	</update>
 	
 	<!-- 공유받은 일정리스트 조회 -->
-	<select id="selectSharedCalBox" parameterType = "CalendarBoxVO">
+	<select id="selectSharedCalBox" resultType="CalendarBoxVO" parameterType = "CalendarBoxVO">
 		SELECT b.calendar_box_id 
 		        , b.calendar_box_name 
 		        , EMP_ID_NAME(b.emp_id) "emp_name"
-		        , s.color, agreement_yn
+		        , s.color
+		        , agreement_yn
 		        , s.expression_yn
+		        , FIND_CODENAME(emp_id_position(b.emp_id)) "emp_position"
 		FROM calendar_box b
 		    JOIN shared_cal s
 		    ON b.calendar_box_id = s.calendar_box_id
-		WHERE s.emp_id = 100 AND agreement_yn = 1
+		WHERE s.emp_id = #{empId}
+		ORDER BY agreement_yn DESC
 	</select>
 	
 	<!-- 공유받은 일정 조회 -->
@@ -94,17 +98,19 @@
                 , c.emp_id
                 , s.color
                 , s.expression_yn
-        FROM calendar c
-            JOIN shared_cal s
-            ON c.calendar_box_id = s.calendar_box_id
-        WHERE s.emp_id = 100
+                , s.agreement_yn
+         FROM calendar c
+         JOIN shared_cal s
+           ON ( c.calendar_box_id = s.calendar_box_id AND s.emp_id = #{empId} )
+         
 	</select>
 	
 	<!-- 공유받은 일정 색 변경 -->
 	<update id = "updateSharedCalColor" parameterType="CalendarBoxVO">
 		UPDATE shared_cal
-		SET color = #{color}
-		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = 100
+		   SET color = #{color}
+		 WHERE calendar_box_id = #{calendarBoxId} 
+		   AND emp_id = #{empId}
 	</update>
 	
 	<!-- 일정 등록 -->
@@ -130,7 +136,7 @@
 		         , TO_DATE(#{end}, 'yyyy/MM/dd HH24:MI')
 		         , #{title}
 		         , #{content}
-		         , 100
+		         , #{empId}
 		         , #{calendarBoxId}
 		         , #{location}
 		        )
@@ -148,6 +154,12 @@
 				, location = #{location}
 		WHERE calendar_id = #{calendarId}
 	</update>
+	
+	<!-- 일정삭제 -->
+	<delete id="deleteCalInfo" parameterType="CalendarVO">
+		DELETE calendar
+		WHERE calendar_id = #{calendarId}
+	</delete>
 	
 	<!-- 일정목록 추가 -->
 	<insert id ="insertCalBox" parameterType ="CalendarBoxVO">
@@ -186,17 +198,55 @@
 		WHERE calendar_box_id = #{calendarBoxId}
 	</delete>
 	
-	<!-- 내가 관심일정으로 등록한 일정목록 -->
-	<select id = "selectShareCalBox" parameterType = "CalendarBoxVo" resultType="CalendarBoxVO">
-		SELECT b.calendar_box_id
-		        , b.calendar_box_name
-		        , b.emp_id
-		        , s.agreement_yn  
-		FROM shared_cal s
-		    JOIN calendar_box b
-		    ON s.calendar_box_id = b.calendar_box_id
-		WHERE s.emp_id = #{empId}
+	<!-- 공유신청받은 내 일정 -->
+	<select id="selectMyShared" parameterType="CalendarBoxVO" resultType="CalendarBoxVO">
+		 SELECT s.emp_id
+                , EMP_ID_NAME(s.emp_id) "emp_name"
+                , FIND_CODENAME(emp_id_position(b.emp_id)) "emp_position"
+                , s.calendar_box_id
+                , s.agreement_yn
+                , b.calendar_box_name
+        FROm calendar_box b
+            JOIN shared_cal s
+            ON b.calendar_box_id = s.calendar_box_id
+        WHERE b.emp_id = ${empId}
+        ORDER BY s.agreement_yn
 	</select>
+	
+	<!-- 공유신청 수락 -->
+	<update id="updateApproveShare" parameterType="CalendarBoxVO">
+		UPDATE shared_cal
+		SET agreement_yn = 1
+		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = #{empId}
+	</update>
+	
+	<!-- 관심일정 삭제 -->
+	<delete id="deleteApproveShare" parameterType="CalendarBoxVO">
+		DELETE shared_cal
+		WHERE calendar_box_id = #{calendarBoxId} AND emp_id = #{empId}
+	</delete>
+	
+	<!-- 공유신청 전 조회 -->
+	<select id="checkRedup" parameterType="CalendarBoxVO" resultType="int">
+		SELECT COUNT(*)
+		FROM shared_cal
+		WHERE emp_id = #{empId} AND calendar_box_id = #{calendarBoxId}
+	</select>
+	
+	<!-- 공유신청 -->
+	<insert id="applyShare" parameterType="CalendarBoxVO">
+		INSERT into shared_cal
+		(
+			emp_id
+			, calendar_box_id
+		)
+		VALUES
+		(
+			#{empId}
+			, #{calendarBoxId}
+		)
+	</insert>
+	
 </mapper>
 	
 

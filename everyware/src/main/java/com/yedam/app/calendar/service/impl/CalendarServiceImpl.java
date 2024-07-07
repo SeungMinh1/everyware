@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -128,14 +130,56 @@ public class CalendarServiceImpl implements CalendarService{
 	}
 
 	@Override
-	public int updateCalBox(CalendarBoxVO calendarBoxVO) {
-		int result = calendarMapper.updateCalBox(calendarBoxVO);
+	@Transactional //에러시 전부 롤백
+	public int updateCalBox(List<CalendarBoxVO> list) {
+		int result = 0;
+		list.forEach(cal -> calendarMapper.updateCalBox(cal));	
+		
+		return 1;
+	}
+
+	@Override
+	@Transactional //에러시 전부 롤백
+	public int deleteCalBox(List<CalendarBoxVO> list) {
+		list.forEach(cal->calendarMapper.deleteCalBox(cal));
+		return 1;
+	}
+
+	@Override
+	public List<CalendarBoxVO> selectMySahred(CalendarBoxVO calendarBoxVO) {
+		
+		return calendarMapper.selectMyShared(calendarBoxVO);
+	}
+
+	@Override
+	public int updateApproveShare(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.updateApproveShare(calendarBoxVO);
 		return result;
 	}
 
 	@Override
-	public int deleteCalBox(CalendarBoxVO calendarBoxVO) {
-		int result = calendarMapper.deleteCalBox(calendarBoxVO);
+	public int deleteApproveShare(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.deleteApproveShare(calendarBoxVO);
+		return result;
+	}
+
+	//일정 삭제
+	@Override
+	public int deleteCal(CalendarVO calrendarVO) {
+		int result = calendarMapper.deleteCalInfo(calrendarVO);
+		return result;
+	}
+
+	@Override
+	public int checkRedup(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.checkRedup(calendarBoxVO);
+		return result;
+	}
+
+	@Override
+	public int applyShare(CalendarBoxVO calendarBoxVO) {
+		int result = calendarMapper.applyShare(calendarBoxVO);
+		
 		return result;
 	}
 	

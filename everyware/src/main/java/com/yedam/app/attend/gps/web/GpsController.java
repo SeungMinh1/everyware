@@ -16,27 +16,31 @@ public class GpsController {
 	@Autowired
 	GpsService gpsService;
 	
+	//GPS등록 페이지로 이동
 	@GetMapping("gpsInsert")
 	public String insertGpss() {
 		return "emp/insertGps";
 	}
 	
+	//GPS정보 등록처리
 	@PostMapping("gpsInsert")
 	@ResponseBody
 	public String insertGps(@RequestBody GpsVO gpsVO) {
-		double x = Double.parseDouble(gpsVO.getXxx());
-		double y = Double.parseDouble(gpsVO.getYyy());
+		double x = Double.parseDouble(gpsVO.getXxx()); //위도
+		double y = Double.parseDouble(gpsVO.getYyy()); //경도
 		gpsVO.setLongtitueX(x);
 		gpsVO.setLattitueY(y);
 		gpsService.insertGps(gpsVO);
 		return "redirect:empList";
 	}
 	
+	//GPS 그냥 TRY한거
 	@GetMapping("ipgps")
 	public String iii() {
 		return "/emp/ipgps";
 	}
 	
+	//등록된GPS와 현재위치 거리측정
 	@PostMapping("findgps")
 	@ResponseBody
 	public double findg(@RequestBody GpsVO gpsVO) {

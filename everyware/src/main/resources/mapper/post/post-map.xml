@@ -19,9 +19,15 @@
 	    FROM post
 WHERE board_id = 1 AND notification_YN = 'Y' AND hold_yn = 'Y'
 </select>
-<!-- 공지 전체 조회 -->
+<!-- 공지 전체 조회  + 페이징,검색 조건 추가 -->
 <select id="selectNoticeAll" resultType="PostVO">
- SELECT post_id,
+SELECT * FROM(
+	SELECT
+	  rownum AS rs,
+	  a.* 
+	FROM (
+		SELECT 
+			post_id,
 	 		board_id,
 	        notification_yn,
 	        hold_yn,
@@ -31,36 +37,90 @@ WHERE board_id = 1 AND notification_YN = 'Y' AND hold_yn = 'Y'
 	        recommend_cnt,
 	        attachment_group_id,
 	        content,
-	        emp_id
-	    FROM post
-WHERE board_id = 1 AND notification_YN = 'Y'
+	        emp_id,
+	        emp_id_name(emp_id) "empName"
+		FROM post
+	    WHERE board_id = 1 
+		AND (notification_yn = 'Y')
+			<!-- <choose>
+				<when test='orderBy == "viewCnt"'>
+					ORDER BY view_cnt DESC
+				</when>
+				<when test='orderBy == "recommendCnt"'>
+					ORDER BY recommend_cnt DESC
+				</when>
+				<otherwise>
+					ORDER BY write_date DESC
+				</otherwise>
+			</choose> -->
+		)a
+	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+	)
+WHERE rs > (#{page}-1) * #{cnt}	
 </select>
+
+
 
 <!-- 부서별 게시물 전체조회 -->
 <select id="selectDeptAll" resultType="PostVO">
- SELECT post_id,
-	 		board_id,
-	        notification_yn,
-	        hold_yn,
-	        title,
-	        write_date,
-	        view_cnt,
-	        recommend_cnt,
-	        attachment_group_id,
-	        content,
-	        emp_id
-	    FROM post
-WHERE board_id = 2
+SELECT * FROM(
+	SELECT
+	  rownum AS rs,
+	  a.* 
+	FROM (
+		 SELECT post_id,
+			 		board_id,
+			        notification_yn,
+			        hold_yn,
+			        title,
+			        write_date,
+			        view_cnt,
+			        recommend_cnt,
+			        attachment_group_id,
+			        content,
+			        emp_id,
+			        emp_id_name(emp_id) "empName"
+			    FROM post
+		WHERE board_id = 2
+		)a
+	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+	)
+WHERE rs > (#{page}-1) * #{cnt}	
+</select>
+
+<!-- 익명 게시판 전체조회 -->
+<select id="selectAnoyAll" resultType="PostVO">
+SELECT * FROM(
+	SELECT
+	  rownum AS rs,
+	  a.* 
+	FROM (
+		 SELECT post_id,
+			 		board_id,
+			        notification_yn,
+			        hold_yn,
+			        title,
+			        write_date,
+			        view_cnt,
+			        recommend_cnt,
+			        attachment_group_id,
+			        content,
+			        emp_id,
+			        emp_id_name(emp_id) "empName"
+			    FROM post
+		WHERE board_id = 3
+		)a
+	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+	)
+WHERE rs > (#{page}-1) * #{cnt}	
 </select>
 
 <!-- 게시판 번호 조회-->
-<select id="selectBoard" resultType="CommonVO">
-		SELECT code_id
-        , code_name
-        , code_type
-        , code_desc
-	FROM common_code
-	WHERE code_id LIKE 'f%'
+<select id="selectBoard" resultType="boardVO">
+		SELECT board_id
+        , board_type
+        , board_title
+	FROM board
 </select>
 
 
@@ -73,29 +133,15 @@ WHERE board_id = 2
        , code_desc
 FROM common_code
 WHERE code_id LIKE 'g%'
-</select>
 
-<!-- 익명 게시판 전체조회 -->
-<select id="selectAnoyAll" resultType="PostVO">
- SELECT post_id,
-	 		board_id,
-	        notification_yn,
-	        hold_yn,
-	        title,
-	        write_date,
-	        view_cnt,
-	        recommend_cnt,
-	        attachment_group_id,
-	        content,
-	        emp_id
-	    FROM post
-WHERE board_id = 3
 </select>
 
 <!-- 단건 조회 -->
 <select id="postInfo" resultType="PostVO">
+
 SELECT post_id,
-	 		board_id,
+	 		p.board_id,
+            board_title,
 	        notification_yn,
 	        hold_yn,
 	        title,
@@ -106,11 +152,14 @@ SELECT post_id,
 	        content,
 	        emp_id_name(emp_id) "empName",
 	        emp_id
-	    FROM post
-WHERE post_id = #{postId}    
+	    FROM post p
+        join board b  
+        on p.board_id = b.board_id
+WHERE post_id = #{postId}
+
 </select>
 <!-- 등록 -->
-<insert id="PostInsert" parameterType="PostVO">
+<insert id="postInsert" parameterType="PostVO">
 	<selectKey	keyProperty="postId"
 					resultType="Integer"
 					order="BEFORE">
@@ -119,26 +168,26 @@ WHERE post_id = #{postId}
 	</selectKey>
 	INSERT INTO post
 		(post_id,
-		notification_yn,
 		hold_yn,
 		title,
 		write_date,
 		board_id,
+		notification_yn,
 		view_cnt,
-		recomment_cnt,
-		attachment_group_id,
+		recommend_cnt,
+		   <if test="attachmentGroupId != null and attachmentGroupId!=''">	attachment_group_id,</if>
+	
 		content,
 		emp_id)
  VALUES (
  		#{postId},
-		#{notificationYn},
 		#{holdYn},
 		#{title},
-		#{writeDate},
+		sysdate,
 		#{boardId},
-		#{viewCnt},
-		#{recommentCnt},
-		#{attachmentGroupId},
+		#{notificationYn},
+		0,
+		0,<if test="attachmentGroupId != null and attachmentGroupId!=''">	#{attachmentGroupId},</if>
 		#{content},
 		#{empId}
  		)
@@ -148,17 +197,11 @@ WHERE post_id = #{postId}
 <update id="postUpdate" parameterType="PostVO">
 UPDATE post 
 	SET 
-	    post_id = #{postId},
 		notification_yn = #{notificationYn},
 		hold_yn = #{holdYn},
 		title = #{title},
-		write_date = #{writeDate},
-		board_id = #{boardId},
-		view_cnt = #{viewCnt},
-		recomment_cnt = #{recommentCnt},
-		attachment_group_id = #{attachmentGroupId},
-		content = #{content},
-		emp_id = #{empId}	
+		<!-- attachment_group_id = #{attachmentGroupId}, -->
+		content = #{content}	
 	WHERE post_id = #{postId}	
 </update>
 
@@ -168,4 +211,11 @@ UPDATE post
 	WHERE post_id = #{postId}
 </delete>
 
+<!-- 게시물 개수 -->
+<select id="postCnt" resultType="int">
+	SELECT COUNT(*) 
+	FROM post 
+	WHERE board_id = #{boardId}
+	
+</select>
 </mapper>
