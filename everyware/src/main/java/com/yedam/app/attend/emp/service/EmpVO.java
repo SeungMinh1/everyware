@@ -27,13 +27,18 @@ public class EmpVO {
 	//게정
 	private String accountId; //계정 아이디
 	private String password; //계정 비밀번호
+	private String attendType; //출근상태
 	private List<EmpVO> empInfo;
 	
-	
-	
-	
-	
-	
+	@DateTimeFormat(pattern ="yyyy-mm-dd")
+	private Date goTime;
+	private String goTime2;
+	@DateTimeFormat(pattern ="yyyy-MM-dd")
+	private Date leaveTime;
+	private String leaveTime2;
+	private int workTime;
+	private int exceedWorkTime;
+	private int outYn;
 	
 	private List<Integer> workTimeList;
 	private int weekwtime; // 누적일

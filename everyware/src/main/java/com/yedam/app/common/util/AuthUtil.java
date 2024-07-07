@@ -34,15 +34,27 @@ public class AuthUtil {
 		
 		
 	}
-	
-public static String getEmpName() {
+	public static String getDepartmentName() {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		String empName = null;
+		String departmentName = null;
 		if(authentication != null) {	
-			empName = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getEmpName();
+			departmentName = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getDepartmentName();
 		}
-		return empName;
+		return departmentName;
+		
+		
 	}
-}
+	
+	public static String getEmpName() {
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			
+			String empName = null;
+			if(authentication != null) {	
+				empName = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getEmpName();
+			}
+			return empName;
+		}
+	}

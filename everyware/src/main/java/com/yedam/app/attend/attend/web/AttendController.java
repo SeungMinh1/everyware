@@ -196,7 +196,8 @@ public class AttendController {
 	@PostMapping("selectDept")
 	@ResponseBody
 	public List<EmpVO> selectDeptAttend(){
-		return attendService.selectdeptAttend();
+		String departmentName = AuthUtil.getDepartmentName();
+		return attendService.selectdeptAttend(departmentName);
 	}
 	
 	
