@@ -414,13 +414,13 @@ body {
              </div>
              <ul class="nav justify-content-end">
 			  <li class="nav-item">
-			    <a class="nav-link active" aria-current="page" href="#">최신순</a>
+			    <a class="nav-link active" aria-current="page" th:href="{@{/selectNoticeAll(orderBy=${writeDate})}">최신순</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" href="#">조회순 </a>
+			    <a class="nav-link" th:href="{@{/selectNoticeAll(orderBy=${viewCnt})}">조회순 </a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" href="#">추천순</a>
+			    <a class="nav-link" th:href="{@{/selectNoticeAll(orderBy=${recommentCnt})}">추천순</a>
 			  </li>
 			</ul>
               <!-- /.card-header -->

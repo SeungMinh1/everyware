@@ -31,4 +31,11 @@ public interface PostService {
 	
 	//게시물 개수 
 	public int postCnt(PostVO postVO);
+	
+	//조회수 
+	public int updateViewCnt(PostVO postVO);
+	
+	//추천수
+	public int updateLikeCnt(PostVO postVO);
+
 }
