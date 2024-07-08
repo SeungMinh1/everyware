@@ -414,15 +414,15 @@ body {
              </div>
              <ul class="nav justify-content-end">
 			  <li class="nav-item">
-			    <a class="nav-link active" aria-current="page" th:href="{@{/selectNoticeAll(orderBy=${writeDate})}">최신순</a>
+			    <a class="nav-link active" aria-current="page" href="#"  id="orderById" >최신순</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" th:href="{@{/selectNoticeAll(orderBy=${viewCnt})}">조회순 </a>
+			    <a class="nav-link" aria-current="page" id="orderByView" >조회순</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" th:href="{@{/selectNoticeAll(orderBy=${recommentCnt})}">추천순</a>
+			    <a class="nav-link" aria-current="page" id="orderByLike" >추천순</a>
 			  </li>
-			</ul>
+			</ul> 
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover ">
@@ -435,7 +435,7 @@ body {
                       <th>추천수</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="noticeList" th:fragment="noticeList">
                     <tr th:each= "list : ${postMain}">
                       <td>[[${list.postId}]]</td>
                       <td>
@@ -445,7 +445,7 @@ body {
                       </td>
                       <td>[[${list.empId}]]</td>
                       <td>[[${list.viewCnt}]]</td>
-                      <td>[[${list.recommentCnt}]]</td>
+                      <td>[[${list.recommendCnt}]]</td>
                     </tr >
                   </tbody>
                 </table>
@@ -486,6 +486,7 @@ body {
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script>
+//검색 버튼 효과 
 $('.open-button').click(function(){
 	  $('.search').addClass('active');
 	  $('.searchSelect').show(); 
@@ -496,6 +497,64 @@ $('.open-button').click(function(){
 	  $('.search').removeClass('active');
 	  $('.searchSelect').hide(); 
 	});
+//최신순 	
+$('#orderById').click(function(){
+	
+	$.ajax({
+		url:'selectNoticeByView',
+		type:'POST',
+		data:{
+			orderBy : "postId"
+
+		}
+
+	})
+	.done(function(res){
+		$('#noticeList').replaceWith(res);
+
+		})
+	
+	})		
+//	조회순 
+$('#orderByView').click(function(){
+	
+	$.ajax({
+		url:'selectNoticeByView',
+		type:'POST',
+		data:{
+			orderBy : "viewCnt"
+
+		}
+
+	})
+	.done(function(res){
+		$('#noticeList').replaceWith(res);
+
+		})
+	
+})	
+
+// 추천순  
+$('#orderByLike').click(function(){
+	
+	$.ajax({
+		url:'selectNoticeByView',
+		type:'POST',
+		data:{
+			orderBy : "recommendCnt"
+
+		}
+
+	})
+	.done(function(res){
+		$('#noticeList').replaceWith(res);
+
+		})
+	
+})	
+	
+	
+	
 </script>
 </body>
 </html>

@@ -50,7 +50,7 @@ SELECT * FROM(
 					ORDER BY recommend_cnt DESC
 				</when>
 				<otherwise>
-					ORDER BY write_date DESC
+					ORDER BY post_id DESC
 				</otherwise>
 			</choose> 
 		)a
@@ -229,6 +229,14 @@ UPDATE post
 	UPDATE post
     SET recommend_cnt = recommend_cnt + 1
     WHERE post_id = #{postId}
+    AND emp_id = #{empId}
 </update>
+
+<!-- 추천 취소  -->
+<update id="downLikeCnt" parameterType="PostVO"  >
+	UPDATE post
+    SET recommend_cnt = recommend_cnt - 1
+    WHERE post_id = #{postId}
+    </update>
 
 </mapper>

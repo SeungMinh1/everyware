@@ -20,7 +20,7 @@ public class PostVO {
 	@DateTimeFormat(pattern = "yy/MM/dd")
 	private Date writeDate; 			//작성일
 	private Integer viewCnt;   			//조회수 
-	private Integer recommentCnt; 		//추천수
+	private Integer recommendCnt; 		//추천수
 	private String attachmentGroupId;  //첨부파일 그룹번호 
 	private String content;  			//내용 
 	private Integer empId;  			//사원번호
@@ -28,7 +28,7 @@ public class PostVO {
 	//페이징 
 	private Integer page;               //페이지 
 	private Integer cnt;                //개수 
-	private Integer orderBy;         //정렬기준
+	private String orderBy;         //정렬기준
 	
 	
 	
