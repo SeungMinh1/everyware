@@ -96,9 +96,11 @@ function uploadFile(){
 				obj.uploadPath +"/"+ obj.uploadFileName + "_" + obj.originFileName);
 		    // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
 	  
-			str += "<li class='li_style'" + ">"+ "<span data-file=\'" + fileCallPath + "\'data-type='file'> x </span>"
-			str += "<a href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
-			str += "<span>" + obj.fileSize + "</span></li>"
+			str += "<li class='li_style'" + ">"
+			str += "<a class='a_style' href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
+			str += "<span>" + '(' + obj.fileSize + ')' + "</span>"
+			str += "<span data-file=\'" + fileCallPath + "\'data-type='file'> x </span>"
+			str += "</li>"
 			
 		});
 		uploadResult.append(str);

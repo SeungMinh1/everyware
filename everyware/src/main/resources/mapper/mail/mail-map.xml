@@ -174,19 +174,25 @@
 		       , mailbox_id
 		       , emp_id
 		       , restore
+		       <if test="attachmentGroupId != null and attachmentGroupId != ''">
+				 , attachment_group_id
+			   </if>
 		       )
 	    VALUES
 		       (
-		           (SELECT NVL(MAX(mail_id),0)+1 mail_id
-		           FROM mail)
-		           , #{sender}
-		           , #{recipient}
-		           , #{cc}
-		           , #{title}
-		           , #{content}
-		           , 'd3'  <!-- 임시보관함 -->
-		           , #{empId}
-		           , 'd3'
+	           (SELECT NVL(MAX(mail_id),0)+1 mail_id
+	           FROM mail)
+	           , #{sender}
+	           , #{recipient}
+	           , #{cc}
+	           , #{title}
+	           , #{content}
+	           , 'd3'  <!-- 임시보관함 -->
+	           , #{empId}
+	           , 'd3'
+	           <if test="attachmentGroupId != null and attachmentGroupId != ''">
+			 	, #{attachmentGroupId}
+			   </if>
 		       )
  	</insert>
  	   
