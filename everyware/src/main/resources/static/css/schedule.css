@@ -26,7 +26,7 @@ label{
 }
 
 .buttonGroup{
-	 margin-top:50px;
+	 margin-top:30px;
 }
 
 .squadTable{
@@ -60,9 +60,12 @@ label{
 }
 
 .btn:hover{
-	background-color :#c0c0c0;
+	background-color : gray;
 }
 
+.btn-success:hover{
+	background-color: #70F170;
+}
 
 #makeCheckBox {
 	text-align: left;
@@ -99,6 +102,7 @@ label{
 
 .squadAddEmp{
 	cursor:pointer;
+	
 }
 
 .squadAddEmp:hover{
@@ -117,5 +121,57 @@ label{
 	display:inline-block;
 }
 
+.squadInfo{
+	table-layout:fixed;
+	width : 60%;
+	margin : auto;
+	text-align : center;
+	line-height: 200%;
 
+}
 
+.squadInfo th{
+	width : 10%;
+	vertical-align : middle;
+}
+
+.squadInfo td{
+	width : 30%;
+}
+
+#scheduleCal i{
+	cursor:pointer
+}
+
+#calTable{
+	border : 1px solid gray;
+	margin : auto;
+	width : 100%;
+	height: 300px;
+}
+
+#calTable th{
+	border : 1px solid gray;
+	width : 2.5%;
+	
+}
+
+#calTable td{
+	border : 1px solid gray;
+}
+
+.rotate1{
+	background-color: #FFA6CF;
+}
+
+.rotate2{
+	background-color: #9696FF;
+}
+
+.rotate3{
+	background-color : gray;
+}
+
+.rotate4{
+	background-color : gray;
+}

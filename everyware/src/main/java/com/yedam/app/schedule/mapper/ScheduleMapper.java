@@ -17,4 +17,13 @@ public interface ScheduleMapper {
 	
 	//근무조 설정 전 db 비우기
 	public int deleteAllsquad();
+	
+	//근무조 설정
+	public int insertSquad(ScheduleVO scheduleVO);
+	
+	//근무조 설정 출력
+	public ScheduleVO selectSquadInfo();
+	
+	//근무조 편성 가져오기
+	public List<ScheduleVO> selectSquadEmp();
 }

@@ -747,6 +747,15 @@
 	                		//$('#endTime').innerHTML = timeString;
 	                		$("#endtimeli").append("<a class='float-right'>" + timeString +"</a>");
                     		
+	                		$.ajax({
+	                       		url: "/exwork", 
+	                            type: 'post',
+	                    	})
+	                    	.done(function(result){
+	                    		console.log("성공");
+	                    	})
+	                		
+	                		
                     	})
                     	.fail(function(result){
                     		console.log("err");

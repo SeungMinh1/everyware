@@ -6,10 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">	
-  <link rel="stylesheet" href="../css/schedule.css">
-  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="../css/schedule.css">
 </head>
 <body>
 	<div class="content-wrapper">
@@ -18,7 +15,7 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1>근무조 생성</h1>
+						<h1>근무조 편성</h1>
 					</div>
 				</div>
 			</div>
@@ -40,10 +37,9 @@
 					</select>
 					<input type="number" class="form-control" id="squadDirectNum"  style="width:100px;display:none">
 					<span>조</span>&nbsp;&nbsp;
-					<select id="rotationNum" class="form-control" style="width:100px;display:inline-block">
+					<select id="rotateNum" class="form-control" style="width:100px;display:inline-block">
 						<option value='2'>2</option>
 						<option value='3'>3</option>
-						<option value='4'>4</option>
 					</select>
 					<input class="form-control" type="number" max="10" id="rotationDirectNum" style="width:100px;display:none">
 					<span>교대</span><br>
@@ -52,7 +48,7 @@
 					<input id="startDate" type="date" class="form-control"><br>
 					
 					<label for="rotaDay">교대 주기</label>
-					<input type="number" id="rotaDay" class="form-control"> 일
+					<input type="number" id="rotaCircle" class="form-control"> 일
 					
 					<div class="alertGroup" id="firstAlert"style="display:none;text-align:center">
 						<span style="color:red">값을 입력하여 주세요</span>
@@ -64,14 +60,14 @@
 					</div>
 				
 				</div>
-				<div class="secondStep" style="display:none">
+				<div class="secondStep row" style="display:none">
 					
 
 					<div id="makeCheckBox">
 						
 					</div>
 					
-						<table class="table"  style="width:30%;display:inline-block;margin-right:50px;">
+						<table class="table col-lg-4 col-md-12" >
 							<thead >
 								<tr>
 									<th>사원번호</th>
@@ -79,7 +75,7 @@
 								</tr>
 							</thead>
 							<tbody id="prodEmp" th:fragment="prodEmp" >
-							<th:block th th:each = "list : ${proList}">
+							<th:block th:each = "list : ${proList}">
 								<tr th:data-empId="${list.empId}">
 									<td>[[${list.empId}]]
 									<td class="squadAddEmp">[[${list.empName}]] [[${list.empPosition}]]</td>
@@ -88,7 +84,7 @@
 							</tbody>
 						</table>
 					
-					<table class="table squadTable" id="selectedTable" style="width:50%;display:inline-block">
+					<table class="table squadTable col-lg-8 col-md-12 pl-2" id="selectedTable" >
 						<thead>
 							<tr>
 								<th style="width:5%;">조</th>
@@ -100,9 +96,9 @@
 						</tbody>
 					</table>
 					
-					<div class="buttonGroup">
+					<div class="buttonGroup" style="display:block">
 						<button id="secondPrev" class="btn ">이전</button>
-						<button id="secondNext" class="btn">다음</button>
+						<button id="secondNext" class="btn">완료</button>
 					</div>
 					
 				</div>

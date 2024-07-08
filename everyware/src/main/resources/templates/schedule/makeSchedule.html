@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">	
+<link rel="stylesheet" href="../css/schedule.css">
+</head>
+<body>
+	<div class="content-wrapper">
+		<section class="content-header" style="text-align:center">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1>근무표 생성</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section class="content">
+			<div class="row" >	
+			<div class="col-md-10" style="margin:auto;text-align:center">
+			<div class="background" >
+				<h3 id="scheduleCal" 
+					th:data-startDate="${squadInfo.startDate}"
+					th:data-rotateCircle="${squadInfo.rotateCircle}"
+					th:data-rotateNum="${squadInfo.rotateNum}">
+					<i id="prevMonth" class="fa-solid fa-chevron-left"></i>&nbsp;&nbsp;
+					<span id="calYear" th:data-year="${#strings.substring(squadInfo.startDate,0,4)}"></span>
+					-
+					<span id="calMonth" th:data-month="${#strings.substring(squadInfo.startDate,5,7)}"></span>
+					&nbsp;&nbsp;<i id="nextMonth" class="fa-solid fa-chevron-right"></i>
+				</h3>
+				<table id="calTable">
+					
+					<thead>
+						<tr>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="calTbody" th:data-squadNum="${squadNum}">
+						
+					</tbody>
+				</table>
+			</div>
+			</div>
+			</div>
+		</section>
+	</div>
+<script src="../js/schedule/makeSchedule.js"></script>
+<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
+</body>
+</html>

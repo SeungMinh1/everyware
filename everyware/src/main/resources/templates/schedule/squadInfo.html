@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">	
+<link rel="stylesheet" href="../css/schedule.css">
+</head>
+<body>
+	<div class="content-wrapper">
+		<section class="content-header" style="text-align:center">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1>근무표 정보</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section class="content">
+			<div class="row" >	
+			<div class="col-md-10" style="margin:auto;text-align:center">
+			<div class="background" style="margin:auto;text-align:center">
+				<table class="table squadInfo" >
+					<tbody>
+						<tr>
+							<th>근무시작일</th>
+							<td>[[${squadInfo.startDate}]]
+						</tr>
+						<tr>
+							<th>근무형태</th>
+							<td>[[${squadInfo.squadNo}]]조 [[${squadInfo.rotateNum}]] 교대
+						</tr>
+						<tr>
+							<th>교대주기</th>
+							<td>[[${squadInfo.rotateCircle}]] 일
+						</tr>
+						<th:block th:each ="num : ${#numbers.sequence(1,squadNum)}">
+						<tr>
+							<th >[[${num}]] 조</th>
+							<td style="font-size:small">
+							<th:block th:each ="emp : ${squadEmp}" th:if="${emp.squadNo} == ${num}">
+								<span style="white-space: nowrap;">[[${emp.empName}]] [[${emp.empPosition}]]&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							</th:block>
+							</td>
+						</tr>
+						</th:block>
+					</tbody>
+				</table>
+				
+				<div class="buttonGroup">
+					<button class="btn" onclick="location.href='/makeSquad'">재설정</button>
+					<button class="btn btn-success" onclick="location.href='/makeSchedule'">생성</button>
+				</div>
+			</div>
+			</div>
+			</div>
+		</section>
+	</div>
+</body>
+</html>
