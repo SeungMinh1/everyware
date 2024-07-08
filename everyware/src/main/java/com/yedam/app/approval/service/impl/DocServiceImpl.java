@@ -201,15 +201,15 @@ public class DocServiceImpl implements DocService {
 
 	@Override
 	public Map<String, Object> docUpdate(DocVO docVO) {
-		Map<String, Object> draftInsert = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		boolean isSuccessed = false;
 		int result = docMapper.docUpdate(docVO);
 		if(result == 1) {
 			isSuccessed = true;
 		}
-		draftInsert.put("result", isSuccessed);
-		draftInsert.put("target", docVO);
-		return draftInsert;
+		map.put("result", isSuccessed);
+		map.put("target", docVO);
+		return map;
 	}
 
 	@Override
@@ -251,5 +251,20 @@ public class DocServiceImpl implements DocService {
 	public int posCode(String codeName) {
 		return docMapper.posCode(codeName);
 	}
+
+	// 결재 수정
+	@Override
+	public Map<String, Object> approvalDocUpdate(DocVO docVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = docMapper.approvalDocUpdate(docVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", docVO);
+		return map;
+	}
+	
 }
 

@@ -20,8 +20,26 @@
   <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
   <style>
-	.modal-backdrop{
-		height:0; 
+	.attachDiv{
+  		height: 100%;
+  		
+  	}
+  	.uploadResult{
+  		height: 100%;
+  		padding: 10px;
+	  	border: 1px dashed gray;
+  	}
+  	.uploadResult ul{
+  		padding: 0;
+  		margin: 0;
+  	}
+  	a { 
+	  color: black;
+	  font-weight: bold;
+	  text-decoration: none;
+	}
+	.li_style {
+	  list-style-type: none;
 	}
 </style>
 </head>
@@ -117,32 +135,30 @@
 				</div>
 				<div>
 				</div>
+				<!-- 제목 -->
                 <div class="input-group mb-3">
 				  <input type="text" class="form-control title" id="title" placeholder="제목">
 				</div>
-				<!-- 첨부파일 어떤걸로 할지 -->
-				<div class="mb-3">
-				  <input class="form-control" type="file" id="formFileMultiple" multiple>
-				</div>
-				<div class="form-group">
-                  <div class="btn btn-default btn-file">
-                    <i class="fas fa-paperclip"></i> Attachment
-                    <input type="file" name="attachment">
-                  </div>
-                  <p class="help-block">Max. 32MB</p>
-                </div>
-                
+				<!-- 첨부파일 -->
+				<div class="attachDiv">
+					<div class="input-group mb-3 uploadDiv">
+						  <input class="form-control" type="file" name="uploadFile" multiple>
+					</div>
+					<div class="uploadResult mb-3">
+						 <ul>
+						
+						 </ul>
+					</div>	
+		      	</div>
+                <!-- textarea -->
                 <div class="form-group">
                     <textarea id="summernote" class="form-control content" style="height: 300px"></textarea>
                 </div>
               </div>
               <!-- /.card-body -->
-              
-              <!-- /.card-footer -->
             </div>
             <!-- /.card -->
           </div>
-          
           <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -168,7 +184,7 @@
 	    </div>
 	  </div>
 	</div>
-    
+	
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -198,10 +214,14 @@
 <!-- Page specific script -->
 <script th:inline="javascript">
 	var empId = /*[[${#authentication.principal.userVO.empId}]]*/"";
+	
+	// 등록한파일의 result값을 담는 변수     
+	var fileList =[];
 </script>
 <!-- ====================
        mail insert js 
  ========================-->
+<script src="../../js/mail/mail_file_insert.js" th:inline="javascript"></script>
 <script src="../../js/mail/mail_insert.js" th:inline="javascript"></script>
 </body>
 </html>

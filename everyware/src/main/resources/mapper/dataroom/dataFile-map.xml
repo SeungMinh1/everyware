@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.dataroom.file.mapper.DataFileMapper">
+	<insert id="insertDataFile" parameterType="DataFileVO">
+		<selectKey keyProperty="fileId" resultType="int"
+			order="BEFORE">
+			SELECT FILE_ID_SEQ.NEXTVAL
+			FROM dual
+		</selectKey>
+		INSERT INTO attachment(
+			 file_id
+			, attachment_group_id
+			, file_type
+			, origin_file_name
+			, upload_file_name
+			, upload_path
+			, ext
+			, file_size
+			, emp_id
+			, type
+		)
+		VALUES(
+			#{fileId}
+			, #{attachmentGroupId}
+			, #{fileType}
+			, #{originFileName}
+			, #{uploadFileName}
+			, #{uploadPath}
+			, #{ext}
+			, #{fileSize}
+			, #{empId}
+			, #{type}
+		)
+	</insert>
+
+	<select id="selectDataFileInfo" resultType="DataFileVO">
+		SELECT 
+		   	  file_id
+			, file_type
+			, origin_file_name
+			, upload_file_name
+			, attachment_group_id
+			, emp_id
+			, file_size
+			, upload_path
+			, ext
+		FROM attachment
+		WHERE file_id = #{fileId}
+	</select>
+
+	<update id="updateDataGroupId" parameterType="DataVO">
+		UPDATE attachment
+		SET attachment_group_id = #{attachmentGroupId}
+		WHERE file_id IN
+		<foreach item="item" index="index" collection="attachList" 
+				 open="(" separator="," close=")">
+			#{item.fileId, jdbcType=INTEGER}
+		</foreach>
+	</update>
+	
+	<update id="updateMailGroupId" parameterType="MailVO">
+		UPDATE attachment
+		SET attachment_group_id = #{attachmentGroupId}
+		WHERE file_id IN
+		<foreach item="item" index="index" collection="attachList" 
+				 open="(" separator="," close=")">
+			#{item.fileId, jdbcType=INTEGER}
+		</foreach>
+	</update>
+	
+	<select id="selectFileByMailId" resultType="DataFileVO">
+		SELECT 
+		    upload_path
+		    , upload_file_name
+		    , origin_file_name
+		    , attachment_group_id
+		    , file_size
+		    , ext
+		    , file_id
+		FROM attachment
+		WHERE attachment_group_id = (SELECT attachment_group_id
+		                            FROM mail
+		                            WHERE mail_id = #{mailId})
+	</select>
+</mapper>

@@ -1,6 +1,8 @@
 package com.yedam.app.approval.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -119,4 +121,45 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return result;
 	}
 	
+	// 수정(승인)
+	@Override
+	public Map<String, Object> approvalUpdate(ApprovalVO approvalVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.approvalUpdate(approvalVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", approvalVO);
+		return map;
+	}
+	
+	// 수정(반려)
+	@Override
+	public Map<String, Object> rejectUpdate(ApprovalVO approvalVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.rejectUpdate(approvalVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", approvalVO);
+		return map;
+	}
+	
+	// 수정(다음 결재자)
+	@Override
+	public Map<String, Object> nextEmpUpdate(ApprovalVO approvalVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.nextEmpUpdate(approvalVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", approvalVO);
+		return map;
+	}	
 }

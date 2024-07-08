@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.dataroom.file.mapper.DataFileMapper;
 import com.yedam.app.mail.mail.mapper.MailMapper;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
@@ -15,6 +16,9 @@ import com.yedam.app.mail.mail.service.MailVO;
 public class MailServiceImpl implements MailService {
 	@Autowired
 	MailMapper mailMapper;
+	
+	@Autowired
+	DataFileMapper dataFileMapper;
 	
 	//조회 : 단건 메일함
 	@Override
@@ -61,6 +65,9 @@ public class MailServiceImpl implements MailService {
 			mailVO.setCc(ccs);
 			mailVO.setRecipient(recips);
 			result = mailMapper.insertCcMail(mailVO);
+		}
+		if(mailVO.getAttachList() != null && mailVO.getAttachList().size() > 0) {
+			dataFileMapper.updateMailGroupId(mailVO);
 		}
 		return result;
 	}
@@ -136,17 +143,8 @@ public class MailServiceImpl implements MailService {
 	}
 	//수정 : 단건 휴지통 이동
 	@Override
-	public Map<String, Object> moveTrashMailInfo(MailVO mailVO) {
-		Map<String, Object> map = new HashMap<>();
-		int result = mailMapper.updateTrashMailInfo(mailVO);
-		boolean inSuccessed = false;
-		
-		if(result == 1) {
-			inSuccessed = true;
-		}
-		map.put("result", inSuccessed);
-		map.put("target", mailVO);
-		return map;
+	public int moveTrashMailInfo(int mailId) {
+		return mailMapper.updateTrashMailInfo(mailId);
 	}
 	
 	//삭제 : 메일 완전 삭제 (여러개)

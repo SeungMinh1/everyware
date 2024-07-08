@@ -27,7 +27,11 @@ public class EmpController {
 	
 	//전체조회
 	@GetMapping("empList")
-	public String empList(Model model, Integer page, Integer cnt, String dosearch,@AuthenticationPrincipal LoginUserVO principal) {
+	public String empList(Model model, 
+			              Integer page, 
+			              Integer cnt, 
+			              String dosearch,
+			              @AuthenticationPrincipal LoginUserVO principal) {
 		page = page == null ? 1 : page; //페이지 default 설정
 		cnt = cnt == null ? 5 : cnt; 	// 사원수 default 설정
 		int allCount = empService.cntList(); // 전체 사원수 count 

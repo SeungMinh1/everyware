@@ -57,7 +57,11 @@ $(function () {
 			$('#title').focus();
 			return;
 		};
-	
+		
+		if(fileList.length > 0){
+			info.attachmentGroupId = fileList[0].attachmentGroupId; 
+		}
+		
 	  //메일 등록 ajax
 		$.ajax('mailInsert',{
 			type: 'post',
@@ -135,7 +139,8 @@ $(function () {
 		ccList 	   : ccData,          
 		title      :  $('#title').val(),            
 		content    : $('#summernote').summernote('code'),//code로 저장
-		empId      : empId
+		empId      : empId,
+		attachList : fileList
 	};
 	
 	return data1;

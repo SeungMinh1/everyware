@@ -1,4 +1,4 @@
-package com.yedam.app.dataroom.web;
+package com.yedam.app.dataroom.dataroom.web;
 
 import java.util.List;
 import java.util.Map;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yedam.app.attach.service.FileService;
 import com.yedam.app.common.util.AuthUtil;
-import com.yedam.app.dataroom.service.DataService;
-import com.yedam.app.dataroom.service.DataVO;
+import com.yedam.app.dataroom.dataroom.service.DataService;
+import com.yedam.app.dataroom.dataroom.service.DataVO;
+import com.yedam.app.dataroom.file.service.DataFileService;
 
 @Controller
 public class DataController {
@@ -22,7 +22,7 @@ public class DataController {
 	@Autowired
 	DataService dataService;
 	@Autowired
-	FileService fileService;
+	DataFileService dataFileService;
 	
 	//자료실 페이지 홈 
 	@GetMapping("dataroom")
@@ -103,7 +103,14 @@ public class DataController {
 	//자료삭제(여러개)
 	@PostMapping("deleteData")
 	@ResponseBody
-	public Map<String, Object> mailDelete(@RequestBody List<Integer> dataId) {
+	public Map<String, Object> deleteData(@RequestBody List<Integer> dataId) {
 		return dataService.deleteData(dataId);
+	}
+	
+	//파일삭제
+	@PostMapping("deleteFiles")
+	@ResponseBody
+	public Map<String, Object> deleteFiles(@RequestBody List<Integer> dataIds) {
+		return dataService.deleteFiles(dataIds);
 	}
 }

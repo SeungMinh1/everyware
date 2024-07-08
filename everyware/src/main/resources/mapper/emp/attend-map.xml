@@ -36,7 +36,8 @@
 		SET leave_time = #{leaveTime}
 			, attend_type =  find_code(#{attendType})
 		    , work_time =  TRUNC((sysdate - go_time)*24*60)
-		WHERE emp_id = #{empId} and out_yn = 1
+		WHERE emp_id = #{empId} 
+		and out_yn = 1
 	</update>
 	
 	<!-- 퇴근-초과근무  -->
@@ -44,7 +45,8 @@
 		UPDATE attend
 		SET exceed_work_time = #{exceedWorkTime}
 		    , out_yn = 0
-		WHERE emp_id = #{empId} and out_yn = 1
+		WHERE emp_id = #{empId} 
+		and out_yn = 1
 	</update>
 	
 	<!-- 조회 -->
@@ -103,7 +105,8 @@
 		    , emp_id
 		    
 		FROM attend
-		WHERE (go_time between TRUNC(sysdate-#{week},'iw') and TRUNC(sysdate-#{week},'iw')+6) AND emp_id = #{attendVO.empId}
+		WHERE (go_time between TRUNC(sysdate-#{week},'iw') and TRUNC(sysdate-#{week},'iw')+6) 
+		  AND emp_id = #{attendVO.empId}
  	
  	</select>
  	<!-- 이번달 누적근무시간 -->
@@ -244,14 +247,42 @@
             , a.workdetail
             , a.workdetail2
 		FROM  emp e
-            LEFT OUTER JOIN (select * from attend where to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd') ) a
+			<choose>
+				<when test="newdate == '' ">
+            		LEFT OUTER JOIN (select * from attend where to_char(go_time, 'yyyymmdd') like to_char(sysdate, 'yyyymmdd') ) a
+				</when>
+				<otherwise>
+            		LEFT OUTER JOIN (select * from attend where to_char(go_time, 'yyyymmdd') like #{newdate} ) a
+				</otherwise>
+            </choose>
             on a.emp_id = e.emp_id
 		WHERE find_codename(department_id) = #{departmentName}
- 		ORDER BY emp_id
+ 		ORDER BY e.emp_id
  	</select>
  	
  	
- 	
+ 	<select id="selectMonthList" resultType="AttendVO">
+ 		SELECT attend_id
+        , find_codename(attend_type) attendType  
+        , a.go_time
+        , a.leave_time
+        , a.work_time
+        , a.exceed_work_time
+        , a.out_yn
+        , a.workdetail
+        , a.workdetail2
+        , a.emp_id
+        , a.workdetail
+        , e.emp_name
+        , find_codename(department_id) departmentName
+        , find_codename(emp_position) posName 
+		FROM attend a
+            INNER JOIN emp e
+            on a.emp_id = e.emp_id
+		WHERE a.emp_id = #{empId} and to_char(go_time, 'yyyymmdd') between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+        order by attend_id
+ 		
+ 	</select>
  	
  	
  	

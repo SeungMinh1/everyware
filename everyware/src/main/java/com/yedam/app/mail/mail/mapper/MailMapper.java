@@ -33,7 +33,7 @@ public interface MailMapper {
 	
 	//휴지통
 	public int updateTrashMail(List<Integer> mailIds);
-	public int updateTrashMailInfo(MailVO mailVO);
+	public int updateTrashMailInfo(int mailId);
 	
 	//삭제
 	public int deleteDraftMail(List<Integer> mailIds);

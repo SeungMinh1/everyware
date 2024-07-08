@@ -85,6 +85,24 @@
            		</table>
               </div>
               <!-- /.card-body -->
+              <div>         
+              	<form id="searchForm" method="get">
+	              	<select id="duration">
+	              		<option value="all">전체기간</option>
+	              		<option value="1">1개월</option>
+	              		<option value="3">3개월</option>
+	              		<option value="6">6개월</option>
+	              		<option value="year">1년</option>
+	              	</select>
+	              	<select id="type">            
+	              		<option value="title">제목</option>
+	              		<option value="emp">기안자</option>
+	              		<option value="task">결재양식</option>
+	              	</select>
+	              	<input type="text" id="search">
+	              	<button type="button" class="btn" id="keyword">검색</button>
+              	</form>  
+              </div>
             </div>
             <!-- /.card -->
           </div>

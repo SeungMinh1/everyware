@@ -1,4 +1,4 @@
-package com.yedam.app.dataroom.service.impl;
+package com.yedam.app.dataroom.dataroom.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,10 +7,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yedam.app.attach.mapper.FileMapper;
-import com.yedam.app.dataroom.mapper.DataMapper;
-import com.yedam.app.dataroom.service.DataService;
-import com.yedam.app.dataroom.service.DataVO;
+import com.yedam.app.dataroom.dataroom.mapper.DataMapper;
+import com.yedam.app.dataroom.dataroom.service.DataService;
+import com.yedam.app.dataroom.dataroom.service.DataVO;
+import com.yedam.app.dataroom.file.mapper.DataFileMapper;
 
 @Service
 public class DataServiceImpl implements DataService {
@@ -19,7 +19,7 @@ public class DataServiceImpl implements DataService {
 	DataMapper dataMapper;
 	
 	@Autowired
-	FileMapper fileMapper;
+	DataFileMapper dataFileMapper;
 
 	//부서번호조회
 	@Override
@@ -49,7 +49,7 @@ public class DataServiceImpl implements DataService {
 		dataMapper.insertData(dataVO);
 		//첨부파일이 없을때 체크
 		if(dataVO.getAttachList() != null && dataVO.getAttachList().size() > 0) {
-			fileMapper.updateGroupId(dataVO);
+			dataFileMapper.updateDataGroupId(dataVO);
 		}
 		return 1;
 	}
@@ -66,6 +66,20 @@ public class DataServiceImpl implements DataService {
 		Map<String, Object> result = new HashMap<>();
 		try {
 			dataMapper.deleteData(dataId);
+			result.put("result", true);
+		} catch(Exception e) {
+			result.put("result", false);
+			result.put("message", e.getMessage());
+		}
+		
+		return result;
+	}
+	//dataIds로 파일삭제
+	@Override
+	public Map<String, Object> deleteFiles(List<Integer> dataIds) {
+		Map<String, Object> result = new HashMap<>();
+		try {
+			dataMapper.deleteFiles(dataIds);
 			result.put("result", true);
 		} catch(Exception e) {
 			result.put("result", false);

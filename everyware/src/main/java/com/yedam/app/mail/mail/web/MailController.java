@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.attend.security.service.LoginUserVO;
+import com.yedam.app.dataroom.file.service.DataFileService;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
 
@@ -20,6 +21,9 @@ import com.yedam.app.mail.mail.service.MailVO;
 public class MailController {
 	@Autowired
 	MailService mailService;
+	
+	@Autowired
+	DataFileService dataFileService;
 	
 	//조회 : 단건 메일함
 	@GetMapping("mailboxInfo")
@@ -34,8 +38,10 @@ public class MailController {
 	//조회 : 단건 메일 상세페이지
 	@GetMapping("mailInfo")
 	public String mailInfo(MailVO mailVO, Model model) {
-		MailVO find = mailService.mailInfo(mailVO);
-		model.addAttribute("mail", find);
+		MailVO mvo = mailService.mailInfo(mailVO);
+		//List<DataFileVO> data = dataFileService.selectFileByMailId(mailVO);
+		model.addAttribute("mail", mvo);
+		//model.addAttribute("datas", data);
 		return "mail/mail_info";
 	}
 	
@@ -92,8 +98,8 @@ public class MailController {
 	// 수정 : 휴지통 이동 (단건)
 	@PostMapping("moveTrashMailInfo")
 	@ResponseBody
-	public Map<String, Object> moveTrashMailInfo(@RequestBody MailVO mailVO) {	
-		return mailService.moveTrashMailInfo(mailVO);
+	public int moveTrashMailInfo(@RequestBody int mailId) {	
+		return mailService.moveTrashMailInfo(mailId);
 	}
 
 	//삭제 : 메일 완전 삭제 (여러개)

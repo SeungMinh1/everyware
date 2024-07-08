@@ -48,7 +48,12 @@
 		AND draft_emp_id = (SELECT emp_id
                             FROM emp
                             WHERE emp_id = #{empId})
-        AND approval_status NOT IN '임시저장'              				 
+        AND approval_status NOT IN '임시저장'
+        <!-- <choose>
+        	<when test="search != null">
+        		AND doc_title LIKE '%'||#{search}||'%'
+        	</when>
+        </choose>    -->           				 
 		ORDER BY doc_id
 	</select>
 	
@@ -136,12 +141,6 @@
 	
 	<!-- 개별 문서 조회 -->
 	<select id="docInfo" resultType="DocVO">
-		SELECT *
-		FROM approval_doc
-		WHERE doc_id = #{docId}
-	</select>
-	
-	<select id="info" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
 		WHERE doc_id = #{docId}
@@ -286,7 +285,9 @@
 	
 	<!-- 문서 수정(임시 저장함) -->
 	<update id="docUpdate">
-		
+		UPDATE approval_doc
+		SET doc_info = #{docInfo}
+		WHERE doc_id = #{docId}
 	</update>
 	
 	<!-- 문서 삭제 -->
@@ -326,4 +327,20 @@
 		FROM common_code
 		WHERE code_name = #{codeName}
 	</select>
+	
+	<!-- 결재 수정 -->
+	<update id="approvalDocUpdate" parameterType="DocVO">
+		UPDATE approval_doc
+		SET doc_info = #{docInfo}
+		WHERE doc_id = #{docId}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

@@ -1,4 +1,4 @@
-package com.yedam.app.dataroom.service;
+package com.yedam.app.dataroom.dataroom.service;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +20,8 @@ public interface DataService {
 	
 	//자료삭제 여러개
 	public Map<String, Object> deleteData(List<Integer> dataId);
+	//dataIds로 파일삭제 
+	public Map<String, Object> deleteFiles(List<Integer> dataIds);
 	
 	//자료삭제 (+ 프로시저)
 	//public int deleteData(int dataId);

@@ -45,4 +45,6 @@ public class EmpVO {
 	private int overweekwtime; // 누적일
 	
 	private List<Integer> empIdList; //체크된 사원번호
+	private String newdate;
+	private String workdetail;
 }
