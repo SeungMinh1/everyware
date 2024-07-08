@@ -90,6 +90,17 @@
 .btn-3 span:hover:after {
   width: 100%;
 }
+
+ .box {
+		width: 100px;
+		height: 100px;
+		background-color: white; /* 초기 배경색 */
+		transition: background-color 0.3s; /* 전환 애니메이션 */
+        }
+
+        .box.blue {
+            background-color: blue; /* 토글 후 배경색 */
+        }
 </style>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -126,8 +137,6 @@
             <div class="card col-9; style=d-flex; width:100px; height:800px">
               <!-- /.card-header -->
               <div class="card-body; style= height:800px">
-                <div class="tab-content">
-                  <div class="active tab-pane" id="activity">
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block" style="margin-top:40px">             
@@ -150,7 +159,10 @@
                       </div>
                   		<p>
                         <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i>조회수 [[${post.viewCnt}]]</a>
-                        <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i>추천수 [[${post.recommentCnt}]]</a>
+                        <span class="box">
+                        <a href="#" id="likeUpdate" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i></a> </span>
+                         <span id="recommend"> 추천[[${post.recommendCnt}]]</span>
+                       
                         <span class="float-right">
                           <a href="#" class="link-black text-sm">
                             <i class="far fa-comments mr-1"></i> 댓글(개수)
@@ -169,117 +181,13 @@
                     </div>
                     <!-- /.post -->
                
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="timeline">
-                    <!-- The timeline -->
-                    <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-envelope bg-primary"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 12:05</span>
-
-                          <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-                          <div class="timeline-body">
-                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                            weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                            quora plaxo ideeli hulu weebly balihoo...
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-user bg-info"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                          </h3>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-comments bg-warning"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                          <div class="timeline-body">
-                            Take me to your leader!
-                            Switzerland is small and neutral!
-                            We are more like Germany, ambitious and misunderstood!
-                          </div>
-                          <div class="timeline-footer">
-                            <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-success">
-                          3 Jan. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-camera bg-purple"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                          <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                          <div class="timeline-body">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                            <img src="https://placehold.it/150x100" alt="...">
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END timeline item -->
-                      <div>
-                        <i class="far fa-clock bg-gray"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- /.tab-pane -->
-                </div>
-                <!-- /.tab-content -->
               </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
+            </div> <!-- /.card -->
+        </div> <!-- /.row -->
       </div><!-- /.container-fluid -->
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
+  </div> <!-- /.content-wrapper -->
+</div><!-- wrapper -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -297,11 +205,36 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
-<script>
+<script th:inline="javascript" >
 
 /* if test="${!empty likeCheck}"
  class="fa-solid fa-heart" id="boardLike"
  */
+ 
+ $('#likeUpdate').on('click', function(){
+	 $.ajax({
+		url:'likeUpdate' ,
+		type:'POST',
+		data:{
+			 postId : [[${post.postId}]]
+			}
+	 })
+	 .done(function(data){
+
+		 alert("추천 성공")
+		 //추천수 변경
+		$('#recommend').load(location.href + " #recommend");
+		 })
+	 .fail(
+			 )	 
+	 })
+	 
+const likeCheck = document.querySelector('.box');
+        const toggleButton = document.getElementById('likeUpdate');
+
+        toggleButton.addEventListener('click', function() {
+        	likeCheck.classList.toggle('blue'); // 토글할 클래스 이름
+        });	 
 
 </script>
 </body>

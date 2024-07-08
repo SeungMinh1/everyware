@@ -37,5 +37,8 @@ public interface PostService {
 	
 	//추천수
 	public int updateLikeCnt(PostVO postVO);
+	
+	//추천 취소
+	public int downLikeCnt(PostVO postVO);
 
 }

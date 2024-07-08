@@ -82,6 +82,12 @@ public class PostServiceImpl implements PostService {
 	public int updateLikeCnt(PostVO postVO) {
 		return postMapper.updateLikeCnt (postVO);
 	}
+	//추천 취소
+	@Override
+	public int downLikeCnt(PostVO postVO) {
+		return postMapper.downLikeCnt (postVO);
+	}
+
 
 
 }

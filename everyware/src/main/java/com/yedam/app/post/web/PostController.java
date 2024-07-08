@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.app.attend.emp.service.PageDTO;
@@ -42,7 +43,9 @@ public class PostController {
 	
 	//단건조회
 	@GetMapping("postInfo")
-	public String postInfo (Model model, PostVO postVO) {
+	public String postInfo (Model model, PostVO postVO, @RequestParam int postId) {
+		postVO.setPostId(postId);
+		postService.updateViewCnt(postVO); 
 		PostVO findVO = postService.postInfo(postVO);
 		model.addAttribute("post",findVO);
 		return "post/postInfo";
@@ -61,19 +64,34 @@ public class PostController {
 		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
 		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
 		
-		//조회수, 추천수 
-		int updateViewCnt = postService.updateViewCnt(postVO);
-		int updateLikeCnt = postService.updateLikeCnt(postVO);
 		
 		List<PostVO> list = postService.selectNoticeAll(postVO);
 		model.addAttribute("postMain",list);
 		model.addAttribute("pg", pg);
-		
-		model.addAttribute("uvc",updateViewCnt);
-		model.addAttribute("ulc",updateLikeCnt);
-		
+
 		return "post/postNotice";
 	}	
+	
+	@PostMapping("selectNoticeByView")
+	//@ResponseBody
+	public String selectNoticeByView(Model model,Integer page, Integer cnt,  PostVO postVO) {
+		postVO.setBoardId(1);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		//페이징 
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 	
+		 List<PostVO> list = postService.selectNoticeAll(postVO);
+		 model.addAttribute("postMain",list);
+		 model.addAttribute("pg", pg);
+		 
+	 return "post/postNotice :: noticeList";
+	 
+	}
+	
 	//전체부서별
 	@GetMapping("selectDeptAll")
 	public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO) {
@@ -163,4 +181,12 @@ public class PostController {
 		return "redirect:selectNoticeAll";
 	}
 	
+	//추천수 업뎃
+	@PostMapping("likeUpdate")
+	@ResponseBody
+	public PostVO likeUpdate(PostVO postVO){
+		postService.updateLikeCnt(postVO);
+		return postService.postInfo(postVO);
+		
+	}
 }
