@@ -59,5 +59,24 @@
 			, #{rotateNum}
 		)
 	</insert>
-	 
+	<!-- 근무조 설정 가져오기 -->
+	<select id="selectSquadInfo" resultType="ScheduleVO">
+		 SELECT squad_no
+		        , rotate_circle
+		        , rotate_num
+		        , TO_CHAR(start_date , 'yyyy-MM-dd') "start_date"
+		 FROM squad 
+		 WHERE squad_no = (SELECT MAX(squad_no)
+		                    FROM squad)
+	</select>
+	
+	<!-- 근무조 편성 가져오기 -->
+	<select id="selectSquadEmp" resultType="ScheduleVO">
+		SELECT squad_no
+		        , emp_id
+		        , EMP_ID_NAME(emp_id) "emp_name"
+		        , FIND_CODENAME(EMP_ID_POSITION(emp_id)) "emp_position"
+		FROM squad_emp
+	</select>
+
 </mapper>
