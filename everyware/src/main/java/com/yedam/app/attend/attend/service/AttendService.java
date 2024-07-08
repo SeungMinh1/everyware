@@ -45,6 +45,9 @@ public interface AttendService {
 	public List<EmpVO> AllOverWorkTime(WeekVO weekVO);
 	
 	//부서별 직원 근태관리
-	public List<EmpVO> selectdeptAttend(String departmentName);
+	public List<EmpVO> selectdeptAttend(String departmentName, String newdate);
+	
+	//이번달 사원 근무기록 리스트
+	public List<AttendVO> selectMonthList(AttendVO attendVO);
 	
 }

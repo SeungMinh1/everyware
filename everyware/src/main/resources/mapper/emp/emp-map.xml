@@ -23,16 +23,18 @@
 			ON e.emp_id = a.emp_id
 		<choose>
 	    	<when test="dosearch != null">
-	    		WHERE emp_name like '%'||#{dosearch}||'%' or department_id = find_code(#{dosearch}) 
-	    			or emp_position = find_code(#{dosearch}) or mail like '%'||#{dosearch}||'%' 
+	    		WHERE emp_name like '%'||#{dosearch}||'%' 
+	    		    or department_id = find_code(#{dosearch}) 
+	    			or emp_position = find_code(#{dosearch}) 
+	    			or mail like '%'||#{dosearch}||'%' 
 	    			or find_codename(department_id) like '%'||#{dosearch}||'%' 
-	    			or  find_codename(emp_position) like '%'||#{dosearch}||'%'
+	    			or find_codename(emp_position) like '%'||#{dosearch}||'%'
 	    			or tel like '%'||#{dosearch}||'%'
 	    	</when>
 	    </choose>
 		ORDER BY e.emp_id
 		) a  where rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})
-		)where rs > (#{page}-1) * (#{cnt})
+		) where rs > (#{page}-1) * (#{cnt})
 
  	</select>
  	
