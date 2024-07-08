@@ -51,7 +51,7 @@
 	}
 	
 	//교대주기 값 없을 시 얼럿
-	if($("#rotaDay").val() == ''){
+	if($("#rotaCircle").val() == ''){
 		$("#firstAlert").show();
 		return
 	}
@@ -59,7 +59,7 @@
 	
 	
 		
-	console.log(squadNum,rotationNum )
+
 	
 	let tableHtml ;
 	let checkHtml ;
@@ -138,13 +138,13 @@
 			return;
 		}
 		empCount += 1;
-		console.log(tableHtml)
+
 		checkedEmp.push(empId)
-		console.log(checkedEmp)
+
 		$(".empTd:eq("+ (squadNum - 1)+ ")").append(tableHtml)
 		empAjax()
 		
-		console.log(checkedEmp)
+
 		
 	}) 
 	}////두번째 직원표 클릭 이벤트 끝
@@ -187,6 +187,9 @@
 				squadEmp.push({squadNo : i, empId :spanEmpId})
 			}
 		}
+		
+	
+		//근무조 편성
 		$.ajax({
 			url:'/insSquEmp',
 			type : 'POST',
@@ -194,7 +197,30 @@
 			data : JSON.stringify(squadEmp)
 		})
 		.done(function(res){
-			
+			alert('등록 완료')
+		})
+		
+		
+		
+		//근무조 설정데이터
+		let setData = {
+						startDate : $("#startDate").val(),
+						rotateCircle : $("#rotaCircle").val(),
+						rotateNum : $("#rotateNum").val(),
+						squadNum : $("#tbody").find('tr').length
+					}
+		console.log(setData);
+		
+		//근무조 설정
+		$.ajax({
+			url:'/setSquEmp',
+			type : 'POST',
+			contentType : 'application/json',
+			data : JSON.stringify(setData)
+		})
+		.done(function(res){
+			alert('설정 완료');
+			location.href='/squadInfo'
 		})
 		
 	})
@@ -203,14 +229,7 @@
 	$(function(){
 		clickEmp();
 		xBtnClick();
-		//tagify
-		/*const empTd = document.querySelector('input[name=recipient]');
-		let tagify = new Tagify(empTd);
-		
-		tagify.on('add', function() {
-		      console.log(tagify.value); // 입력된 태그 정보 객체
-		  })*/
-		
+	
 
 	})	//$(function) end
   

@@ -46,6 +46,33 @@ public class ScheduleServiceImpl implements ScheduleService {
 		// TODO Auto-generated method stub
 		return scheduleMapper.deleteAllsquad();
 	}
+	//근무조 설정
+	@Override
+	public int insertSquad(ScheduleVO scheduleVO) {
+		
+		int num = scheduleVO.getSquadNum();
+		
+		for(int i = 0 ; i < num ; i++) {
+			scheduleMapper.insertSquad(scheduleVO);
+		}
+				
+		return 1;
+	}
+	
+	//근무표 설정 가져오기
+	@Override
+	public ScheduleVO selectSquadInfo() {
+
+		return scheduleMapper.selectSquadInfo();
+	}
+
+	//근무조 편성 가져오기
+	@Override
+	public List<ScheduleVO> selectSquadEmp() {
+		// TODO Auto-generated method stub
+		return scheduleMapper.selectSquadEmp();
+	}
+	
 	
 	
 }
