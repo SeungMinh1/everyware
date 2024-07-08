@@ -21,6 +21,11 @@ $('#down').click(function() {
 	
 })
 
+$('#keyword').click(function() {
+	var search = $('#search')[0].value;
+	$('#searchForm').submit(search);
+})
+
 $('.close').on('click', function() {
 	$('.modal').css('display', 'none');
 })

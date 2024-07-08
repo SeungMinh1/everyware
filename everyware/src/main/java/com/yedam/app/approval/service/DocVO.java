@@ -52,4 +52,5 @@ public class DocVO {
 	private List<String> sendIdList;
 	private String docInfo;
 	private Date enforceDate;
+	private String search;
 }

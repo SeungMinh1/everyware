@@ -51,7 +51,7 @@
 }
 
 .approvalName{
-	padding: 20px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal; height: 80px; width: 80px;
+	padding: 20px; text-align: center; border: 1px solid black; font-size: 12px; font-weight: normal; height: 80px; width: 80px; position: relative;
 }
 
 .draft{

@@ -1,5 +1,7 @@
 package com.yedam.app.approval.web;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,4 +54,37 @@ public class ApprovalController {
 	public int viewInsert(@RequestBody ViewVO viewVO) {
 		return approvalService.viewInsert(viewVO);
 	}
+	
+	// 수정(승인)
+	@PostMapping("approvalUpdate")
+	@ResponseBody
+	public Map<String, Object> approvalUpdate(@RequestBody ApprovalVO approvalVO) {
+		return approvalService.approvalUpdate(approvalVO);
+	}
+	
+	// 수정(반려)
+	@PostMapping("rejectUpdate")
+	@ResponseBody
+	public Map<String, Object> rejectUpdate(@RequestBody ApprovalVO approvalVO) {
+		return approvalService.rejectUpdate(approvalVO);
+	}
+	
+	// 수정(다음 결재자)
+	@PostMapping("nextEmpUpdate")
+	@ResponseBody
+	public Map<String, Object> nextEmpUpdate(@RequestBody ApprovalVO approvalVO) {
+		return approvalService.nextEmpUpdate(approvalVO);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

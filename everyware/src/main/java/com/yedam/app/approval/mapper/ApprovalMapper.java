@@ -21,4 +21,13 @@ public interface ApprovalMapper {
 	
 	// 열람자 등록
 	public int viewInsert(ViewVO viewVO);
+	
+	// 수정(승인)
+	public int approvalUpdate(ApprovalVO approvalVO);
+	
+	// 수정(반려)
+	public int rejectUpdate(ApprovalVO approvalVO);
+	
+	// 수정(다음 결재자)
+	public int nextEmpUpdate(ApprovalVO approvalVO);
 }
