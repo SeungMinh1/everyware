@@ -31,7 +31,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1></h1>
+            <h1 th:text="${approvalDoc.docTitle}"></h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -50,7 +50,15 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">          
-                <h3 th:text="${approvalDoc.docTitle}" class="card-title"></h3>
+                <h3 class="card-title"></h3>
+                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="approval" style="display:none;">결재</button>
+                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="reject" style="display:none;">반려</button>           
+                <button th:if="${approvalDoc.approvalStatus == '진행중'} and ${approvalDoc.draftEmpId} == ${#authentication.principal.userVO.empId}" type="button" class="btn" id="draftcan">상신취소</button>
+                <button type="button" class="btn" id="send">메일발송</button>
+                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="save">임시저장</button>
+                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="can">취소</button>
+                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="del">삭제</button>
+                <button type="button" class="btn" id="info">결재정보</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body" th:utext="${approvalDoc.docInfo}">
@@ -71,6 +79,56 @@
   <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper --> 
+
+<!-- 결재 모달 -->
+<div id="mreq" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<table style="width: 100%;">
+				<tr>
+					<th><span>결재문서명</span></th>
+					<td><span id="text"></span></td>
+				</tr>
+				<tr>
+					<th><span>결재의견</span></th>
+					<td><textarea style="min-height:100px; width: 400px;" id="draftContent"></textarea></td>
+				</tr>
+			</table>
+			<div class="modal-button">
+			<button type="button" class="btn" id="request">승인</button>
+			<button type="button" class="btn" id="close">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 반려 모달 -->
+<div id="mrej" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<table style="width: 100%;">
+				<tr>
+					<th><span>결재문서명</span></th>
+					<td><span id="rtext"></span></td>
+				</tr>
+				<tr>
+					<th><span>반려의견</span></th>
+					<td><textarea style="min-height:100px; width: 400px;" id="draftContent"></textarea></td>
+				</tr>
+			</table>
+			<div class="modal-button">
+			<button type="button" class="btn" id="rej">반려</button>
+			<button type="button" class="btn" id="cclose">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
@@ -110,6 +168,122 @@
       "responsive": true,
     });
   });
+  
+  
+</script>
+<script th:inline="javascript">
+	$('.inputDateBox')[0].innerText = /*[[ ${#dates.format(approvalDoc.enforceDate, 'yyyy/MM/dd')} ]]*/'기본값';
+	$('.inputTitleBox')[0].innerText = /*[[ ${approvalDoc.docTitle} ]]*/'기본값';
+	
+	let params = new URL(location.href).searchParams;
+	let id = Number(params.get("docId"));
+	
+	
+	function approvalInfo() {
+		var data = {
+			approvalEmpId : /*[[${#authentication.principal.userVO.empId}]]*/'기본값'
+			, docId : id
+		}
+		
+		return data;
+	}
+	
+	function nextInfo() {
+		var approval = 0;
+		for(var i=0; i<$('.approvalName').length; i++) {
+			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
+				approval = $('.approvalName')[i-1].id
+			}
+		}
+		var data1 = {
+			approvalEmpId : approval
+			, docId : id
+		}
+		
+		return data1;
+	}
+	
+	function docInfo() {
+		var data2 = {
+			docInfo : $('#container')[0].outerHTML
+			, docId : id
+		}
+		
+		return data2;
+	}
+	
+	$('#request').on('click', function() {
+		let app = approvalInfo();
+		let next = nextInfo();
+		let doc = docInfo();
+		
+		for(var i=0; i<$('.approvalName').length; i++) {
+			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
+				$('.approvalName')[i].insertAdjacentHTML("afterbegin", `<img style="position: absolute; top: 20px;" src="/dist/img/승인.png">`);
+			}
+		}
+		
+		$.ajax('approvalUpdate', {
+			type : 'post'
+			, contentType : 'application/JSON'
+			, data : JSON.stringify(app)
+		})
+		.done(result => {
+			if(result) {
+				$.ajax('nextEmpUpdate', {
+					type: 'post'
+					, contentType: 'application/JSON'
+					, data: JSON.stringify(next)
+				})
+				.done(result => {					
+					$.ajax('approvalDocUpdate', {
+						type : 'post'
+						, contentType : 'application/JSON'
+						, data : JSON.stringify(data2)
+					})
+					.done(result => {
+						if(result) {
+							alert('성공');
+							location.href = "/waitDocList";
+						}
+					})
+					.fail(err => console.log(err));
+				})
+			}
+		})
+	})
+	
+	$('#rej').on('click', function() {
+		let rej = approvalInfo();
+		let doc = docInfo();
+		
+		for(var i=0; i<$('.approvalName').length; i++) {
+			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
+				$('.approvalName')[i].insertAdjacentHTML(`<span style="color:red"><strong>반려</strong></span>`);
+			}
+		}
+		
+		$.ajax('rejectUpdate', {
+			type : 'post'
+			, contentType : 'application/JSON'
+			, data : JSON.stringify(rej)
+		})
+		.done(result => {
+			$.ajax('approvalDocUpdate', {
+				type : 'post'
+				, contentType : 'application/JSON'
+				, data : JSON.stringify(doc)
+			})
+			.done(result => {
+				if(result) {
+					alert('성공');
+					location.href = "/waitDocList";
+				}
+			})
+			.fail(err => console.log(err));
+		})
+	})
+	
 </script>
 <script src="../js/approval/docInfo.js"></script>
 </body>

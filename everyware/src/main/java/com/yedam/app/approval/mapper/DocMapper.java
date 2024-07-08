@@ -73,4 +73,7 @@ public interface DocMapper {
 	
 	// 직위 코드
 	public int posCode(String codeName);
+	
+	// 결재 수정
+	public int approvalDocUpdate(DocVO docVO);
 }

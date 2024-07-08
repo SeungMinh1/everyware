@@ -8,11 +8,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.approval.service.ApprovalService;
+import com.yedam.app.approval.service.ApprovalVO;
 import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
 import com.yedam.app.approval.service.DraftVO;
@@ -24,6 +25,9 @@ import com.yedam.app.attend.security.service.LoginUserVO;
 public class DocController {
 	@Autowired
 	DocService docService;
+	
+	@Autowired
+	ApprovalService approvalService;
 	
 	// 문서 조회
 		// 결재 대기 문서
@@ -127,7 +131,7 @@ public class DocController {
 	
 	// 개별 문서 조회
 	@GetMapping("docInfo")
-	public String docInfo(DocVO docVO, Model model) {
+	public String docInfo(DocVO docVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
 		DocVO findVO = docService.docInfo(docVO);
 		model.addAttribute("approvalDoc", findVO);
 		return "approvalDoc/docInfo";
@@ -185,11 +189,23 @@ public class DocController {
 	}
 	
 	// 문서 수정
+	@PostMapping("docUpdate")
+	@ResponseBody
+	public Map<String, Object> docUpdate(@RequestBody DocVO docVO) {
+		return docService.docUpdate(docVO);
+	}
 	
 	// 문서 삭제
 	@PostMapping("docDelete")
 	@ResponseBody
 	public Map<String, Object> docDelete(@RequestBody List<Integer> docId) {
 		return docService.docDelete(docId);
+	}
+	
+	// 결재 수정
+	@PostMapping("approvalDocUpdate")
+	@ResponseBody
+	public Map<String, Object> approvalDocUpdate(@RequestBody DocVO docVO) {
+		return docService.approvalDocUpdate(docVO);
 	}
 }

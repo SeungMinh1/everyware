@@ -72,4 +72,7 @@ public interface DocService {
 	
 	// 직위 코드
 	public int posCode(String codeName);
+	
+	// 결재 수정
+	public Map<String, Object> approvalDocUpdate(DocVO docVO);
 }
