@@ -175,8 +175,8 @@
 	$('.inputDateBox')[0].innerText = /*[[ ${#dates.format(approvalDoc.enforceDate, 'yyyy/MM/dd')} ]]*/'기본값';
 	$('.inputTitleBox')[0].innerText = /*[[ ${approvalDoc.docTitle} ]]*/'기본값';
 	
-	let params = new URL(location.href).searchParams;
-	let id = Number(params.get("docId"));
+	var params = new URL(location.href).searchParams;
+	var id = Number(params.get("docId"));
 	
 	
 	function approvalInfo() {
@@ -192,7 +192,11 @@
 		var approval = 0;
 		for(var i=0; i<$('.approvalName').length; i++) {
 			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
-				approval = $('.approvalName')[i-1].id
+				if(i == 0) {
+					approval = 0;
+				} else{
+					approval = $('.approvalName')[i-1].id
+				}
 			}
 		}
 		var data1 = {
@@ -203,24 +207,20 @@
 		return data1;
 	}
 	
-	function docInfo() {
-		var data2 = {
-			docInfo : $('#container')[0].outerHTML
-			, docId : id
-		}
-		
-		return data2;
-	}
 	
 	$('#request').on('click', function() {
 		let app = approvalInfo();
 		let next = nextInfo();
-		let doc = docInfo();
 		
 		for(var i=0; i<$('.approvalName').length; i++) {
 			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
 				$('.approvalName')[i].insertAdjacentHTML("afterbegin", `<img style="position: absolute; top: 20px;" src="/dist/img/승인.png">`);
 			}
+		}
+		
+		var data2 = {
+			docInfo : $('#container')[0].outerHTML
+			, docId : id
 		}
 		
 		$.ajax('approvalUpdate', {
