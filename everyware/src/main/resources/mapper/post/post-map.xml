@@ -237,6 +237,14 @@ UPDATE post
 	UPDATE post
     SET recommend_cnt = recommend_cnt - 1
     WHERE post_id = #{postId}
-    </update>
+</update>
+
+<!-- 추천 테이블에 삽입-->
+<insert id="insertRecommend" parameterType="RecommendVO">
+    INSERT INTO recommend (post_id, emp_id)
+    VALUES (#{postId}, #{empId})
+</insert>
+
+<!-- 추천 테이블에 삭제(추천 취소) -->
 
 </mapper>
