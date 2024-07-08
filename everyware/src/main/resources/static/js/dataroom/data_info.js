@@ -9,7 +9,7 @@ $(function(){
 		let data1 = {
 			 fileId: fileId 
 		}
-		$.ajax('selectFileInfo', {
+		$.ajax('selectDataFileInfo', {
 	      type: 'POST'
 	      , contentType : 'application/JSON'
 	      , data: JSON.stringify(data1)
@@ -17,7 +17,7 @@ $(function(){
 	        console.log(data);
 	        var fileCallPath = encodeURIComponent(//
 				data.uploadPath  +"/"+ data.uploadFileName + "_" + data.originFileName);
-	        window.location.href= "download?fileName=" + fileCallPath;
+	        window.location.href= "downloadData?fileName=" + fileCallPath;
 	      },
 	      error: function(error) {
 	        console.log('에러:', error);

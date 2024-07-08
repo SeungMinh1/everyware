@@ -1,8 +1,8 @@
-package com.yedam.app.dataroom.mapper;
+package com.yedam.app.dataroom.dataroom.mapper;
 
 import java.util.List;
 
-import com.yedam.app.dataroom.service.DataVO;
+import com.yedam.app.dataroom.dataroom.service.DataVO;
 
 public interface DataMapper {
 
@@ -16,16 +16,18 @@ public interface DataMapper {
 	
 	//자료 등록 + group Id 체크
 	public int insertData(DataVO dataVO);
+	
 	//자료 조회 
 	public List<DataVO> selectData(DataVO dataVO);
 	
-	//삭제
+	//자료 삭제
 	public int deleteData(List<Integer> dataId);
+	//data_id의 그룹아이디를 가진 파일 삭제 
+	public int deleteFiles(List<Integer> dataIds);
 	
 	
 	//자료 삭제 (+ 프로시저)
-	public int deleteData1(int dataId);
-	//자료번호의 그룹아이디를 가진 첨부파일 번호 가져오기
-	public List<DataVO> selectFileId(DataVO dataVO);
+	//public int deleteData1(int dataId);
+	
 	
 }

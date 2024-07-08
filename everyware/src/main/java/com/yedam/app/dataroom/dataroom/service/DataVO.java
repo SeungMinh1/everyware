@@ -1,4 +1,4 @@
-package com.yedam.app.dataroom.service;
+package com.yedam.app.dataroom.dataroom.service;
 
 import java.util.Date;
 import java.util.List;

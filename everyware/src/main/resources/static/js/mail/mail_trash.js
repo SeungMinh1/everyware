@@ -36,11 +36,13 @@ $(function () {
   	/*===================
 	    휴지통 이동(단건)
 	=====================*/
-  	$('.moveTrashInfoBtn').on('click', function(){
+ 	$('.moveTrashInfoBtn').on('click', function(){
+		console.log($(this).val());
+		var mailId = $(this).val();
 		$.ajax({
             	url: 'moveTrashMailInfo',
                 type: 'POST',
-                data: JSON.stringify({mailId : mailId}),
+                data: JSON.stringify(mailId),
                 contentType: 'application/json',
             })
             .done(result=>{

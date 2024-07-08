@@ -70,6 +70,9 @@
 		       , mailbox_id
 		       , emp_id
 		       , restore
+		       <if test="attachmentGroupId != null and attachmentGroupId != ''">
+			  	, attachment_group_id
+			   </if>
 		       )
 		VALUES
 		       (
@@ -83,6 +86,9 @@
 		           , 'd2'
 		           , #{empId}
 		           , 'd2'
+		           <if test="attachmentGroupId != null and attachmentGroupId != ''">
+				 	, #{attachmentGroupId}
+				   </if>
 				)
 	</insert>
 	
@@ -98,6 +104,9 @@
 		       , mailbox_id
 		       , emp_id
 		       , restore
+		       <if test="attachmentGroupId != null and attachmentGroupId != ''">
+			 	, attachment_group_id
+			   </if>
 		       )
 		   VALUES
 		       (
@@ -111,6 +120,9 @@
 		           , 'd1' <!-- 받은메일함 -->
 		           , #{empId}
 		           , 'd1'
+		           <if test="attachmentGroupId != null and attachmentGroupId != ''">
+				 	, #{attachmentGroupId}
+				   </if>
 		       )
  	  </insert>
  	  
@@ -126,6 +138,9 @@
 		       , mailbox_id
 		       , emp_id
 		       , restore
+		       <if test="attachmentGroupId != null and attachmentGroupId != ''">
+				 , attachment_group_id
+				</if>
 		       )
 		   VALUES
 		       (
@@ -141,6 +156,9 @@
 					 FROM emp
 					 WHERE mail LIKE '%'||#{cc}||'%')
 				   , 'd1'
+				   <if test="attachmentGroupId != null and attachmentGroupId != ''">
+				 	, #{attachmentGroupId}
+				   </if>
 		       )
  	</insert>
  	  

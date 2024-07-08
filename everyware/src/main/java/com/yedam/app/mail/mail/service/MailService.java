@@ -26,7 +26,7 @@ public interface MailService {
 	//수정 : 휴지통으로 이동 (여러개 / mailIds의 메일함을 휴지통(d5)으로 수정)
 	public Map<String, Object> moveTrashMail(List<Integer> mailIds);
 	//수정 : 휴지통으로 이동 (단건)
-	public Map<String, Object> moveTrashMailInfo(MailVO mailVO);
+	public int moveTrashMailInfo(int mailId);
 	
 	//삭제 : 메일 완전 삭제 (여러개)
 	public Map<String, Object> deleteMail(List<Integer> mailIds);
@@ -35,6 +35,8 @@ public interface MailService {
 	
 	//복구 : 메일 복구
 	public int moveRestoreMail(MailVO mailVO);
+	
+	
 
 }
 

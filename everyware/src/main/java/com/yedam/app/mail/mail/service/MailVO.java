@@ -3,6 +3,8 @@ package com.yedam.app.mail.mail.service;
 import java.util.Date;
 import java.util.List;
 
+import com.yedam.app.attach.service.FileVO;
+
 import lombok.Data;
 
 @Data		 //메일	
@@ -30,5 +32,9 @@ public class MailVO {
 	private List<String> ccList;    //참조자들
 	
 	private List<Integer> mailIdList; //메일번호 리스트
+	
+	//mail_insert.js
+	private List<FileVO> attachList;	//첨부파일
+	private String attachmentGroupId; //첨부파일 그룹번호
 	
 }
