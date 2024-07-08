@@ -63,6 +63,9 @@ public class AttendController {
 		}else {
 			model.addAttribute("lastMonth", new AttendVO());
 		}
+		
+		List<AttendVO> monthList = attendService.selectMonthList(attendVO);
+		model.addAttribute("monList", monthList);
 		return "emp/attend";
 	}
 	//attendService.checkWokrLate(att);
@@ -85,9 +88,12 @@ public class AttendController {
 		Date leaveTime = attendVO2.getLeaveTime();
 		attendVO2.setEmpId(empId);
 		AttendVO findatt = attendService.selectAttend(attendVO2); // 해당사원의 근무기록 조회
+		
 		findatt.setAttendType(state);
 		findatt.setLeaveTime(leaveTime);
-		return attendService.endwork(findatt); //사원 퇴근처리 (조회한 근무기록을 update)
+		attendService.endwork(findatt); //사원 퇴근처리 (조회한 근무기록을 update)
+		AttendVO findatt2 = attendService.selectAttend(findatt); //업데이트 다시
+		return attendService.endworkExWork(findatt2);
 	}
 	
 	
@@ -102,10 +108,11 @@ public class AttendController {
 	}
 	
 	
-	//
+	//해당일자별 근무기록
 	@PostMapping("dateAttend")
 	@ResponseBody
-	public AttendVO findDateAttend(@RequestBody AttendVO attendVO, @AuthenticationPrincipal LoginUserVO principal) throws ParseException {
+	public AttendVO findDateAttend(@RequestBody AttendVO attendVO, 
+			                       @AuthenticationPrincipal LoginUserVO principal) throws ParseException {
 		int empId = principal.getUserVO().getEmpId();
 		attendVO.setEmpId(empId);
 	
@@ -115,11 +122,9 @@ public class AttendController {
 	//전체사원 근태조회
 	@GetMapping("allAttend")
 
-	public String allAttend(Model model,Integer a) {
-		if( a == null) {
-			a = 0;
-		}
-		List<WeekVO> list = attendService.findWeeks(a); //주차
+	public String allAttend(Model model,@RequestParam(defaultValue = "0", required = false) Integer week) {
+		
+		List<WeekVO> list = attendService.findWeeks(week); //주차
 		
 		//1주차 정보
 		List<EmpVO> empList = attendService.AllWorkTime(list.get(0));
@@ -128,6 +133,7 @@ public class AttendController {
 			newList.add(empList.get(i).getWeekwtime());
 			empList.get(i).setWorkTimeList(newList);
 		}
+		
 		//나머지주차 정보 조회
 		for(int i=1; i<list.size(); i++) {			
 			List<EmpVO> tempList = attendService.AllWorkTime(list.get(i));
@@ -143,6 +149,7 @@ public class AttendController {
 			newList.add(empList2.get(i).getOverweekwtime());
 			empList2.get(i).setWorkTimeList(newList);
 		}
+		
 		//나머지주차 정보 조회
 		for(int i=1; i<list.size(); i++) {			
 			List<EmpVO> tempList = attendService.AllOverWorkTime(list.get(i));
@@ -189,15 +196,18 @@ public class AttendController {
 	
 	//부서별 직원 근태관리
 	@GetMapping("deptAttend")
-	public String selectDebtAttend() {
+	public String selectDebtAttend(Model model) {
+		String departmentName = AuthUtil.getDepartmentName();
+		model.addAttribute("deptName", departmentName);
 		return "emp/deptAttend";
 	}
 	
 	@PostMapping("selectDept")
 	@ResponseBody
-	public List<EmpVO> selectDeptAttend(){
+	public List<EmpVO> selectDeptAttend(@RequestBody EmpVO empVO){
 		String departmentName = AuthUtil.getDepartmentName();
-		return attendService.selectdeptAttend(departmentName);
+		String newdate = empVO.getNewdate();
+		return attendService.selectdeptAttend(departmentName, newdate);
 	}
 	
 	
