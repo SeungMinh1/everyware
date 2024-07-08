@@ -53,5 +53,8 @@ public interface AttendMapper {
 	public int autoUpdate();
 	
 	//부서별 근태조회
-	public List<EmpVO> deptAttend(String departmentName);
+	public List<EmpVO> deptAttend(String departmentName, String newdate);
+	
+	//이번달 사원 근무기록 리스트
+	public List<AttendVO> selectMonthList(AttendVO attendVO);
 }

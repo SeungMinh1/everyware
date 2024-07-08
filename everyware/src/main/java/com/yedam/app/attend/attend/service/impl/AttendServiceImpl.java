@@ -24,7 +24,11 @@ public class AttendServiceImpl implements AttendService {
 	}
 	@Override
 	public int endwork(AttendVO attendVO) {
-		if(AuthUtil.getDepartmentId() != "g3") { // 현장직 제외
+		return attendMapper.endwork(attendVO);
+	}
+	@Override
+	public int endworkExWork(AttendVO attendVO) {
+		if(!AuthUtil.getDepartmentId().equals("g3") ) { // 현장직 제외
 			if(attendVO.getWorkTime() < 9*60) {
 				attendVO.setExceedWorkTime(0);
 			}else {
@@ -33,7 +37,7 @@ public class AttendServiceImpl implements AttendService {
 			}
 			
 		}
-		return attendMapper.endwork(attendVO);
+		return attendMapper.endworkExWork(attendVO);
 	}
 
 	@Override
@@ -119,12 +123,13 @@ public class AttendServiceImpl implements AttendService {
 		return attendMapper.selectAllOverWorkTime(weekVO);
 	}
 	@Override
-	public List<EmpVO> selectdeptAttend(String departmentName) {
-		return attendMapper.deptAttend(departmentName);
+	public List<EmpVO> selectdeptAttend(String departmentName,String newdate) {
+		return attendMapper.deptAttend(departmentName, newdate);
 	}
 	@Override
-	public int endworkExWork(AttendVO attendVO) {
-		return attendMapper.endworkExWork(attendVO);
+	public List<AttendVO> selectMonthList(AttendVO attendVO) {
+		return attendMapper.selectMonthList(attendVO);
 	}
+
 
 }

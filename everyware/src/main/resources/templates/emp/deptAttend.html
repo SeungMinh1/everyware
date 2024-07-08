@@ -14,6 +14,9 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body class="hold-transition sidebar-mini">
 
@@ -25,7 +28,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Projects</h1>
+            <h1>부서근태관리</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -43,7 +46,7 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Projects</h3>
+          <h3 class="card-title">부서 : [[ ${deptName} ]]</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -52,6 +55,9 @@
             <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
               <i class="fas fa-times"></i>
             </button>
+            
+            <input type="text" name="daterange"/>
+
           </div>
         </div>
         <div class="card-body p-0">
@@ -61,18 +67,19 @@
                       <th style="width: 8%">이름</th>
                       <th style="width: 8%"> 부서</th>
                       <th style="width: 8%">직위</th>
-                      <th style="width: 8%">출근상태</th>
+                      <th style="width: 8%">상태</th>
                       <th style="width: 10%">출근시간</th>
                       <th style="width: 10%">퇴근시간</th>
                       <th style="width: 10%">근무시간</th>
                       <th style="width: 10%">초과근무</th>
+                      <th style="width: 10%">근무상태</th>
                   </tr>
               </thead>
               <tbody id="mainSector"  class="text-center">
                   <tr>
                       <td>#</td>
                       <td>
-                          <a>AdminLTE v3</a>
+                          <a></a>
                           <br/>
                           <small>Created 01.01.2019</small>
                       </td>
