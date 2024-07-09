@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">	
+<link rel="stylesheet" href="../css/schedule.css">
+</head>
+<body>
+	<div class="content-wrapper">
+	
+		<section class="content-header" style="text-align:center">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6">
+						<h1>근무조 변경</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+	
+	<section class="content">
+	<div class="row" >	
+	<div class="col-md-10" style="margin:auto;text-align:center">
+	<div class="background">
+	<div class="row">
+		<div id="makeCheckBox">
+			
+		</div>
+		<table class="table col-lg-3 col-md-12">
+			<thead>
+				<tr>
+					<th>사원번호</th>
+					<th>생산팀 직원목록</th>
+				</tr>
+			</thead>
+			<tbody id="prodEmp" th:fragment="prodEmp">
+				<th:block th:each = "list : ${prodList}">
+					<tr th:data-empId="${list.empId}">
+						<td>[[${list.empId}]]
+						<td class="squadAddEmp">[[${list.empName}]] [[${list.empPosition}]]</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		
+		<table class="table squadTable col-lg-7 col-md-12 ms-2" id="selectedTable" >
+			<thead>
+				<tr>
+					<th style="width:5%;">조</th>
+					<th>근무자</th>
+				</tr>
+			</thead>
+			<tbody id="tbody">
+	
+			</tbody>
+		</table>
+	
+		<div class="buttonGroup" style="display:block">
+			<button id="updateBtn" class="btn">완료</button>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</section>
+	</div>
+	
+	
+<script src="../js/schedule/updateSquadEmp.js"></script>
+<script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+</body>
+</html>
