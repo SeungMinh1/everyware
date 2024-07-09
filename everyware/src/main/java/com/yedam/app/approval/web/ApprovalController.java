@@ -76,7 +76,12 @@ public class ApprovalController {
 		return approvalService.nextEmpUpdate(approvalVO);
 	}
 	
-	
+	// 삭제
+	@PostMapping("approvalDelete")
+	@ResponseBody
+	public Map<String, Object> approvalDelete(@RequestBody ApprovalVO approvalVO) {
+		return approvalService.nextEmpUpdate(approvalVO);
+	}
 	
 	
 	

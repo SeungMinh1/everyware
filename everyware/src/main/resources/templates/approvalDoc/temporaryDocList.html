@@ -69,8 +69,7 @@
  				  <th:block th:each="Doc : ${temporaryDocList}">
 	                  <tr>
 	                  	<td><input type="checkbox" class="chk" th:field="*{temporaryDocList}" th:value="${Doc.docId}"></td>
-	                    <td th:if="${createDate != null}">[[ ${ #dates.format(tDoc.createDate, 'yyyy/MM/dd') } ]]</td>
-	                    <td th:if="${createDate == null}"></td>
+	                    <td>[[ ${ #dates.format(Doc.createDate, 'yyyy/MM/dd') } ]]</td>            
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
 	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>

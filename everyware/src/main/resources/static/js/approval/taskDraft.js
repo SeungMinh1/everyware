@@ -48,7 +48,25 @@ $('#cccclose').on('click', function() {
 
 // 임시저장
 $('#save').on('click', function() {
-	$()
+	let temp = tempInfo();
+	
+	if($('#msg').val() == '') {
+		alert('제목은 필수값입니다');
+		$('#msg').focus();
+	}
+	
+	$.ajax('tempInsert', {
+		type : 'post'
+		, contentType : 'application/JSON'
+		, data : JSON.stringify(temp)
+	})
+	.done(result => {
+		if(result) {
+			alert('성공');
+			location.href = "/temporaryDocList";
+		}
+	})
+	.fail(err => console.log(err));
 })
 
 // 결재요청
@@ -244,6 +262,9 @@ function docInfo() {
 		, sendIdList		: sendId
 		, docInfo			: $('#container')[0].outerHTML
 		, enforceDate 		: $('.inputDateBox input')[0].value
+		, receptionDate 	: $('.sysdate')[0].innerText
+		, sendDate 			: $('.sysdate')[0].innerText
+		, approvalInfo		: $('.modal-footer')[7].outerHTML
 	}
 	
 	return data;
@@ -351,6 +372,83 @@ function viewInfo() {
 	return data6;
 }
 
+function tempInfo() {
+	var emps = $('.approvalName');
+	var appEmp = [];
+	var appId = [];
+	for(var i=0; i<emps.length; i++) {
+		if($('.approval')[i].innerText == '승인') {
+			appEmp.push(emps[i].dataset.name);
+			appId.push(emps[i].id);
+		}
+	}
+	
+	var recEmp = [];
+	var recId = [];
+	for(var i=0; i<emps.length; i++) {
+		if($('.approval')[i].innerText == '수신') {
+			recEmp.push(emps[i].dataset.name);
+			recId.push(emps[i].id);
+		}
+	}
+	
+	var sendEmp = [];
+	var sendId = [];
+	for(var i=0; i<emps.length; i++) {
+		if($('.approval')[i].innerText == '수신') {
+			sendEmp.push($('.draftName')[0].innerText);
+			sendId.push($('.boardTable')[0].id);
+		}
+	}
+	
+	var emps2 = $('.lineBody');
+	var qrefEmp = [];
+	var qrefId = [];
+	for(var i=1; i<emps2.length; i++) {
+		if($($('.lineBody')[i]).children()[1].textContent == '참조') {
+			qrefEmp.push(emps2[i].dataset.name);
+			qrefId.push(emps2[i].id);
+		}
+	}
+	
+	var qviewEmp = [];
+	var qviewId = [];
+	for(var i=1; i<emps2.length; i++) {
+		if($($('.lineBody')[i]).children()[1].textContent == '열람') {
+			qviewEmp.push(emps2[i].dataset.name);
+			qviewId.push(emps2[i].id);
+		}
+	}
+	
+	var data7 = {
+		docTitle			: $('#msg').val()
+		, draftEmpId 		: $('.boardTable')[0].id
+		, docContent 		: $('#summernote').summernote('code')
+		, draftEmp			: $('.draftName')[0].innerText
+		, draftEmpDept		: $('.deptName')[0].innerText
+		, draftDate			: $('.sysdate')[0].innerText
+		, approvalTask		: $('.card-title')[0].innerText
+		, approvalFile		: ''
+		, approvalOrder     : $('input[name=order]:checked').val()
+		, approvalNameList	: appEmp
+		, approvalIdList	: appId
+		, receptionNameList	: recEmp
+		, receptionIdList 	: recId
+		, refNameList		: qrefEmp
+		, refIdList			: qrefId
+		, viewNameList		: qviewEmp
+		, viewIdList		: qviewId
+		, sendNameList 		: sendEmp
+		, sendIdList		: sendId
+		, docInfo			: $('#container')[0].outerHTML
+		, enforceDate 		: $('.inputDateBox input')[0].value
+		, createDate 		: $('.sysdate')[0].innerText
+		, approvalInfo		: $('.modal-footer')[7].outerHTML
+	}
+	
+	return data7;
+}
+
 // 결재자 등록
 $('.nested li').draggable({revert: "valid"});
 $('#lineApp').droppable({
@@ -369,9 +467,10 @@ $('#lineApp').droppable({
 			html += '<td>'+name+'</td>';
 			html += '<td>'+dept+'</td>';
 			html += '<td>'+''+'</td>';
-			html += '<td>'+'<button tyep="button" class="btn">삭제</button>'+'</td>';
+			html += '<td>'+'<button tyep="button" class="btn delete">삭제</button>'+'</td>';
 			html += '</tr>';
-			$('#lineApp table').append(html);	
+			$('#lineApp table').append(html);
+			deleteBtn();
 			
 			var sign = "";
 			
@@ -403,9 +502,10 @@ $('#lineRec').droppable({
 			html += '<td>'+name+'</td>';
 			html += '<td>'+dept+'</td>';
 			html += '<td>'+''+'</td>';
-			html += '<td>'+'<button tyep="button" class="btn">삭제</button>'+'</td>';
+			html += '<td>'+'<button tyep="button" class="btn delete">삭제</button>'+'</td>';
 			html += '</tr>';
 			$('#lineRec table').append(html)
+			deleteBtn();
 			
 			var sign = "";
 			
@@ -436,9 +536,10 @@ $('#lineRef').droppable({
 			html += '<td>'+name+'</td>';
 			html += '<td>'+dept+'</td>';
 			html += '<td>'+''+'</td>';
-			html += '<td>'+'<button tyep="button" class="btn">삭제</button>'+'</td>';
+			html += '<td>'+'<button tyep="button" class="btn delete">삭제</button>'+'</td>';
 			html += '</tr>';
 			$('#lineRef table').append(html)
+			deleteBtn();
 		}
 	});
 	
@@ -456,14 +557,23 @@ $('#lineView').droppable({
 			html += '<td>'+name+'</td>';
 			html += '<td>'+dept+'</td>';
 			html += '<td>'+''+'</td>';
-			html += '<td>'+'<button tyep="button" class="btn">삭제</button>'+'</td>';
+			html += '<td>'+'<button type="button" class="btn delete">삭제</button>'+'</td>';
 			html += '</tr>';
 			$('#lineView table').append(html)
+			deleteBtn();
 		}
 	});
 
-
-
+function deleteBtn() {
+	$('.delete').on('click', function(e) {
+		$(e.target).parent().parent().remove();
+		for(var i=0; i<$('.approvalName').length; i++) {
+			if($(e.target).parent().parent()[0].id == $('.approvalName')[i].id) {
+				$($('.approvalName')[i]).parent().parent().parent().remove();
+			}
+		}
+	})
+}
 
 
 

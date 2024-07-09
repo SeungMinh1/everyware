@@ -184,7 +184,11 @@
 		AND   doc_id = #{docId}
 	</update>
 	
-	
+	<delete id="approvalDelete" parameterType="java.util.List">
+		DELETE FROM approval_path
+		WHERE approval_emp_id = #{approvalEmpId}
+		AND doc_id = #{docId}
+	</delete>
 	
 	
 	
