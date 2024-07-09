@@ -203,6 +203,9 @@
 		  , cc = #{cc}
 		  , title = #{title}
 		  , content = #{content}
+		  <if test="attachmentGroupId != null and attachmentGroupId != ''">
+			, attachment_group_id = #{attachmentGroupId}
+		  </if>
 		WHERE mail_id = #{mailId}          
  	</update>
  	   
@@ -237,5 +240,5 @@
    	     DELETE FROM mail
    	     WHERE mail_id = #{mailId}
    </delete>
-	
+   
 </mapper>

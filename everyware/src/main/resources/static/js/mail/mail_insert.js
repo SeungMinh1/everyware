@@ -95,6 +95,10 @@ $(function () {
 			return;
 		};
 		
+		if(fileList.length > 0){
+			info.attachmentGroupId = fileList[0].attachmentGroupId; 
+		}
+		
 	  //메일 등록 ajax
 		$.ajax('draftMailInsert',{
 			type: 'post',

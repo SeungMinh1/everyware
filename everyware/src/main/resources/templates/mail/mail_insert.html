@@ -21,9 +21,12 @@
   <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
   <style>
   
-  .tagify__input{
-  	margin: 2px;
-  }
+    .tagify__input{
+    	margin: 2px;
+    }
+    .tagify{    
+        width: 100%;
+    }
 	.attachDiv{
   		height: 100%;
   		
@@ -44,6 +47,10 @@
 	}
 	.li_style {
 	  list-style-type: none;
+	}
+	
+	.mailLabel{
+		margin: 5px;
 	}
 </style>
 </head>
@@ -125,21 +132,26 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<div class="input-group mb-3">
-				  <input type="text" class="form-control" id="sender" placeholder="보낸사람" th:value="${mailVO.sender}" readonly>
+				<label class="mailLabel">보내는사람</label>
+				<input type="text" class="form-control mb-1" id="sender" th:value="${mailVO.sender}" readonly>
+                <div>
+                  <label class="mailLabel">받는사람</label>
+                  <span style="float:right;">
+                  <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal">주소록</button></span>
 				</div>
-                <div class="input-group mb-3">
-				  <input type="text" class="form-control" id="recipient" name="recipient" placeholder="받는사람">
-				  <button class="btn btn-outline-secondary" type="button" id="recipient"
-				  data-bs-toggle="modal" data-bs-target="#exampleModal">주소록</button>
-				</div>
-                <div class="input-group mb-3">
-				  <input type="text" class="form-control" id="cc" name="cc" placeholder="참조">
-				  <button class="btn btn-outline-secondary" type="button" id="cc">주소록</button>
-				</div>
-				<div>
-				</div>
+    			<input class="mb-1" type="text" id="recipient" name="recipient">
+                <div>
+	                <label class="mailLabel">참조</label>
+	                <span style="float:right;">
+	                <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
+	                data-bs-toggle="modal" data-bs-target="#exampleModal">주소록</button>
+	                </span>
+                </div>
+				<input type="text" id="cc" name="cc">
+				
 				<!-- 제목 -->
+				<label class="mailLabel">제목</label>
                 <div class="input-group mb-3">
 				  <input type="text" class="form-control title" id="title" placeholder="제목">
 				</div>
@@ -226,6 +238,7 @@
        mail insert js 
  ========================-->
 <script src="../../js/mail/mail_file_insert.js" th:inline="javascript"></script>
+<script src="../../js/mail/mail_file_insert_info.js" th:inline="javascript"></script>
 <script src="../../js/mail/mail_insert.js" th:inline="javascript"></script>
 </body>
 </html>

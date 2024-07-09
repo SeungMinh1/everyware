@@ -25,6 +25,9 @@ public interface DataFileService {
 	 
 	 
 	 // --- 메일 ---
-	 //mailId로 첨부파일 조회
+	 //mailId로 첨부파일 조회(DB)
 	 public List<DataFileVO> selectFileByMailId(MailVO mailVO);
+	 
+	 //단건삭제(DB)
+	 public int deleteDataFileInfo(int fileId);
 }

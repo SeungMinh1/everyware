@@ -107,8 +107,8 @@ public class DataController {
 		return dataService.deleteData(dataId);
 	}
 	
-	//파일삭제
-	@PostMapping("deleteFiles")
+	//자료 여러개 삭제시 그 그룹아이디를 가진 파일 전체 삭제
+	@PostMapping("deleteGroupIdFiles")
 	@ResponseBody
 	public Map<String, Object> deleteFiles(@RequestBody List<Integer> dataIds) {
 		return dataService.deleteFiles(dataIds);
