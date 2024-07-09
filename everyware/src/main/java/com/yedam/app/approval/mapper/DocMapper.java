@@ -5,7 +5,6 @@ import java.util.List;
 import com.yedam.app.approval.service.DocVO;
 import com.yedam.app.approval.service.TaskVO;
 import com.yedam.app.attend.emp.service.EmpVO;
-import com.yedam.app.common.service.CommonVO;
 
 public interface DocMapper {
 	// 문서조회
@@ -58,9 +57,15 @@ public interface DocMapper {
 
 	// 문서수정
 	public int docUpdate(DocVO docVO);
+	
+	// 문서 임시저장 수정
+	public int tempDocUpdate(DocVO docVO);
 
 	// 문서삭제
 	public int docDelete(List<Integer> docId);
+	
+	// 문서삭제(단건)
+	public int docInfoDelete(int docId);
 	
 	// 전체 부서 목록
 	public List<EmpVO> allDept();

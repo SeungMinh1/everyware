@@ -54,15 +54,16 @@
                 <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="approval" style="display:none;">결재</button>
                 <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="reject" style="display:none;">반려</button>           
                 <button th:if="${approvalDoc.approvalStatus == '진행중'} and ${approvalDoc.draftEmpId} == ${#authentication.principal.userVO.empId}" type="button" class="btn" id="draftcan">상신취소</button>
-                <button type="button" class="btn" id="send">메일발송</button>
-                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="save">임시저장</button>
+                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="req">결재요청</button>
+                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="tem">임시저장</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="can">취소</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="del">삭제</button>
+                <button type="button" class="btn" id="send">메일발송</button>
                 <button type="button" class="btn" id="info">결재정보</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body" th:utext="${approvalDoc.docInfo}">
-                 
+              
               </div>
               <!-- /.card-body -->
             </div>
@@ -79,6 +80,112 @@
   <!-- /.content-wrapper -->
 </div>
 <!-- ./wrapper --> 
+
+<!-- 결재요청 모달 -->
+<div id="mreq" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<table style="width: 100%;">
+				<tr>
+					<th><span>결재문서명</span></th>
+					<td><span id="text"></span></td>
+				</tr>
+				<tr>
+					<th><span>기안의견</span></th>
+					<td><textarea style="min-height:100px; width: 400px;" id="draftContent"></textarea></td>
+				</tr>
+			</table>
+			<div class="modal-button">
+			<button type="button" class="btn" id="request">요청</button>
+			<button type="button" class="btn" id="ccclose">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 상신취소 모달 -->
+<div id="mdraftcan" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<table style="width: 100%;">
+				<tr>
+					<th><span>결재문서명</span></th>
+					<td class="apptitle"></td>
+				</tr>
+				<tr>
+					<th><span>결재자</span></th>
+					<td class="emps"></td>
+				</tr>
+			</table>
+			<div class="modal-button">
+			<button type="button" class="btn" id="dcan">확인</button>
+			<button type="button" class="btn" id="ccccccclose">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 취소 모달 -->
+<div id="mcan" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3>취소하시겠습니까?</h3>
+			<div class="modal-button">
+			<button type="button" class="btn" id="ok">확인</button>
+			<button type="button" class="btn" id="close">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 삭제 모달 -->
+<div id="mdel" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3>삭제하시겠습니까?</h3>
+			<div class="modal-button">
+			<button type="button" class="btn" id="mmdel">확인</button>
+			<button type="button" class="btn" id="cccccccclose">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 임시저장 모달 -->
+<div id="mtem" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer">
+			<h3>임시저장 하시겠습니까?</h3>
+			<div class="modal-button">
+				<button type="button" class="btn" id="save">확인</button>
+				<button type="button" class="btn" id="cclose">닫기</button>	
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 결재정보 모달 -->
+<div id="minfo" class="modal">
+	<div class="modal-body">
+		<div class="modal-header">
+			<h3>결재정보</h3>
+			<span class="close">&times;</span>
+		</div>
+		<div class="modal-footer" th:utext="${approvalDoc.approvalInfo}">
+			
+		</div>
+	</div>
+</div>
 
 <!-- 결재 모달 -->
 <div id="mreq" class="modal">
@@ -98,8 +205,8 @@
 				</tr>
 			</table>
 			<div class="modal-button">
-			<button type="button" class="btn" id="request">승인</button>
-			<button type="button" class="btn" id="close">취소</button>
+			<button type="button" class="btn" id="app">승인</button>
+			<button type="button" class="btn" id="ccccclose">취소</button>
 			</div>
 		</div>
 	</div>
@@ -124,7 +231,7 @@
 			</table>
 			<div class="modal-button">
 			<button type="button" class="btn" id="rej">반려</button>
-			<button type="button" class="btn" id="cclose">취소</button>
+			<button type="button" class="btn" id="cccccclose">취소</button>
 			</div>
 		</div>
 	</div>
@@ -147,8 +254,11 @@
 <script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
+<!-- Summernote -->
+<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <!-- Page specific script -->
@@ -172,8 +282,18 @@
   
 </script>
 <script th:inline="javascript">
-	$('.inputDateBox')[0].innerText = /*[[ ${#dates.format(approvalDoc.enforceDate, 'yyyy/MM/dd')} ]]*/'기본값';
-	$('.inputTitleBox')[0].innerText = /*[[ ${approvalDoc.docTitle} ]]*/'기본값';
+	var ref = document.referrer;
+	
+	if(ref == 'https://192.168.0.23:8100/temporaryDocList') {
+		$('.inputDateBox input').attr("value" , /*[[ ${approvalDoc.enforceDate} ]]*/'');
+		$('.inputTitleBox input').attr("value", /*[[ ${approvalDoc.docTitle} ]]*/'');
+		$('.note-editable')[0].innerHTML = /*[[ ${approvalDoc.docContent} ]]*/'';
+	} else {
+		$('input').remove();
+		$('.inputDateBox')[0].innerHTML = /*[[ ${approvalDoc.enforceDate} ]]*/'';
+		$('.inputTitleBox')[0].innerHTML = /*[[ ${approvalDoc.docTitle} ]]*/'';
+		$('.textarea')[0].innerHTML = /*[[ ${approvalDoc.docContent} ]]*/'';
+	}
 	
 	var params = new URL(location.href).searchParams;
 	var id = Number(params.get("docId"));
@@ -181,7 +301,7 @@
 	
 	function approvalInfo() {
 		var data = {
-			approvalEmpId : /*[[${#authentication.principal.userVO.empId}]]*/'기본값'
+			approvalEmpId : /*[[${#authentication.principal.userVO.empId}]]*/''
 			, docId : id
 		}
 		
@@ -191,7 +311,7 @@
 	function nextInfo() {
 		var approval = 0;
 		for(var i=0; i<$('.approvalName').length; i++) {
-			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
+			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'') {
 				if(i == 0) {
 					approval = 0;
 				} else{
@@ -208,12 +328,12 @@
 	}
 	
 	
-	$('#request').on('click', function() {
+	$('#app').on('click', function() {
 		let app = approvalInfo();
 		let next = nextInfo();
 		
 		for(var i=0; i<$('.approvalName').length; i++) {
-			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
+			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'') {
 				$('.approvalName')[i].insertAdjacentHTML("afterbegin", `<img style="position: absolute; top: 20px;" src="/dist/img/승인.png">`);
 			}
 		}
@@ -258,7 +378,7 @@
 		let doc = docInfo();
 		
 		for(var i=0; i<$('.approvalName').length; i++) {
-			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'기본값') {
+			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'') {
 				$('.approvalName')[i].insertAdjacentHTML(`<span style="color:red"><strong>반려</strong></span>`);
 			}
 		}
@@ -286,5 +406,6 @@
 	
 </script>
 <script src="../js/approval/docInfo.js"></script>
+<script src="../js/approval/org.js"></script>
 </body>
 </html>
