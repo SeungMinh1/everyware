@@ -28,11 +28,11 @@ public class AttendServiceImpl implements AttendService {
 	}
 	@Override
 	public int endworkExWork(AttendVO attendVO) {
-		if(!AuthUtil.getDepartmentId().equals("g3") ) { // 현장직 제외
-			if(attendVO.getWorkTime() < 9*60) {
+		if(AuthUtil.getDepartmentId() != "g3" ) { // 현장직 제외
+			if(attendVO.getWorkTime() < (9*60) ) {
 				attendVO.setExceedWorkTime(0);
 			}else {
-				int extratime = (attendVO.getWorkTime() - 9*60);
+				int extratime = (attendVO.getWorkTime() - 540); // 9*60
 				attendVO.setExceedWorkTime(extratime);
 			}
 			
