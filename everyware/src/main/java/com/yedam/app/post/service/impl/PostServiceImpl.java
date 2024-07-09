@@ -11,6 +11,7 @@ import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.post.mapper.PostMapper;
 import com.yedam.app.post.service.PostService;
 import com.yedam.app.post.service.PostVO;
+import com.yedam.app.post.service.SearchVO;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -107,10 +108,15 @@ public class PostServiceImpl implements PostService {
 	 * }
 	 */
 	@Override
-	public void selectSearch(String type, String keyword, int num) {
+	public void selectSearch(SearchVO searchVO, PostVO postVO) {
 		// TODO Auto-generated method stub
 		
 	}
+//	@Override
+//	public int countSearch() {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 	
 
 
