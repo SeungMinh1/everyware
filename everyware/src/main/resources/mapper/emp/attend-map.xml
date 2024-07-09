@@ -224,7 +224,6 @@
 		    , out_yn = 0
 		    , work_time = TRUNC((TO_DATE((TO_CHAR(SYSDATE, 'YYYYMMDD') || '1800'), 'YYYYMMDDHH24MISS') - go_time)*24*60) 
 		WHERE out_yn = 1 and  emp_id In (select emp_id from emp where department_id != find_code('현장'))
- 	
  	</update>
  	
  	<!-- 부서별 근태조회 -->
@@ -240,7 +239,7 @@
             , a.go_time
             , TO_CHAR(go_time, 'HH:MI:SS') goTime2
             , a.leave_time
-            ,  TO_CHAR(leave_time, 'HH:MI:SS') leaveTime2
+            , TO_CHAR(leave_time, 'HH:MI:SS') leaveTime2
             , a.work_time
             , a.exceed_work_time
             , a.out_yn
@@ -259,7 +258,6 @@
 		WHERE find_codename(department_id) = #{departmentName}
  		ORDER BY e.emp_id
  	</select>
- 	
  	
  	<select id="selectMonthList" resultType="AttendVO">
  		SELECT attend_id
@@ -284,11 +282,32 @@
  		
  	</select>
  	
+ 	<select id="deptMonList" resultType="AttendVO">
+ 		 SELECT
+            e.emp_id
+            , e.emp_name
+            , find_codename(e.department_id) departmentName
+            , find_codename(e.emp_position) posName 
+            , sum(a.work_time) monthworkTime
+            , sum(a.exceed_work_time) monthExtraworkTime
+		FROM  emp e
+			<choose>
+				<when test="newdate =='' ">
+                	LEFT OUTER JOIN (select * from attend WHERE go_time between TRUNC(sysdate, 'MM') and LAST_DAY(sysdate) )a
+            	</when>
+            	<otherwise>
+            		LEFT OUTER JOIN (select * from attend WHERE go_time between TRUNC(to_date(#{newdate}), 'MM') and LAST_DAY(to_date(#{newdate})) )a
+            	</otherwise>
+            </choose>
+            on a.emp_id = e.emp_id
+		WHERE find_codename(e.department_id) = #{departmentName}
+        GROUP BY e.emp_id, e.emp_name, e.department_id, e.emp_position
+ 		ORDER BY e.emp_id
+ 		
+ 	</select>
  	
  	
- 	
- 	
- 	
+
  	
  	
 
