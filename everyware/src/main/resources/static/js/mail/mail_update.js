@@ -1,5 +1,6 @@
 /**
  *  mail_update.js
+ * 	====임시저장====
  */
 $(function(){
 	//에디터(summernote) 설정
@@ -40,10 +41,11 @@ $(function(){
 	  // value를 담은 data => info
 	  let info =  getMailInfo2();
 	  	console.log(info)
+	  	console.log(mailId);
 	  	//받는사람, 제목 유효성 검사
 	    if(tagify.value == ''){
 			alert('받는사람 이메일을 입력해 주세요.');
-			/* input.focus(); */
+			 input.focus(); 
 			return;
 		};
 		if($('#title').val() == ''){
@@ -51,7 +53,11 @@ $(function(){
 			$('#title').focus();
 			return;
 		};
-	
+		
+	    if(fileList.length > 0){
+			info.attachmentGroupId = fileList[0].attachmentGroupId; 
+		}
+		
 	  //메일 등록 ajax
 		$.ajax('mailInsert',{
 			type: 'post',
@@ -64,6 +70,17 @@ $(function(){
 				//성공시 받은메일함으로
 				let url = '/mailboxInfo?mailboxId=d1';
 				location.href=url;
+
+				let info = {mailId : mailId};
+				$.ajax({
+						type: "POST",
+		                url: "deleteDraftMailInfo",
+		                contentType : 'application/JSON',
+						data : JSON.stringify(info)
+				})
+				.done(result=>{
+					console.log(result);
+				})
 			}
 			console.log(result);
 		})
@@ -78,6 +95,10 @@ $(function(){
 			let info = getMailInfo();
 			($('#sender').val());
 			
+			if(fileList.length > 0){
+				info.attachmentGroupId = fileList[0].attachmentGroupId; 
+			}
+		
 			//2)AJAX
 			$.ajax('draftMailUpdate',{
 				type: 'post',
@@ -97,9 +118,9 @@ $(function(){
 			.fail(err=>console.log(err));
 		};
 			
-  /*================
-    input value 저장
-  ==================*/
+/*=============== [ getMailInfo ] ===============
+    임시저장 후 ====> 다시 임시저장하는 input value 저장
+===============================================*/
   function getMailInfo(){
 	//recipient 의 value를 push => recipData에 담음.
 	//tagify.value == 받는사람 이메일
@@ -122,13 +143,17 @@ $(function(){
 		recipList  : recipData,  
 		ccList 	   : ccData,          
 		title      :  $('#title').val(),            
-		content    : $('#summernote').summernote('code')//code로 저장
+		content    : $('#summernote').summernote('code'),//code로 저장
+		attachList : fileList
 	};
 	
 	return data1;
   };
 	//draftBtn 누르면 수정한거 저장
-	
+
+/*=============== [ getMailInfo ] ===============
+    임시저장 후 ====> 메일 보내는 input value 저장
+===============================================*/
   function getMailInfo2(){
 	//recipient 의 value를 push => recipData에 담음.
 	//tagify.value == 받는사람 이메일
@@ -151,7 +176,8 @@ $(function(){
 		ccList 	   : ccData,          
 		title      :  $('#title').val(),            
 		content    : $('#summernote').summernote('code'),//code로 저장
-		empId	   : empId
+		empId	   : empId,
+		attachList : fileList
 	};
 	
 	return data1;

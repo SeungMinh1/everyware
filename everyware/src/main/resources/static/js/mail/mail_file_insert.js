@@ -96,9 +96,11 @@ function uploadFile(){
 				obj.uploadPath +"/"+ obj.uploadFileName + "_" + obj.originFileName);
 		    // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
 	  
-			str += "<li class='li_style'" + ">"+ "<span data-file=\'" + fileCallPath + "\'data-type='file'> x </span>"
-			str += "<a href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
-			str += "<span>" + obj.fileSize + "</span></li>"
+			str += "<li class='li_style'" + ">"
+			str += "<a class='a_style' href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
+			str += "<span>" + '(' + obj.fileSize + ')' + "</span>"
+			str += "<span data-file=\'" + fileCallPath+ "\'data-fileid=\'" + obj.fileId + "\'data-type='file'> x </span>"
+			str += "</li>"
 			
 		});
 		uploadResult.append(str);
@@ -108,12 +110,15 @@ function uploadFile(){
 	$(".uploadResult").on('click', 'span', function(){
 		var targetFile = $(this).data("file");
 		var type = $(this).data("type");
-		console.log(targetFile);
-		console.log(type);
+		var dataFileId = $(this).data("fileid");
+		
 		var li = $(this).parent();
-		console.log(li);
+		
+		/* =======================
+		=  폴더에 있는 파일 삭제 ajax  = 
+		=========================*/
 		$.ajax({
-			url: '/deleteFile',
+			url: '/deleteDataFile',
 			data : {fileName: targetFile, type: type},
 			dataType:'text',
 			type : 'POST',
@@ -125,9 +130,23 @@ function uploadFile(){
                     var fileCallPath = encodeURIComponent(file.uploadPath + "/" + file.uploadFileName + "_" + file.originFileName);
                     return fileCallPath !== targetFile;
                 });
-			}
-		});//$.ajax
-		
-	});
+                
+                /* =======================
+				=     DB 파일 삭제 ajax     = 
+				=========================*/
+				let info = {fileId : dataFileId};
+				$.ajax({
+						type: "POST",
+		                url: "deleteDataFileInfo",
+		                contentType : 'application/JSON',
+						data : JSON.stringify(info)
+				})
+				.done(result=>{
+					console.log(result);
+				})//$.ajax(deleteDataFileInfo)
+					
+			}//success
+		});//$.ajax(deleteDataFile)
+	});//uploadResult on click
 	
 });

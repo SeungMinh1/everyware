@@ -28,11 +28,11 @@ public class AttendServiceImpl implements AttendService {
 	}
 	@Override
 	public int endworkExWork(AttendVO attendVO) {
-		if(!AuthUtil.getDepartmentId().equals("g3") ) { // 현장직 제외
-			if(attendVO.getWorkTime() < 9*60) {
+		if(AuthUtil.getDepartmentId() != "g3" ) { // 현장직 제외
+			if(attendVO.getWorkTime() < (9*60) ) {
 				attendVO.setExceedWorkTime(0);
 			}else {
-				int extratime = (attendVO.getWorkTime() - 9*60);
+				int extratime = (attendVO.getWorkTime() - 540); // 9*60
 				attendVO.setExceedWorkTime(extratime);
 			}
 			
@@ -69,18 +69,6 @@ public class AttendServiceImpl implements AttendService {
 		}
 		result.setExtrawork1(totalExtraWork);
 		result.setTotalwork1(totalWork);
-		
-		//지난주
-//		week =7;
-//		totalWork = 0;
-//		totalExtraWork = 0;
-//		List<AttendVO> list2 = attendMapper.countWorkTime(attendVO, week); //저번주 근무기록
-//		for(int i=0; i< list2.size(); i++) {
-//			totalWork += list2.get(i).getWorkTime(); //저번주 누적 근무기록
-//			totalExtraWork += list2.get(i).getExceedWorkTime(); //저번주 누적 초과근무기록
-//		}
-//		result.setExtrawork2(totalExtraWork);
-//		result.setTotalwork2(totalWork);
 		
 		return result;
 	}
@@ -129,6 +117,10 @@ public class AttendServiceImpl implements AttendService {
 	@Override
 	public List<AttendVO> selectMonthList(AttendVO attendVO) {
 		return attendMapper.selectMonthList(attendVO);
+	}
+	@Override
+	public List<AttendVO> selectMondeptAttned(AttendVO attendVO) { //부서별 월별누적 근무기록
+		return attendMapper.deptMonList(attendVO);
 	}
 
 

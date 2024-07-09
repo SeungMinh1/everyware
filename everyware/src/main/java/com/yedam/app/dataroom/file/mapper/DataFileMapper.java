@@ -13,8 +13,12 @@ public interface DataFileMapper {
 	public DataFileVO selectDataFileInfo(DataFileVO dfileVO);
 	//파일첨부를 여러번 할 때 groupId를 같은 id로 업데이트
 	public int updateDataGroupId(DataVO dataVO);
-	
+		
 	//--- 메일 ---
 	public int updateMailGroupId(MailVO mailVO);
 	public List<DataFileVO> selectFileByMailId(MailVO mailVO);
+	
+	//파일 단건 삭제(DB)
+	public int deleteDataFileInfo(int fileId);
+		
 }

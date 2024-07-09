@@ -141,4 +141,12 @@ public class MailController {
 		
 		return "mail/mail_reply";
 	}
+	
+	//삭제 : 임시보관 메일 완전 삭제 (단건)
+	@PostMapping("deleteDraftMailInfo")
+	@ResponseBody
+	public int deleteDraftMailInfo(@RequestBody MailVO mailVO) {
+		int mailId = mailVO.getMailId();
+		return mailService.deleteMailInfo(mailId);
+	}
 }

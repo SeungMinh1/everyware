@@ -76,7 +76,6 @@
 			html += '</tr>'
 			
 			
-			
 			$('#mainSector').append(html);
 
     		
@@ -84,6 +83,75 @@
     	.fail(function(result){
     		console.log("err");
     	})
+    	
+    	//////////////////////////////////
+    	//부서별 누걱 근무시간
+    	let date2 = {
+		newdate : ''
+		}
+    	
+    	$.ajax({
+       		url: "/deptworkdata"
+       		, type : 'post'
+       		, contentType : 'application/JSON'
+       		, data : JSON.stringify(date2)
+			
+		})
+		.done(function(result){
+			console.log(result);
+			$('#mainSector2').empty();
+			
+			
+			let html = "";
+			
+			result.forEach(function(emp, index){
+				
+			html += '<tr class="text-center">'
+			html += '<td>'+ emp.empName +'</td>';
+			html += '<td>'+ emp.departmentName +'</td>'
+			html += '<td>'+ emp.posName +'</td>';
+			
+			if(emp.monthworkTime == 0){
+				html += '<td></td>'
+			}else if(emp.monthworkTime < 60){
+				html += '<td>'+ emp.monthworkTime +'분</td>'
+			}else{
+				html += '<td>'+Math.floor(emp.monthworkTime/60) + '시간'+emp.monthworkTime%60+'분' +'</td>'
+			}
+			
+			if(emp.monthExtraworkTime == 0){
+				html += '<td></td>'
+			}else if(emp.monthExtraworkTime < 60){
+				html += '<td>'+ emp.monthExtraworkTime +'분</td>'
+			}else{
+				html += '<td>'+Math.floor(emp.monthExtraworkTime/60) + '시간'+emp.monthExtraworkTime%60+'분' +'</td>'
+			}
+			
+			html += '</tr>'
+				
+			})
+			
+			html += '<tr>'
+			html += '<td></td>'
+			html += '</tr>'
+			
+			
+			$('#mainSector2').append(html);
+			
+			
+			
+		})
+		.fail(function(result){
+    		console.log("err");
+    	})
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
 	
 	
  }
@@ -91,6 +159,8 @@
 
 $(function() {
   $('input[name="daterange"]').daterangepicker({
+	format: "yyyy-mm-dd",
+	language: "kr",
     singleDatePicker: true,
     showDropdowns: true,
     minYear: 1901,
@@ -184,7 +254,16 @@ $(function() {
  
  
  
- 
+ $(function() {
+  $('input[name="daterange2"]').daterangepicker({
+    format : "yyyy-mm-dd",
+    singleDatePicker: true,
+    showDropdowns: true,
+    minYear: 1901,
+    maxYear: parseInt(moment().format('YYYY'),10)
+  })
+  
+  });
  
  
  

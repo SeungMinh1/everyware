@@ -51,7 +51,7 @@ $(function () {
 					let url = '/mailboxInfo?mailboxId=d1';
 					location.href=url;
 				}else{
-					alert("이동되지 않았습니다. \n 데이터를 확인해주세요.")
+					alert("휴지통으로 이동되지 않았습니다. \n 데이터를 확인해주세요.")
 				}
 				console.log(result);
 			})

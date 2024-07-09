@@ -16,133 +16,92 @@
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <style>
   
-	tr, td, th {
-	  text-align: center;
-	}
-	  
-  	/* ======== Calendar ======== */
-	.my-calendar {
-	  width: 85%;
-	  margin: auto;/*30px;*/
-	  padding: 20px 20px 10px;
-	  text-align: center;
-	  font-weight: 800;
-	  border: 1px solid #ddd;
-	  cursor: default;
-	  background: #f0f9ff;
-	}
-	.my-calendar .clicked-date {
-	  border-radius: 25px;
-	  margin-top: 36px;
-	  float: left;
-	  width: 40%;
-	  padding: 20px 0 15px;
-	 /* background: skyblue;*/
-	}
-	.my-calendar .calendar-box {
-	  float: right;
-	  width: 58%;
-	  padding-left: 5 px;
-	  margin-left:5px;
-	  background : white;
-	}
-	
-	.clicked-date .cal-day {
-	  font-size: 20px;
-	}
-	.clicked-date .cal-date {
-	  font-size: 20px;
-	}
-	
-	.ctr-box {
-	  padding: 0 16px;
-	  margin-bottom: 20px;
-	  font-size: 20px;
-	  background : skyblue;
-	}
-	.ctr-box .btn-cal {
-	  position: relative;
-	  float: left;
-	  width: 25px;
-	  height: 25px;
-	  margin-top: 5px;
-	  font-size: 16px;
-	  cursor: pointer;
-	  border: none;
-	  background: none;
-	}
-	.ctr-box .btn-cal:after {
-	  content: '<';
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  width: 100%;
-	  height: 100%;
-	  line-height: 25px;
-	  font-weight: bold;
-	  font-size: 20px;
-	}
-	.ctr-box .btn-cal.next {
-	  float: right;
-	}
-	.ctr-box .btn-cal.next:after {
-	  content: '>';
-	}
-	
-	.cal-table {
-	  width: 100%;
-	}
-	.cal-table th {
-	  width: 14.2857%;
-	  padding-bottom: 5px;
-	  font-size: 14px;
-	  font-weight: 900;
-	}
-	.cal-table td {
-	  padding: 3px 0;
-	  height: 50px;
-	  font-size: 15px;
-	  vertical-align: middle;
-	}
-	.cal-table td.day {
-	  position: relative;
-	  cursor: pointer;
-	}
-	.cal-table td.today {
-	  background: #ffd255;
-	  border-radius: 50%;
-	  color: #fff;
-	}
-	.cal-table td.day-active {
-	  background: #ff8585;
-	  border-radius: 50%;
-	  color: #fff;
-	}
-	.cal-table td.has-event:after {
-	  content: '';
-	  display: block;
-	  position: absolute;
-	  left: 0;
-	  bottom: 0;
-	  width: 100%;
-	  height: 4px;
-	  background: #FFC107;
-	}
-  
-  	.ten p {
-  		font-size:34px; font-weight:500; text-transform:uppercase;
-		}
-	.ten p:before {
-	    background-color: #c50000;
-	    border-radius: 0.25rem;
-	    content: '';
-	    display: block;
-	    height: 0.25rem;
-	    width: 42px;
-	    margin-bottom: 1.25rem;
-	}
-	
-	
+
+
+/* 전체 컨테이너 스타일링 */
+.container {
+  max-width: 800px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
+  padding: 20px; /* 내부 여백 설정 */
+  background-color: #f7f7f7; /* 배경색 설정 */
+  border: 1px solid #ddd; /* 테두리 설정 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+  font-family: 'Arial', sans-serif; /* 폰트 설정 */
+  line-height: 1.6; /* 줄 간격 설정 */
+}
+
+/* 캘린더와 관련된 스타일 */
+.my-calendar {
+  margin-top: 20px; /* 캘린더 위 여백 설정 */
+  background-color: #fff; /* 캘린더 배경색 설정 */
+  border-radius: 5px; /* 모서리 둥글게 설정 */
+  padding: 15px; /* 내부 패딩 설정 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+.clicked-date {
+  margin-bottom: 20px; /* 클릭된 날짜 부분 아래 여백 설정 */
+}
+
+.cal-day {
+  padding: 15px; /* 내부 패딩 설정 */
+  background-color: #f9f9f9; /* 배경색 설정 */
+  border: 1px solid #eee; /* 테두리 설정 */
+  border-radius: 5px; /* 모서리 둥글게 설정 */
+}
+
+.cal-day table {
+  width: 100%; /* 테이블 너비 설정 */
+  border-collapse: collapse; /* 테두리 합병 설정 */
+}
+
+.cal-day th, .cal-day td {
+  padding: 10px; /* 셀 패딩 설정 */
+  text-align: left; /* 텍스트 정렬 설정 */
+  border-bottom: 1px solid #eee; /* 테두리 설정 */
+}
+
+/* 버튼 스타일 */
+.btn-cal {
+  background-color: #2196F3; /* 배경색 설정 */
+  color: #fff; /* 텍스트 색상 설정 */
+  border: none; /* 테두리 제거 */
+  padding: 12px 24px; /* 내부 패딩 설정 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  text-decoration: none; /* 텍스트 밑줄 제거 */
+  display: inline-block; /* 인라인 블록 요소 설정 */
+  font-size: 16px; /* 폰트 크기 설정 */
+  margin: 4px 2px; /* 마진 설정 */
+  cursor: pointer; /* 커서 설정 */
+  border-radius: 5px; /* 모서리 둥글게 설정 */
+  transition: background-color 0.3s ease; /* 호버 효과를 위한 transition 설정 */
+}
+
+.btn-cal:hover {
+  background-color: #0d8bf2; /* 호버 시 배경색 변경 */
+}
+
+/* 달력 테이블 스타일 */
+.cal-table {
+  width: 100%; /* 테이블 전체 너비 설정 */
+  margin-top: 15px; /* 위 여백 설정 */
+  border-collapse: collapse; /* 테두리 합병 설정 */
+}
+
+.cal-table th, .cal-table td {
+  padding: 12px; /* 셀 패딩 설정 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  border: 1px solid #ddd; /* 테두리 설정 */
+}
+
+.cal-table th {
+  background-color: #f0f0f0; /* 헤더 배경색 설정 */
+}
+
+.cal-body td {
+  vertical-align: top; /* 셀 내용 상단 정렬 */
+}
+
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -306,13 +265,13 @@
 	                        	 	<td >0분</td>
                         			<td >0분</td>
 	                        	 </th:block>
-	                        	 <th:block >
-		                        	<td th:if="lastMonth != null">[[ ${#numbers.formatInteger((lastMonth.monthworkTime/60), 0)} ]] 시간 [[ ${lastMonth.monthworkTime%60} ]] 분</td>
-		                        	<td th:if="lastMonth != null">[[ ${#numbers.formatInteger((lastMonth.monthExtraworkTime/60), 0)} ]] 시간 [[ ${lastMonth.monthExtraworkTime%60} ]] 분</td>
+	                        	 <th:block th:if="lastMonth != null">
+		                        	<td>[[ ${#numbers.formatInteger((lastMonth.monthworkTime/60), 0)} ]] 시간 [[ ${lastMonth.monthworkTime%60} ]] 분</td>
+		                        	<td>[[ ${#numbers.formatInteger((lastMonth.monthExtraworkTime/60), 0)} ]] 시간 [[ ${lastMonth.monthExtraworkTime%60} ]] 분</td>
 		                        </th:block>
-		                        <th:block >
-		                        	<td th:unless="lastMonth != null">0분</td>
-	                        		<td th:unless="lastMonth != null">0분</td>
+		                        <th:block th:unless="lastMonth != null">
+		                        	<td >0분</td>
+	                        		<td >0분</td>
                         		</th:block>
                        		</tr>
                        		</tbody>
@@ -329,15 +288,44 @@
 
                     <!-- Post -->
                     <div class="post">
-                      <div class="user-block">
-                        <p class="ten">이번달 근무현황</p>
-                        <hr width="100%"  size="10px" color="black">
-                        
-                      
-                      </div>
-                      <!-- /.user-block -->
-                      <div class="row mb-3">
-                        
+						<div>
+	                        <p>이번달 근태기록</p>
+	                          
+	                          <table class="table table-bordered table-sm">
+	                          	<thead class="thead-light">
+		                          	<tr>
+		                          		<th>날짜</th>
+		                          		<th>출근시간</th>
+		                          		<th>퇴근시간</th>
+		                          		<th>일한시간</th>
+		                          		<th>초과근무시간</th>
+		                          		<th>특이사항</th>
+		                          	</tr>
+		                          </thead>
+		                          <tbody>
+		                          	<th:block th:each="mon : ${monList}"  >
+			                          	<tr>
+											<td>[[ ${#dates.format(mon.goTime, 'yyyy-MM-dd')} ]]</td>
+			                          		<td>[[ ${#dates.format(mon.goTime, 'HH:mm:ss')} ]]</td>
+			                          		<td>[[ ${#dates.format(mon.leaveTime, 'HH:mm:ss')} ]]</td>
+			                          		<td>[[ ${#numbers.formatInteger((mon.workTime/60), 0)} ]] 시간[[ ${mon.workTime%60} ]] 분</td>
+			                          		<td>[[ ${#numbers.formatInteger((mon.exceedWorkTime/60), 0)} ]] 시간[[ ${mon.exceedWorkTime%60} ]] 분</td>
+			                          		<td th:if="${mon.workdetail == null}">없음</td>
+			                          		<td th:if="${mon.workdetail == 'normal'}">없음</td>
+			                          		<td th:if="${mon.workdetail == 'late'}">지각</td>
+			                          	</tr>
+			                         </th:block>     
+		                         </tbody>          
+	                          </table>
+							</div>
+                    <!-- /.post -->
+                  </div>
+                  
+                  <br><br><br>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="timeline">
+                        <div class="timeline-item">
+							<div class="row mb-3">
                         
                           <div class="container" >
 							  <div class="my-calendar clearfix">
@@ -372,17 +360,15 @@
 							      	</table>
 							      </div>
 							      
-							      <div class="cal-date" ></div>
-							      
 							    </div>
 							    <div class="calendar-box">
 							      <div class="ctr-box clearfix">
-							        <button type="button" title="prev" class="btn-cal prev">
+							        <button type="button" title="prev" class="btn-cal prev"> <
 							        </button>
 							        <span class="cal-year"></span>
 							        <span class="cal-month"></span>
 							        <span class="cal-month"></span>
-							        <button type="button" title="next" class="btn-cal next">
+							        <button type="button" title="next" class="btn-cal next"> >
 							        </button>
 							      </div>
 							      <table class="cal-table">
@@ -401,61 +387,14 @@
 							      </table>
 							    </div>
 							  </div>
+							  
+
                         </div>
                         
                       <!-- /.row -->
                     </div>
-                    <!-- /.post -->
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="timeline">
-                    <!-- The timeline -->
-                    <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                     
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-
-                        <div class="timeline-item">
-                        <p>이번달 근태기록</p>
-                          
-                          <table class="table table-bordered table-sm">
-                          	<thead class="thead-light">
-	                          	<tr>
-	                          		<th>날짜</th>
-	                          		<th>출근시간</th>
-	                          		<th>퇴근시간</th>
-	                          		<th>일한시간</th>
-	                          		<th>초과근무시간</th>
-	                          		<th>특이사항</th>
-	                          	</tr>
-	                          </thead>
-	                          <tbody>
-	                          	<th:block th:each="mon : ${monList}"  >
-		                          	<tr>
-										<td>[[ ${#dates.format(mon.goTime, 'YYYY-MM-DD')} ]]</td>
-		                          		<td>[[ ${#dates.format(mon.goTime, 'HH:mm:ss')} ]]</td>
-		                          		<td>[[ ${#dates.format(mon.leaveTime, 'HH:mm:ss')} ]]</td>
-		                          		<td>[[ ${#numbers.formatInteger((mon.workTime/60), 0)} ]] 시간[[ ${mon.workTime%60} ]] 분</td>
-		                          		<td>[[ ${#numbers.formatInteger((mon.exceedWorkTime/60), 0)} ]] 시간[[ ${mon.exceedWorkTime%60} ]] 분</td>
-		                          		<td th:if="${mon.workdetail == null}">없음</td>
-		                          		<td th:if="${mon.workdetail == 'normal'}">없음</td>
-		                          		<td th:if="${mon.workdetail == 'late'}">지각</td>
-		                          	</tr>
-		                         </th:block>     
-	                         </tbody>          
-                          </table>
-
                         
-                        
-                        </div>
                       </div>
-                      <!-- END timeline item -->
- 
-                    
-
-                    </div>
                   </div>
                   <!-- 여기까지 -->
 
@@ -747,6 +686,15 @@
 	                		//$('#endTime').innerHTML = timeString;
 	                		$("#endtimeli").append("<a class='float-right'>" + timeString +"</a>");
                     		
+	                		$.ajax({
+	                       		url: "/exwork", 
+	                            type: 'post',
+	                    	})
+	                    	.done(function(result){
+	                    		console.log("성공");
+	                    	})
+	                		
+	                		
                     	})
                     	.fail(function(result){
                     		console.log("err");
@@ -786,6 +734,9 @@
         
     })();
 </script>
+
+
+
 <script>
 	//================================
 	//START YOUR APP HERE
@@ -861,7 +812,7 @@
 		let trtd = '';
 		let startCount;
 		let countDay = 0;
-		for (let i = 0; i < 6; i++) {
+		for (let i = 0; i < 5; i++) {
 		 	trtd += '<tr>';
 		 for (let j = 0; j < 7; j++) {
 			   if (i === 0 && !startCount && j === firstDay.getDay()) {
