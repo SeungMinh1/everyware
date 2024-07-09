@@ -55,8 +55,15 @@ public class AttendController {
 		AttendVO totalTime =  attendService.countWorkTime(attendVO); // 로그인한 사원의 누적 근무 기록
 		model.addAttribute("totalTime", totalTime);
 		
+		
 		AttendVO thisMonth = attendService.countWorkTime2(empId, 0);
-		model.addAttribute("thisMonth",thisMonth);
+		if(thisMonth != null) {
+			model.addAttribute("thisMonth",thisMonth);
+		}else {
+			model.addAttribute("thisMonth", new AttendVO());
+		}
+	
+		
 		AttendVO lastMonth = attendService.countWorkTime2(empId, 30);
 		if(lastMonth != null) {
 			model.addAttribute("lastMonth",lastMonth);
@@ -201,8 +208,6 @@ public class AttendController {
 		return empList;
 	}
 	
-	
-	
 	//부서별 직원 근태관리
 	@GetMapping("deptAttend")
 	public String selectDebtAttend(Model model) {
@@ -219,5 +224,13 @@ public class AttendController {
 		return attendService.selectdeptAttend(departmentName, newdate);
 	}
 	
+	@PostMapping("deptworkdata")
+	@ResponseBody
+	public List<AttendVO> selectDeptMonAttend(@RequestBody AttendVO attendVO){
+		String departmentName = AuthUtil.getDepartmentName();
+		attendVO.setDepartmentName(departmentName);
+		
+		return attendService.selectMondeptAttned(attendVO);
+	}
 	
 }
