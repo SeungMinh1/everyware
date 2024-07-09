@@ -54,4 +54,5 @@ public class DocVO {
 	private String enforceDate;
 	private String search;
 	private String approvalInfo;
+	private List<String> approvalFileList;
 }

@@ -185,6 +185,13 @@ public class DocServiceImpl implements DocService {
 		}
 		docVO.setSendEmpId(sendEmpIds);
 		
+		// 파일업로드
+		String fileNames = "";
+		for(String fileName : docVO.getApprovalFileList()) {
+			fileNames += fileName + ",";
+		}
+		docVO.setApprovalFile(fileNames);
+		
 		result = docMapper.docInsert(docVO);
 		return result;
 	}
