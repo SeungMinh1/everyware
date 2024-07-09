@@ -112,11 +112,11 @@ public class PostServiceImpl implements PostService {
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public int countSearch() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+//	@Override
+//	public int countSearch() {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 	
 
 

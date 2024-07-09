@@ -52,4 +52,4 @@ public interface PostService {
 	
 //	//검색된 게시물 개수
 //	public int countSearch()
-};void selectSearch(String type, String keyword, int num)
+}
