@@ -56,7 +56,7 @@ public class PostController {
 	@GetMapping("selectNoticeAll")
 	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO, SearchVO searchVO,
 			@RequestParam(value="type",required=false)String type, @RequestParam(value="keyword", required=false)String keyword
-			,@RequestParam(required = false, defaultValue = "1")int num)throws Exception {
+			)throws Exception {
 		
 		postVO.setBoardId(1);
 		page = page == null? 1 : page; 
@@ -78,7 +78,9 @@ public class PostController {
 		searchVO.setKeyword(keyword);
 		
 		if(type != null && keyword != null) {
-			postService.selectSearch(type,keyword,num);
+			//검색이 있는 경우 
+			postService.selectSearch(searchVO,postVO);
+			
 		}else {
 			postService.selectNoticeAll(postVO);
 		}

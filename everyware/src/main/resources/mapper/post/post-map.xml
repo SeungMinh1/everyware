@@ -262,4 +262,14 @@ UPDATE post
 	WHERE post_id = #{postId} AND emp_id = #{empId}
 </delete>
 
+<!-- 검색 -->
+
+<!-- 검색된 게시물 개수  -->
+<select id="countSearch" parameterType="map" resultType="int">
+	SELECT COUNT(*)
+	FROM posts
+	WHERE ${type} LIKE '%' || #{keyword} || '%'
+	AND board_
+</select>
+
 </mapper>

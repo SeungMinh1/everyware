@@ -35,7 +35,6 @@ public interface PostService {
 	//조회수 
 	public int updateViewCnt(PostVO postVO);
 	
-	
 	//추천수
 	public int updateLikeCnt(PostVO postVO);
 	
@@ -49,6 +48,8 @@ public interface PostService {
     public int deleteRecommend (PostVO postVO);
     
     //검색
-	public void selectSearch(String type, String keyword, int num);
-
-}
+	public void selectSearch(SearchVO searchVO, PostVO postVO);
+	
+//	//검색된 게시물 개수
+//	public int countSearch()
+};void selectSearch(String type, String keyword, int num)
