@@ -34,26 +34,38 @@ SELECT * FROM(
 	        title,
 	        write_date,
 	        view_cnt,
-	        recommend_cnt,
+	        recommend_cnt,--
 	        attachment_group_id,
 	        content,
 	        emp_id,
 	        emp_id_name(emp_id) "empName"
 		FROM post
 	    WHERE board_id = 1 
-		AND (notification_yn = 'Y')
-			 <choose>
-				<when test='orderBy == "viewCnt"'>
-					ORDER BY view_cnt DESC
-				</when>
-				<when test='orderBy == "recommendCnt"'>
-					ORDER BY recommend_cnt DESC
-				</when>
-				<otherwise>
-					ORDER BY post_id DESC
-				</otherwise>
-			</choose> 
-		)a
+		AND notification_yn = 'Y'
+		<!-- <choose>
+			<when test="type == 'T'.toString()">
+			title like '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'C'.toString()">
+			content like '%'||#{keyword}||'%'
+			</when>
+			<when test="type == 'E.toString()">
+			empName like '%'||#{keyword}||'%'
+			</when> 			
+		</choose> -->
+		
+		<choose>
+			<when test='orderBy == "viewCnt"'>
+				ORDER BY view_cnt DESC
+			</when>
+			<when test='orderBy == "recommendCnt"'>
+				ORDER BY recommend_cnt DESC
+			</when>
+			<otherwise>
+				ORDER BY post_id DESC
+			</otherwise>
+		</choose> 
+	)a
 	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
 	)
 WHERE rs > (#{page}-1) * #{cnt}	
@@ -224,27 +236,30 @@ UPDATE post
     WHERE post_id = #{postId}
 </update>
 
-<!-- 추천수   -->
+ <!-- 추천수   -->
 <update id="updateLikeCnt" parameterType="PostVO"  >
 	UPDATE post
     SET recommend_cnt = recommend_cnt + 1
     WHERE post_id = #{postId}
-    AND emp_id = #{empId}
 </update>
 
-<!-- 추천 취소  -->
+<!-- 추천 취소 -->
 <update id="downLikeCnt" parameterType="PostVO"  >
 	UPDATE post
     SET recommend_cnt = recommend_cnt - 1
     WHERE post_id = #{postId}
-</update>
+</update> 
 
 <!-- 추천 테이블에 삽입-->
-<insert id="insertRecommend" parameterType="RecommendVO">
+<insert id="insertRecommend" parameterType="PostVO">
     INSERT INTO recommend (post_id, emp_id)
     VALUES (#{postId}, #{empId})
 </insert>
 
 <!-- 추천 테이블에 삭제(추천 취소) -->
+<delete id="deleteRecommend" parameterType="PostVO">
+	DELETE FROM recommend 
+	WHERE post_id = #{postId} AND emp_id = #{empId}
+</delete>
 
 </mapper>
