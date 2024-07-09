@@ -39,7 +39,7 @@ public class DataFileController {
 		return dataFileService.downlodeDataFile(fileName);
 	}
 	
-	//첨부파일 삭제
+	//폴더에 저장된 첨부파일 삭제
 	@PostMapping("/deleteDataFile")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String Type) throws UnsupportedEncodingException{
@@ -54,10 +54,18 @@ public class DataFileController {
 	}
 	
 	//--메일--
-	//첨부파일 여러개 
+	//첨부파일 여러개 조회(DB)
 	@PostMapping("selectFileByMailId")
 	@ResponseBody
 	public List<DataFileVO> selectFileByMailId(@RequestBody MailVO mailVO) {
 		return dataFileService.selectFileByMailId(mailVO);
+	}
+	
+	//파일 단건 삭제(DB)
+	@PostMapping("deleteDataFileInfo")
+	@ResponseBody
+	public int deleteDataFileInfo(@RequestBody DataFileVO dataFileVO) {
+		int fileId = dataFileVO.getFileId();
+		return dataFileService.deleteDataFileInfo(fileId);
 	}
 }

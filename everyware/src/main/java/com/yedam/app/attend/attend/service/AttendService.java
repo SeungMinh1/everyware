@@ -47,6 +47,9 @@ public interface AttendService {
 	//부서별 직원 근태관리
 	public List<EmpVO> selectdeptAttend(String departmentName, String newdate);
 	
+	//부서별 월별 누적 근무기록
+	public List<AttendVO> selectMondeptAttned(AttendVO attendVO);
+	
 	//이번달 사원 근무기록 리스트
 	public List<AttendVO> selectMonthList(AttendVO attendVO);
 	

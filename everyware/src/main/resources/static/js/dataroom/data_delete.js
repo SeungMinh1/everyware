@@ -45,7 +45,7 @@
 	// 첨부파일 삭제 함수
 	function deleteFiles(selectedDataIds) {
 	    return $.ajax({
-	        url: 'deleteFiles',
+	        url: 'deleteGroupIdFiles',
 	        type: 'post',
 	        data: JSON.stringify(selectedDataIds),
 	        contentType: 'application/json',

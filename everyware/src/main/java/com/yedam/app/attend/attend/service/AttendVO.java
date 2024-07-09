@@ -26,7 +26,7 @@ public class AttendVO {
 	private String departmentId;
 	private String posName;
 	private String empPosition;
-	private String empNmae;
+	private String empName;
 	
 	private int totalwork1;
 	private int totalwork2;
@@ -39,5 +39,6 @@ public class AttendVO {
 	
 	private int monthworkTime;
 	private int monthExtraworkTime;
+	private String newdate;
 }
 

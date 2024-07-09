@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.app.dataroom.file.mapper.DataFileMapper;
+import com.yedam.app.dataroom.file.service.impl.DataFileServiceImpl;
 import com.yedam.app.mail.mail.mapper.MailMapper;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class MailServiceImpl implements MailService {
 	@Autowired
@@ -86,6 +90,9 @@ public class MailServiceImpl implements MailService {
 		for(String cc: mailVO.getCcList()) {
 			ccs += cc + ", ";
 		}
+		if(mailVO.getAttachList() != null && mailVO.getAttachList().size() > 0) {
+			dataFileMapper.updateMailGroupId(mailVO);
+		}
 		mailVO.setCc(ccs);
 		result = mailMapper.insertDraftMail(mailVO);
 		return result;
@@ -99,6 +106,10 @@ public class MailServiceImpl implements MailService {
 		
 		int result = 0;
 		String recips = "";
+		
+		if(mailVO.getAttachList() != null && mailVO.getAttachList().size() > 0) {
+			dataFileMapper.updateMailGroupId(mailVO);
+		}
 		for(String recip: mailVO.getRecipList()) { 
 			recips += recip + ", ";
 		}
@@ -110,7 +121,9 @@ public class MailServiceImpl implements MailService {
 		}
 		mailVO.setCc(ccs);
 		
+		
 		result = mailMapper.updateDraftMail(mailVO);
+		log.info("mail 수정: " + result);
 		
 		if(result == 1) {
 			inSuccessed = true;

@@ -161,5 +161,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 		map.put("result", isSuccessed);
 		map.put("target", approvalVO);
 		return map;
+	}
+
+	@Override
+	public int approvalDelete(ApprovalVO approvalVO) {
+		int result = 0;
+		
+		List<Integer> list = approvalVO.getApprovalIdList();
+		for(int id : list) {
+			approvalVO.setApprovalEmpId(id);
+			result += approvalMapper.approvalDelete(approvalVO);
+		}
+		
+		return result;
 	}	
+	
 }

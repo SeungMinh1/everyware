@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.app.approval.service.ApprovalService;
-import com.yedam.app.approval.service.ApprovalVO;
 import com.yedam.app.approval.service.DocService;
 import com.yedam.app.approval.service.DocVO;
 import com.yedam.app.approval.service.DraftVO;
@@ -195,11 +194,26 @@ public class DocController {
 		return docService.docUpdate(docVO);
 	}
 	
+	// 문서 임시저장 수정
+	@PostMapping("tempDocUpdate")
+	@ResponseBody
+	public Map<String, Object> tempDocUpdate(@RequestBody DocVO docVO) {
+		return docService.tempDocUpdate(docVO);
+	}
+	
 	// 문서 삭제
 	@PostMapping("docDelete")
 	@ResponseBody
 	public Map<String, Object> docDelete(@RequestBody List<Integer> docId) {
 		return docService.docDelete(docId);
+	}
+	
+	// 문서 삭제(단건)
+	@PostMapping("docInfoDelete")
+	@ResponseBody
+	public String docInfoDelete(@RequestBody String docId) {
+		docService.docInfoDelete(Integer.parseInt(docId));
+		return "redirect:temporaryDocList";
 	}
 	
 	// 결재 수정

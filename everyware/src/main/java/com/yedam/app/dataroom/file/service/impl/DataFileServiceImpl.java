@@ -164,15 +164,21 @@ public class DataFileServiceImpl implements DataFileService {
 	
 	
 	
-	//파일 단건
+	//파일 단건 조회(DB)
 	@Override
 	 public DataFileVO selectDataFileInfo(DataFileVO dfileVO) {
 		 return dataFileMapper.selectDataFileInfo(dfileVO);
 	 }
-	//파일 여러개
+	//파일 여러개 조회(DB)
 	@Override
 	public List<DataFileVO> selectFileByMailId(MailVO mailVO) {
 		return dataFileMapper.selectFileByMailId(mailVO);
+	}
+
+	//파일 단건 삭제(DB)
+	@Override
+	public int deleteDataFileInfo(int fileId) {
+		return dataFileMapper.deleteDataFileInfo(fileId);
 	};
 	
 	

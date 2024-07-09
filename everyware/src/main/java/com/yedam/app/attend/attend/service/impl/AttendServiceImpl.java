@@ -118,6 +118,10 @@ public class AttendServiceImpl implements AttendService {
 	public List<AttendVO> selectMonthList(AttendVO attendVO) {
 		return attendMapper.selectMonthList(attendVO);
 	}
+	@Override
+	public List<AttendVO> selectMondeptAttned(AttendVO attendVO) { //부서별 월별누적 근무기록
+		return attendMapper.deptMonList(attendVO);
+	}
 
 
 }

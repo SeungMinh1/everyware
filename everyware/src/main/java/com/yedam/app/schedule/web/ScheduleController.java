@@ -115,6 +115,26 @@ public class ScheduleController {
 		return"schedule/makeSchedule";
 	}
 	
+	//근무조 변경
+	@GetMapping("/updateSquadEmp")
+	public String updateSquadEmp(EmpVO empVO, Model model) {
+		List<Integer> empList = new ArrayList<>();
+		empList.add(9999);
+		
+		empVO.setEmpIdList(empList);
+
+		
+		
+		
+		List<EmpVO> plist = scheduleService.prodEmpList(empVO);
+		model.addAttribute("proList", plist);
+		
+		
+		model.addAttribute("empList", empVO);
+		
+		return "schedule/updateSquadEmp";
+	}
+	
 	
 	
 	

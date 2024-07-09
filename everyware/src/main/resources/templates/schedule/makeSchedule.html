@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">	
 <link rel="stylesheet" href="../css/schedule.css">
+
 </head>
 <body>
 	<div class="content-wrapper">
@@ -23,8 +24,10 @@
 		<section class="content">
 			<div class="row" >	
 			<div class="col-md-10" style="margin:auto;text-align:center">
-			<div class="background" >
-				<h3 id="scheduleCal" 
+				
+			<div class="background" >	
+				<button id="savePdf" class="btn" style="float:right;margin-bottom:50px">PDF로 내려받기</button>
+				<h3 id="scheduleCal" style="margin-bottom:50px"
 					th:data-startDate="${squadInfo.startDate}"
 					th:data-rotateCircle="${squadInfo.rotateCircle}"
 					th:data-rotateNum="${squadInfo.rotateNum}">
@@ -34,6 +37,7 @@
 					<span id="calMonth" th:data-month="${#strings.substring(squadInfo.startDate,5,7)}"></span>
 					&nbsp;&nbsp;<i id="nextMonth" class="fa-solid fa-chevron-right"></i>
 				</h3>
+				
 				<table id="calTable">
 					
 					<thead>
@@ -50,7 +54,21 @@
 			</div>
 		</section>
 	</div>
+<script src="../js/schedule/html2canvas.js"></script>
+<script src="../js/schedule/jspdf.min.js"></script>
 <script src="../js/schedule/makeSchedule.js"></script>
 <script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
+<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery UI -->
+<script src="../plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.min.js"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="../plugins/moment/moment.min.js"></script>
+<script src="../plugins/fullcalendar/main.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
 </body>
 </html>

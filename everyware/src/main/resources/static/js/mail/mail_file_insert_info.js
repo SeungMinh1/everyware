@@ -3,8 +3,6 @@
  */
 
  $(function(){
-	console.log(mailId);
-	
 	var selectFile = [];
 	fileList = selectFile;
 	
@@ -28,6 +26,8 @@
 	      }
 	    });
 	    
+	    
+	    
 	 var uploadResult = $(".uploadResult ul");
 	 function showUploadFile(uploadResultArr){
 		var str = "";
@@ -41,10 +41,26 @@
 			str += "<li class='li_style'" + ">"
 			str += "<a href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
 			str += "<span>" + '(' + obj.fileSize + ')' + "</span>"
-			str += "<span data-file=\'" + fileCallPath + "\'data-fileid=\'" + obj.fileId + "\'data-type='file'></span>"
+			str += "<span data-file=\'" + fileCallPath + "\'data-fileid=\'" + obj.fileId + "\'data-type='file'> x </span>"
 			str += "</li>"
 			
 		});
 		uploadResult.append(str);
 	};
+	
+	$(".uploadResult").on('click', 'span', function(){
+		var dataFileId = $(this).data("fileid");
+		console.log(dataFileId);
+		let info = {fileId : dataFileId};
+		$.ajax({
+				type: "POST",
+                url: "deleteDataFileInfo",
+                contentType : 'application/JSON',
+				data : JSON.stringify(info)
+		})
+		.done(result=>{
+			console.log(result);
+		})
+	});
+	
  })

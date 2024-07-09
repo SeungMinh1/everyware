@@ -82,4 +82,9 @@
 		                            FROM mail
 		                            WHERE mail_id = #{mailId})
 	</select>
+	
+	<delete id="deleteDataFileInfo" parameterType="int">
+		DELETE FROM attachment
+		WHERE file_id = #{fileId}
+	</delete>
 </mapper>

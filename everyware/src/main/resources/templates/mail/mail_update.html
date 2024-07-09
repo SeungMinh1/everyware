@@ -20,9 +20,17 @@
   <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
   <style>
+    .tagify__input{
+    	margin: 2px;
+    }
+    .tagify{    
+        width: 100%;
+    }
+    .rowStyle{
+   		width: 100%;	
+    }
   	.attachDiv{
   		height: 100%;
-  		
   	}
   	.uploadResult{
   		height: 100%;
@@ -40,6 +48,9 @@
 	}
   	.li_style {
 	  list-style-type: none;
+	}
+	.mailLabel{
+		margin: 5px;
 	}
   </style>
 </head>
@@ -118,27 +129,26 @@
               <div class="card-header">
                 <button type="button" id="insertBtn" class="btn btn-primary mailInsert"><i class="far fa-envelope"></i>보내기</button>
                 <button type="button" id="updateBtn" class="btn btn-default"><i class="fas fa-envelope"></i>임시저장</button>
-                <button type="button" id="deleteBtn" class="btn btn-default moveTrashInfoBtn"><i class="far fa-trash-alt"></i>삭제</button>
+                <button type="button" id="deleteBtn" th:value="${draft.mailId}" class="btn btn-default moveTrashInfoBtn"><i class="far fa-trash-alt"></i>삭제</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<div class="input-group mb-3">
-              	<span class="input-group-text" id="inputGroup-sizing-default">보낸사람</span>
-				  <input type="text" class="form-control" id="sender" placeholder="보낸사람" th:field="*{draft.sender}" readonly>
+              	<label class="mailLabel" for="exampleInputEmail1">보내는사람</label>
+				<input type="text" class="form-control mb-1" id="sender" th:field="*{draft.sender}" readonly>
+                <div>
+                  <label class="mailLabel" for="exampleInputEmail1">받는사람</label>
+				  <span style="float:right;"><button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient">주소록</button></span>
 				</div>
+     			<input class="mb-1" type="email"  id="recipient" name="recipient" th:field="*{draft.recipient}">
+ 				<div>
+	                <label class="mailLabel" for="exampleInputEmail1">참조</label>
+	                <span style="float:right;"><button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient">주소록</button></span>
+                </div>
+				<input type="email" id="cc" name="cc" th:field="*{draft.cc}">
+
+                <label class="mailLabel">제목</label>
                 <div class="input-group mb-3">
-                  <span class="input-group-text" id="inputGroup-sizing-default">받는사람</span>
-				  <input type="email" class="form-control" id="recipient" name="recipient" placeholder="받는사람" th:field="*{draft.recipient}">
-				  <button class="btn btn-outline-secondary" type="button" id="recipient">주소록</button>
-				</div>
-                <div class="input-group mb-3">
-                  <span class="input-group-text" id="inputGroup-sizing-default">참조</span>
-				  <input type="email" class="form-control" id="cc" name="cc" th:field="*{draft.cc}">
-				  <button class="btn btn-outline-secondary" type="button" id="cc">주소록</button>
-				</div>
-                <div class="input-group mb-3">
-                  <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
-				  <input type="text" class="form-control title" id="title" placeholder="제목" th:field="*{draft.title}">
+				  <input type="text" class="form-control title" id="title" th:field="*{draft.title}">
 				</div>
 				<!-- 첨부파일 -->
                 <div class="attachDiv">
@@ -153,13 +163,6 @@
 		      	</div>
                 <div class="form-group">
                     <textarea id="summernote" class="form-control content" style="height: 300px" th:field="*{draft.content}"></textarea>
-                </div>
-                <div class="form-group">
-                  <div class="btn btn-default btn-file">
-                    <i class="fas fa-paperclip"></i> Attachment
-                    <input type="file" name="attachment">
-                  </div>
-                  <p class="help-block">Max. 32MB</p>
                 </div>
               </div>
               <!-- /.card-body -->
@@ -205,13 +208,15 @@
 	var empId = /*[[${#authentication.principal.userVO.empId}]]*/"";
 	
 	// 등록한파일의 result값을 담는 변수     
-	var fileList =[];
+	var fileList = [];
 </script>
 <!-- ====================mail update js  ========================-->
+ <script src="../../js/mail/mail_file_insert_info.js"></script>
  <script src="../../js/mail/mail_update.js" th:inline="javascript"></script>
 <!-- mail delete js / 삭제 / 휴지통이동 -->
  <script src="../../js/mail/mail_trash.js"></script>
  <script src="../../js/mail/mail_file_insert.js"></script>
+ 
 
 </body>
 </html>
