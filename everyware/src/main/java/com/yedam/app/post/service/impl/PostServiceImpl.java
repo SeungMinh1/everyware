@@ -87,7 +87,31 @@ public class PostServiceImpl implements PostService {
 	public int downLikeCnt(PostVO postVO) {
 		return postMapper.downLikeCnt (postVO);
 	}
-
+	
+	//추천 테이블 삽입
+	@Override
+	public int insertRecommend(PostVO postVO) {
+		return postMapper.insertRecommend(postVO);
+	}
+	//추천 테이블 삭제 
+	@Override
+	public int deleteRecommend(PostVO postVO) {
+		return postMapper.deleteRecommend(postVO);
+	}
+	/*
+	 * //검색기능
+	 * 
+	 * @Override public void selectSearch(String type, String keyword, int num) {
+	 * return postMapper.selectSearch(type,keyword,num);
+	 * 
+	 * }
+	 */
+	@Override
+	public void selectSearch(String type, String keyword, int num) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 
 }

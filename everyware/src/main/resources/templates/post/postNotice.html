@@ -387,17 +387,18 @@ body {
           <div class="col-12">
             <div class="card">
     
-          <!-- 검색버튼  -->
+          <!-- 검색버튼 -->
           <div class="title">
 			  <h1>Search</h1>
 			</div>
 			<div class="search">
-			  <form  action="@{/searchList}" class="searchForm" method="get">
+			  <form  action="@{/searchList}" id="searchForm" method="get" name="searchForm">
 			  <span class="searchInput" >
 			  <select class="searchSelect" name="option">
-			  	<option value="A" selected>제목+내용</option>
+			  	<option value="TC" selected>제목+내용</option>
 			  	<option value="T" selected>제목</option>
-			  	<option value="W" selected>내용</option>
+			  	<option value="C" selected>내용</option>
+			  	<option value="W" selected>작성자</option>
 			  </select>
 			    <input type="text" name="keyword"  placeholder="검색어를 입력하세요">
 			  </span>
@@ -410,7 +411,7 @@ body {
 			<div class="overlay hidden"></div>
 
 			
-		   <!-- 검색버튼 -->
+		   <!-- 정렬버튼 -->
              </div>
              <ul class="nav justify-content-end">
 			  <li class="nav-item">

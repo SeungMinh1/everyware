@@ -212,21 +212,40 @@
  */
  
  $('#likeUpdate').on('click', function(){
-	 $.ajax({
-		url:'likeUpdate' ,
-		type:'POST',
-		data:{
-			 postId : [[${post.postId}]]
-			}
-	 })
-	 .done(function(data){
+	 if($('#likeUpdate').parent('span').attr('class')== 'box'){
+		 $.ajax({
+				url:'likeUpdate' ,
+				type:'POST',
+				data:{
+					 postId : [[${post.postId}]],
+					}
+			 })
+			 .done(function(data){
 
-		 alert("추천 성공")
-		 //추천수 변경
-		$('#recommend').load(location.href + " #recommend");
-		 })
-	 .fail(
-			 )	 
+				 alert("추천 성공")
+				 //추천수 변경
+				$('#recommend').load(location.href + " #recommend");
+				 })
+			 .fail(
+					 )	 
+	 }else if($('#likeUpdate').parent('span').attr('class')== 'box blue'){
+		 $.ajax({
+				url:'likeDown' ,
+				type:'POST',
+				data:{
+					 postId : [[${post.postId}]],
+					}
+			 })
+			 .done(function(data){
+
+				 alert("추천 취소")
+				 //추천수 변경
+				$('#recommend').load(location.href + " #recommend");
+				 })
+			 .fail(
+					 )	 
+	 }
+	 
 	 })
 	 
 const likeCheck = document.querySelector('.box');
