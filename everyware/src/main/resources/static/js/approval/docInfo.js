@@ -275,11 +275,6 @@ $('#mmdel').on('click', function() {
 	.fail(err => console.log(err));
 });
 
-// 메일발송
-$('#send').on('click', function() {
-	
-});
-
 // 결재정보
 $('#info').on('click', function() {
 	$('#minfo').css('display', 'block');
@@ -666,3 +661,34 @@ function tempInfo() {
 	
 	return data7;
 }
+
+$(document).ready(function(){
+		$('#down').click(function() { // pdf저장 button id
+		var title = $('.inputTitleBox')[0].innerText;
+		
+	    html2canvas($('#container')[0]).then(function(canvas) { //저장 영역 div id
+					
+		
+	    // 캔버스를 이미지로 변환
+	    var imgData = canvas.toDataURL('image/png');
+	    
+		     
+	    var imgWidth = 210;
+		var pageHeight = imgHeight;
+		var imgHeight = canvas.height * imgWidth / canvas.width;
+		var heightLeft = imgHeight;
+		var position = 0;
+	    var doc = new jsPDF('p', 'mm');
+	       
+	    // 첫 페이지 출력
+	    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+	    heightLeft -= pageHeight;	        
+	 
+	    // 파일 저장
+	    doc.save(title + '.pdf');
+
+		  
+		});
+		
+		});
+	})

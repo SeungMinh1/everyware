@@ -59,6 +59,7 @@
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="can">취소</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="del">삭제</button>              
                 <button type="button" class="btn" id="info">결재정보</button>
+                <button type="button" class="btn" id="down">다운로드</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body" th:utext="${approvalDoc.docInfo}">
@@ -410,6 +411,8 @@
 	})
 	
 </script>
+<script src="../js/schedule/html2canvas.js"></script>
+<script src="../js/schedule/jspdf.min.js"></script>
 <script src="../js/approval/docInfo.js"></script>
 <script src="../js/approval/org.js"></script>
 </body>
