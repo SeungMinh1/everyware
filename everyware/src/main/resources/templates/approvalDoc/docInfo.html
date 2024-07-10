@@ -57,8 +57,7 @@
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="req">결재요청</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="tem">임시저장</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="can">취소</button>
-                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="del">삭제</button>
-                <button type="button" class="btn" id="send">메일발송</button>
+                <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="del">삭제</button>              
                 <button type="button" class="btn" id="info">결재정보</button>
               </div>
               <!-- /.card-header -->
@@ -188,7 +187,7 @@
 </div>
 
 <!-- 결재 모달 -->
-<div id="mreq" class="modal">
+<div id="mapp" class="modal">
 	<div class="modal-body">
 		<div class="modal-header">
 			<span class="close">&times;</span>

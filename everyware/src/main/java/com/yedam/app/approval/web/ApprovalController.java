@@ -91,10 +91,19 @@ public class ApprovalController {
 	}
 	
 	
+	// 참조확인
+	@PostMapping("refUpdate")
+	@ResponseBody
+	public int refUpdate(@RequestBody RefVO refVO) {
+		return approvalService.refUpdate(refVO);
+	}
 	
-	
-	
-	
+	// 열람확인
+	@PostMapping("viewUpdate")
+	@ResponseBody
+	public int viewUpdate(@RequestBody ViewVO viewVO) {
+		return approvalService.viewUpdate(viewVO);
+	}
 	
 	
 	

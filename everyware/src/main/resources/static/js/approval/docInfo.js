@@ -53,7 +53,7 @@ $('#cccccccclose').on('click', function() {
 
 // 결재
 $('#approval').on('click', function() {
-	$('#mreq').css('display', 'block');
+	$('#mapp').css('display', 'block');
 	var msg = $('.inputTitleBox')[0].innerText;
 	$('#text').text(msg);
 });
@@ -482,7 +482,7 @@ function docInfo() {
 		, viewIdList		: qviewId
 		, sendNameList 		: sendEmp
 		, sendIdList		: sendId
-		, enforceDate 		: $('.inputDateBox input')[0].value
+		, enforceDate 		: $('.inputDateBox').val()
 		, docInfo			: $('#container')[0].outerHTML
 		, approvalInfo		: $('.modal-footer')[7].outerHTML
 	}
