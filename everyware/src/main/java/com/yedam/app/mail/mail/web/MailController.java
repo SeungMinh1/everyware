@@ -172,17 +172,17 @@ public class MailController {
 			              @AuthenticationPrincipal LoginUserVO principal) {
 		page = page == null ? 1 : page; //페이지 default 설정
 		cnt = cnt == null ? 10 : cnt; 	// 사원수 default 설정
-		//int allCount = empService.cntList(dosearch, searchOption); // 전체 사원수 count 
-		//PageDTO pg = new PageDTO(page, allCount, cnt); //페이징
+		int allCount = empService.cntList(dosearch, searchOption); // 전체 사원수 count 
+		PageDTO pg = new PageDTO(page, allCount, cnt); //페이징
 		
 		 System.out.println("searchOption: " + searchOption);
 		    System.out.println("dosearch: " + dosearch);
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		//List<EmpVO> list = empService.empList(page, cnt, dosearch, searchOption); //전체사원리스트
-		//map.put("empList", list);
-		//map.put("pg", pg);
+		List<EmpVO> list = empService.empList(page, cnt, dosearch, searchOption); //전체사원리스트
+		map.put("empList", list);
+		map.put("pg", pg);
 		return map;
 	}
 }
