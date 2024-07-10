@@ -32,4 +32,10 @@ public interface ApprovalService {
 	
 	// 삭제
 	public int approvalDelete(ApprovalVO approvalVO);
+	
+	// 참조확인
+	public int refUpdate(RefVO refVO);
+		
+	// 열람확인
+	public int viewUpdate(ViewVO viewVO);
 }

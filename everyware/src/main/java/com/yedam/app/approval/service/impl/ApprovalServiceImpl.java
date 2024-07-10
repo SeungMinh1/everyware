@@ -187,6 +187,30 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public int refUpdate(RefVO refVO) {
+		int result = 0;
+		
+		List<RefVO> list = refVO.getRefViewList();
+		for(RefVO app : list) {
+			result += approvalMapper.refUpdate(app);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int viewUpdate(ViewVO viewVO) {
+		int result = 0;
+		
+		List<ViewVO> list = viewVO.getRefViewList();
+		for(ViewVO app : list) {
+			result += approvalMapper.viewUpdate(app);
+		}
+		
+		return result;
 	}	
 	
 }

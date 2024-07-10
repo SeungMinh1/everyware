@@ -1,7 +1,7 @@
 /**
  * waitRefViewDocList.js
  */
-$$('#approval').click(function() {
+$('#check').click(function() {
 	if($('input:checkbox:checked').length != 0) {
 		$('#mdel').css('display', 'block');
 	}else {
