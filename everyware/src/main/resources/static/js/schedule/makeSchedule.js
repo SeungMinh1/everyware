@@ -136,6 +136,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 			}else if(rotateNum == 3){
 				if(result == -1){
 					$("#calTable").find("td:eq("+ i +")").attr("class", "rotate1")
+					
 					let rotate1Squad = parseInt($("#calTable").find("td:eq("+ i +")").attr("data-squNum"));
 					
 					let rotate2Squad = (rotate1Squad - 1) <= 0 ?  (rotate1Squad - 1) +squadNum : (rotate1Squad - 1)
@@ -143,6 +144,8 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 					
 					let rotate3Squad = (rotate1Squad - 2) <= 0 ?  (rotate1Squad - 2)+ squadNum : (rotate1Squad - 2)
 					$("#calTable").find("[data-squNum="+rotate3Squad+"][data-date="+ dataDate+"]").attr("class", "rotate3")
+					
+					
 				}
 				
 				$(".rotate1").text("오전")
@@ -183,13 +186,12 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	    var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
 	    var imgHeight = canvas.height * imgWidth / canvas.width;
 	    var heightLeft = imgHeight;
-	    var rotation = -Math.PI * 0.5;
 	    var margin = 10; // 출력 페이지 여백설정
 	    var doc = new jsPDF('p', 'mm');
-	    var position = 0;
+	    var position = 1;
 	       
 	    // 첫 페이지 출력
-	    doc.addImage(imgData, 'PNG', rotation ,margin, position,  imgWidth, imgHeight);
+	    doc.addImage(imgData, 'PNG',margin, position,  imgWidth, imgHeight);
 	    
 	    heightLeft -= pageHeight;
 	         
