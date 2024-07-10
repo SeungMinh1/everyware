@@ -54,34 +54,34 @@
             
               <div class="form-group">
                 <label for="empId">사원번호</label>
-                <input type="number" class="form-control"  th:field="*{empId}" readonly>
+                <input type="number" class="form-control"  id="empId" readonly>
               </div>
               <div class="form-group">
                 <label for="empName">이름</label>
-                <input type="text" class="form-control"  th:field="*{empName}">
+                <input type="text" class="form-control"  id="empName">
               </div>
                <div class="form-group">
                 <label for="tel">연락처</label>
-                <input type="text" class="form-control"  th:field="*{tel}">
+                <input type="text" class="form-control"  id="tel">
               </div>
               <div class="form-group">
                 <label for="mail">이메일</label>
-                <input type="text" class="form-control"  th:field="*{mail}">
+                <input type="text" class="form-control"  id="mail">
               </div>
                <div class="form-group">
                 <label for="hireDate">입사일</label>
-                <input type="date" class="form-control"  th:field="*{hireDate}">
+                <input type="date" class="form-control"  id="hireDate">
               </div>
               <div class="form-group">
                 <label for="address">주소</label>
-                <input type="text" class="form-control"  th:field="*{address}"> <!-- 개인사진, 부서이름, 직위이름, 아이디 비번 -->
+                <input type="text" class="form-control"  id="address"> <!-- 개인사진, 부서이름, 직위이름, 아이디 비번 -->
               </div>
               
               <div class="attachDiv">
               	<div class="input-group mb-3 uploadDiv">
 	              <div class="form-group">
 	                <label for="photo">개인사진</label>
-	                <input type="file" class="form-control"  th:field="*{photo}">
+	                <input type="file" class="form-control" id="photo">
 	              </div>
 	              </div>
 	              <div class="uploadResult mb-3">
@@ -93,7 +93,7 @@
               
               <div class="form-group">
                 <label for="departmentName">부서</label>
-                <select class="form-control select2" style="width: 100%;" th:field="*{departmentName}">
+                <select class="form-control select2" style="width: 100%;" id="departmentName">
                 	<th:block th:each="dep : ${department}">
 					    <option th:value="${dep.codeName}">  [[ ${dep.codeName} ]]</option>
 				  	</th:block>
@@ -102,7 +102,7 @@
               </div>
               <div class="form-group">
                 <label for="posName">직위</label>
-                <select class="form-control select2"th:field= "*{posName}">
+                <select class="form-control select2" id= "posName">
                 	<th:block th:each="pos : ${position}">
 					    <option th:value="${pos.codeName}">  [[ ${pos.codeName} ]]</option>
 				  	</th:block>
@@ -129,11 +129,11 @@
             <div class="card-body">
               <div class="form-group">
                 <label for="accountId">아이디</label>
-                <input type="text" class="form-control" th:field="*{accountId}">
+                <input type="text" class="form-control" id="accountId">
               </div>
               <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="number" class="form-control" th:field="*{password}" >
+                <input type="number" class="form-control" id="password" >
               </div>
               
             </div>
@@ -146,7 +146,7 @@
       <!--  -->
         <div class="col-12">
          <!-- <a href="#" class="btn btn-secondary">Cancel</a>  --> 
-          <input type="submit" value="등록" class="btn btn-success float-right">
+          <input type="button" value="등록" id="insertBtn" class="btn btn-success float-right">
         </div>
         
         
@@ -183,13 +183,24 @@
 <script src="../../js/attend/file_insert.js" th:inline="javascript"></script>
 <script src="../../js/attend/file_insert_info.js" th:inline="javascript"></script>
 <script>
-var inputFile = $("input[name='uploadFile']");
-var files = inputFile[0].files;
-var fileData = [];
-for(var i=0; i<files.length; i++) {
-	fileData.push(files[i].name)
-}
-	$('#photo').val()=fileData;
+	var fileData = [];
+	var inputFile = $("input[name='uploadFile']");
+	var files = inputFile[0].files;
+	
+	for(var i=0; i<files.length; i++) {
+		fileData.push(files[i].name)
+	}
+	
+	
+	$('#insertBtn').on('click',  empInsertfunc);
+	
+	function empInsertfunc(){
+		let empData = {
+				
+		}
+		
+	}
+	
 </script>
 
 </body>
