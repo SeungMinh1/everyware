@@ -67,7 +67,7 @@
                   <tbody>
  				  <th:block th:each="Doc : ${waitDocList}">
 	                  <tr>
-	                  	<td><input type="checkbox" th:field="*{waitDocList}" th:value="${Doc.docId}"></td>
+	                  	<td><input type="checkbox" th:field="*{waitDocList}" th:value="${Doc.docId}" class="chk"></td>
 	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
 	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
@@ -160,7 +160,9 @@
 			"responsive" : true,
 		});
 	});
+</script>
 
+<script th:inline="javascript">
 	$("#allChk").click(function() {
 		if ($(this).is(":checked")) { 
 			//모든 체크박스 체크
@@ -170,6 +172,37 @@
 			$("input:checkbox").attr("checked", false);
 		}
 	});
+	
+	function approvalInfo() {
+		var apps = [];
+		
+		for(var i=0; i<$('.chk:checked').length; i++) {
+			apps.push({ approvalEmpId : /*[[${#authentication.principal.userVO.empId}]]*/'', 
+						 docId : Number($($('.chk:checked')[i]).val()) })
+		}
+		
+		var data = { approvalList : apps }
+		
+		return data;
+	}
+	
+	$('#ok').on('click', function() {
+		var app = approvalInfo();
+		
+		$.ajax({
+			url : 'approvalUpdateAll'
+			, type : 'post'
+			, contentType : 'application/JSON'
+			, data : JSON.stringify(app)
+		})
+		.done(result => {
+			if(result) {
+				alert('선택된 항목이 결재되었습니다.');
+				window.location.reload();
+			} 
+		})
+		.fail(err => console.log(err));
+	})
 	
 </script>
 <script src="../js/approval/waitDocList.js"></script>

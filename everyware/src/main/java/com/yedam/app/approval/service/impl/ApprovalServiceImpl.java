@@ -135,6 +135,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return map;
 	}
 	
+	// 수정(승인)(여러개)
+	@Override
+	public int approvalUpdateAll(ApprovalVO approvalVO) {
+		int result = 0;
+		
+		List<ApprovalVO> list = approvalVO.getApprovalList();
+		for(ApprovalVO app : list) {
+			result += approvalMapper.approvalUpdateAll(app);
+		}
+		
+		return result;
+	}
+	
 	// 수정(반려)
 	@Override
 	public Map<String, Object> rejectUpdate(ApprovalVO approvalVO) {

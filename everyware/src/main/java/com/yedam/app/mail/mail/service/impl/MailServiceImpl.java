@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.dataroom.file.mapper.DataFileMapper;
-import com.yedam.app.dataroom.file.service.impl.DataFileServiceImpl;
 import com.yedam.app.mail.mail.mapper.MailMapper;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
@@ -193,6 +193,4 @@ public class MailServiceImpl implements MailService {
 	}
 
 
-	
-	
 }

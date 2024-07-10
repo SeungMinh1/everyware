@@ -2,6 +2,7 @@ package com.yedam.app.mail.mail.mapper;
 
 import java.util.List;
 
+import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.mail.mail.service.MailVO;
 
 public interface MailMapper {
@@ -41,7 +42,5 @@ public interface MailMapper {
 	
 	//복구
 	public int updateRestoreMail(MailVO mailVO);
-	
-	
 	
 }

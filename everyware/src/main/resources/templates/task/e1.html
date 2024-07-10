@@ -59,7 +59,7 @@
 									<button type="button" class="btn" id="can">취소</button>
 									<button type="button" class="btn" id="tem">임시저장</button>
 									<button type="button" class="btn" id="info">결재정보</button>
-									<div id="container" th:style="${'width:1000px; height:1000px; border:3px solid #ccc; z-index: 1; margin-top:20px'}">
+									<div id="container">
 										<table class="task">
 											<colgroup>
 												<col width="310">
@@ -144,20 +144,22 @@
 												</tr>
 											</tbody>
 										</table>
-										<table>
+										<table id="filezone">
 											<tr>
-												<th><span>파일첨부</span></th>
+												<th id="head"><span>파일첨부 (이 곳에 파일을 드래그 하세요)</span></th>
 												<td>
-													<div id="drop" class="zone">
-														<div class="uploadDiv">
-															<input class="form-control" type="file" name="uploadFile" multiple>
-														</div>
-														<div class="uploadResult">
-															<ul>
-															
-															</ul>
-														</div>
+													<div class="dropzone">
+														<div id="drop" class="zone">
+															<div class="uploadDiv">														
+																<input class="form-control" type="file" name="uploadFile" multiple>
+															</div>															
+														</div>																																					
 													</div>
+													<div class="uploadResult">
+														<ul>
+																
+														</ul>
+													</div>	
 												</td>
 											</tr>
 										</table>
