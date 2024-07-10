@@ -33,5 +33,6 @@ public class UserVO {
 	private String empPosition;		//직위
 	private String posName; 		//직위이름
 	
+	
 	private String auth; //ROLE
 }

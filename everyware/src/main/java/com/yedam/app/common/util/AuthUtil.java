@@ -57,4 +57,16 @@ public class AuthUtil {
 			}
 			return empName;
 		}
+	
+	public static String getEmpPosition() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		String empPosition = null;
+		if(authentication != null) {	
+			empPosition = ((LoginUserVO)authentication.getPrincipal()).getUserVO().getPosName();
+		}
+		return empPosition;
+	}
+	
+	
 	}
