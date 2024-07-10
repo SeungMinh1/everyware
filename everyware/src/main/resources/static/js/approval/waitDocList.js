@@ -21,7 +21,4 @@ $('#cclose').on('click', function() {
 	$('.modal').css('display', 'none');
 })
 
-$('#ok').on('click', function() {
-	
-})
 

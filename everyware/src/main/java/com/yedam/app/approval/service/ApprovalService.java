@@ -20,6 +20,9 @@ public interface ApprovalService {
 	
 	// 수정(승인)
 	public Map<String, Object> approvalUpdate(ApprovalVO approvalVO);
+	
+	// 수정(승인)(여러개)
+	public int approvalUpdateAll(ApprovalVO approvalVO);
 		
 	// 수정(반려)
 	public Map<String, Object> rejectUpdate(ApprovalVO approvalVO);

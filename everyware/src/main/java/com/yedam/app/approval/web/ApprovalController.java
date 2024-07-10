@@ -62,6 +62,13 @@ public class ApprovalController {
 		return approvalService.approvalUpdate(approvalVO);
 	}
 	
+	// 수정(승인)(여러개)
+	@PostMapping("approvalUpdateAll")
+	@ResponseBody
+	public int approvalUpdateAll(@RequestBody ApprovalVO approvalVO) {
+		return approvalService.approvalUpdateAll(approvalVO);
+	}
+	
 	// 수정(반려)
 	@PostMapping("rejectUpdate")
 	@ResponseBody
