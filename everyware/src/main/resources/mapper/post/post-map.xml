@@ -20,7 +20,7 @@
 WHERE board_id = 1 AND notification_YN = 'Y' AND hold_yn = 'Y'
 </select>
 <!-- 공지 전체 조회  + 페이징,검색 조건 추가 -->
-<select id="selectNoticeAll" resultType="PostVO">
+<select id="selectNoticeAll" parameterType="SearchVO" resultType="PostVO">
 SELECT * FROM(
 	SELECT
 	  rownum AS rs,
@@ -42,23 +42,31 @@ SELECT * FROM(
 		FROM post
 	    WHERE board_id = 1 
 		AND notification_yn = 'Y'
-		<!-- <choose>
-			<when test="type == 'T'.toString()">
-			title like '%'||#{keyword}||'%'
+		<!-- 검색 -->
+		<if test= "searchVO.type != null and searchVO.keyword != null">
+		 <choose>
+			<when test='searchVO.type == "T"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
 			</when>
-			<when test="type == 'C'.toString()">
-			content like '%'||#{keyword}||'%'
+			<when test='searchVO.type == "C"'>
+				AND content like '%'||#{searchVO.keyword}||'%'
 			</when>
-			<when test="type == 'E.toString()">
-			empName like '%'||#{keyword}||'%'
+			<when test='searchVO.type == "E"'>
+				AND empName like '%'||#{searchVO.keyword}||'%'
+			</when> 
+			<when test='searchVO.type == "TC"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
+				OR content like '%'||#{searchVO.keyword}||'%'
 			</when> 			
-		</choose> -->
+		</choose> 
+		</if>
 		
+		<!-- 정렬 -->
 		<choose>
-			<when test='orderBy == "viewCnt"'>
+			<when test='postVO.orderBy == "viewCnt"'>
 				ORDER BY view_cnt DESC
 			</when>
-			<when test='orderBy == "recommendCnt"'>
+			<when test='postVO.orderBy == "recommendCnt"'>
 				ORDER BY recommend_cnt DESC
 			</when>
 			<otherwise>
@@ -66,11 +74,10 @@ SELECT * FROM(
 			</otherwise>
 		</choose> 
 	)a
-	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+	WHERE rownum <![CDATA[<= ]]> #{postVO.page} * #{postVO.cnt}
 	)
-WHERE rs > (#{page}-1) * #{cnt}	
+WHERE rs > (#{postVO.page}-1) * #{postVO.cnt}	
 </select>
-
 
 
 <!-- 부서별 게시물 전체조회 -->
@@ -94,10 +101,41 @@ SELECT * FROM(
 			        emp_id_name(emp_id) "empName"
 			    FROM post
 		WHERE board_id = 2
-		)a
-	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+		<!-- 검색 -->
+		<if test= "searchVO.type != null and searchVO.keyword != null">
+		 <choose>
+			<when test='searchVO.type == "T"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
+			</when>
+			<when test='searchVO.type == "C"'>
+				AND content like '%'||#{searchVO.keyword}||'%'
+			</when>
+			<when test='searchVO.type == "E"'>
+				AND empName like '%'||#{searchVO.keyword}||'%'
+			</when> 
+			<when test='searchVO.type == "TC"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
+				OR content like '%'||#{searchVO.keyword}||'%'
+			</when> 			
+		</choose> 
+		</if>
+		
+		<!-- 정렬 -->
+		<choose>
+			<when test='postVO.orderBy == "viewCnt"'>
+				ORDER BY view_cnt DESC
+			</when>
+			<when test='postVO.orderBy == "recommendCnt"'>
+				ORDER BY recommend_cnt DESC
+			</when>
+			<otherwise>
+				ORDER BY post_id DESC
+			</otherwise>
+		</choose> 
+	)a
+	WHERE rownum <![CDATA[<= ]]> #{postVO.page} * #{postVO.cnt}
 	)
-WHERE rs > (#{page}-1) * #{cnt}	
+WHERE rs > (#{postVO.page}-1) * #{postVO.cnt}	
 </select>
 
 <!-- 익명 게시판 전체조회 -->
@@ -121,10 +159,41 @@ SELECT * FROM(
 			        emp_id_name(emp_id) "empName"
 			    FROM post
 		WHERE board_id = 3
-		)a
-	WHERE rownum <![CDATA[<= ]]> #{page} * #{cnt}
+		<!-- 검색 -->
+		<if test= "searchVO.type != null and searchVO.keyword != null">
+		 <choose>
+			<when test='searchVO.type == "T"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
+			</when>
+			<when test='searchVO.type == "C"'>
+				AND content like '%'||#{searchVO.keyword}||'%'
+			</when>
+			<when test='searchVO.type == "E"'>
+				AND empName like '%'||#{searchVO.keyword}||'%'
+			</when> 
+			<when test='searchVO.type == "TC"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
+				OR content like '%'||#{searchVO.keyword}||'%'
+			</when> 			
+		</choose> 
+		</if>
+		
+		<!-- 정렬 -->
+		<choose>
+			<when test='postVO.orderBy == "viewCnt"'>
+				ORDER BY view_cnt DESC
+			</when>
+			<when test='postVO.orderBy == "recommendCnt"'>
+				ORDER BY recommend_cnt DESC
+			</when>
+			<otherwise>
+				ORDER BY post_id DESC
+			</otherwise>
+		</choose> 
+	)a
+	WHERE rownum <![CDATA[<= ]]> #{postVO.page} * #{postVO.cnt}
 	)
-WHERE rs > (#{page}-1) * #{cnt}	
+WHERE rs > (#{postVO.page}-1) * #{postVO.cnt}	
 </select>
 
 <!-- 게시판 번호 조회-->
@@ -261,15 +330,5 @@ UPDATE post
 	DELETE FROM recommend 
 	WHERE post_id = #{postId} AND emp_id = #{empId}
 </delete>
-
-<!-- 검색 -->
-
-<!-- 검색된 게시물 개수  -->
-<select id="countSearch" parameterType="map" resultType="int">
-	SELECT COUNT(*)
-	FROM posts
-	WHERE ${type} LIKE '%' || #{keyword} || '%'
-	AND board_
-</select>
 
 </mapper>

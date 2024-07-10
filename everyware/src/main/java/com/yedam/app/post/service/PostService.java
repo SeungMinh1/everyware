@@ -12,12 +12,12 @@ public interface PostService {
 	//상단공지 전체조회
 	public List<PostVO> selectMainNotice (PostVO postVO);
 	//공지 전체조회
-	public List<PostVO> selectNoticeAll (PostVO postVO);
+	public List<PostVO> selectNoticeAll (PostVO postVO, SearchVO searchVO);
 	//부서별 게시물 전체조회
-	public List<PostVO> selectDeptAll (PostVO postVO);
+	public List<PostVO> selectDeptAll (PostVO postVO, SearchVO searchVO);
 	
 	//익명 게시물 전체조회
-	public List<PostVO> selectAnoyAll (PostVO postVO);
+	public List<PostVO> selectAnoyAll (PostVO postVO, SearchVO searchVO);
 	//부서 조회
 	public List<CommonVO> departmentList();
 	//게시판 번호 조회
@@ -46,10 +46,5 @@ public interface PostService {
     
     //추천 테이블 삭제 
     public int deleteRecommend (PostVO postVO);
-    
-    //검색
-	public void selectSearch(SearchVO searchVO, PostVO postVO);
-	
-//	//검색된 게시물 개수
-//	public int countSearch()
+
 }
