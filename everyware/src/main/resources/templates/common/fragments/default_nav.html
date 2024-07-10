@@ -51,6 +51,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+            <div th:if=" ${#authentication.principal.userVO.posName}=='부서장'">
               <li class="nav-item">
                 <a href="/makeSquad" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -58,30 +59,35 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="/updateSquadEmp" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>근무조 수정</p>
+                </a>
+              </li>	
+              <li class="nav-item">
                 <a href="/squadInfo" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>근무표 출력</p>
+                  <p>근무표 생성</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
+
+              
+              </div>
+              <div th:if=" ${#authentication.principal.userVO.posName}!='부서장'">
+              	<li class="nav-item">
+                <a href="/makeSchedule" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
+                  <p>근무표 확인</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
-                </a>
-              </li>
+              </div>
             </ul>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
+              <i class="fa-solid fa-file-pen nav-icon"></i>
               <p>
-                전자결재
+                전자결재  
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -193,9 +199,15 @@
                   <p>익명 게시판</p>
                 </a>
               </li>
-          
-         
         </ul>
+        <li class="nav-item">
+            <a href="/calendar" class="nav-link">
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>
+                일정관리
+              </p>
+            </a>
+          </li>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
