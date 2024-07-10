@@ -98,6 +98,13 @@
  	
  	<!-- 등록 -->
  	<insert id="insertEmpInfo" parameterType="EmpVO">	
+ 		<selectKey keyProperty="empId"	
+					resultType="Integer"
+					order="BEFORE">
+			SELECT NVL(MAX(emp_id),0)+1 emp_id 
+ 		FROM emp
+		</selectKey>
+		
 		INSERT ALL
 		    INTO emp
 		    	(

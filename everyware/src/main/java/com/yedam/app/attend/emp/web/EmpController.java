@@ -58,12 +58,8 @@ public class EmpController {
 	// 등록 - 페이지
 	@GetMapping("empInsert")
 	public String empInsertForm(Model model) {
-		EmpVO empVO = new EmpVO(); //등록될 새로운 객체
-		int newEmpId = empService.searchEmpId();
-		empVO.setEmpId(newEmpId);
 		List<CommonVO> poslist = empService.posList(); //직위목록
 		List<CommonVO> departmentList = empService.departmentList(); //부서목록
-		model.addAttribute("emp",empVO);
 		model.addAttribute("position", poslist);
 		model.addAttribute("department", departmentList);
 		return "emp/empInsert";
@@ -71,9 +67,9 @@ public class EmpController {
 	
 	//등록 -  처리
 	@PostMapping("empInsert")
-	public String empInsertProcess(EmpVO empVO) {
-		empService.empInsert(empVO); // 사원정보를 바탕으로 Insert
-		return "redirect:empList";
+	@ResponseBody
+	public int empInsertProcess(@RequestBody EmpVO empVO) {
+		return empService.empInsert(empVO); // 사원정보를 바탕으로 Insert
 	}
 	
 	//수정 - 페이지
