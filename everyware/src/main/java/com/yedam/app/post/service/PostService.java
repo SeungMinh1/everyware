@@ -40,5 +40,16 @@ public interface PostService {
 	
 	//추천 취소
 	public int downLikeCnt(PostVO postVO);
-
-}
+	
+	//추천 테이블 삽입
+    public  int insertRecommend (PostVO postVO);
+    
+    //추천 테이블 삭제 
+    public int deleteRecommend (PostVO postVO);
+    
+    //검색
+	public void selectSearch(SearchVO searchVO, PostVO postVO);
+	
+//	//검색된 게시물 개수
+//	public int countSearch()
+}

@@ -23,4 +23,5 @@ public class ApprovalVO {
 	private int docId;
 	private String approvalPosition;
 	private List<ApprovalVO> approvalEmpList;
+	private List<Integer> approvalIdList;
 }

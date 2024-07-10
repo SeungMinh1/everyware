@@ -30,4 +30,7 @@ public interface ApprovalMapper {
 	
 	// 수정(다음 결재자)
 	public int nextEmpUpdate(ApprovalVO approvalVO);
+	
+	// 삭제
+	public int approvalDelete(ApprovalVO approvalVO);
 }

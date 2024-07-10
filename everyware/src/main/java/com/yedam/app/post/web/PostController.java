@@ -20,6 +20,7 @@ import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.post.service.PostService;
 import com.yedam.app.post.service.PostVO;
+import com.yedam.app.post.service.SearchVO;
 
 @Controller
 public class PostController {
@@ -53,7 +54,10 @@ public class PostController {
 	
 	//전체공지 
 	@GetMapping("selectNoticeAll")
-	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO) {
+	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO, SearchVO searchVO,
+			@RequestParam(value="type",required=false)String type, @RequestParam(value="keyword", required=false)String keyword
+			)throws Exception {
+		
 		postVO.setBoardId(1);
 		page = page == null? 1 : page; 
 		cnt = cnt == null ? 10 : cnt ;
@@ -68,7 +72,18 @@ public class PostController {
 		List<PostVO> list = postService.selectNoticeAll(postVO);
 		model.addAttribute("postMain",list);
 		model.addAttribute("pg", pg);
-
+		
+		//검색
+		searchVO.setType(type);
+		searchVO.setKeyword(keyword);
+		
+		if(type != null && keyword != null) {
+			//검색이 있는 경우 
+			postService.selectSearch(searchVO,postVO);
+			
+		}else {
+			postService.selectNoticeAll(postVO);
+		}
 		return "post/postNotice";
 	}	
 	
@@ -185,8 +200,21 @@ public class PostController {
 	@PostMapping("likeUpdate")
 	@ResponseBody
 	public PostVO likeUpdate(PostVO postVO){
+		postVO.setEmpId(AuthUtil.getEmpId());
 		postService.updateLikeCnt(postVO);
+		postService.insertRecommend(postVO);
 		return postService.postInfo(postVO);
-		
 	}
+	
+	//추천취소 업뎃
+		@PostMapping("likeDown")
+		@ResponseBody
+		public PostVO likeDown(PostVO postVO){
+			postVO.setEmpId(AuthUtil.getEmpId());
+			postService.downLikeCnt(postVO);
+			postService.deleteRecommend(postVO);
+			return postService.postInfo(postVO);	
+		}
+	
+	
 }

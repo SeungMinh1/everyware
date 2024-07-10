@@ -196,6 +196,10 @@
 				, view_emp
 				, view_emp_id
 				, doc_info
+				, enforce_date
+				, reception_date	
+				, send_date
+				, approval_info
 			)
 		VALUES
 			(
@@ -220,6 +224,10 @@
 				, #{viewEmp}
 				, #{viewEmpId}
 				, #{docInfo}
+				, #{enforceDate}
+				, #{receptionDate}
+				, #{sendDate}
+				, #{approvalInfo}
 			)
 	</insert>
 	
@@ -255,6 +263,9 @@
 				, view_emp
 				, view_emp_id
 				, doc_info
+				, enforce_date
+				, create_date
+				, approval_info
 			)
 		VALUES
 			(
@@ -280,13 +291,57 @@
 				, #{viewEmp}
 				, #{viewEmpId}
 				, #{docInfo}
+				, #{enforceDate}
+				, #{createDate}
+				, #{approvalInfo}
 			)
 	</insert>
 	
-	<!-- 문서 수정(임시 저장함) -->
-	<update id="docUpdate">
+	<!-- 문서 수정(임시 저장함 결재 요청) -->
+	<update id="docUpdate" parameterType="DocVO">
 		UPDATE approval_doc
 		SET doc_info = #{docInfo}
+			, doc_title = #{docTitle}
+			, doc_content = #{docContent}
+			, approval_file = #{approvalFile}
+			, approval_order = #{approvalOrder}
+			, approval_emp = #{approvalEmp}
+			, approval_emp_id = #{approvalEmpId}
+			, reception_emp = #{receptionEmp}
+			, reception_emp_id = #{receptionEmpId}
+			, send_emp = #{sendEmp}
+			, send_emp_id = #{sendEmpId}
+			, ref_emp = #{refEmp}
+			, ref_emp_id = #{refEmpId}
+			, view_emp = #{viewEmp}
+			, view_emp_id = #{viewEmpId}
+			, enforce_date = #{enforceDate}
+			, approval_status = '진행중'
+			, approval_info = #{approvalInfo}
+		WHERE doc_id = #{docId}
+	</update>
+	
+	<!-- 문서 수정(임시 저장함 임시 저장) -->
+	<update id="tempDocUpdate" parameterType="DocVO">
+		UPDATE approval_doc
+		SET doc_info = #{docInfo}
+			, doc_title = #{docTitle}
+			, doc_content = #{docContent}
+			, approval_file = #{approvalFile}
+			, approval_order = #{approvalOrder}
+			, approval_emp = #{approvalEmp}
+			, approval_emp_id = #{approvalEmpId}
+			, reception_emp = #{receptionEmp}
+			, reception_emp_id = #{receptionEmpId}
+			, send_emp = #{sendEmp}
+			, send_emp_id = #{sendEmpId}
+			, ref_emp = #{refEmp}
+			, ref_emp_id = #{refEmpId}
+			, view_emp = #{viewEmp}
+			, view_emp_id = #{viewEmpId}
+			, enforce_date = #{enforceDate}
+			, create_date = #{createDate}
+			, approval_info = #{approvalInfo}
 		WHERE doc_id = #{docId}
 	</update>
 	
@@ -298,6 +353,12 @@
 				 open="(" separator="," close=")">
 			#{item, jdbcType=INTEGER}		 
 		</foreach>
+	</delete>
+	
+	<!-- 문서 삭제(단건) -->
+	<delete id="docInfoDelete" parameterType="int">
+		DELETE FROM approval_doc
+		WHERE doc_id = #{docId}
 	</delete>
 	
 	<!-- 전체 부서 목록 -->

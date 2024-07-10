@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.app.attend.emp.service.EmpVO;
-import com.yedam.app.common.service.CommonVO;
 
 public interface DocService {
 	// 문서조회
@@ -57,9 +56,15 @@ public interface DocService {
 
 	// 문서수정
 	public Map<String, Object> docUpdate(DocVO docVO);
+	
+	// 문서 임시저장 수정
+	public Map<String, Object> tempDocUpdate(DocVO docVO);
 
 	// 문서삭제
 	public Map<String, Object> docDelete(List<Integer> docId);
+	
+	// 문서삭제(단건)
+	public int docInfoDelete(int docId);
 	
 	// 전체 부서 목록
 	public List<EmpVO> allDept();
