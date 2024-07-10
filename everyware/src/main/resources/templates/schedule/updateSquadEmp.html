@@ -36,8 +36,8 @@
 					<th>생산팀 직원목록</th>
 				</tr>
 			</thead>
-			<tbody id="prodEmp" th:fragment="prodEmp">
-				<th:block th:each = "list : ${prodList}">
+			<tbody id="prodEmp" th:fragment="prodEmp" >
+				<th:block th:each = "list : ${proList}">
 					<tr th:data-empId="${list.empId}">
 						<td>[[${list.empId}]]
 						<td class="squadAddEmp">[[${list.empName}]] [[${list.empPosition}]]</td>
@@ -68,7 +68,14 @@
 	</section>
 	</div>
 	
+<script th:inline="javascript">
+
+	let checkedEmp = /*[[${empList.empIdList}]]*/""
+	let squadNum = /*[[${squadNum}]]*/""
 	
+ 	console.log(squadNum);
+
+</script>	
 <script src="../js/schedule/updateSquadEmp.js"></script>
 <script src="https://kit.fontawesome.com/6bf89e5241.js" crossorigin="anonymous"></script>
 <script src="../../plugins/jquery/jquery.min.js"></script>

@@ -157,26 +157,33 @@ label{
 }
 
 #calTable th{
-	border : 1px solid gray;
+	border : 1px solid #ddd;
 	width : 2%;
-	
 	
 }
 
 #calTable td{
-	border : 1px solid gray;
+	border : 0.1px solid #ddd;
+	font-weight: bold;
+	font-size : 14px;
+	color : black; 
 }
 
 .rotate1{
-	background-color: #FFA6CF;
+	background-color: rgb(255, 225, 239);
+
 }
 
 .rotate2{
-	background-color: #9696FF;
+	background-color: rgb(213, 213, 255);
+
 }
 
+
+
 .rotate3{
-	background-color : #70F170;
+	background-color : #CBFF75;
+
 }
 
 .rotate4{
