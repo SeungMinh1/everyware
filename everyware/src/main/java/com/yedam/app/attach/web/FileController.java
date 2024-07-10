@@ -1,13 +1,19 @@
 package com.yedam.app.attach.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yedam.app.attach.service.FileService;
 import com.yedam.app.attach.service.FileVO;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 public class FileController {
 	@Autowired
@@ -57,4 +65,23 @@ public class FileController {
 	public FileVO selectFileInfo(@RequestBody FileVO fileVO) {
 		return fileService.selectFileInfo(fileVO);
 	}
+	
+	@GetMapping("/display")
+	@ResponseBody
+	public ResponseEntity<byte[]> getFile(String fileName){
+		log.info("fileName:" + fileName);
+		File file = new File("c:\\upload\\"+ fileName);
+		ResponseEntity<byte[]> result = null;
+		
+		try {
+			HttpHeaders header = new HttpHeaders();
+			header.add("Content-Type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
 }
