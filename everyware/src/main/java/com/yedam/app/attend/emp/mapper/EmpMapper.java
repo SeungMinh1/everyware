@@ -9,7 +9,7 @@ import com.yedam.app.common.service.CommonVO;
 public interface EmpMapper {
 	
 	//전체조회
-	public List<EmpVO> selectEmpAll(int page, int cnt, String dosearch);
+	public List<EmpVO> selectEmpAll(int page, int cnt, String dosearch, String searchOption);
 	
 	// 단건조회
 	public EmpVO selectEmpInfo(EmpVO empVO);
@@ -36,7 +36,7 @@ public interface EmpMapper {
 	public int resetPwd(EmpVO empVO);
 	
 	//리스트개수
-	public int countList();
+	public int countList(String dosearch, String searchOption);
 
 	//생산팀 사원 출력
 	public List<EmpVO> prodEmpList ();

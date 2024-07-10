@@ -32,16 +32,17 @@ public class EmpController {
 			              Integer page, 
 			              Integer cnt, 
 			              String dosearch,
+			              String searchOption,
 			              @AuthenticationPrincipal LoginUserVO principal) {
 		page = page == null ? 1 : page; //페이지 default 설정
 		cnt = cnt == null ? 5 : cnt; 	// 사원수 default 설정
-		int allCount = empService.cntList(); // 전체 사원수 count 
+		int allCount = empService.cntList(dosearch, searchOption); // 전체 사원수 count 
 		PageDTO pg = new PageDTO(page, allCount, cnt); //페이징
 
 		String aa = principal.getUserVO().getAccountId(); // 계정아이디
 		int bb = principal.getUserVO().getEmpId(); 		  // 사원번호
 		
-		List<EmpVO> list = empService.empList(page, cnt, dosearch); //전체사원리스트
+		List<EmpVO> list = empService.empList(page, cnt, dosearch, searchOption); //전체사원리스트
 		model.addAttribute("empList", list);
 		model.addAttribute("pg", pg);
 		
@@ -50,6 +51,7 @@ public class EmpController {
 		
 		return "emp/empList";
 	}
+		
 	//사원 단건조회
 	@GetMapping("empInfo")
 	public String empInfo(EmpVO empVO, Model model) {
