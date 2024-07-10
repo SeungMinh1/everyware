@@ -395,7 +395,7 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
                       </td>
                       <td>[[${list.empId}]]</td>
                       <td>[[${list.viewCnt}]]</td>
-                      <td>[[${list.recommentCnt}]]</td>
+                      <td>[[${list.recommendCnt}]]</td>
                     </tr >
                   </tbody>
                 </table>
@@ -511,7 +511,7 @@ $('#searchForm').click(function(e){
 	console.log(type,keyword);
 	
 	 $.ajax({
-		url:'selectNoticeAll',
+		url:'selectDeptAll',
 		type:'POST',
 		data:{
 			type : type,
