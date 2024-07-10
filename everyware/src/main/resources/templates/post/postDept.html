@@ -451,7 +451,7 @@ $('.open-button').click(function(){
 $('#orderById').click(function(){
 	
 	$.ajax({
-		url:'selectNoticeByView',
+		url:'selectDeptByView',
 		type:'POST',
 		data:{
 			orderBy : "postId"
@@ -469,7 +469,7 @@ $('#orderById').click(function(){
 $('#orderByView').click(function(){
 	
 	$.ajax({
-		url:'selectNoticeByView',
+		url:'selectDeptByView',
 		type:'POST',
 		data:{
 			orderBy : "viewCnt"
@@ -488,7 +488,7 @@ $('#orderByView').click(function(){
 $('#orderByLike').click(function(){
 	
 	$.ajax({
-		url:'selectNoticeByView',
+		url:'selectDeptByView',
 		type:'POST',
 		data:{
 			orderBy : "recommendCnt"
