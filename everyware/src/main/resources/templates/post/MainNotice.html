@@ -44,7 +44,7 @@
           <div class="col-md-6" >
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">메인 공지사항</h3>
+                <h3 class="card-title"><a th:href="@{/selectNoticeAll}">메인 공지사항</a></h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -53,7 +53,6 @@
                     <tr>
                       <th style="width: 10px;">글번호</th>
                       <th style="text-align: center">게시글 제목</th>
-                      <th style="text-align: center">게시글 내용</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -67,22 +66,12 @@
                       </a>
                         
                       </td><!-- content에 글자수 제한 걸기 기능을 넣기 -->
-                      <td>[[ ${list.content} ]]</td>
                     </tr>
                     </th:block>     
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -95,7 +84,7 @@
             <div class="col-md-6" >
           <div class="card">
               <div class="card-header">
-                <h3 class="card-title">부서별 게시판</h3>
+                <h3 class="card-title"><a th:href="@{/selectDeptAll}">부서별 게시판</a></h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -104,7 +93,6 @@
                     <tr>
                       <th style="width: 10px;">글번호</th>
                       <th style="text-align: center">게시글 제목</th>
-                      <th style="text-align: center">게시글 내용</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -116,22 +104,12 @@
                          [[ ${depList.title} ]]
                       </a>
                       </td>
-                      <td>[[ ${depList.content} ]]</td><!-- content에 글자수 제한 걸기 기능을 넣기 -->
                     </tr>
                     </th:block>     
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-              </div>
             </div>
             </div>
         
