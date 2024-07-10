@@ -3,6 +3,8 @@ package com.yedam.app.mail.mail.service;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.app.attend.emp.service.EmpVO;
+
 public interface MailService {
 	//조회 : 단건 메일함
 	public List<MailVO> mailboxInfo(MailVO mailVO, int empId);
@@ -35,7 +37,6 @@ public interface MailService {
 	
 	//복구 : 메일 복구
 	public int moveRestoreMail(MailVO mailVO);
-	
 	
 
 }

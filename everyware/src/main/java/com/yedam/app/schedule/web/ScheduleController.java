@@ -119,15 +119,26 @@ public class ScheduleController {
 	@GetMapping("/updateSquadEmp")
 	public String updateSquadEmp(EmpVO empVO, Model model) {
 		List<Integer> empList = new ArrayList<>();
+		List<ScheduleVO> slist = scheduleService.selectSquadEmp();
 		empList.add(9999);
 		
+		for(ScheduleVO svo : slist) {
+			empList.add(svo.getEmpId());
+		}
+		
+		//근무표 설정 가져오기
+		ScheduleVO scheduleVO = scheduleService.selectSquadInfo();
+		model.addAttribute("squadInfo", scheduleVO);
+		
+		//근무조 몇조인지
+		int squadNum = scheduleVO.getSquadNo();
+		model.addAttribute("squadNum", squadNum);
+		
+		
 		empVO.setEmpIdList(empList);
-
-		
-		
-		
 		List<EmpVO> plist = scheduleService.prodEmpList(empVO);
 		model.addAttribute("proList", plist);
+		model.addAttribute("squadList", slist);
 		
 		
 		model.addAttribute("empList", empVO);
@@ -135,6 +146,18 @@ public class ScheduleController {
 		return "schedule/updateSquadEmp";
 	}
 	
+	//근무조 변경 직원 삽입시 제외하고 출력
+		@PostMapping("/makeUpdSquad")
+		
+		public String updateSquadProcess(EmpVO empVO, Model model) {
+			
+			List<EmpVO> plist = scheduleService.prodEmpList(empVO);
+			model.addAttribute("proList", plist);
+			
+			
+			return "schedule/updateSquadEmp :: prodEmp";
+			
+		}
 	
 	
 	

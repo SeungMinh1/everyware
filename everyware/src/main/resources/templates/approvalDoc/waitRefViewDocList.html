@@ -52,7 +52,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              	<button type="button" class="btn" id="approval">일괄 확인</button>
+              	<button type="button" class="btn" id="check">일괄 확인</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
@@ -70,7 +70,7 @@
                   <tbody>
  				  <th:block th:each="Doc : ${waitRefViewDocList}">
 	                  <tr>
-	                  	<td><input type="checkbox" th:field="*{waitRefViewDocList}" th:value="${Doc.docId}"></td>
+	                  	<td><input type="checkbox" th:field="*{waitRefViewDocList}" th:value="${Doc.docId}" class="chk"></td>
 	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td>[[ ${ #dates.format(Doc.completeDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
@@ -177,6 +177,66 @@
 		}
 	});
 
+</script>
+<script th:inline="javascript">
+function refInfo() {
+	var emps = [];
+	
+	for(var i=0; i<$('.chk:checked').length; i++) {
+		emps.push({ refEmpId : /*[[${#authentication.principal.userVO.empId}]]*/'', 
+					 docId : Number($($('.chk:checked')[i]).val()) })
+	}
+	
+	var data = { refViewList : emps }
+	
+	return data;
+}
+
+function viewInfo() {
+	var emps = [];
+	
+	for(var i=0; i<$('.chk:checked').length; i++) {
+		emps.push({ viewEmpId : /*[[${#authentication.principal.userVO.empId}]]*/'', 
+					 docId : Number($($('.chk:checked')[i]).val()) })
+	}
+	
+	var data = { refViewList : emps }
+	
+	return data;
+}
+
+$('#ok').on('click', function() {
+	var ref = refInfo();
+	var view = viewInfo();
+	
+	$.ajax({
+		url : 'refUpdate'
+		, type : 'post'
+		, contentType : 'application/JSON'
+		, data : JSON.stringify(ref)
+	})
+	.done(result => {
+		if(result) {
+			alert('선택된 항목이 확인되었습니다.');
+			window.location.reload();
+		} 
+	})
+	.fail(err => console.log(err));
+	
+	$.ajax({
+		url : 'viewUpdate'
+		, type : 'post'
+		, contentType : 'application/JSON'
+		, data : JSON.stringify(view)
+	})
+	.done(result => {
+		if(result) {
+			alert('선택된 항목이 확인되었습니다.');
+			window.location.reload();
+		} 
+	})
+	.fail(err => console.log(err));
+})
 </script>
 <script src="../js/approval/waitRefViewDocList.js"></script>
 </body>

@@ -20,6 +20,9 @@ public interface ApprovalService {
 	
 	// 수정(승인)
 	public Map<String, Object> approvalUpdate(ApprovalVO approvalVO);
+	
+	// 수정(승인)(여러개)
+	public int approvalUpdateAll(ApprovalVO approvalVO);
 		
 	// 수정(반려)
 	public Map<String, Object> rejectUpdate(ApprovalVO approvalVO);
@@ -29,4 +32,10 @@ public interface ApprovalService {
 	
 	// 삭제
 	public int approvalDelete(ApprovalVO approvalVO);
+	
+	// 참조확인
+	public int refUpdate(RefVO refVO);
+		
+	// 열람확인
+	public int viewUpdate(ViewVO viewVO);
 }

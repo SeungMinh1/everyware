@@ -135,6 +135,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return map;
 	}
 	
+	// 수정(승인)(여러개)
+	@Override
+	public int approvalUpdateAll(ApprovalVO approvalVO) {
+		int result = 0;
+		
+		List<ApprovalVO> list = approvalVO.getApprovalList();
+		for(ApprovalVO app : list) {
+			result += approvalMapper.approvalUpdateAll(app);
+		}
+		
+		return result;
+	}
+	
 	// 수정(반려)
 	@Override
 	public Map<String, Object> rejectUpdate(ApprovalVO approvalVO) {
@@ -171,6 +184,30 @@ public class ApprovalServiceImpl implements ApprovalService {
 		for(int id : list) {
 			approvalVO.setApprovalEmpId(id);
 			result += approvalMapper.approvalDelete(approvalVO);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int refUpdate(RefVO refVO) {
+		int result = 0;
+		
+		List<RefVO> list = refVO.getRefViewList();
+		for(RefVO app : list) {
+			result += approvalMapper.refUpdate(app);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int viewUpdate(ViewVO viewVO) {
+		int result = 0;
+		
+		List<ViewVO> list = viewVO.getRefViewList();
+		for(ViewVO app : list) {
+			result += approvalMapper.viewUpdate(app);
 		}
 		
 		return result;

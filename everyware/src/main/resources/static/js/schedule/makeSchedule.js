@@ -136,6 +136,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 			}else if(rotateNum == 3){
 				if(result == -1){
 					$("#calTable").find("td:eq("+ i +")").attr("class", "rotate1")
+					
 					let rotate1Squad = parseInt($("#calTable").find("td:eq("+ i +")").attr("data-squNum"));
 					
 					let rotate2Squad = (rotate1Squad - 1) <= 0 ?  (rotate1Squad - 1) +squadNum : (rotate1Squad - 1)
@@ -143,6 +144,8 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 					
 					let rotate3Squad = (rotate1Squad - 2) <= 0 ?  (rotate1Squad - 2)+ squadNum : (rotate1Squad - 2)
 					$("#calTable").find("[data-squNum="+rotate3Squad+"][data-date="+ dataDate+"]").attr("class", "rotate3")
+					
+					
 				}
 				
 				$(".rotate1").text("오전")
@@ -173,39 +176,67 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 		$('#savePdf').click(function() { // pdf저장 button id
 		
 	    html2canvas($('#calTable')[0]).then(function(canvas) { //저장 영역 div id
-					
-		
 	    // 캔버스를 이미지로 변환
+	    //canvas.setAttribute("width", "800px");
+
+	    console.log(canvas)
 	    var imgData = canvas.toDataURL('image/png');
 	    
 		     
-	    var imgWidth = 190; // 이미지 가로 길이(mm) / A4 기준 210mm
-	    var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+	    var imgWidth = 190; // 출력 페이지 세로 길이 계산 A4 기준
 	    var imgHeight = canvas.height * imgWidth / canvas.width;
-	    var heightLeft = imgHeight;
-	    var rotation = -Math.PI * 0.5;
-	    var margin = 10; // 출력 페이지 여백설정
-	    var doc = new jsPDF('p', 'mm');
-	    var position = 0;
-	       
-	    // 첫 페이지 출력
-	    doc.addImage(imgData, 'PNG', rotation ,margin, position,  imgWidth, imgHeight);
 	    
-	    heightLeft -= pageHeight;
-	         
-	    // 한 페이지 이상일 경우 루프 돌면서 출력
-	    while (heightLeft >= 20) {
-	        position = heightLeft - imgHeight;
-	        doc.addPage();
-	        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-	        heightLeft -= pageHeight;
-	    }
+	    var pageHeight = imgWidth * 1.414;  // 이미지 가로 길이(mm) / A4 기준 210mm
+	    var heightLeft = imgHeight;
+	    var margin = 1; // 출력 페이지 여백설정
+	    var doc = new jsPDF('l', 'mm');
+	    var position = 1;
+	    
+	    //스케일
+	    /*doc.scale(0.5, 1);*/
+	    // 첫 페이지 출력
+	    doc.addImage(imgData, 'PNG', 10, 10,  200, 200);
+	    
+	    
+	   
 	 
 	    // 파일 저장
 	    doc.save('file-name.pdf');
 
 		  
 		});
+		
+		/*html2canvas($("#calTable"), {
+			onrendered: function (canvas) {
+				// create intermediate canvas
+		    var rotCanvas = document.createElement("canvas");
+		
+		    // swap width and height
+		    rotCanvas.width = canvas.height;
+		    rotCanvas.height = canvas.width;
+		
+		    // get context
+		    var rctx = rotCanvas.getContext("2d");
+		
+		    // translate to center (rotation pivot)
+		    rctx.translate(rotCanvas.width * 0.5, rotCanvas.height * 0.5);
+		
+		    // rotate -90° (CCW)
+		    rctx.rotate(-Math.PI * 0.5);
+		
+		    // draw image offset so center of image is on top of pivot
+		    rctx.drawImage(canvas, -canvas.width * 0.5, -canvas.height * 0.5);
+		
+		    // extract image from rotate canvas
+		    var data = rotCanvas.toDataURL('image/png');
+		
+		    var image = new Image();
+		    image.src = data;
+			}
+			
+		}*/
+			
+		
 		
 		});
 	})

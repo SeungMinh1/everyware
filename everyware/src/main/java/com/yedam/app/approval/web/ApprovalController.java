@@ -62,6 +62,13 @@ public class ApprovalController {
 		return approvalService.approvalUpdate(approvalVO);
 	}
 	
+	// 수정(승인)(여러개)
+	@PostMapping("approvalUpdateAll")
+	@ResponseBody
+	public int approvalUpdateAll(@RequestBody ApprovalVO approvalVO) {
+		return approvalService.approvalUpdateAll(approvalVO);
+	}
+	
 	// 수정(반려)
 	@PostMapping("rejectUpdate")
 	@ResponseBody
@@ -84,10 +91,19 @@ public class ApprovalController {
 	}
 	
 	
+	// 참조확인
+	@PostMapping("refUpdate")
+	@ResponseBody
+	public int refUpdate(@RequestBody RefVO refVO) {
+		return approvalService.refUpdate(refVO);
+	}
 	
-	
-	
-	
+	// 열람확인
+	@PostMapping("viewUpdate")
+	@ResponseBody
+	public int viewUpdate(@RequestBody ViewVO viewVO) {
+		return approvalService.viewUpdate(viewVO);
+	}
 	
 	
 	

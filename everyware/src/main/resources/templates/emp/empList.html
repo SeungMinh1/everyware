@@ -7,6 +7,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EmpList</title>
+  <style>
+  	  .pagination {
+        
+    }
+    .pagination .float-right {
+        float: right; /* 오른쪽 정렬 */
+    }
+  
+  </style>
+  
 </head>
 <body class="hold-transition sidebar-mini">
 	
@@ -17,7 +27,6 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-          	<span>[[${#authentication.principal.userVO.empId}]]</span>
             <h1>사원정보리스트 출력</h1>
           </div>
           <div class="col-sm-6">
@@ -38,8 +47,6 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">접속한사람 : [[ ${accountId} ]]</h3>
-          <h3 class="card-title">사원번호 : [[ ${eid} ]]</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -88,53 +95,50 @@
       </div>
       <!-- /.card -->
       <div>
-      	<button type="button" th:onclick="|location.href='@{empInsert}'|">등록</button>
+      	
       </div>
 
     </section>
     <!-- /.content -->
+    <nav aria-label="Page navigation example">
     <div id="page"  >
-		<p>---------------------------여기 버튼달자---------------------------</p>
 		<!-- 이전 버튼 -->
-		<th:block th:if="${pg.prev}">
-		    <li >
-		        <a th:href="@{/empList(page=${pg.page-1})}" >이전</a>
+		<ul class="pagination">
+		    <li  th:if="${pg.prev}">
+		        <a th:href="@{/empList(page=${pg.page-1})}" class="page-link">이전</a>
 		    </li>
-		</th:block>
 		
-		<li>
-		<th:block th:each="pages : ${#numbers.sequence(pg.startPage,pg.endPage)}">	    
-		        <a th:href="@{/empList(page=${pages})}" th:text="${pages}"></a>
-		</th:block>
-		</li>
-		
-		<!-- 다음 버튼 -->
-		<th:block th:if="${pg.next}">
-		    <li >
-		        <a th:href="@{/empList(page=${pg.page+1})}" >다음</a>
+			<li th:each="pages : ${#numbers.sequence(pg.startPage,pg.endPage)}" class="page-item">
+			    	<a th:href="@{/empList(page=${pages})}" th:text="${pages}" class="page-link"></a>
+			</li>
+			
+			<!-- 다음 버튼 -->
+		    <li th:if="${pg.next}">
+		        <a th:href="@{/empList(page=${pg.page+1})}" class="page-link">다음</a>
 		    </li>
-		</th:block>
+		    
+		    <li class="ml-auto">
+			    <button type="button" th:onclick="|location.href='@{empInsert}'|" >등록</button>
+		    </li>
+		    
+		</ul>
+		
+		
+		
 	</div>
-  </div>
+  </nav>
   <!-- /.content-wrapper -->
+  </div>
 
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
