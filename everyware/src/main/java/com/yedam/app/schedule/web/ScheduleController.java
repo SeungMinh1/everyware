@@ -146,6 +146,18 @@ public class ScheduleController {
 		return "schedule/updateSquadEmp";
 	}
 	
+	//근무조 변경 직원 삽입시 제외하고 출력
+		@PostMapping("/makeUpdSquad")
+		
+		public String updateSquadProcess(EmpVO empVO, Model model) {
+			
+			List<EmpVO> plist = scheduleService.prodEmpList(empVO);
+			model.addAttribute("proList", plist);
+			
+			
+			return "schedule/updateSquadEmp :: prodEmp";
+			
+		}
 	
 	
 	
