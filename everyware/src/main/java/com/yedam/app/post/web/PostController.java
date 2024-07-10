@@ -32,13 +32,12 @@ public class PostController {
 	
 	//상단공지조회
 	@GetMapping("postMainNotice")
-	public String postList(Model model,PostVO postVO) {
+	public String postList(Model model,PostVO postVO,SearchVO searchVO) {
 		List<PostVO> list = postService.selectMainNotice(postVO);
 		model.addAttribute("postUpMain",list);
 		
-		List<PostVO> depList = postService.selectDeptAll(postVO);
+		List<PostVO> depList = postService.selectDeptAll(postVO, searchVO);
 		model.addAttribute("deptMain",depList);
-		
 		return "post/MainNotice";
 	}
 	
@@ -54,9 +53,27 @@ public class PostController {
 	
 	//전체공지 
 	@GetMapping("selectNoticeAll")
-	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO, SearchVO searchVO,
-			@RequestParam(value="type",required=false)String type, @RequestParam(value="keyword", required=false)String keyword
-			)throws Exception {
+	public String selectNoticeAll(Model model, Integer page, Integer cnt,  PostVO postVO, SearchVO searchVO){
+		postVO.setBoardId(1);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		//페이징 
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+
+		
+		List<PostVO> list = postService.selectNoticeAll(postVO,searchVO);
+		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
+		return "post/postNotice";
+	}	
+	
+	@PostMapping("selectNoticeAll")
+	public String selectNoticeAll1(Model model, Integer page, Integer cnt,  PostVO postVO, SearchVO searchVO){
 		
 		postVO.setBoardId(1);
 		page = page == null? 1 : page; 
@@ -67,29 +84,18 @@ public class PostController {
 		postVO.setCnt(cnt);
 		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
 		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+
 		
-		
-		List<PostVO> list = postService.selectNoticeAll(postVO);
+		List<PostVO> list = postService.selectNoticeAll(postVO,searchVO);
 		model.addAttribute("postMain",list);
 		model.addAttribute("pg", pg);
 		
-		//검색
-		searchVO.setType(type);
-		searchVO.setKeyword(keyword);
-		
-		if(type != null && keyword != null) {
-			//검색이 있는 경우 
-			postService.selectSearch(searchVO,postVO);
-			
-		}else {
-			postService.selectNoticeAll(postVO);
-		}
-		return "post/postNotice";
+		return "post/postNotice :: noticeList";
 	}	
 	
 	@PostMapping("selectNoticeByView")
 	//@ResponseBody
-	public String selectNoticeByView(Model model,Integer page, Integer cnt,  PostVO postVO) {
+	public String selectNoticeByView(Model model,Integer page, Integer cnt,  PostVO postVO,SearchVO searchVO) {
 		postVO.setBoardId(1);
 		page = page == null? 1 : page; 
 		cnt = cnt == null ? 10 : cnt ;
@@ -99,7 +105,7 @@ public class PostController {
 		postVO.setCnt(cnt);
 		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
 		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 	
-		 List<PostVO> list = postService.selectNoticeAll(postVO);
+		 List<PostVO> list = postService.selectNoticeAll(postVO, searchVO);
 		 model.addAttribute("postMain",list);
 		 model.addAttribute("pg", pg);
 		 
@@ -109,7 +115,7 @@ public class PostController {
 	
 	//전체부서별
 	@GetMapping("selectDeptAll")
-	public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO) {
+	public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
 		postVO.setBoardId(2);
 		page = page == null? 1 : page; 
 		cnt = cnt == null ? 10 : cnt ;
@@ -119,15 +125,36 @@ public class PostController {
 		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
 		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
 		
-		List<PostVO> list = postService.selectDeptAll(postVO);
+		List<PostVO> list = postService.selectDeptAll(postVO,searchVO);
 		model.addAttribute("postMain",list);
 		model.addAttribute("pg", pg);
 		
 		return "post/postDept";	
+	}
+	@PostMapping("selectDeptAll")
+	public String selectDeptAll1(Model model, Integer page, Integer cnt,  PostVO postVO, SearchVO searchVO){
+		
+		postVO.setBoardId(2);
+		page = page == null? 1 : page; 
+		cnt = cnt == null ? 10 : cnt ;
+		
+		//페이징 
+		postVO.setPage(page);
+		postVO.setCnt(cnt);
+		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
+		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
+
+		
+		List<PostVO> list = postService.selectDeptAll(postVO,searchVO);
+		model.addAttribute("postMain",list);
+		model.addAttribute("pg", pg);
+		
+		return "post/postNotice :: noticeList";
 	}	
+	
 	//전체익명	
 	@GetMapping("selectAnoyAll")
-	public String selectAnoyAll(Model model, Integer page, Integer cnt, PostVO postVO) {
+	public String selectAnoyAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
 		postVO.setBoardId(3);
 		page = page == null? 1 : page; 
 		cnt = cnt == null ? 10 : cnt ;
@@ -137,7 +164,7 @@ public class PostController {
 		int postCnt = postService.postCnt(postVO); // 게시물 개수 세기
 		PageDTO pg = new PageDTO(page,postCnt,cnt); //페이징 
 		
-		List<PostVO> list = postService.selectAnoyAll(postVO);
+		List<PostVO> list = postService.selectAnoyAll(postVO, searchVO);
 		model.addAttribute("postMain",list);
 		model.addAttribute("pg", pg);
 		
