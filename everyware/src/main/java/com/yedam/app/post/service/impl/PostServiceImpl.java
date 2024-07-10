@@ -31,8 +31,8 @@ public class PostServiceImpl implements PostService {
 	}
 	//전체공지조회
 	@Override
-	public List<PostVO> selectNoticeAll(PostVO postVO) {
-		return postMapper.selectNoticeAll(postVO);
+	public List<PostVO> selectNoticeAll(PostVO postVO, SearchVO searchVO) {
+		return postMapper.selectNoticeAll(postVO,searchVO);
 	}
 	//등록
 	@Override
@@ -51,12 +51,12 @@ public class PostServiceImpl implements PostService {
 	}
 	//부서별 게시물 전체조회
 	@Override
-	public List<PostVO> selectDeptAll(PostVO postVO) {
-		return postMapper.selectDeptAll(postVO);
+	public List<PostVO> selectDeptAll(PostVO postVO,SearchVO searchVO) {
+		return postMapper.selectDeptAll(postVO,searchVO);
 	}
 	@Override
-	public List<PostVO> selectAnoyAll(PostVO postVO) {
-		return postMapper.selectAnoyAll(postVO);
+	public List<PostVO> selectAnoyAll(PostVO postVO,SearchVO searchVO) {
+		return postMapper.selectAnoyAll(postVO,searchVO);
 	}
 	//부서 번호
 	@Override
@@ -99,25 +99,6 @@ public class PostServiceImpl implements PostService {
 	public int deleteRecommend(PostVO postVO) {
 		return postMapper.deleteRecommend(postVO);
 	}
-	/*
-	 * //검색기능
-	 * 
-	 * @Override public void selectSearch(String type, String keyword, int num) {
-	 * return postMapper.selectSearch(type,keyword,num);
-	 * 
-	 * }
-	 */
-	@Override
-	public void selectSearch(SearchVO searchVO, PostVO postVO) {
-		// TODO Auto-generated method stub
-		
-	}
-//	@Override
-//	public int countSearch() {
-//		// TODO Auto-generated method stub
-//		return 0;
-//	}
-	
 
 
 }

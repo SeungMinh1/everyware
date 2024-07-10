@@ -17,11 +17,11 @@ public interface PostMapper {
 	//상단공지조회
 		public List<PostVO> selectMainNotice (PostVO postVO);
 	//공지전체조회
-		public List<PostVO> selectNoticeAll (PostVO postVO);
+		public List<PostVO> selectNoticeAll (PostVO postVO, SearchVO searchVO);
 	//부서별 게시물 전체조회
-		public List<PostVO> selectDeptAll (PostVO postVO);	
+		public List<PostVO> selectDeptAll (PostVO postVO, SearchVO searchVO);	
 	//익명 게시물 전체조회	
-		public List<PostVO> selectAnoyAll (PostVO postVO);
+		public List<PostVO> selectAnoyAll (PostVO postVO, SearchVO searchVO);
 	//등록 
 		public int postInsert (PostVO postVO);
 	//수정	
@@ -45,6 +45,5 @@ public interface PostMapper {
         public  int insertRecommend (PostVO postVO);
     //추천 테이블 삭제 
         public int deleteRecommend (PostVO postVO);
-    //검색    
-		public List<SearchVO> selectSearch(String type, String keyword, int num);
+
 }

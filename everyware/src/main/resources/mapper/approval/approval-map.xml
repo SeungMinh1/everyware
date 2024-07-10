@@ -164,24 +164,15 @@
 	</insert>
 	
 	<update id="approvalUpdate" parameterType="ApprovalVO">
-		UPDATE approval_path
-		SET approval_complete_emp=1, approval_type='결재', approval_status='승인'
-		WHERE approval_emp_id = #{approvalEmpId} 
-		AND   doc_id = #{docId}
+		CALL UPDATE_STATUS(#{approvalEmpId}, #{docId})
 	</update>
 	
 	<update id="approvalUpdateAll" parameterType="ApprovalVO">
-		UPDATE approval_path
-		SET approval_complete_emp=1, approval_type='결재', approval_status='승인'
-		WHERE approval_emp_id = #{approvalEmpId} 
-		AND   doc_id = #{docId}
+		CALL UPDATE_STATUS(#{approvalEmpId}, #{docId})
 	</update>
 	
 	<update id="rejectUpdate" parameterType="ApprovalVO">
-		UPDATE approval_path
-		SET approval_complete_emp=1, approval_type='결재', approval_status='반려'
-		WHERE approval_emp_id = #{approvalEmpId} 
-		AND   doc_id = #{docId}
+		CALL REJECT_STATUS(#{approvalEmpId}, #{docId})
 	</update>
 	
 	<update id="nextEmpUpdate" parameterType="ApprovalVO">

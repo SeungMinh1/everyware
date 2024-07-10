@@ -14,4 +14,5 @@ public class RefVO {
 	private String draftEmp;
 	private int draftEmpId;
 	private List<RefVO> refEmpList;
+	private List<RefVO> refViewList;
 }
