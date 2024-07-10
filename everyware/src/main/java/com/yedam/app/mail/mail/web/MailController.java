@@ -1,5 +1,6 @@
 package com.yedam.app.mail.mail.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.attend.emp.service.EmpService;
+import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.attend.security.service.LoginUserVO;
+import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.dataroom.file.service.DataFileService;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
@@ -24,6 +29,9 @@ public class MailController {
 	
 	@Autowired
 	DataFileService dataFileService;
+	
+	@Autowired
+	EmpService empService;
 	
 	//조회 : 단건 메일함
 	@GetMapping("mailboxInfo")
@@ -148,5 +156,33 @@ public class MailController {
 	public int deleteDraftMailInfo(@RequestBody MailVO mailVO) {
 		int mailId = mailVO.getMailId();
 		return mailService.deleteMailInfo(mailId);
+	}
+	
+	
+	//============주소록===============
+
+	//전체조회
+	@GetMapping("empSearch")
+	@ResponseBody
+	public Map<String, Object> empList(
+			              Integer page, 
+			              Integer cnt, 
+			              String dosearch,
+			              String searchOption,
+			              @AuthenticationPrincipal LoginUserVO principal) {
+		page = page == null ? 1 : page; //페이지 default 설정
+		cnt = cnt == null ? 10 : cnt; 	// 사원수 default 설정
+		//int allCount = empService.cntList(dosearch, searchOption); // 전체 사원수 count 
+		//PageDTO pg = new PageDTO(page, allCount, cnt); //페이징
+		
+		 System.out.println("searchOption: " + searchOption);
+		    System.out.println("dosearch: " + dosearch);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		//List<EmpVO> list = empService.empList(page, cnt, dosearch, searchOption); //전체사원리스트
+		//map.put("empList", list);
+		//map.put("pg", pg);
+		return map;
 	}
 }
