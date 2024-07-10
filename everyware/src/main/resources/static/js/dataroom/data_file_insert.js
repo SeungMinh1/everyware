@@ -29,8 +29,8 @@ function uploadFile(){
 		var files = inputFile[0].files;
 		
 		
-		console.log("=== 1 ===");
-		console.log(files);
+		//console.log("=== 1 ===");
+		//console.log(files);
 		
 		//업로드 된 파일이 있을때
 		if(files.length != 0){
@@ -53,8 +53,8 @@ function uploadFile(){
 			data : formData,
 			type : 'post',
 			success: function(result){
-				console.log("=== 2 ===");
-				console.log(result);
+				//console.log("=== 2 ===");
+				//console.log(result);
 				
 				//업로드된 파일 tr로 보여줌
 				showUploadFile(result);
@@ -90,7 +90,7 @@ function uploadFile(){
 	function showUploadFile(uploadResultArr){
 		var str = "";
 		$(uploadResultArr).each(function(i, obj){
-			console.log(obj);
+			//console.log(obj);
 			// 파일 경로 ( 다운로드 할때 필요 )
 			var fileCallPath = encodeURIComponent(//
 				obj.uploadPath +"/"+ obj.uploadFileName + "_" + obj.originFileName);
@@ -114,7 +114,7 @@ function uploadFile(){
 			str += "</td>"
 			str += "<td>" + obj.fileSize + "</td>"
 			str += "<td>" + obj.ext + "</td>"
-			str += "<td>"+ "<span data-file=\'" + fileCallPath + "\'data-type='file'> x </span>"+ "</td>"
+			str += "<td>"+ "<span data-file=\'" + fileCallPath + "\'data-fileid=\'" + obj.fileId + "\'data-type='file'> x </span>"+ "</td>"
 			str += "</tr>";
 		});
 		uploadResult.append(str);
@@ -125,8 +125,8 @@ function uploadFile(){
 ================*/
 $('.insertBtn').on('click', function(){
 		$('#fileTitle').val();
-		console.log($('.dataSelect option:selected').val());
-		console.log($('#fileTitle').val());
+		//console.log($('.dataSelect option:selected').val());
+		//console.log($('#fileTitle').val());
 		
 		var insertData = {
 			title : $('#fileTitle').val(),
@@ -162,8 +162,7 @@ $('.insertBtn').on('click', function(){
 	$(".uploadResult").on('click', 'span', function(){
 		var targetFile = $(this).data("file");
 		var type = $(this).data("type");
-		console.log(targetFile);
-		console.log(type);
+		var dataFileId = $(this).data("fileid");
 		var tr = $(this).parent().parent();
 		
 		$.ajax({
@@ -172,13 +171,20 @@ $('.insertBtn').on('click', function(){
 			dataType:'text',
 			type : 'POST',
 			success: function(result){
-				alert(result);
 				tr.remove();
 				// fileList에서 해당 파일 제거
                 fileList = fileList.filter(file => {
                     var fileCallPath = encodeURIComponent(file.uploadPath + "/" + file.uploadFileName + "_" + file.originFileName);
                     return fileCallPath !== targetFile;
                 });
+                
+                let info = {fileId : dataFileId};
+                $.ajax({
+						type: "POST",
+		                url: "deleteDataFileInfo",
+		                contentType : 'application/JSON',
+						data : JSON.stringify(info)
+				})
 			}
 		});//$.ajax
 		
@@ -197,8 +203,6 @@ function modalEmpty(){
 	
 	$('.modal').on('hidden.bs.modal', function(e) {
 	    modalEmpty();
-	
-	    
-	    console.log('모달 초기화')
+	    //console.log('모달 초기화')
 	});
 });

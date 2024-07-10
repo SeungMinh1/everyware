@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
 
 		String ccs = "";
 		for(String cc: mailVO.getCcList()) {
-			ccs += cc;// + ", ";
+			ccs += cc + " ";
 		}
 		mailVO.setCc(ccs);
 		result = mailMapper.insertSenderMail(mailVO); 
