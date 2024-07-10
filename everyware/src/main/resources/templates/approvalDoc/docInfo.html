@@ -290,6 +290,12 @@
 		$('.note-editable')[0].innerHTML = /*[[ ${approvalDoc.docContent} ]]*/'';
 	} else {
 		$('input').remove();
+		$('#head').remove();
+		$($('.li_style span')[1]).remove();
+		$('.dropzone').remove();
+		$('.delete').remove();
+		$('.org').remove();
+		$('.modal-order').remove();
 		$('.inputDateBox')[0].innerHTML = /*[[ ${approvalDoc.enforceDate} ]]*/'';
 		$('.inputTitleBox')[0].innerHTML = /*[[ ${approvalDoc.docTitle} ]]*/'';
 		$('.textarea')[0].innerHTML = /*[[ ${approvalDoc.docContent} ]]*/'';
