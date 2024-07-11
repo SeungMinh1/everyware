@@ -57,28 +57,29 @@
  		<choose>
 		   <when test="dosearch != null and dosearch != ''">
 		      <choose>
-		        <when test="searchOption == 'name'">
-		          WHERE emp_name like '%'||#{dosearch}||'%'
+		        <when test="searchOption == 'title'">
+		          AND doc_title LIKE '%'||#{dosearch}||'%'
 		        </when>
-		        <when test="searchOption == 'department'">
-		          WHERE department_id = find_code(#{dosearch}) 
-		            OR find_codename(department_id) like '%'||#{dosearch}||'%'
+		        <when test="searchOption == 'emp'">
+		          LIKE '%'||#{dosearch}||'%'
 		        </when>
-		        <when test="searchOption == 'position'">
-		          WHERE emp_position = find_code(#{dosearch}) 
-		            OR find_codename(emp_position) like '%'||#{dosearch}||'%'
+		        <when test="searchOption == 'task'">
+		          LIKE '%'||#{dosearch}||'%'
 		        </when>
-		        <when test="searchOption == 'email'">
-		          WHERE mail like '%'||#{dosearch}||'%'
+		        <when test="searchOption == 'one'">
+		          LIKE '%'||#{dosearch}||'%'
+		        </when>
+		        <when test="searchOption == 'thr'">
+		          LIKE '%'||#{dosearch}||'%'
+		        </when>
+		        <when test="searchOption == 'six'">
+		          LIKE '%'||#{dosearch}||'%'
+		        </when>
+		        <when test="searchOption == 'year'">
+		          LIKE '%'||#{dosearch}||'%'
 		        </when>
 		        <otherwise>
-		          WHERE emp_name like '%'||#{dosearch}||'%' 
-		            OR department_id = find_code(#{dosearch}) 
-		            OR emp_position = find_code(#{dosearch}) 
-		            OR mail like '%'||#{dosearch}||'%' 
-		            OR find_codename(department_id) like '%'||#{dosearch}||'%' 
-		            OR find_codename(emp_position) like '%'||#{dosearch}||'%' 
-		            OR tel like '%'||#{dosearch}||'%'
+		          
 		        </otherwise>
 		      </choose>
 		    </when>
