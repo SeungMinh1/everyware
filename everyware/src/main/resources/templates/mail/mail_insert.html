@@ -141,14 +141,14 @@
                   <label class="mailLabel">받는사람</label>
                   <span style="float:right;">
                   <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
-                  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch()">주소록</button></span>
+                  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch(1)">주소록</button></span>
 				</div>
     			<input class="mb-1" type="text" id="recipient" name="recipient">
                 <div>
 	                <label class="mailLabel">참조</label>
 	                <span style="float:right;">
-	                <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
-	                data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch()">주소록</button>
+	                <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="cc"
+	                data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch(1)">주소록</button>
 	                </span>
                 </div>
 				<input type="text" id="cc" name="cc">
@@ -198,6 +198,7 @@
 			    <div class="form-group">
 			      <div class="input-group input-group-sm">
 			        <select class="form-select" id="searchType">
+			          <option>전체</option>
 			          <option value="name">이름</option>
 			          <option value="department">부서</option>
 			        </select>
@@ -212,7 +213,8 @@
 			
 			    <table class="table">
 			      <thead>
-			        <tr>
+			        <tr>	
+			          <th></th>
 			          <th>이름</th>
 			          <th>이메일</th>
 			          <th>부서</th>
@@ -225,45 +227,10 @@
 			    </nav>
 			  </div>
 			</div>
-	<!--       <div class="modal-body">
-	      	 <div class="modalDiv">
-                 <div class="input-group input-group-sm">
-	      	    	  <select class="form-select">
-                          <option>전체</option>
-                          <option>이름</option>
-                          <option>부서</option>
-                      </select>
-                     <input type="search" class="form-control form-control-sm" placeholder="검색">
-                     <div class="input-group-append">
-                         <button type="submit" class="btn btn-lg btn-default">
-                             <i class="fa fa-search"></i>
-                         </button>
-                     </div>
-                  </div> 
-                
-	      	    
-	      	 	<table class="table">
-	      	 		<thead>
-	      	 			<tr>
-	      	 				<th>이름</th>
-	      	 				<th>이메일</th>
-	      	 				<th>부서</th>
-	      	 			</tr>
-	      	 		</thead>
-	      	 		<tbody id="tbody">
-	      	 		
-	      	 		</tbody>
-	      	 	</table>
-	      	 		<nav aria-label="Page navigation example">
-					  <ul class="pagination">
-					    
-					  </ul>
-					</nav>
-	      	 </div>
-	      </div> -->
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" >확인</button>
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary addressInRecipBtn">받는사람 추가</button>
+	        <button type="button" class="btn btn-primary addressInCCBtn">참조 추가</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 	      </div>
 	    </div>
 	  </div>
@@ -300,6 +267,24 @@
 	var empId = /*[[${#authentication.principal.userVO.empId}]]*/"";
 	// 등록한파일의 result값을 담는 변수     
 	var fileList =[];
+</script>
+<script>
+  $(function () {
+    //Enable check and uncheck all functionality
+    $('.checkbox-toggle').click(function () {
+      var clicks = $(this).data('clicks')
+      if (clicks) {
+        //Uncheck all checkboxes
+        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+        $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+      } else {
+        //Check all checkboxes
+        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+        $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+      }
+      $(this).data('clicks', !clicks)
+    })
+  })
 </script>
 <!-- ====================
        mail insert js 

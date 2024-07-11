@@ -387,7 +387,6 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
                        [[ ${list.title} ]]
                       </a>
                       </td>
-                      <td style="display: none;">[[${list.empId}]]</td>
                       <td>[[${list.viewCnt}]]</td>
                       <td>[[${list.recommendCnt}]]</td>
                     </tr >
@@ -445,7 +444,7 @@ $('.open-button').click(function(){
 $('#orderById').click(function(){
 	
 	$.ajax({
-		url:'selectNoticeByView',
+		url:'selectAnoyByView',
 		type:'POST',
 		data:{
 			orderBy : "postId"
@@ -463,7 +462,7 @@ $('#orderById').click(function(){
 $('#orderByView').click(function(){
 	
 	$.ajax({
-		url:'selectNoticeByView',
+		url:'selectAnoyByView',
 		type:'POST',
 		data:{
 			orderBy : "viewCnt"
@@ -482,7 +481,7 @@ $('#orderByView').click(function(){
 $('#orderByLike').click(function(){
 	
 	$.ajax({
-		url:'selectNoticeByView',
+		url:'selectAnoyByView',
 		type:'POST',
 		data:{
 			orderBy : "recommendCnt"

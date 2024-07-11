@@ -159,8 +159,26 @@ $(function () {
 //주소록 모달 =====================
 //tagify.addTags(["banana@dc.com", "orange@cd.com", "apple@dc.com"]);
 //체크박스 배열로 받아서 tagify.addTags에 배열로 넣기
-  
-  
+	$('.addressInRecipBtn').on('click', function() {  
+			let selectedMail = [];
+			$('.oneCheckbox:checked').each(function() {
+			    selectedMail.push($(this).val());
+			});
+			console.log(selectedMail);
+			
+			tagify.addTags(selectedMail);
+	});
+	
+	$('.addressInCCBtn').on('click', function() {  
+			let selectedMail = [];
+			$('.oneCheckbox:checked').each(function() {
+			    selectedMail.push($(this).val());
+			});
+			console.log(selectedMail);
+			
+			tagify1.addTags(selectedMail);
+	});
+	
 function addressSearch(page) {
   $('#tbody').empty();
   let searchType = $('#searchType').val();
@@ -179,11 +197,18 @@ console.log(searchKeyword);
   })
   .done(result => {
 	console.log(result.pg)
+	console.log(result.empList)
     $(result.empList).each(function(i, obj) {
       let tr = `<tr>
-                  <td>${obj.empName}</td>
-                  <td>${obj.mail}</td>
-                  <td>${obj.departmentName}</td>
+      				<td>
+	                     <div class="icheck-primary">
+	                       <input type="checkbox" value="${obj.mail}" id="${obj.empId}" class="oneCheckbox">
+	                       <label for="${obj.empId}"></label>
+	                     </div>
+	                </td>
+                    <td>${obj.empName}</td>
+                    <td>${obj.mail}</td>
+                    <td>${obj.departmentName}</td>
                 </tr>`;
       $('#tbody').append(tr);
     });
@@ -213,48 +238,3 @@ console.log(searchKeyword);
     $('.pagination').html(paginationHtml);
   });
 }
-
-/*
-function addressSearch(){
-	  $('#tbody').empty();
-	 
-	  $.ajax({
-		 url: 'empSearch',
-		 
-	  })
-	  .done(result=>{
-		//$.each(result, function(i, obj){
-		$(result.empList).each(function(i, obj){
-			console.log(i, obj)
-		let tr = `	<tr>
-	      	 				<td>${obj.empName}</td>
-	      	 				<td>${obj.mail}</td>
-	      	 				<td>${obj.departmentName}</td>
-	      	 			</tr>`
-	      	 $('#tbody').append(tr);
-	      	 $(tr).append(showPage);
-		})
-	  })
-	
-  }
- 
-function showPage(allCnt){
-	var endNum = Math.ceil(pageNum / 10.0) * 10;
-	var startNum = endNum - 9;
-	
-	var prev = startNum != 1;
-	var next = false;
-	
-	if(endNum * 10 >= allCnt){
-		endNum = Meth.ceil(allCnt/10.0);
-	}
-	if(endNum * 10 < allCnt){
-		next = true;
-	}
-	var str = '';
-	
-	if(prev){
-		str += "<li class='page-item'><a class='page-link' href='"+(startNum-1)+"'>previous</a></li>";
-	}
-}
-  */
