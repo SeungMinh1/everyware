@@ -52,13 +52,15 @@
               <div class="card-header">          
                 <h3 class="card-title"></h3>
                 <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="approval" style="display:none;">결재</button>
-                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="reject" style="display:none;">반려</button>           
+                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="reject" style="display:none;">반려</button>
+                <button type="button" class="btn" id="receipt" style="display:none;">접수</button>                           
                 <button th:if="${approvalDoc.approvalStatus == '진행중'} and ${approvalDoc.draftEmpId} == ${#authentication.principal.userVO.empId}" type="button" class="btn" id="draftcan">상신취소</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="req">결재요청</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="tem">임시저장</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="can">취소</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="del">삭제</button>              
                 <button type="button" class="btn" id="info">결재정보</button>
+                <button type="button" class="btn" id="down">다운로드</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body" th:utext="${approvalDoc.docInfo}">
@@ -409,7 +411,56 @@
 		})
 	})
 	
+	function receiptInfo() {
+		var receipt = {
+			receptionEmpId : /*[[${#authentication.principal.userVO.empId}]]*/''
+			, docId : id
+		}
+		
+		return receipt;
+	}
+	
+	function sendInfo() {
+		var send = {
+			sendEmpId : $('.boardTable')[0].id
+			, docId : id
+		}
+		
+		return send;
+	}
+	
+	$('#receipt').on('click', function() {
+		let rec = receiptInfo();
+		let send = sendInfo();
+		
+		$.ajax('receptionUpdate', {
+			type : 'post'
+			, contentType : 'application/JSON'
+			, data : JSON.stringify(rec)
+		})
+		.done(result => {
+			if(result) {
+			alert('접수');			
+			}
+		})
+		.fail(err => console.log(err));
+	
+		
+		$.ajax('sendUpdate', {
+			type : 'post'
+			, contentType : 'application/JSON'
+			, data : JSON.stringify(send)
+		})
+		.done(result => {
+			if(result) {
+			alert('접수');			
+			}
+		})
+		.fail(err => console.log(err));
+	})
 </script>
+<script src="../js/schedule/html2canvas.js"></script>
+<script src="../js/schedule/jspdf.min.js"></script>
 <script src="../js/approval/docInfo.js"></script>
 <script src="../js/approval/org.js"></script>
 </body>

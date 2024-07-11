@@ -211,6 +211,32 @@ public class ApprovalServiceImpl implements ApprovalService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public Map<String, Object> receptionUpdate(ReceptionVO receptionVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.receptionUpdate(receptionVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", receptionVO);
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> sendUpdate(SendVO sendVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.sendUpdate(sendVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", sendVO);
+		return map;
 	}	
 	
 }

@@ -42,4 +42,8 @@ public interface ApprovalMapper {
 	
 	// 열람확인
 	public int viewUpdate(ViewVO viewVO);
+	
+	// 접수
+	public int receptionUpdate(ReceptionVO receptionVO);
+	public int sendUpdate(SendVO sendVO);
 }

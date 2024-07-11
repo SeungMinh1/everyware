@@ -38,4 +38,8 @@ public interface ApprovalService {
 		
 	// 열람확인
 	public int viewUpdate(ViewVO viewVO);
+	
+	// 접수
+	public Map<String, Object> receptionUpdate(ReceptionVO receptionVO);
+	public Map<String, Object> sendUpdate(SendVO sendVO);
 }
