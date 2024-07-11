@@ -52,6 +52,11 @@
 	.mailLabel{
 		margin: 5px;
 	}
+	
+	/* 모달 */
+	.table{
+  		height:500px;
+  	}
 </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -93,7 +98,6 @@
                 <li class="nav-item active">
                   <a th:href="@{/mailboxInfo(mailboxId=d1)}" class="nav-link">
                     <i class="fas fa-inbox"></i> 받은메일함
-                    <span class="badge bg-primary float-right">12</span>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -109,7 +113,6 @@
                 <li class="nav-item">
                   <a th:href="@{/mailboxInfo(mailboxId=d4)}" class="nav-link">
                     <i class="fas fa-filter"></i> 스팸메일함
-                    <span class="badge bg-warning float-right">65</span>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -138,14 +141,14 @@
                   <label class="mailLabel">받는사람</label>
                   <span style="float:right;">
                   <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
-                  data-bs-toggle="modal" data-bs-target="#exampleModal">주소록</button></span>
+                  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch(1)">주소록</button></span>
 				</div>
     			<input class="mb-1" type="text" id="recipient" name="recipient">
                 <div>
 	                <label class="mailLabel">참조</label>
 	                <span style="float:right;">
-	                <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
-	                data-bs-toggle="modal" data-bs-target="#exampleModal">주소록</button>
+	                <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="cc"
+	                data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch(1)">주소록</button>
 	                </span>
                 </div>
 				<input type="text" id="cc" name="cc">
@@ -191,11 +194,43 @@
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
-	        ...
-	      </div>
+			  <div class="modalDiv">
+			    <div class="form-group">
+			      <div class="input-group input-group-sm">
+			        <select class="form-select" id="searchType">
+			          <option>전체</option>
+			          <option value="name">이름</option>
+			          <option value="department">부서</option>
+			        </select>
+			        <input type="search" class="form-control form-control-sm" id="searchKeyword" placeholder="검색">
+			        <div class="input-group-append">
+			          <button type="submit" class="btn btn-lg btn-default" onclick="addressSearch(1)">
+			            <i class="fa fa-search"></i>
+			          </button>
+			        </div>
+			      </div>
+			    </div>
+			
+			    <table class="table">
+			      <thead>
+			        <tr>	
+			          <th></th>
+			          <th>이름</th>
+			          <th>이메일</th>
+			          <th>부서</th>
+			        </tr>
+			      </thead>
+			      <tbody id="tbody"></tbody>
+			    </table>
+			    <nav aria-label="Page navigation example">
+			      <ul class="pagination" id="pagination"></ul>
+			    </nav>
+			  </div>
+			</div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" >Save changes</button>
+	        <button type="button" class="btn btn-primary addressInRecipBtn">받는사람 추가</button>
+	        <button type="button" class="btn btn-primary addressInCCBtn">참조 추가</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 	      </div>
 	    </div>
 	  </div>
@@ -230,15 +265,32 @@
 <!-- Page specific script -->
 <script th:inline="javascript">
 	var empId = /*[[${#authentication.principal.userVO.empId}]]*/"";
-	
 	// 등록한파일의 result값을 담는 변수     
 	var fileList =[];
+</script>
+<script>
+  $(function () {
+    //Enable check and uncheck all functionality
+    $('.checkbox-toggle').click(function () {
+      var clicks = $(this).data('clicks')
+      if (clicks) {
+        //Uncheck all checkboxes
+        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+        $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+      } else {
+        //Check all checkboxes
+        $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+        $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+      }
+      $(this).data('clicks', !clicks)
+    })
+  })
 </script>
 <!-- ====================
        mail insert js 
  ========================-->
 <script src="../../js/mail/mail_file_insert.js" th:inline="javascript"></script>
-<script src="../../js/mail/mail_file_insert_info.js" th:inline="javascript"></script>
 <script src="../../js/mail/mail_insert.js" th:inline="javascript"></script>
+<script src="../js/approval/org.js"></script>
 </body>
 </html>

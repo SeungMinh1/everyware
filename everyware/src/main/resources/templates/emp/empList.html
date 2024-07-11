@@ -27,7 +27,6 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-          	<span>[[${#authentication.principal.userVO.empId}]]</span>
             <h1>사원정보리스트 출력</h1>
           </div>
           <div class="col-sm-6">
@@ -48,8 +47,6 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">접속한사람 : [[ ${accountId} ]]</h3>
-          <h3 class="card-title">사원번호 : [[ ${eid} ]]</h3>
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
               <i class="fas fa-minus"></i>
@@ -88,7 +85,6 @@
                       <td>[[ ${#dates.format(emp.hireDate, 'yyyy-MM-dd')} ]]</td>
                       <td>[[ ${#dates.format(emp.expireDate, 'yyyy-MM-dd')} ]]</td>
                       
-                    
                   </tr>
                   
               </tbody>

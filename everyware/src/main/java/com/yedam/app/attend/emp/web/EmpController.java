@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
@@ -31,24 +32,21 @@ public class EmpController {
 			              Integer page, 
 			              Integer cnt, 
 			              String dosearch,
+			              String searchOption,
 			              @AuthenticationPrincipal LoginUserVO principal) {
 		page = page == null ? 1 : page; //페이지 default 설정
 		cnt = cnt == null ? 5 : cnt; 	// 사원수 default 설정
-		int allCount = empService.cntList(); // 전체 사원수 count 
+		int allCount = empService.cntList(dosearch, searchOption); // 전체 사원수 count 
 		PageDTO pg = new PageDTO(page, allCount, cnt); //페이징
-
-		String aa = principal.getUserVO().getAccountId(); // 계정아이디
-		int bb = principal.getUserVO().getEmpId(); 		  // 사원번호
 		
-		List<EmpVO> list = empService.empList(page, cnt, dosearch); //전체사원리스트
+		List<EmpVO> list = empService.empList(page, cnt, dosearch, searchOption); //전체사원리스트
 		model.addAttribute("empList", list);
 		model.addAttribute("pg", pg);
 		
-		model.addAttribute("accountId", aa);
-		model.addAttribute("eid", bb);
 		
 		return "emp/empList";
 	}
+		
 	//사원 단건조회
 	@GetMapping("empInfo")
 	public String empInfo(EmpVO empVO, Model model) {
@@ -60,12 +58,8 @@ public class EmpController {
 	// 등록 - 페이지
 	@GetMapping("empInsert")
 	public String empInsertForm(Model model) {
-		EmpVO empVO = new EmpVO(); //등록될 새로운 객체
-		int newEmpId = empService.searchEmpId();
-		empVO.setEmpId(newEmpId);
 		List<CommonVO> poslist = empService.posList(); //직위목록
 		List<CommonVO> departmentList = empService.departmentList(); //부서목록
-		model.addAttribute("emp",empVO);
 		model.addAttribute("position", poslist);
 		model.addAttribute("department", departmentList);
 		return "emp/empInsert";
@@ -73,9 +67,9 @@ public class EmpController {
 	
 	//등록 -  처리
 	@PostMapping("empInsert")
-	public String empInsertProcess(EmpVO empVO) {
-		empService.empInsert(empVO); // 사원정보를 바탕으로 Insert
-		return "redirect:empList";
+	@ResponseBody
+	public int empInsertProcess(@RequestBody EmpVO empVO) {
+		return empService.empInsert(empVO); // 사원정보를 바탕으로 Insert
 	}
 	
 	//수정 - 페이지
@@ -118,5 +112,9 @@ public class EmpController {
 	}
 	
 	//비밀번호 초기화
-
+	
+	
 }
+
+
+

@@ -21,10 +21,9 @@ public class EmpServiceImpl implements EmpService{
 	EmpMapper empMapper;
 
 	@Override
-	public List<EmpVO> empList(int page, int cnt, String dosearch) {
-		return empMapper.selectEmpAll(page, cnt, dosearch);
+	public List<EmpVO> empList(int page, int cnt, String dosearch, String searchOption) {
+		return empMapper.selectEmpAll(page, cnt, dosearch, searchOption);
 	}
-
 	@Override
 	public EmpVO empInfo(EmpVO empVO) {
 		return empMapper.selectEmpInfo(empVO);
@@ -87,10 +86,10 @@ public class EmpServiceImpl implements EmpService{
 	}
 
 	@Override
-	public int cntList() {
-		return empMapper.countList();
+	public int cntList(String dosearch, String searchOption) {
+		return empMapper.countList(dosearch, searchOption);
 	}
-
+	
 	@Override
 	public List<EmpVO> prodEmpList() {
 		

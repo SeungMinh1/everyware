@@ -2,6 +2,8 @@
  * mail_insert.js
  * KJM
  */
+var tagify;
+var tagify1;
 
 $(function () {
    //에디터(summernote) 설정
@@ -20,12 +22,12 @@ $(function () {
  	
   //tagify 이메일 유효성 검사
   const input = document.querySelector('input[name=recipient]');
-    let tagify = new Tagify(input, {
+    tagify = new Tagify(input, {
     	pattern  :/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
   }); 	
   
   const input1 = document.querySelector('input[name=cc]');
-    let tagify1 = new Tagify(input1, {
+    tagify1 = new Tagify(input1, {
     	pattern  :/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i
   }); 	
   
@@ -44,14 +46,11 @@ $(function () {
 	  let info =  getMailInfo();
 	  	
 	  	//받는사람, 제목 유효성 검사
-	    if(tagify.value == ''){
+	    if(tagify.value.length == 0){
 			alert('받는사람 이메일을 입력해 주세요.');
 			/* input.focus(); */
 			return;
-		}else if($('#recipient').val().trim()==''){
-			alert('받는사람 이메일을 입력해 주세요.');
-			return;
-		};
+		}
 		if($('#title').val().trim() == ''){
 			alert('제목을 입력해주세요.');
 			$('#title').focus();
@@ -150,5 +149,92 @@ $(function () {
 	return data1;
   };
   
-})
+ 
   
+  
+})
+
+
+ 
+//주소록 모달 =====================
+//tagify.addTags(["banana@dc.com", "orange@cd.com", "apple@dc.com"]);
+//체크박스 배열로 받아서 tagify.addTags에 배열로 넣기
+	$('.addressInRecipBtn').on('click', function() {  
+			let selectedMail = [];
+			$('.oneCheckbox:checked').each(function() {
+			    selectedMail.push($(this).val());
+			});
+			console.log(selectedMail);
+			
+			tagify.addTags(selectedMail);
+	});
+	
+	$('.addressInCCBtn').on('click', function() {  
+			let selectedMail = [];
+			$('.oneCheckbox:checked').each(function() {
+			    selectedMail.push($(this).val());
+			});
+			console.log(selectedMail);
+			
+			tagify1.addTags(selectedMail);
+	});
+	
+function addressSearch(page) {
+  $('#tbody').empty();
+  let searchType = $('#searchType').val();
+  let searchKeyword = $('#searchKeyword').val();
+
+console.log(searchType);
+console.log(searchKeyword);
+  $.ajax({
+    url: 'empSearch',
+    data: {
+      page: page,
+      cnt: 10,
+      searchOption: searchType,
+      dosearch: searchKeyword
+    }
+  })
+  .done(result => {
+	console.log(result.pg)
+	console.log(result.empList)
+    $(result.empList).each(function(i, obj) {
+      let tr = `<tr>
+      				<td>
+	                     <div class="icheck-primary">
+	                       <input type="checkbox" value="${obj.mail}" id="${obj.empId}" class="oneCheckbox">
+	                       <label for="${obj.empId}"></label>
+	                     </div>
+	                </td>
+                    <td>${obj.empName}</td>
+                    <td>${obj.mail}</td>
+                    <td>${obj.departmentName}</td>
+                </tr>`;
+      $('#tbody').append(tr);
+    });
+
+    // 페이징 처리
+    let pg = result.pg;
+    let paginationHtml = '';
+    if (pg.prev) {
+      paginationHtml += `<li class="page-item">
+                           <a class="page-link" href="#" onclick="addressSearch(${pg.startPage - 1})" aria-label="Previous">
+                             <span aria-hidden="true">&laquo;</span>
+                           </a>
+                         </li>`;
+    }
+    for (let i = pg.startPage; i <= pg.endPage; i++) {
+      paginationHtml += `<li class="page-item ${page === i ? 'active' : ''}">
+                           <a class="page-link" href="#" onclick="addressSearch(${i})">${i}</a>
+                         </li>`;
+    }
+    if (pg.next) {
+      paginationHtml += `<li class="page-item">
+                           <a class="page-link" href="#" onclick="addressSearch(${pg.endPage + 1})" aria-label="Next">
+                             <span aria-hidden="true">&raquo;</span>
+                           </a>
+                         </li>`;
+    }
+    $('.pagination').html(paginationHtml);
+  });
+}

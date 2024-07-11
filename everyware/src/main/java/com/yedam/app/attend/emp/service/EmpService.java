@@ -8,7 +8,7 @@ import com.yedam.app.common.service.CommonVO;
 public interface EmpService {
 	
 	//전체 사원정보 조회
-	public List<EmpVO> empList(int page, int cnt, String dosearch);
+	public List<EmpVO> empList(int page, int cnt, String dosearch, String searchOption);
 	//사원정보 조회
 	public EmpVO empInfo(EmpVO empVO);
 	//사원정보 등록
@@ -31,7 +31,7 @@ public interface EmpService {
 	public int resetPwd(EmpVO empVO);
 	
 	//리스트 개수
-	public int cntList();
+	public int cntList(String dosearch, String searchOption);
 	
 	//생산팀 사원 출력
 	public List<EmpVO> prodEmpList();

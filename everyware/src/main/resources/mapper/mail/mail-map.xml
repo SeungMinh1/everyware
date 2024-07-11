@@ -2,16 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.mail.mail.mapper.MailMapper">
 	<select id="selectMailboxInfo" resultType="MailVO">
-		SELECT sender
-			  , title
-			  , send_date
-			  , emp_id
-			  , mailbox_id
-			  , FIND_CODENAME(MAILBOX_ID) mailbox_name
-			  , mail_id
-		FROM mail
-		WHERE mailbox_id = #{mailVO.mailboxId} and emp_id = #{empId} 
-		ORDER BY mail_id DESC
+		
+				SELECT sender
+					  , title
+					  , send_date
+					  , emp_id
+					  , mailbox_id
+					  , FIND_CODENAME(MAILBOX_ID) mailbox_name
+					  , mail_id
+				FROM mail
+				WHERE mailbox_id = #{mailVO.mailboxId} and emp_id = #{empId} 
+				ORDER BY mail_id DESC
 	</select>
 	
 	<select id="selectMailInfo" resultType="MailVO">

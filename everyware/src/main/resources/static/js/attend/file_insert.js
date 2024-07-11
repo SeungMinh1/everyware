@@ -1,5 +1,5 @@
 /**
- * 	data_file_insert.js
+ * 	mail_file_insert.js
  */
 
 $(function () {
@@ -19,18 +19,17 @@ $(function () {
         return true;
     };
     
-// 등록한파일의 result값을 담는 변수     
-var fileList =[];
 
-//
+
+//파일업로드
 function uploadFile(){
 	var formData = new FormData();
-		var inputFile = $("input[name='uploadFile']");
+		var inputFile = $("input[name='photo']");
 		var files = inputFile[0].files;
 		
 		
-		//console.log("=== 1 ===");
-		//console.log(files);
+		console.log("=== 1 ===");
+		console.log(files);
 		
 		//업로드 된 파일이 있을때
 		if(files.length != 0){
@@ -47,21 +46,22 @@ function uploadFile(){
 		    }
 		};
 		
-		$.ajax('/uploadAjaxData', { 
+		$.ajax('/uploadAjax', { 
 			processData : false,
 			contentType : false,
 			data : formData,
 			type : 'post',
 			success: function(result){
-				//console.log("=== 2 ===");
-				//console.log(result);
+				console.log("=== 2 ===");
+				console.log(result);
 				
 				//업로드된 파일 tr로 보여줌
 				showUploadFile(result);
 				
-				/*=================================================
-				 result를 fileList에 담음 => fileList는 위에 전역으로 선언함.
-				===================================================*/
+			/*=============================================
+				 result를 fileList에 담음 => 
+				 fileList는 mail_insert.html에 전역으로 선언함.
+			===============================================*/
 				fileList.push(...result);
 				
 				//input 파일선택 초기화
@@ -78,131 +78,76 @@ function uploadFile(){
 //====== 파일이 올라갔을때 바로 출력 =======
 	$("input[type='file']").change(function(){
 		uploadFile();
-	})
+	});
 	
 // ====== 파일첨부 input 복사 ( 초기화 목적 ) ==========
 	var cloneInputFileDiv = $(".uploadDiv").clone();
 	
 // ====== 미리보기 ( tbody 태그 밑에 tr td 생성 ) ======
-	var uploadResult = $(".uploadResult tbody");
+	var uploadResult = $(".uploadResult ul");
 	
 	//ajax -> result 받아와서 -> each 
 	function showUploadFile(uploadResultArr){
 		var str = "";
 		$(uploadResultArr).each(function(i, obj){
-			//console.log(obj);
+			console.log(obj);
 			// 파일 경로 ( 다운로드 할때 필요 )
 			var fileCallPath = encodeURIComponent(//
 				obj.uploadPath +"/"+ obj.uploadFileName + "_" + obj.originFileName);
 		    // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
+	  
+			str += "<li class='li_style'" + ">"
+			str += "<a class='a_style' href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
+			str += "<span>" + '(' + obj.fileSize + ')' + "</span>"
+			str += "<span data-file='" + fileCallPath+ "\'data-fileid=\'" + obj.fileId + "\'data-type='file'> x </span>"
+			str += '<img src=/display?fileName='+fileCallPath+'></img>'
+			str += "</li>"
 			
-			/*			
-			// 미리보기 tr td생성
-			str += "<tr>"
-			str += "<td>" + obj.originFileName 
-			str += "</td>"
-			str += "<td>" + obj.fileSize + "</td>"
-			str += "<td>" + obj.ext + "</td>"
-			str += "<td>"+ "<span data-file=\'"+ fileCallPath +"\'data-type='file'> x </span>"+ "</td>"			
-			str += "</tr>";
-			*/
-			
-			// 다운로드 tr td 생성 
-			str += "<tr>"
-			str += "<td>"
-			str += "<a id='modalA' href='/downloadData?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
-			str += "</td>"
-			str += "<td>" + obj.fileSize + "</td>"
-			str += "<td>" + obj.ext + "</td>"
-			str += "<td>"+ "<span data-file=\'" + fileCallPath + "\'data-fileid=\'" + obj.fileId + "\'data-type='file'> x </span>"+ "</td>"
-			str += "</tr>";
 		});
 		uploadResult.append(str);
 	};
 
-/*===============
-     자료실 등록
-================*/
-$('.insertBtn').on('click', function(){
-		$('#fileTitle').val();
-		//console.log($('.dataSelect option:selected').val());
-		//console.log($('#fileTitle').val());
-		
-		var insertData = {
-			title : $('#fileTitle').val(),
-			remarks : $('.dataSelect option:selected').val(),
-			attachList : fileList
-		}
-		
-		if(fileList.length > 0){
-			insertData.attachmentGroupId = fileList[0].attachmentGroupId; 
-
-			$.ajax('insertData',{
-				type: 'post',
-				contentType : 'application/JSON',
-				data : JSON.stringify(insertData)
-			})
-			.done(result=>{
-				if(result){
-					alert('등록');
-					let url = '/dataCommon';
-					location.href=url;
-				}
-				console.log(result);
-				modalEmpty();
-				
-			})
-			.fail(err=>console.log(err));
-		}else{
-			alert('업로드 할 파일을 선택해주세요.');
-		}
-		
-	})	
 // ============= 삭제 ==============
 	$(".uploadResult").on('click', 'span', function(){
 		var targetFile = $(this).data("file");
 		var type = $(this).data("type");
 		var dataFileId = $(this).data("fileid");
-		var tr = $(this).parent().parent();
 		
+		var li = $(this).parent();
+		
+		/* =======================
+		=  폴더에 있는 파일 삭제 ajax  = 
+		=========================*/
 		$.ajax({
 			url: '/deleteDataFile',
 			data : {fileName: targetFile, type: type},
 			dataType:'text',
 			type : 'POST',
-			success: function(result){
-				tr.remove();
-				// fileList에서 해당 파일 제거
-                fileList = fileList.filter(file => {
+			success: function(){
+				li.remove();
+				
+				//삭제시 List에서도 삭제
+				fileList = fileList.filter(file => {
                     var fileCallPath = encodeURIComponent(file.uploadPath + "/" + file.uploadFileName + "_" + file.originFileName);
                     return fileCallPath !== targetFile;
                 });
                 
-                let info = {fileId : dataFileId};
-                $.ajax({
+                /* =======================
+				=     DB 파일 삭제 ajax     = 
+				=========================*/
+				let info = {fileId : dataFileId};
+				$.ajax({
 						type: "POST",
 		                url: "deleteDataFileInfo",
 		                contentType : 'application/JSON',
 						data : JSON.stringify(info)
 				})
-			}
-		});//$.ajax
-		
-	});
-
-//===모달 닫을때 초기화===
-$('.closeModal').on('click',function(){
-	modalEmpty();
-});
-
-function modalEmpty(){
-	$('#fileTitle').val('');
-	$('select[name="dataSelect"]').val("개인");
-	$('.fileTable tbody').empty();
-};
+				.done(result=>{
+					console.log(result);
+				})//$.ajax(deleteDataFileInfo)
+					
+			}//success
+		});//$.ajax(deleteDataFile)
+	});//uploadResult on click
 	
-	$('.modal').on('hidden.bs.modal', function(e) {
-	    modalEmpty();
-	    //console.log('모달 초기화')
-	});
 });
