@@ -175,14 +175,13 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	$(document).ready(function(){
 		$('#savePdf').click(function() { // pdf저장 button id
 		
-	    html2canvas($('#calTable')[0]).then(function(canvas) { //저장 영역 div id
+	    /*html2canvas($('#calTable')[0]).then(function(canvas) { //저장 영역 div id
 	    // 캔버스를 이미지로 변환
 	    //canvas.setAttribute("width", "800px");
 
 	    console.log(canvas)
 	    var imgData = canvas.toDataURL('image/png');
-	    
-		     
+    
 	    var imgWidth = 190; // 출력 페이지 세로 길이 계산 A4 기준
 	    var imgHeight = canvas.height * imgWidth / canvas.width;
 	    
@@ -193,23 +192,21 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	    var position = 1;
 	    
 	    //스케일
-	    /*doc.scale(0.5, 1);*/
+	    doc.scale(0.5, 1);
 	    // 첫 페이지 출력
 	    doc.addImage(imgData, 'PNG', 10, 10,  200, 200);
-	    
-	    
-	   
-	 
+
 	    // 파일 저장
 	    doc.save('file-name.pdf');
-
-		  
-		});
+ 
+		});*/
 		
-		/*html2canvas($("#calTable"), {
+		html2canvas($("#calTable"), {
 			onrendered: function (canvas) {
 				// create intermediate canvas
 		    var rotCanvas = document.createElement("canvas");
+		    console.log(canvas);
+		    console.log(rotCanvas);
 		
 		    // swap width and height
 		    rotCanvas.width = canvas.height;
@@ -234,7 +231,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 		    image.src = data;
 			}
 			
-		}*/
+		});
 			
 		
 		
