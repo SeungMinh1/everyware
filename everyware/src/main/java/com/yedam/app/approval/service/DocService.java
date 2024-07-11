@@ -17,7 +17,7 @@ public interface DocService {
 	public List<DocVO> expectedDocList(int id);
 
 	// 기안 문서
-	public List<DocVO> draftDocList(int id);
+	public List<DocVO> draftDocList(int id, String dosearch, String searchOption);
 
 	// 결재 문서
 	public List<DocVO> approvalDocList(int id);

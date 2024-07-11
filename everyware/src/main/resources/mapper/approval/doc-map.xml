@@ -49,13 +49,41 @@
                             FROM emp
                             WHERE emp_id = #{empId})
         AND approval_status NOT IN '임시저장'
-        <!-- <choose>
-        	<when test="search != null">
-        		AND doc_title LIKE '%'||#{search}||'%'
-        	</when>
-        </choose>    -->           				 
+     	<include refid="searchCondition"></include>   				 
 		ORDER BY doc_id
 	</select>
+	
+	<sql id="searchCondition">
+ 		<choose>
+		   <when test="dosearch != null and dosearch != ''">
+		      <choose>
+		        <when test="searchOption == 'name'">
+		          WHERE emp_name like '%'||#{dosearch}||'%'
+		        </when>
+		        <when test="searchOption == 'department'">
+		          WHERE department_id = find_code(#{dosearch}) 
+		            OR find_codename(department_id) like '%'||#{dosearch}||'%'
+		        </when>
+		        <when test="searchOption == 'position'">
+		          WHERE emp_position = find_code(#{dosearch}) 
+		            OR find_codename(emp_position) like '%'||#{dosearch}||'%'
+		        </when>
+		        <when test="searchOption == 'email'">
+		          WHERE mail like '%'||#{dosearch}||'%'
+		        </when>
+		        <otherwise>
+		          WHERE emp_name like '%'||#{dosearch}||'%' 
+		            OR department_id = find_code(#{dosearch}) 
+		            OR emp_position = find_code(#{dosearch}) 
+		            OR mail like '%'||#{dosearch}||'%' 
+		            OR find_codename(department_id) like '%'||#{dosearch}||'%' 
+		            OR find_codename(emp_position) like '%'||#{dosearch}||'%' 
+		            OR tel like '%'||#{dosearch}||'%'
+		        </otherwise>
+		      </choose>
+		    </when>
+		  </choose>
+ 	</sql>
 	
 	<!-- 결재 문서 -->
 	<select id="approvalDocList" resultType="DocVO">

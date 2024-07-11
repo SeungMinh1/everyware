@@ -37,9 +37,9 @@ public class DocServiceImpl implements DocService {
 	}
 
 	@Override
-	public  List<DocVO> draftDocList(int id) {
+	public  List<DocVO> draftDocList(int id, String dosearch, String searchOption) {
 		
-		return docMapper.draftDocList(id);
+		return docMapper.draftDocList(id, dosearch, searchOption);
 	}
 
 	@Override
