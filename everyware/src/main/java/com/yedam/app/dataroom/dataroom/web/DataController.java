@@ -1,5 +1,6 @@
 package com.yedam.app.dataroom.dataroom.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.common.util.AuthUtil;
+import com.yedam.app.dataroom.dataroom.service.DataPageDTO;
 import com.yedam.app.dataroom.dataroom.service.DataService;
 import com.yedam.app.dataroom.dataroom.service.DataVO;
 import com.yedam.app.dataroom.file.service.DataFileService;
@@ -32,12 +35,26 @@ public class DataController {
 	
 	//공통자료실
 	@GetMapping("dataCommon")
-	public String dataCommon(DataVO dataVO, Model model) {
+	@ResponseBody
+	public Map<String, Object> dataCommon(DataVO dataVO, 
+							 Integer page, 
+							 Integer cnt) {
 		dataVO.setRemarks("공통");
+		String remarks = dataVO.getRemarks();
+		page = page == null ? 1 : page; 
+		cnt = cnt == null ? 10 : cnt; 
 		
-		List<DataVO> find = dataService.dataListCommon(dataVO);
-		model.addAttribute("datas", find);
-		return "dataroom/dataroom";
+		int allCount = dataService.cntDataCommon(remarks);
+		DataPageDTO pg = new DataPageDTO(page, allCount, cnt);
+		
+		List<DataVO> find = dataService.dataListCommon(remarks, page, cnt);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("datas", find);
+		map.put("pg", pg);
+		
+		return map;
 	}
 	
 	// 부서별 자료실

@@ -9,14 +9,25 @@
 	</select>
 	
 	<select id="selectDataCommon" resultType="DataVO">
-		SELECT
-		    data_id
-		    , title
-		    , registrate_date
-		    , attachment_group_id
-		    , emp_id
-		    , department_id
-		    , remarks
+		SELECT * 
+		FROM (SELECT rownum rs, a.* 
+		      FROM (SELECT data_id
+		                , title
+		                , registrate_date
+		                , attachment_group_id
+		                , emp_id
+		                , department_id
+		                , remarks
+		            FROM data_room
+		            WHERE remarks = #{remarks}
+		            ORDER BY data_id DESC) a 
+		     WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})) 
+		WHERE rs > (#{page}-1) * (#{cnt})
+		
+	</select>
+	
+	<select id="cntDataCommon" resultType="int">
+		SELECT count(*)
 		FROM data_room
 		WHERE remarks = #{remarks}
 	</select>
@@ -32,6 +43,7 @@
 		    , remarks
 		FROM data_room
 		WHERE department_id = #{departmentId} and remarks = #{remarks}
+		ORDER BY data_id DESC
 	</select>
 	
 	<select id="selectDataMe" resultType="DataVO">
@@ -45,6 +57,7 @@
 		    , remarks
 		FROM data_room
 		WHERE emp_id = #{empId} and remarks = #{remarks}
+		ORDER BY data_id DESC
 	</select>
 	
 	<!-- ===== 자료등록 ===== -->

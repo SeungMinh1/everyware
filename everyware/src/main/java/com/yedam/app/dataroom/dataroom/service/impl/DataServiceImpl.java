@@ -29,8 +29,8 @@ public class DataServiceImpl implements DataService {
 	
 	//자료실 조회
 	@Override
-	public List<DataVO> dataListCommon(DataVO dataVO) {
-		return dataMapper.selectDataCommon(dataVO);
+	public List<DataVO> dataListCommon(String remarks, int page, int cnt) {
+		return dataMapper.selectDataCommon(remarks, page, cnt);
 	}
 
 	@Override
@@ -87,6 +87,13 @@ public class DataServiceImpl implements DataService {
 		}
 		
 		return result;
+	}
+	
+	
+	//자료실 cnt
+	@Override
+	public int cntDataCommon(String remarks) {
+		return dataMapper.cntDataCommon(remarks);
 	}
 	
 	

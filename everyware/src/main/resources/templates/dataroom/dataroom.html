@@ -108,21 +108,21 @@
 		<!-- ================= Modal end================== -->
               <ul class="list-group nav nav-pills flex-column">
                 <li class="nav-item active d1">
-                  <a th:href="@{/dataCommon}" data-no="d1" class="nav-link">
+                  <a onclick="dataCommonList(1)" data-no="d1" class="nav-link">
                     <i class="fas fa-inbox"></i>　공통 자료실
                   </a>
                 </li>
               </ul>
                <ul class="nav nav-pills flex-column">
                 <li class="nav-item d2">
-                  <a th:href="@{/dataDept}" data-no="d2" class="nav-link">
+                  <a data-no="d2" class="nav-link">
                     <i class="fas fa-inbox"></i>　부서 자료실
                   </a>
                 </li>
               </ul>
                <ul class="nav nav-pills flex-column">
                 <li class="nav-item d3">
-                  <a th:href="@{/dataMe}" data-no="d3" class="nav-link">
+                  <a data-no="d3" class="nav-link">
                     <i class="fas fa-inbox"></i>　개인 자료실
                   </a>
                 </li>
@@ -191,27 +191,11 @@
                   		<th width="20%">등록날짜</th>
                   	</tr>
                   </thead>
-                  <tbody class="tbody">
-                  <th:block th:if="${datas.size() == 0}">
-	                  <tr>
+                  <tbody id="tbody">
+	                  <!-- <tr>
 		                <td colspan="4" class="text-center">등록된 파일이 없습니다.</td>
-		              </tr>
-                  </th:block>
-                  <th:block th:each="info : ${datas}">
-                    <tr th:id="${info.dataId}">
-                    	<td>
-	                        <div class="icheck-primary">
-	                           <input type="checkbox" th:value="${info.dataId}" th:id="'checkbox-' + ${info.dataId}" class="oneCheckbox">
-	                           <label th:for="'checkbox-' + ${info.dataId}"></label>
-	                        </div>
-	                    </td>
-	                    <td class="title"><a th:href="@{/selectData(dataId=${info.dataId})}">[[ ${info.title} ]]</a></td>
-	                    <td class="size"></td>
-	                    <td class="date">[[ ${#dates.format(info.registrateDate, 'yy.MM.dd')} ]]
-	                    <input type="hidden" th:value="${info.attachmentGroupId}">
-	                    </td>
-	                  </tr>
-                 	</th:block>
+		              </tr> -->
+                    
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -256,7 +240,7 @@
     })
   })
 </script>
-
+<script src="../../js/dataroom/data_list_common.js"></script>
 <script src="../../js/dataroom/data_file_insert.js"></script>
 <script src="../../js/dataroom/data_info.js"></script>
 <script src="../../js/dataroom/data_delete.js"></script>
