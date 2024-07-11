@@ -33,53 +33,34 @@ public class DataController {
 		return "dataroom/dataroom";
 	}
 	
-	//공통자료실
-	@GetMapping("dataCommon")
+	//자료실리스트
+	@GetMapping("dataList")
 	@ResponseBody
-	public Map<String, Object> dataCommon(DataVO dataVO, 
+	public Map<String, Object> dataList(DataVO dataVO, 
 							 Integer page, 
-							 Integer cnt) {
-		dataVO.setRemarks("공통");
-		String remarks = dataVO.getRemarks();
+							 Integer cnt,
+							 String category,
+							 String remarks) {
+		
+		Integer empId = AuthUtil.getEmpId();
+		String deptId = dataService.selectDeptId(empId);
+		dataVO.setDepartmentId(deptId);
+		dataVO.setEmpId(empId);
+		dataVO.setRemarks(remarks);
+		
 		page = page == null ? 1 : page; 
 		cnt = cnt == null ? 10 : cnt; 
 		
-		int allCount = dataService.cntDataCommon(remarks);
+		int allCount = dataService.cntDataList(dataVO, category, remarks);
 		DataPageDTO pg = new DataPageDTO(page, allCount, cnt);
 		
-		List<DataVO> find = dataService.dataListCommon(remarks, page, cnt);
+		List<DataVO> find = dataService.dataList(dataVO, page, cnt, category, remarks);
 		
 		Map<String, Object> map = new HashMap<>();
-		
 		map.put("datas", find);
 		map.put("pg", pg);
 		
 		return map;
-	}
-	
-	// 부서별 자료실
-	@GetMapping("dataDept")
-	public String dataDept(DataVO dataVO, Model model) {
-		Integer empId = AuthUtil.getEmpId();
-		String deptId = dataService.selectDeptId(empId);
-		dataVO.setDepartmentId(deptId);
-		dataVO.setRemarks("부서");
-
-		List<DataVO> find = dataService.dataListDept(dataVO);
-		model.addAttribute("datas", find);
-		return "dataroom/dataroom";
-	}
-	
-	// 개인 자료실
-	@GetMapping("dataMe")
-	public String dataMe(DataVO dataVO, Model model) {
-		Integer empId = AuthUtil.getEmpId();
-		dataVO.setEmpId(empId);
-		dataVO.setRemarks("개인");
-		
-		List<DataVO> find = dataService.dataListMe(dataVO);
-		model.addAttribute("datas", find);
-		return "dataroom/dataroom";
 	}
 	/*
 	// 개인 자료실 AJAX

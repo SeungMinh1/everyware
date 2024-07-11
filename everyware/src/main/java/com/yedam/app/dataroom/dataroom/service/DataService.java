@@ -9,15 +9,11 @@ public interface DataService {
 	public String selectDeptId(int empId);
 	
 	//자료실 조회
-	public List<DataVO> dataListCommon(String remarks, int page, int cnt);
-	public List<DataVO> dataListDept(DataVO dataVO);
-	public List<DataVO> dataListMe(DataVO dataVO);
+	public List<DataVO> dataList(DataVO dataVO, int page, 
+				int cnt, String category, String remarks);
 	
 	//자료실 cnt
-	public int cntDataCommon(String remarks);
-	
-	
-	
+	public int cntDataList(DataVO dataVO, String category, String remarks);
 	
 	//자료 등록 + 첨부파일 등록
 	public int insertData(DataVO dataVO);
