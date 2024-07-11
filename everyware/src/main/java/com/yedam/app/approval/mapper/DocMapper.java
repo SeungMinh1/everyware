@@ -18,7 +18,7 @@ public interface DocMapper {
 	public List<DocVO> expectedDocList(int id);
 
 	// 기안 문서
-	public List<DocVO> draftDocList(int id, String dosearch, String searchOption);
+	public List<DocVO> draftDocList(int id);
 
 	// 결재 문서
 	public List<DocVO> approvalDocList(int id);

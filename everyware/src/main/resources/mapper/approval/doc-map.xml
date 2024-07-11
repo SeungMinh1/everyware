@@ -49,7 +49,52 @@
                             FROM emp
                             WHERE emp_id = #{empId})
         AND approval_status NOT IN '임시저장'
-     	<include refid="searchCondition"></include>   				 
+     	<!-- <include refid="searchCondition"></include> -->  				 
+		ORDER BY doc_id
+	</select>
+	
+	<!-- 기안 문서(진행) -->
+	<select id="goDraftDocList" resultType="DocVO">
+		SELECT *
+		FROM approval_doc
+		WHERE draft_emp = (SELECT emp_name
+						   FROM emp
+						   WHERE emp_id = #{empId})
+		AND draft_emp_id = (SELECT emp_id
+                            FROM emp
+                            WHERE emp_id = #{empId})
+        AND approval_status = '진행중'
+     	<!-- <include refid="searchCondition"></include> -->  				 
+		ORDER BY doc_id
+	</select>
+	
+	<!-- 기안 문서(반려) -->
+	<select id="rejDraftDocList" resultType="DocVO">
+		SELECT *
+		FROM approval_doc
+		WHERE draft_emp = (SELECT emp_name
+						   FROM emp
+						   WHERE emp_id = #{empId})
+		AND draft_emp_id = (SELECT emp_id
+                            FROM emp
+                            WHERE emp_id = #{empId})
+        AND approval_status = '반려'
+     	<!-- <include refid="searchCondition"></include> -->  				 
+		ORDER BY doc_id
+	</select>
+	
+	<!-- 기안 문서(완료) -->
+	<select id="compDraftDocList" resultType="DocVO">
+		SELECT *
+		FROM approval_doc
+		WHERE draft_emp = (SELECT emp_name
+						   FROM emp
+						   WHERE emp_id = #{empId})
+		AND draft_emp_id = (SELECT emp_id
+                            FROM emp
+                            WHERE emp_id = #{empId})
+        AND approval_status = '완료'
+     	<!-- <include refid="searchCondition"></include> -->  				 
 		ORDER BY doc_id
 	</select>
 	
@@ -61,25 +106,27 @@
 		          AND doc_title LIKE '%'||#{dosearch}||'%'
 		        </when>
 		        <when test="searchOption == 'emp'">
-		          LIKE '%'||#{dosearch}||'%'
+		          AND draft_emp LIKE '%'||#{dosearch}||'%'
 		        </when>
 		        <when test="searchOption == 'task'">
-		          LIKE '%'||#{dosearch}||'%'
+		          AND approval_task LIKE '%'||#{dosearch}||'%'
 		        </when>
 		        <when test="searchOption == 'one'">
-		          LIKE '%'||#{dosearch}||'%'
+		          AND sysdate - draft_date &lt; 31
 		        </when>
 		        <when test="searchOption == 'thr'">
-		          LIKE '%'||#{dosearch}||'%'
+		          AND sysdate - draft_date &lt; 91
 		        </when>
 		        <when test="searchOption == 'six'">
-		          LIKE '%'||#{dosearch}||'%'
+		          AND sysdate - draft_date &lt; 181
 		        </when>
 		        <when test="searchOption == 'year'">
-		          LIKE '%'||#{dosearch}||'%'
+		          AND sysdate - draft_date &lt; 366
 		        </when>
 		        <otherwise>
-		          
+		          AND doc_title LIKE '%'||#{dosearch}||'%'
+		          OR draft_emp LIKE '%'||#{dosearch}||'%'
+		          OR approval_task LIKE '%'||#{dosearch}||'%'
 		        </otherwise>
 		      </choose>
 		    </when>
@@ -94,6 +141,42 @@
 						 FROM approval_path
 						 WHERE approval_emp_id = #{empId}
 						 AND approval_type = '결재')				
+		ORDER BY doc_id
+	</select>
+	
+	<!-- 결재 문서(진행) -->
+	<select id="goApprovalDocList" resultType="DocVO">
+		SELECT *
+		FROM approval_doc
+		WHERE doc_id IN (SELECT doc_id
+						 FROM approval_path
+						 WHERE approval_emp_id = #{empId}
+						 AND approval_type = '결재')		
+		AND approval_status = '진행중'		
+		ORDER BY doc_id
+	</select>
+	
+	<!-- 결재 문서(완료) -->
+	<select id="compApprovalDocList" resultType="DocVO">
+		SELECT *
+		FROM approval_doc
+		WHERE doc_id IN (SELECT doc_id
+						 FROM approval_path
+						 WHERE approval_emp_id = #{empId}
+						 AND approval_type = '결재')		
+		AND approval_status = '완료'				 		
+		ORDER BY doc_id
+	</select>
+	
+	<!-- 결재 문서(반려) -->
+	<select id="refApprovalDocList" resultType="DocVO">
+		SELECT *
+		FROM approval_doc
+		WHERE doc_id IN (SELECT doc_id
+						 FROM approval_path
+						 WHERE approval_emp_id = #{empId}
+						 AND approval_type = '결재')	
+		AND approval_status = '반려'				 			
 		ORDER BY doc_id
 	</select>
 	

@@ -105,7 +105,18 @@ public class ApprovalController {
 		return approvalService.viewUpdate(viewVO);
 	}
 	
+	// 접수
+	@PostMapping("receptionUpdate")
+	@ResponseBody
+	public Map<String, Object> receptionUpdate(@RequestBody ReceptionVO receptionVO) {
+		return approvalService.receptionUpdate(receptionVO);
+	}
 	
+	@PostMapping("sendUpdate")
+	@ResponseBody
+	public Map<String, Object> sendUpdate(@RequestBody SendVO sendVO) {
+		return approvalService.sendUpdate(sendVO);
+	}
 	
 	
 }

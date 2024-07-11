@@ -7,6 +7,10 @@ if(ref == 'https://192.168.0.23:8100/waitDocList') {
 	$('#reject').css('display', 'inline-block');
 }
 
+if(ref == 'https://192.168.0.23:8100/receptionDocList') {
+	$('#receipt').css('display', 'inline-block');
+}
+
 var approvalemps = [];
 for(var i=0; i<$('.approvalName').length; i++) {
 	approvalemps.push($('.approvalName')[i].dataset.name);

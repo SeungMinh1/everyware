@@ -202,5 +202,19 @@
 		AND   doc_id = #{docId}
 	</update>
 	
+	<update id="receptionUpdate" parameterType="ReceptionVO">
+		UPDATE reception_path
+		SET reception_status = '접수'
+		WHERE reception_emp_id = #{receptionEmpId}
+		AND doc_id = #{docId}
+	</update>
+	
+	<update id="sendUpdate" parameterType="SendVO">
+		UPDATE send_path
+		SET send_status = '접수'
+		WHERE send_emp_id = #{sendEmpId}
+		AND doc_id = #{docId}
+	</update>
+	
 	
 </mapper>

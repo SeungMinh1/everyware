@@ -58,10 +58,9 @@ public class DocController {
 		
 		// 기안 문서
 		@GetMapping("draftDocList")
-		@ResponseBody
-		public String draftDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal, String dosearch, String searchOption) {
+		public String draftDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
 			int id = principal.getUserVO().getEmpId();
-			List<DocVO> list = docService.draftDocList(id, dosearch, searchOption);
+			List<DocVO> list = docService.draftDocList(id);
 			model.addAttribute("draftDocList", list);
 			return "approvalDoc/draftDocList";
 		}
