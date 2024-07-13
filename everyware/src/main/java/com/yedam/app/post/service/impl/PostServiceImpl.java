@@ -70,8 +70,8 @@ public class PostServiceImpl implements PostService {
 	}
 	//게시물 개수 
 	@Override
-	public int postCnt(PostVO postVO) {
-		return postMapper.postCnt(postVO);
+	public int postCnt(PostVO postVO,SearchVO searchVO) {
+		return postMapper.postCnt(postVO,searchVO);
 	}
 	//조회수 
 	@Override

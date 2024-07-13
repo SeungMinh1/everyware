@@ -143,8 +143,10 @@
                         <span class="username">
                           
                           <a style="font-size: 25px">[[${post.title}]]</a><br>
+                          <th:block th:if="${post.empId} == ${#authentication.principal.userVO.empId} ">
                           <a th:href="@{|/postUpdate?postId=${post.postId}|}"><button class="btn-3"><span>수정</span></button></a>
-                          <a th:href="@{|/postDelete?postId=${post.postId}|}" class= "float-right btn-tool"><i class="fas fa-times"><!--/*삭제 */--></i></a>
+                          <a href="#" th:onclick="del()" class= "float-right btn-tool"><i class="fas fa-times"><!--/*삭제 */--></i></a>
+                          </th:block>
                         </span>
                         
                         <div>
@@ -254,7 +256,12 @@ const likeCheck = document.querySelector('.box');
         toggleButton.addEventListener('click', function() {
         	likeCheck.classList.toggle('blue'); // 토글할 클래스 이름
         });	 
-
+function del(){
+	let delCheck = confirm("삭제할까요?")
+	if(delCheck) {
+		location.href="postDelete?postId=" + [[${post.postId}]]
+	}
+}
 </script>
 </body>
 </html>

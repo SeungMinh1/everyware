@@ -38,7 +38,7 @@ SELECT * FROM(
 	        attachment_group_id,
 	        content,
 	        emp_id,
-	        emp_id_name(emp_id) "empName"
+	        emp_id_name(emp_id) emp_name
 		FROM post
 	    WHERE board_id = 1 
 		AND notification_yn = 'Y'
@@ -52,7 +52,7 @@ SELECT * FROM(
 				AND content like '%'||#{searchVO.keyword}||'%'
 			</when>
 			<when test='searchVO.type == "E"'>
-				AND empName like '%'||#{searchVO.keyword}||'%'
+				AND emp_id_name(emp_id) like '%'||#{searchVO.keyword}||'%'
 			</when> 
 			<when test='searchVO.type == "TC"'>
 				AND title like '%'||#{searchVO.keyword}||'%'
@@ -294,9 +294,28 @@ UPDATE post
 
 <!-- 게시물 개수 -->
 <select id="postCnt" resultType="int">
-	SELECT COUNT(*) 
+	SELECT COUNT(*)
+	 
 	FROM post 
-	WHERE board_id = #{boardId}
+	WHERE board_id = #{postVO.boardId}
+		<!-- 검색 -->
+		<if test= "searchVO.type != null and searchVO.keyword != null">
+		 <choose>
+			<when test='searchVO.type == "T"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
+			</when>
+			<when test='searchVO.type == "C"'>
+				AND content like '%'||#{searchVO.keyword}||'%'
+			</when>
+			<when test='searchVO.type == "E"'>
+				AND emp_id_name(emp_id) like '%'||#{searchVO.keyword}||'%'
+			</when> 
+			<when test='searchVO.type == "TC"'>
+				AND title like '%'||#{searchVO.keyword}||'%'
+				OR content like '%'||#{searchVO.keyword}||'%'
+			</when> 			
+		</choose> 
+		</if>
 </select>
 <!-- 조회수  -->
 <update id="updateViewCnt" parameterType="PostVO" >
