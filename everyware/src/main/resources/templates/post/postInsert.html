@@ -185,7 +185,8 @@ $(document).ready(function() {
 			data:formData,
 			type: 'POST',
 			success: function(result){
-				alert("Uploaded");
+				alert("게시글이 등록되었습니다");
+				location.href=`postInfo?postId=${result.postId}`
 			},
 			 error: function(xhr, status, error) {
                  console.error('파일 업로드 중 오류 발생: ' + error);
