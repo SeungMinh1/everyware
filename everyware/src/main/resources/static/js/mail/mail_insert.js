@@ -198,6 +198,9 @@ console.log(searchKeyword);
   .done(result => {
 	console.log(result.pg)
 	console.log(result.empList)
+	
+	let rowCount = 0;
+	
     $(result.empList).each(function(i, obj) {
       let tr = `<tr>
       				<td>
@@ -211,8 +214,18 @@ console.log(searchKeyword);
                     <td>${obj.departmentName}</td>
                 </tr>`;
       $('#tbody').append(tr);
+      rowCount++;
     });
 
+	for (let i = rowCount; i < 10; i++) {
+	      let emptyRow = `<tr>
+	                        <td>&nbsp;</td>
+	                        <td>&nbsp;</td>
+	                        <td>&nbsp;</td>
+	                        <td>&nbsp;</td>
+	                      </tr>`;
+	      $('#tbody').append(emptyRow);
+	}
     // 페이징 처리
     let pg = result.pg;
     let paginationHtml = '';

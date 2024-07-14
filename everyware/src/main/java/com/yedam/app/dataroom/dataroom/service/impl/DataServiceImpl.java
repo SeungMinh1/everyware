@@ -29,20 +29,16 @@ public class DataServiceImpl implements DataService {
 	
 	//자료실 조회
 	@Override
-	public List<DataVO> dataListCommon(String remarks, int page, int cnt) {
-		return dataMapper.selectDataCommon(remarks, page, cnt);
+	public List<DataVO> dataList(DataVO dataVO, int page, int cnt, String category, String remarks) {
+		return dataMapper.selectDataList(dataVO, page, cnt, category, remarks);
 	}
-
+	
+	//자료실 cnt
 	@Override
-	public List<DataVO> dataListDept(DataVO dataVO) {
-		return dataMapper.selectDataDept(dataVO);
+	public int cntDataList(DataVO dataVO, String category, String remarks) {
+		return dataMapper.cntDataList(dataVO, category, remarks);
 	}
-
-	@Override
-	public List<DataVO> dataListMe(DataVO dataVO) {
-		return dataMapper.selectDataMe(dataVO);
-	}
-
+		
 	//자료등록
 	@Override
 	public int insertData(DataVO dataVO) {
@@ -90,11 +86,6 @@ public class DataServiceImpl implements DataService {
 	}
 	
 	
-	//자료실 cnt
-	@Override
-	public int cntDataCommon(String remarks) {
-		return dataMapper.cntDataCommon(remarks);
-	}
 	
 	
 

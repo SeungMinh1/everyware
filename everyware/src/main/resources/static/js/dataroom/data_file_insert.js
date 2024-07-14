@@ -96,17 +96,6 @@ function uploadFile(){
 				obj.uploadPath +"/"+ obj.uploadFileName + "_" + obj.originFileName);
 		    // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
 			
-			/*			
-			// 미리보기 tr td생성
-			str += "<tr>"
-			str += "<td>" + obj.originFileName 
-			str += "</td>"
-			str += "<td>" + obj.fileSize + "</td>"
-			str += "<td>" + obj.ext + "</td>"
-			str += "<td>"+ "<span data-file=\'"+ fileCallPath +"\'data-type='file'> x </span>"+ "</td>"			
-			str += "</tr>";
-			*/
-			
 			// 다운로드 tr td 생성 
 			str += "<tr>"
 			str += "<td>"
@@ -124,35 +113,35 @@ function uploadFile(){
      자료실 등록
 ================*/
 $('.insertBtn').on('click', function(){
-		$('#fileTitle').val();
-		//console.log($('.dataSelect option:selected').val());
-		//console.log($('#fileTitle').val());
-		
+		let fileTitle = $('#fileTitle').val().trim();
 		var insertData = {
 			title : $('#fileTitle').val(),
 			remarks : $('.dataSelect option:selected').val(),
 			attachList : fileList
 		}
 		
+		
 		if(fileList.length > 0){
 			insertData.attachmentGroupId = fileList[0].attachmentGroupId; 
-
-			$.ajax('insertData',{
+			if(fileTitle){
+				$.ajax('insertData',{
 				type: 'post',
 				contentType : 'application/JSON',
 				data : JSON.stringify(insertData)
-			})
-			.done(result=>{
-				if(result){
-					alert('등록');
-					let url = '/dataCommon';
-					location.href=url;
-				}
-				console.log(result);
-				modalEmpty();
-				
-			})
-			.fail(err=>console.log(err));
+				})
+				.done(result=>{
+					if(result){
+						alert('등록되었습니다.');
+					}
+					console.log(result);
+					modalEmpty();
+					
+				})
+				.fail(err=>console.log(err));
+			} else{
+				alert('제목을 입력해주세요.');
+			}
+			
 		}else{
 			alert('업로드 할 파일을 선택해주세요.');
 		}

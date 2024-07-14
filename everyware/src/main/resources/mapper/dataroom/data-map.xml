@@ -2,13 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.dataroom.dataroom.mapper.DataMapper">
 	
-	<select id="selectDeptId" resultType="String">
-		SELECT department_id
-		FROM emp
-		WHERE emp_id = #{empId}
-	</select>
-	
-	<select id="selectDataCommon" resultType="DataVO">
+	<!-- 전체 조회 -->
+	<select id="selectDataList" resultType="DataVO" parameterType="DataVO">
 		SELECT * 
 		FROM (SELECT rownum rs, a.* 
 		      FROM (SELECT data_id
@@ -19,45 +14,39 @@
 		                , department_id
 		                , remarks
 		            FROM data_room
-		            WHERE remarks = #{remarks}
+		            <include refid="dataroomCategory"></include>
 		            ORDER BY data_id DESC) a 
 		     WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})) 
 		WHERE rs > (#{page}-1) * (#{cnt})
-		
 	</select>
 	
-	<select id="cntDataCommon" resultType="int">
+	<!-- 전체조회 cnt -->
+	<select id="cntDataList" resultType="int">
 		SELECT count(*)
 		FROM data_room
-		WHERE remarks = #{remarks}
+		<include refid="dataroomCategory"></include>
 	</select>
 	
-	<select id="selectDataDept" resultType="DataVO">
-		SELECT
-		    data_id
-		    , title
-		    , registrate_date
-		    , attachment_group_id
-		    , emp_id
-		    , department_id
-		    , remarks
-		FROM data_room
-		WHERE department_id = #{departmentId} and remarks = #{remarks}
-		ORDER BY data_id DESC
-	</select>
-	
-	<select id="selectDataMe" resultType="DataVO">
-		SELECT
-		    data_id
-		    , title
-		    , registrate_date
-		    , attachment_group_id
-		    , emp_id
-		    , department_id
-		    , remarks
-		FROM data_room
-		WHERE emp_id = #{empId} and remarks = #{remarks}
-		ORDER BY data_id DESC
+	<!-- category sql -->
+	<sql id="dataroomCategory">
+        <choose>
+          <when test="category == 'common'">
+            WHERE remarks = #{remarks}
+          </when>
+          <when test="category == 'dept'">
+            WHERE department_id = #{dataVO.departmentId} and remarks = #{remarks}
+          </when>
+          <when test="category == 'private'">
+            WHERE emp_id = #{dataVO.empId} and remarks = #{remarks}
+          </when>
+       </choose>
+ 	</sql>
+ 	
+ 	<!-- empId로 DeptId 조회 -->
+	<select id="selectDeptId" resultType="String">
+		SELECT department_id
+		FROM emp
+		WHERE emp_id = #{empId}
 	</select>
 	
 	<!-- ===== 자료등록 ===== -->
@@ -117,6 +106,7 @@
 			#{item, jdbcType=INTEGER}
 		</foreach>
 	</delete>
+	
 	<!-- dataIds로 파일삭제 -->
  	<delete id="deleteFiles" parameterType="java.util.List">
  		DELETE FROM attachment
