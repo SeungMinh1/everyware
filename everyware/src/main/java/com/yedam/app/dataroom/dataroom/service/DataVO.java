@@ -25,4 +25,7 @@ public class DataVO {
 	private int fileSize;
 	private String ext;
 	private int fileId;
+	
+	private String searchType;
+	private String searchKeyword;
 }

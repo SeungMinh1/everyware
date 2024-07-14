@@ -29,14 +29,15 @@ public class DataServiceImpl implements DataService {
 	
 	//자료실 조회
 	@Override
-	public List<DataVO> dataList(DataVO dataVO, int page, int cnt, String category, String remarks) {
+	public List<DataVO> dataList(DataVO dataVO, int page, int cnt, 
+			String category, String remarks) {
 		return dataMapper.selectDataList(dataVO, page, cnt, category, remarks);
 	}
 	
 	//자료실 cnt
 	@Override
-	public int cntDataList(DataVO dataVO, String category, String remarks) {
-		return dataMapper.cntDataList(dataVO, category, remarks);
+	public int dataListCnt(DataVO dataVO, String category, String remarks) {
+		return dataMapper.dataListCnt(dataVO, category, remarks);
 	}
 		
 	//자료등록

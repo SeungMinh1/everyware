@@ -10,11 +10,10 @@ public interface DataMapper {
 	public String selectDeptId(int empId);
 	
 	//자료실 조회
-	public List<DataVO> selectDataList(DataVO dataVO, int page, 
-			int cnt, String category, String remarks);
+	public List<DataVO> selectDataList(DataVO dataVO, int page, int cnt,String category, String remarks);
 	
 	//자료실 cnt
-	public int cntDataList(DataVO dataVO, String category, String remarks);
+	public int dataListCnt(DataVO dataVO, String category, String remarks);
 	
 	
 	//자료 등록 + group Id 체크

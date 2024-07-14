@@ -7,8 +7,12 @@ import com.yedam.app.attend.emp.service.EmpVO;
 
 public interface MailService {
 	//조회 : 단건 메일함
-	public List<MailVO> mailboxInfo(MailVO mailVO, int empId);
-
+	public List<MailVO> mailboxInfo(MailVO mailVO, int empId, 
+			Integer page,  Integer cnt);
+	
+	//메일 Cnt
+	public int mailListCnt(MailVO mailVO, int empId);
+	
 	//조회 : 단건 메일
 	public MailVO mailInfo(MailVO mailVO);
 	

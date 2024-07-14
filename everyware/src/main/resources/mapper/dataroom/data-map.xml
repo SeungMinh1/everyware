@@ -5,25 +5,36 @@
 	<!-- 전체 조회 -->
 	<select id="selectDataList" resultType="DataVO" parameterType="DataVO">
 		SELECT * 
-		FROM (SELECT rownum rs, a.* 
-		      FROM (SELECT data_id
-		                , title
-		                , registrate_date
-		                , attachment_group_id
-		                , emp_id
-		                , department_id
-		                , remarks
-		            FROM data_room
+		FROM (SELECT rownum rs, p.* 
+		      FROM (SELECT DISTINCT d.data_id as dataId
+					     , d.title as title
+					     , d.registrate_date as registrateDate
+					     , d.attachment_group_id as attachmentGroupId
+					     , d.emp_id as empId
+					     , d.department_id as departmentId
+					     , d.remarks as remarks
+					     , a.upload_path as uploadPath
+					     , a.upload_file_name as uploadFileName
+					     , a.origin_file_name as originFileName
+					     , a.file_size as fileSize
+					     , a.ext as ext
+					     , a.file_id as fileId
+					     , ROW_NUMBER() OVER (PARTITION BY d.data_id ORDER BY d.data_id DESC) as rn
+		             FROM data_room d
+                     INNER JOIN attachment a
+                     ON d.attachment_group_id = a.attachment_group_id
 		            <include refid="dataroomCategory"></include>
-		            ORDER BY data_id DESC) a 
-		     WHERE rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})) 
+		            ORDER BY data_id DESC) p 
+		     WHERE p.rn = 1 AND rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})) 
 		WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	
 	<!-- 전체조회 cnt -->
-	<select id="cntDataList" resultType="int">
+	<select id="dataListCnt" resultType="int" parameterType="DataVO">
 		SELECT count(*)
-		FROM data_room
+		FROM data_room d
+		INNER JOIN attachment a
+		ON d.attachment_group_id = a.attachment_group_id
 		<include refid="dataroomCategory"></include>
 	</select>
 	
@@ -31,15 +42,29 @@
 	<sql id="dataroomCategory">
         <choose>
           <when test="category == 'common'">
-            WHERE remarks = #{remarks}
+            WHERE d.remarks = #{remarks}
+            <include refid="dataSearchCondition"/>
           </when>
           <when test="category == 'dept'">
-            WHERE department_id = #{dataVO.departmentId} and remarks = #{remarks}
+            WHERE d.department_id = #{dataVO.departmentId} and d.remarks = #{remarks}
+            <include refid="dataSearchCondition"/>
           </when>
           <when test="category == 'private'">
-            WHERE emp_id = #{dataVO.empId} and remarks = #{remarks}
+            WHERE d.emp_id = #{dataVO.empId} and d.remarks = #{remarks}
+            <include refid="dataSearchCondition"/>
           </when>
        </choose>
+ 	</sql>
+ 	
+ 	<sql id="dataSearchCondition">
+ 		 <choose>
+      		<when test='dataVO.searchType == "T"'>
+      			and d.title Like '%'||#{dataVO.searchKeyword}||'%'
+      		</when>
+      		<when test='dataVO.searchType == "F"'>
+      			and a.origin_file_name Like '%'||#{dataVO.searchKeyword}||'%'
+      		</when>
+      	</choose>
  	</sql>
  	
  	<!-- empId로 DeptId 조회 -->

@@ -41,6 +41,13 @@
 	a{
 		cursor:pointer;
 	}
+	.groupFileTitle{
+  		font-weight: bolder; 
+  	}
+  	.fileName{
+	  cursor:pointer;
+	  font-weight: bolder; 
+  	}
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -87,6 +94,7 @@
 	                        </select>
                         </div>
 			        	<div class="mb-3">
+			        	  <i class="fa-solid fa-folder"></i> 제목
 					  	  <input type="text" class="form-control" id="fileTitle" placeholder="제목">
 					    </div>
 						<div class="input-group mb-3 uploadDiv">
@@ -97,7 +105,7 @@
 							  <table class="table fileTable">
 								 <thead>
 									<tr>
-										<th>파일명</th>
+										<th>파일이름</th>
 										<th>크기</th>
 										<th>확장자</th>
 										<th>삭제</th>							
@@ -105,7 +113,7 @@
 								 </thead>
 								 <tbody>
 								 	<tr>
-								 	
+								 		
 								 	</tr>
 								 </tbody>
 							  </table>
@@ -124,21 +132,21 @@
 		<!-- ================= Modal end================== -->
               <ul class="list-group nav nav-pills flex-column">
                 <li class="nav-item active d1">
-                  <a onclick="dataCommonList(1)" data-no="d1" class="nav-link">
+                  <a onclick="setCategory('common', '공통자료실')" data-no="d1" class="nav-link">
                     <i class="fas fa-inbox"></i>　공통 자료실
                   </a>
                 </li>
               </ul>
                <ul class="nav nav-pills flex-column">
                 <li class="nav-item d2">
-                  <a onclick="dataDeptList(1)" data-no="d2" class="nav-link">
+                  <a onclick="setCategory('dept', '부서자료실')" data-no="d2" class="nav-link">
                     <i class="fas fa-inbox"></i>　부서 자료실
                   </a>
                 </li>
               </ul>
                <ul class="nav nav-pills flex-column">
                 <li class="nav-item d3">
-                  <a onclick="dataPrivateList(1)" data-no="d3" class="nav-link">
+                  <a onclick="setCategory('private', '개인자료실')" data-no="d3" class="nav-link">
                     <i class="fas fa-inbox"></i>　개인 자료실
                   </a>
                 </li>
@@ -152,20 +160,20 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">자료실</h3>
-               <div class="card-tools">
-                <div class="input-group input-group-sm">
+              <h3 class="card-title groupFileTitle"></h3>
+               <div class="card-tools appendSearch">
+                <!-- <div class="input-group input-group-sm">
 			        <select class="form-select-sm" id="searchType">
-			          <option>전체</option>
-			          <option value="title">제목</option>
+			          <option value="T">제목</option>
+			          <option value="F">파일이름</option>
 			        </select>
 				        <input type="search" class="form-control-sm" id="searchKeyword" placeholder="검색">
 				        <div class="input-group-append">
-				          <div class="btn btn-primary">
+				          <div class="btn btn-primary"  onclick="searchData(1)">
 				            <i class="fa fa-search"></i>
 				          </div>
 				        </div>
-			      </div>
+			      </div> -->
               </div>
              <!-- <div class="card-tools">
                 <div class="input-group input-group-sm">
@@ -198,28 +206,34 @@
                   </button> -->
                   
                 </div>
+                <!-- <div class="float-right">
+				    <span id="pagination-info">1-50/200</span>
+				    <div class="btn-group">
+				        <button type="button" class="btn btn-default btn-sm" onclick="navigatePage('prev')">
+				            <i class="fas fa-chevron-left"></i>
+				        </button>
+				        <button type="button" class="btn btn-default btn-sm" onclick="navigatePage('next')">
+				            <i class="fas fa-chevron-right"></i>
+				        </button>
+				    </div>
+				</div> -->
                 <!-- /.btn-group -->
                 
                 <!-- /.float-right -->
               </div>
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover">
-                  <thead>
-                  	<tr>
-                  		<th style="width: 15%;"></th>
-                  		<th style="width: 55%;">제목</th>
-                  		<th style="width: 30%;">등록날짜</th>
-                  	</tr>
+                  <thead id="thead">
+                  	
                   </thead>
                   <tbody id="tbody">
 	                  <!-- <tr>
 		                <td colspan="4" class="text-center">등록된 파일이 없습니다.</td>
 		              </tr> -->
-                    
                   </tbody>
                 </table>
                 <!-- /.table -->
-                <nav aria-label="Page navigation">
+                <nav aria-label="Page navigation" class="paginationNav">
 			      <ul class="pagination justify-content-center" id="pagination"></ul>
 			    </nav>
               </div>
@@ -265,7 +279,6 @@
 </script>
 <script src="../../js/dataroom/data_list.js"></script>
 <script src="../../js/dataroom/data_file_insert.js"></script>
-<script src="../../js/dataroom/data_info.js"></script>
 <script src="../../js/dataroom/data_delete.js"></script>
 </body>
 </html>

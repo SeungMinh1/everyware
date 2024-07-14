@@ -6,13 +6,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.dataroom.dataroom.service.DataPageDTO;
 import com.yedam.app.dataroom.dataroom.service.DataService;
@@ -23,7 +21,7 @@ import com.yedam.app.dataroom.file.service.DataFileService;
 public class DataController {
 	
 	@Autowired
-	DataService dataService;
+	private DataService dataService;
 	@Autowired
 	DataFileService dataFileService;
 	
@@ -40,18 +38,27 @@ public class DataController {
 							 Integer page, 
 							 Integer cnt,
 							 String category,
-							 String remarks) {
-		
+							 String remarks,
+							 String searchType,
+							 String searchKeyword) {
+		    
 		Integer empId = AuthUtil.getEmpId();
 		String deptId = dataService.selectDeptId(empId);
 		dataVO.setDepartmentId(deptId);
 		dataVO.setEmpId(empId);
 		dataVO.setRemarks(remarks);
 		
+		dataVO.setSearchType(searchType);
+		dataVO.setSearchKeyword(searchKeyword);
+		
+		  // 디버깅 출력
+	    System.out.println("Search Option: " + dataVO.getSearchType());
+	    System.out.println("Do Search: " + dataVO.getSearchKeyword());
+	    
 		page = page == null ? 1 : page; 
 		cnt = cnt == null ? 10 : cnt; 
 		
-		int allCount = dataService.cntDataList(dataVO, category, remarks);
+		int allCount = dataService.dataListCnt(dataVO, category, remarks);
 		DataPageDTO pg = new DataPageDTO(page, allCount, cnt);
 		
 		List<DataVO> find = dataService.dataList(dataVO, page, cnt, category, remarks);
@@ -92,10 +99,9 @@ public class DataController {
 	
 	//자료조회
 	@GetMapping("selectData")
-	public String selectData(DataVO dataVO, Model model) {
-		List<DataVO> dvo = dataService.selectDataInfo(dataVO);
-		model.addAttribute("datas", dvo);
-		return "dataroom/data_info";
+	@ResponseBody
+	public List<DataVO> selectData(DataVO dataVO) {
+		return dataService.selectDataInfo(dataVO);
 	}
 	
 	//자료삭제(여러개)
