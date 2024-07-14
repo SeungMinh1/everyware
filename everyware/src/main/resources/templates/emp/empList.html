@@ -31,8 +31,14 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a th:href="@{/empList(dosearch='관리')}">Home</a></li>
+              <li class="breadcrumb-item"><a th:href="@{/empList}">Home</a></li>
               <li class="breadcrumb-item active">
+              <li>
+              <select class="form-select" id="searchType">
+		          <option>전체</option>
+		          <option value="name">이름</option>
+		          <option value="department">부서</option>
+			  </select>
               <input type="text" id="searchword"><button type="button"id="searchBtn" >검색</button>
               </li>
             </ol>
@@ -149,9 +155,17 @@
 	$('#searchBtn').on('click',searchWord)
 	
 	function searchWord(){
-		let searchword = document.getElementById('searchword') 
-		let url = '/empList?dosearch=' + searchword.value;
-		location.href=url;
+		
+		let searchType = $('#searchType').val();
+		let searchword = document.getElementById('searchword')
+		
+		if(searchType != null){
+			let url = '/empList?dosearch=' + searchword.value + '&searchOption=' + searchType;
+			location.href=url;
+		}else{
+			let url = '/empList?dosearch=' + searchword.value;
+			location.href=url;
+		}
 	}
 	
 	

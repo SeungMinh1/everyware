@@ -100,7 +100,7 @@ function uploadFile(){
 			str += "<a class='a_style' href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
 			str += "<span>" + '(' + obj.fileSize + ')' + "</span>"
 			str += "<span data-file='" + fileCallPath+ "\'data-fileid=\'" + obj.fileId + "\'data-type='file'> x </span>"
-			str += '<img src=/display?fileName='+fileCallPath+'></img>'
+			str += '<img src=/display?fileName='+fileCallPath+' style="width:200px; height:200px"></img>'
 			str += "</li>"
 			
 		});

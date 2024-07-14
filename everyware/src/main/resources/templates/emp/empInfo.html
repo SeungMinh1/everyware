@@ -43,15 +43,12 @@
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="../../dist/img/user4-128x128.jpg"
-                       alt="User profile picture">
+                <div class="text-center" id="photop">
+                 
                 </div>
+                
 
                 <h3 class="profile-username text-center">[[ ${emp.empName} ]]</h3>
-
-                <p class="text-muted text-center">여기 부서랑 직급넣으면 될듯</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
@@ -71,45 +68,7 @@
             </div>
             <!-- /.card -->
 
-            <!-- About Me Box -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">About Me</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <strong><i class="fas fa-book mr-1"></i> Education</strong>
-
-                <p class="text-muted">
-                  B.S. in Computer Science from the University of Tennessee at Knoxville
-                </p>
-
-                <hr>
-
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
-
-                <p class="text-muted">Malibu, California</p>
-
-                <hr>
-
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-
-                <p class="text-muted">
-                  <span class="tag tag-danger">UI Design</span>
-                  <span class="tag tag-success">Coding</span>
-                  <span class="tag tag-info">Javascript</span>
-                  <span class="tag tag-warning">PHP</span>
-                  <span class="tag tag-primary">Node.js</span>
-                </p>
-
-                <hr>
-
-                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-              </div>
-              <!-- /.card-body -->
-            </div>
+         
             <!-- /.card -->
           </div>
           <!-- /.col -->
@@ -229,13 +188,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -244,6 +197,51 @@
 <script>
 	$('#resetpwd').on('click', ()=>{alert('비밀번호를 초기화 하엿습니다.')});
 </script>
+
+<script>
+	$(document).ready(searchPhoto)
+	
+	function searchPhoto(){
+		
+		let empId = {
+				empId : $('#empId').val()
+		}
+		
+		$.ajax('searchphoto',{
+			type: 'post',
+			contentType : 'application/JSON',
+			data : JSON.stringify(empId)
+		})
+		.done(result=>{
+			
+			$.ajax('selectphoto',{
+				type: 'post',
+				contentType : 'application/JSON',
+				data : JSON.stringify(result)
+			})
+			.done(photo=>{
+				
+				let fileCallPath = encodeURIComponent(//
+						photo.uploadPath +"/"+ photo.uploadFileName + "_" + photo.originFileName);
+				
+				let html = ""; // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
+				html += '<img src=/display?fileName='+fileCallPath 
+						+ ' style="width:200px; height:200px" alt="개인사진"></img>';
+						
+				$('#photop').append(html);
+				
+			})
+			.fail(err=>console.log(err));
+				
+			
+			
+		})
+		.fail(err=>console.log(err));
+		
+	}
+	
+</script>
+
 
 </form>
 </body>

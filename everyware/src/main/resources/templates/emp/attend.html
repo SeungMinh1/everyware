@@ -548,7 +548,7 @@
 					data : JSON.stringify(data1)
                 })
                 .done(function(distance) {
-                	document.getElementById('dis').innerHTML =  (distance * 1000) + 'm';
+                	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	
                 	if(distance > 50.02){
                 		alert("출근 실패");
@@ -656,7 +656,7 @@
 					data : JSON.stringify(data1)
                 })
                 .done(function(distance) {
-                	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed(3) + 'm';
+                	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	if(distance > 50.02){
                 		alert("퇴근 실패");
                 	}else{

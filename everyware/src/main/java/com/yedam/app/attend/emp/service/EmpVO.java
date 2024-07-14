@@ -18,7 +18,7 @@ public class EmpVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date expireDate;		//퇴사일자
 	private String address;			//주소
-	private String photo;			//개인사진
+	private int photo;			//개인사진
 	private String departmentId;	//부서번호
 	private String departmentName;	//부서이름
 	private String departmentEmpId; //부서장사원번호

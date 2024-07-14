@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.attach.service.FileVO;
 import com.yedam.app.attend.emp.mapper.EmpMapper;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
@@ -94,6 +95,14 @@ public class EmpServiceImpl implements EmpService{
 	public List<EmpVO> prodEmpList() {
 		
 		return empMapper.prodEmpList();
+	}
+	@Override
+	public FileVO selectPhoto(EmpVO empVO) {
+		return empMapper.selectPhoto(empVO);
+	}
+	@Override
+	public EmpVO selectPhotoData(EmpVO empVO) {
+		return empMapper.searchPhoto(empVO);
 	}
 	
 
