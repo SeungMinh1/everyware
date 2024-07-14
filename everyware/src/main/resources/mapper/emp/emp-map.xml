@@ -98,12 +98,6 @@
  	
  	<!-- 등록 -->
  	<insert id="insertEmpInfo" parameterType="EmpVO">	
- 		<selectKey keyProperty="empId"	
-					resultType="Integer"
-					order="BEFORE">
-			SELECT NVL(MAX(emp_id),0)+1 emp_id 
- 		FROM emp
-		</selectKey>
 		
 		INSERT ALL
 		    INTO emp
@@ -131,7 +125,7 @@
 				    , FIND_CODE(#{posName})
 		        )
 		    INTO account
-		    (account_id, password, emp_id)
+		    	(account_id, password, emp_id)
 		    VALUES
 		        (
 		        	#{accountId}
@@ -191,5 +185,22 @@
 		FROM common_code
 		WHERE code_id LIKE 'b%'
  	</select>
-
+	
+	<!-- 첨부파일 -->
+	<select id="selectPhoto" resultType="FileVO">
+		SELECT *
+		FROM attachment
+		WHERE file_id = #{photo}
+	</select>
+	<!-- ajax로 이름이나 empid받아와서 photo 찾아서 print해야할듯 -->
+	<select id="searchPhoto" resultType="EmpVO">
+		SELECT *
+		FROM emp
+		WHERE emp_id = #{empId}
+	
+	</select>
+	
+	
+	 
+	
 </mapper>

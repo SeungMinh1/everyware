@@ -52,10 +52,7 @@
             
             <div class="card-body">
             
-              <div class="form-group">
-                <label for="empId">사원번호</label>
-                <input type="number" class="form-control"  id="empId" readonly>
-              </div>
+             
               <div class="form-group">
                 <label for="empName">이름</label>
                 <input type="text" class="form-control"  id="empName">
@@ -81,7 +78,7 @@
               	<div class="input-group mb-3 uploadDiv">
 	              <div class="form-group">
 	                <label for="photo">개인사진</label>
-	                <input type="file" class="form-control" id="photo">
+	                <input type="file" class="form-control" id="photo" name="photo">
 	              </div>
 	              </div>
 	              <div class="uploadResult mb-3">
@@ -178,11 +175,6 @@
 <script src="../../dist/js/demo.js"></script>
 <script type="text/javascript">
 	var fileList = [];
-
-</script>
-<script src="../../js/attend/file_insert.js" th:inline="javascript"></script>
-<script src="../../js/attend/file_insert_info.js" th:inline="javascript"></script>
-<script>
 	var fileData = [];
 	var inputFile = $("input[name='uploadFile']");
 	var files = inputFile[0].files;
@@ -190,14 +182,45 @@
 	for(var i=0; i<files.length; i++) {
 		fileData.push(files[i].name)
 	}
+
+</script>
+<script src="../../js/attend/file_insert.js" th:inline="javascript"></script>
+<script src="../../js/attend/file_insert_info.js" th:inline="javascript"></script>
+<script>
+
 	
 	
 	$('#insertBtn').on('click',  empInsertfunc);
 	
 	function empInsertfunc(){
+		
 		let empData = {
-				
+				empName : $('#empName').val()
+				, tel : $('#tel').val()
+				, mail : $('#mail').val()
+				, hireDate : $('#hireDate').val()
+				, address : $('#address').val()
+				, photo : fileList[0].fileId
+				, departmentName : $('#departmentName').val()
+				, posName : $('#posName').val()
+				, accountId : $('#accountId').val()
+				, password : $('#password').val()
+								
 		}
+		console.log(empData);
+		
+		$.ajax('empInsert',{
+			type: 'post',
+			contentType : 'application/JSON',
+			data : JSON.stringify(empData)
+		})
+		.done(result=>{
+				
+				let url = '/empList';
+				location.href=url;
+			console.log(result);
+		})
+		.fail(err=>console.log(err));
 		
 	}
 	

@@ -3,6 +3,8 @@ package com.yedam.app.attend.emp.web;
 import java.util.List;
 import java.util.Map;
 
+import javax.activation.FileDataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
+import com.yedam.app.attach.service.FileVO;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.emp.service.PageDTO;
@@ -51,9 +53,14 @@ public class EmpController {
 	@GetMapping("empInfo")
 	public String empInfo(EmpVO empVO, Model model) {
 		EmpVO findVO = empService.empInfo(empVO); //사원조회
+		
+		FileVO file = empService.selectPhoto(findVO);
 		model.addAttribute("emp", findVO);
+		model.addAttribute("photo", file);
 		return "emp/empInfo";
 	}
+	
+	
 	
 	// 등록 - 페이지
 	@GetMapping("empInsert")
@@ -69,6 +76,8 @@ public class EmpController {
 	@PostMapping("empInsert")
 	@ResponseBody
 	public int empInsertProcess(@RequestBody EmpVO empVO) {
+		int empId = empService.searchEmpId();
+		empVO.setEmpId(empId);
 		return empService.empInsert(empVO); // 사원정보를 바탕으로 Insert
 	}
 	
@@ -111,7 +120,21 @@ public class EmpController {
 		
 	}
 	
-	//비밀번호 초기화
+	//사진찾기위한 데이터 찾기
+	@PostMapping("searchphoto")
+	@ResponseBody
+	public EmpVO searchPhoto(@RequestBody EmpVO empVO) {
+		return empService.selectPhotoData(empVO);
+	}
+	
+	//사진불러오기
+	@PostMapping("selectphoto")
+	@ResponseBody
+	public FileVO selectPhoto(@RequestBody EmpVO empVO) {
+		return empService.selectPhoto(empVO);
+	}
+	
+	
 	
 	
 }

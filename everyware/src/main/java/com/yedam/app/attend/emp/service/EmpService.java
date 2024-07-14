@@ -3,6 +3,7 @@ package com.yedam.app.attend.emp.service;
 import java.util.List;
 import java.util.Map;
 
+import com.yedam.app.attach.service.FileVO;
 import com.yedam.app.common.service.CommonVO;
 
 public interface EmpService {
@@ -35,4 +36,10 @@ public interface EmpService {
 	
 	//생산팀 사원 출력
 	public List<EmpVO> prodEmpList();
+	
+	//사진조회
+	public FileVO selectPhoto(EmpVO empVO);
+	
+	//사진찾기위해 조회
+	public EmpVO selectPhotoData(EmpVO empVO);
 }
