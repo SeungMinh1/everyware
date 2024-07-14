@@ -33,9 +33,9 @@ public class GroupController {
 		mailVO.setMailboxId("d1");
 		
 		int empId = AuthUtil.getEmpId();
-		List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
+		//List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
 		
-		model.addAttribute("mailboxInfo", find);
+		//model.addAttribute("mailboxInfo", find);
 
 		
 		return "main/index";
