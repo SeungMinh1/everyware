@@ -1,7 +1,10 @@
 package com.yedam.app.attend.gps.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,5 +53,30 @@ public class GpsController {
 		gpsVO.setLattitueY(y);
 		return gpsService.findgps(gpsVO);
 	}
+	
+	
+	@GetMapping("gpsList")
+	public String gpsList(Model model) {
+		List<GpsVO> list = gpsService.selectGpsList();
+		GpsVO gpsVO = gpsService.selectNowGps();
+		model.addAttribute("gps", list);
+		model.addAttribute("nowgps", gpsVO);
+		return "emp/gpsList";
+	}
+	
+	@PostMapping("thisgps")
+	@ResponseBody
+	public GpsVO nowgps() {
+		return gpsService.selectNowGps();
+	}
+	
+	//등록된GPS와 현재위치 거리측정
+	@PostMapping("updateState")
+	@ResponseBody
+	public int updateState(@RequestBody GpsVO gpsVO) {
+		return gpsService.updateState(gpsVO);
+	}
+	
+	
 
 }

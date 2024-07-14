@@ -148,7 +148,7 @@ margin-right:10px;
   crossorigin="anonymous">
 </script>
 
-<script>
+<script th:inline="javascript">
 	
 	$('#holdUp3').click(function(){
 		$('#holdUp3').val();
@@ -176,6 +176,7 @@ $(document).ready(function() {
 			type: 'POST',
 			success: function(result){
 				alert("수정되었습니다");
+				location.href="postInfo?postId=[[${post.postId}]]"
 			},
 			 error: function(xhr, status, error) {
                  console.error('파일 업로드 중 오류 발생: ' + error);

@@ -10,5 +10,5 @@ public class GpsVO {
 	private double lattitueY;
 	private String xxx;
 	private String yyy;
-	private double distance;
+	private double distance; //mailboxinfo 참고
 }

@@ -35,9 +35,30 @@
 	    AS distance
 	
 		FROM gps
-		where gps_id = 1
+		where gps_id = (select gps_id from gps where state = 1)
+	</select>
+	
+	<!-- GPS 리스트 -->
+	<select id="selectGpsList" resultType="GpsVO">
+		SELECT *
+		FROM gps
+		ORDER BY gps_id
 	</select>
 
-
+	<!-- 적용중인 gps찾기 -->
+	<select id="selectNowGps" resultType="GpsVO">
+		SELECT *
+		FROM gps
+		WHERE state = 1
+	</select>
+	
+	<!-- 적용중인 gps변경 -->
+	<update id="updateState" parameterType="GpsVO">
+		CALL upd_state(#{gpsId})
+	
+	</update>
+	
+	
+	
 
 </mapper>

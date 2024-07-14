@@ -2,7 +2,7 @@ package com.yedam.app.attend.emp.mapper;
 
 import java.util.List;
 
-
+import com.yedam.app.attach.service.FileVO;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.common.service.CommonVO;
 
@@ -40,5 +40,11 @@ public interface EmpMapper {
 
 	//생산팀 사원 출력
 	public List<EmpVO> prodEmpList ();
+	
+	//사진찾기
+	public FileVO selectPhoto(EmpVO empVO);
+	
+	//사진찾기위해 데이터찾기
+	public EmpVO searchPhoto(EmpVO empVO);
 	
 }
