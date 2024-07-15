@@ -239,9 +239,17 @@ public class PostController {
 
 	// 삭제 - 처리
 	@GetMapping("postDelete")
-	public String postDelete(@RequestParam Integer postId) {
+	public String postDelete(@RequestParam Integer postId , @RequestParam Integer boardId) {
 		postService.postDelete(postId);
-		return "redirect:selectNoticeAll";
+	//	postVO.setBoardId(boardId);
+		if (boardId == 1) { 
+			return "redirect:selectNoticeAll";
+		}else if(boardId == 2) {
+			return "redirect:selectDeptAll";
+		}else if(boardId == 3) {
+		return  "redirect:selectAnoyAll";
+		}
+		return null;
 	}
 
 	// 추천수 업뎃

@@ -259,7 +259,7 @@ const likeCheck = document.querySelector('.box');
 function del(){
 	let delCheck = confirm("삭제할까요?")
 	if(delCheck) {
-		location.href="postDelete?postId=" + [[${post.postId}]]
+		location.href="postDelete?postId=" + [[${post.postId}]] + "&boardId="+ [[${post.boardId}]]
 	}
 }
 </script>
