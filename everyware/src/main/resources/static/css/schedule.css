@@ -30,15 +30,21 @@ label{
 }
 
 .squadTable{
-
+	
 	width : 100%;
 	height : 300px;
 	justify-content: center;
    align-items: center;
 }
 
+#prodEmp {
+	
+	height : 100%;
+}
+
 #prodEmp tr{
 	height: 20px;
+
 }
 
 #tbody tr{
@@ -60,7 +66,7 @@ label{
 }
 
 .btn{
-	border : 1px solid gray
+	border : 1px solid lightgray;
 }
 
 .btn:hover{
@@ -91,7 +97,7 @@ label{
 }
 
 .empTd span{
-	border : 0.5px solid gray;
+	border : 1px solid lightgray;
 	padding : 3px;
 	margin : 10px 10px;
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
@@ -101,16 +107,14 @@ label{
   	transition: all 0.2s ;
   	width : 5%;
   	font-size : smaller;
-	
 }
 
 .squadAddEmp{
 	cursor:pointer;
-	
 }
 
 .squadAddEmp:hover{
-	background-color: #c0c0c0;
+	background-color: #e2e8ef;
 }
 
 .firstStep label{
@@ -197,3 +201,27 @@ label{
 	background-color : rgb(213, 213, 213);
 }
 
+.squadScroll{
+	height : 100%;
+	overflow-y: auto;
+	display:inline-block;
+}
+
+
+.secondStep{
+	height: 500px;
+
+}
+
+
+
+#selectedTable{
+	cursor:pointer;
+}
+
+
+
+.empTr{
+	background-color: #e2e8ef !important; 
+	
+}

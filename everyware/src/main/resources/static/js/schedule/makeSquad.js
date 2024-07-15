@@ -74,6 +74,8 @@
 		$("#tbody").append(tableHtml);
 	};
 	
+	rightTableClick();
+	
 	//두번째 페이지 체크박스 작성
 	$("#makeCheckBox").empty();
 	for(let i = 1 ; i <= squadNum; i++){
@@ -130,7 +132,7 @@
 		
 		let empId = $(e.target).closest('tr').attr('data-empId') ;
 		let empName = $(e.target).text();
-		let squadNum = $('#makeCheckBox').find('input[name=squadCheck]:checked').val();
+		let squadNum = $(".empTr").attr("data-squadno");
 		let tableHtml ='<span data-empId="'+ empId + '">'+ empName +' x</span>';
 		
 		if(squadNum == null){
@@ -163,6 +165,21 @@
 		
 		empAjax()
 	})
+	}
+	
+	//두번째 오른쪽 표 클릭이벤트
+	function rightTableClick(){
+		$("#selectedTable").find("tr").click(function(e){
+			let squadNo = $(e.target).closest('tr').attr("data-squadno");
+
+			$(".empTr").toggleClass("empTr")
+			$(e.target).closest('tr').toggleClass("empTr")
+			
+			//선택된 조 번호
+			console.log($(".empTr").attr("data-squadno"))
+		
+	})
+	
 	}
 	
 	//두번째 페이지 이전버튼 클릭
