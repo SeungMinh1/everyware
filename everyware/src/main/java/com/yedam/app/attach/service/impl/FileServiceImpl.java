@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.aspectj.weaver.tools.UnsupportedPointcutPrimitiveException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class FileServiceImpl implements FileService {
-
+	@Value("${file.upload.path}")
+	private String uploadFolder;
+	
 	@Autowired
 	FileMapper fileMapper;
 	
@@ -48,7 +51,7 @@ public class FileServiceImpl implements FileService {
         List<FileVO> list = new ArrayList<>();
         
         // 폴더 만들기
-        String uploadFolder = "C:\\upload";
+        //String uploadFolder = "C:\\upload";
         String uploadFolderPath = getForder();
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
 		log.info("upload path: " + uploadPath);
@@ -91,7 +94,7 @@ public class FileServiceImpl implements FileService {
             fileVO.setUploadFileName(uuid.toString());   				//UUID -> 업로드파일이름
             fileVO.setFileType(multipartFile.getContentType());         //첨부파일종류
             fileVO.setFileSize(multipartFile.getSize());				//파일 사이즈
-            fileVO.setUploadPath(uploadFolderPath); 					//업로드 경로	
+            fileVO.setUploadPath(uploadFolderPath); 		//업로드 경로	
             
             Integer empId = AuthUtil.getEmpId();
             fileVO.setEmpId(empId);

@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.aspectj.weaver.tools.UnsupportedPointcutPrimitiveException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class DataFileServiceImpl implements DataFileService {
-
+	@Value("${file.upload.path}")
+	private String uploadFolder;
+	
 	@Autowired
 	DataFileMapper dataFileMapper;
 	
@@ -50,7 +53,7 @@ public class DataFileServiceImpl implements DataFileService {
         List<DataFileVO> list = new ArrayList<>();
         
         // 폴더 만들기
-        String uploadFolder = "C:\\upload";
+        //String uploadFolder = "C:\\upload";
         String uploadFolderPath = getForder();
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
 		log.info("upload path: " + uploadPath);
