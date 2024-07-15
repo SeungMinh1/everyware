@@ -11,7 +11,9 @@
   a.mailInfoLink{ 
   		color: black;
   }
-  
+  select, #searchKeyword {
+	    border: 1px solid #ced4da;
+   }
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -84,17 +86,20 @@
               <th:block th:if = "${#strings.equals(param.mailboxId, 'd4')}">스팸메일함</th:block>
               <th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">휴지통</th:block>
              </h3>
-
-              <div class="card-tools">
-                <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" placeholder="검색">
-                  <div class="input-group-append">
-                    <div class="btn btn-primary">
-                      <i class="fas fa-search"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
+             <div class="card-tools appendSearch">
+				<div class="input-group input-group-sm">
+		            <select class="form-select-sm" id="searchType">
+		                <option value="T">제목</option>
+		                <option value="F">파일이름</option>
+		            </select>
+		            <input type="search" class="form-control-sm" id="searchKeyword" placeholder="검색">
+		            <div class="input-group-append">
+		                <div class="btn btn-primary" onclick="searchData(1)">
+		                    <i class="fa fa-search"></i>
+		                </div>
+		            </div>
+		        </div>
+		      </div>
               <!-- /.card-tools -->
             </div>
             <!-- /.card-header -->
@@ -175,6 +180,42 @@
                  </th:block>
                    </tbody>
                 </table>
+                <nav aria-label="Page navigation" class="paginationNav">
+			     <ul class="pagination justify-content-center" id="pagination">
+				  <li class="page-item" th:if="${pageMaker.prev}">
+				    <a class="page-link" th:href="@{/mailboxInfo(mailboxId=${param.mailboxId}, pageNum=${pageMaker.startPage - 1})}" aria-label="Previous">
+				      <span aria-hidden="true">&laquo;</span>
+				    </a>
+				  </li>
+				  <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+				    <li class="page-item">
+				      <a class="page-link" th:href="@{/mailboxInfo(mailboxId=${param.mailboxId}, pageNum=${num})}">[[${num}]]</a>
+				    </li>
+				  </th:block>
+				  <li class="page-item" th:if="${pageMaker.next}">
+				    <a class="page-link" th:href="@{/mailboxInfo(mailboxId=${param.mailboxId}, pageNum=${pageMaker.endPage + 1})}" aria-label="Next">
+				      <span aria-hidden="true">&raquo;</span>
+				    </a>
+				  </li>
+				</ul>
+			     
+			     
+			     <!--  <ul class="pagination justify-content-center" id="pagination">
+			      	<li class="page-item">
+                      <a class="page-link" href="#"  aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+			      <li class="page-item">
+                     <a class="page-link" href="#" >${i}</a>
+                   </li>
+			      <li class="page-item">
+                     <a class="page-link" href="#"  aria-label="Next">
+                       <span aria-hidden="true">&raquo;</span>
+                     </a>
+                   </li>
+			      </ul> -->
+			    </nav>
                 <!-- /.table -->
               </div>
               <!-- /.mail-box-messages -->
@@ -183,6 +224,7 @@
        	
           </div>
           <!-- /.card -->
+          
         </div>
         <!-- /.col -->
       </div>

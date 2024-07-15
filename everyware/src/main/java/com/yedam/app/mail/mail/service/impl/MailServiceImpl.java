@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.dataroom.file.mapper.DataFileMapper;
 import com.yedam.app.mail.mail.mapper.MailMapper;
+import com.yedam.app.mail.mail.service.Criteria;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
 
@@ -26,13 +26,13 @@ public class MailServiceImpl implements MailService {
 	
 	//조회 : 단건 메일함
 	@Override
-	public List<MailVO> mailboxInfo(MailVO mailVO, int empId) {
-		return mailMapper.selectMailboxInfo(mailVO, empId);
+	public List<MailVO> mailboxInfo(MailVO mailVO, int empId, Criteria cri) {
+		return mailMapper.selectMailboxInfo(mailVO, empId, cri);
 	}
 	
 	//메일 Cnt
-	public int mailListCnt(MailVO mailVO, int empId) {
-		return mailMapper.selectMailListCnt(mailVO, empId);
+	public int mailListCnt(MailVO mailVO, int empId, Criteria cri) {
+		return mailMapper.selectMailListCnt(mailVO, empId, cri);
 	};
 	
 	//조회 : 단건 메일

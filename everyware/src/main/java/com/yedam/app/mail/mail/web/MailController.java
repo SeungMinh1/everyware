@@ -18,8 +18,9 @@ import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.attend.security.service.LoginUserVO;
 import com.yedam.app.common.util.AuthUtil;
-import com.yedam.app.dataroom.dataroom.service.DataPageDTO;
 import com.yedam.app.dataroom.file.service.DataFileService;
+import com.yedam.app.mail.mail.service.Criteria;
+import com.yedam.app.mail.mail.service.MailPageDTO;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
 
@@ -36,10 +37,15 @@ public class MailController {
 	
 	//조회 : 단건 메일함
 	@GetMapping("mailboxInfo")
-	public String mailboxInfo(MailVO mailVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
-		int empId = principal.getUserVO().getEmpId();
-		List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
-		model.addAttribute("mailboxInfo", find);
+	public String mailboxInfo(MailVO mailVO, Model model, Criteria cri) {
+		Integer empId = AuthUtil.getEmpId();
+		List<MailVO> list = mailService.mailboxInfo(mailVO, empId, cri);
+		
+		int total = mailService.mailListCnt(mailVO, empId, cri);
+		
+		model.addAttribute("pageMaker", new MailPageDTO(cri, total));
+		model.addAttribute("mailboxInfo", list);
+		
 		return "mail/mail_list";
 	}
 	
