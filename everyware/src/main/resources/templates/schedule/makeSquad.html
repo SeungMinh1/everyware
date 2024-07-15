@@ -63,11 +63,9 @@
 				<div class="secondStep row" style="display:none">
 					
 
-					<div id="makeCheckBox">
-						
-					</div>
-					
-						<table class="table col-lg-3 col-md-12" >
+
+						<div class="squadScroll col-lg-3 col-md-12">
+						<table id="squadEmpList" class="table">
 							<thead >
 								<tr>
 									<th>사원번호</th>
@@ -76,15 +74,16 @@
 							</thead>
 							<tbody id="prodEmp" th:fragment="prodEmp" >
 							<th:block th:each = "list : ${proList}">
-								<tr th:data-empId="${list.empId}">
+								<tr class="prodEmpTr"  th:data-empId="${list.empId}">
 									<td>[[${list.empId}]]
 									<td class="squadAddEmp">[[${list.empName}]] [[${list.empPosition}]]</td>
 								</tr>
 							</th:block>
 							</tbody>
 						</table>
-					
-					<table class="table squadTable col-lg-7 col-md-12 ms-2" id="selectedTable" >
+						</div>
+					<div class="squadScroll col-lg-7 col-md-12 ms-2">
+					<table class="squadTable" id="selectedTable" >
 						<thead>
 							<tr>
 								<th style="width:5%;">조</th>
@@ -95,7 +94,7 @@
 
 						</tbody>
 					</table>
-					
+					</div>
 					<div class="buttonGroup" style="display:block">
 						<button id="secondPrev" class="btn ">이전</button>
 						<button id="secondNext" class="btn">완료</button>
