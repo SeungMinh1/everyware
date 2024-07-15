@@ -310,6 +310,17 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
 .search.active .searchSelect {
   display: inline-block;
 }
+
+a:link {
+  color : black;
+}      
+a:visited { 
+color : navy; 
+} 
+
+.nav-link{
+ color : black;
+}
  
 </style>
 <body class="hold-transition sidebar-mini">
@@ -342,13 +353,13 @@ background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
 			  <h1>Search</h1>
 			</div>
 			<div class="search">
-			  <form  action="@{/selectNoticeAll}"  method="get" name="searchForm">
+			  <form  th:action="@{/selectDeptAll}"  method="get" name="searchForm">
 			  <span class="searchInput" >
-			  <select  id="searchSelect" class="searchSelect" name="option">
+			  <select  id="searchSelect" class="searchSelect" name="type">
 			  	<option value="TC" selected>제목+내용</option>
 			  	<option value="T" selected>제목</option>
 			  	<option value="C" selected>내용</option>
-			  	<option value="W" selected>작성자</option>
+			  	<option value="E" selected>작성자</option>
 			  </select>
 			    <input type="text" id="keyword" name="keyword"  placeholder="검색어를 입력하세요">
 			  </span>
@@ -502,26 +513,7 @@ $('#orderByLike').click(function(){
 		})
 	
 })	
-//검색버튼 
-$('#searchForm').submit(function(e){
-	e.preventDefault();
-	/* var  .searchSelect.val(); */
-	let keyword = $("#keyword").val();
-	let type = $('#searchSelect').val();
-	console.log(type,keyword);
-	
-	 $.ajax({
-		url:'selectDeptAll',
-		type:'POST',
-		data:{
-			type : type,
-			keyword : keyword
-		}
-	})
-	.done(function(res){
-		$('#noticeList').replaceWith(res);
-	})
-})
+
 </script>
 </body>
 </html>

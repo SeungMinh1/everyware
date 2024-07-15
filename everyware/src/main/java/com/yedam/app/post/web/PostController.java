@@ -1,9 +1,9 @@
 
 package com.yedam.app.post.web;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +31,6 @@ public class PostController {
 
 	@Autowired
 	PostService postService;
-
-	private String redirectUrl;
 
 	// 상단공지조회
 	@GetMapping("postMainNotice")
@@ -66,6 +64,16 @@ public class PostController {
 		model.addAttribute("post", findVO);
 		return "post/postInfo";
 	}
+	
+	//익명단건조회
+		@GetMapping("anoyInfo")
+		public String AnoyInfo(Model model, PostVO postVO, @RequestParam int postId) {
+			postVO.setPostId(postId);
+			postService.updateViewCnt(postVO);
+			PostVO findVO = postService.anoyInfo(postVO);
+			model.addAttribute("post", findVO);
+			return "post/AnoyInfo";
+		}
 
 	// 전체공지
 	@GetMapping("selectNoticeAll")
@@ -86,6 +94,45 @@ public class PostController {
 
 		return "post/postNotice";
 	}
+	
+	// 전체부서별
+		@GetMapping("selectDeptAll")
+		public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
+			postVO.setBoardId(2);
+			page = page == null ? 1 : page;
+			cnt = cnt == null ? 10 : cnt;
+
+			postVO.setPage(page);
+			postVO.setCnt(cnt);
+			int postCnt = postService.postCnt(postVO, searchVO); // 게시물 개수 세기
+			PageDTO pg = new PageDTO(page, postCnt, cnt); // 페이징
+
+			List<PostVO> list = postService.selectDeptAll(postVO, searchVO);
+			model.addAttribute("postMain", list);
+			model.addAttribute("pg", pg);
+
+			return "post/postDept";
+		}
+
+		// 전체익명
+		@GetMapping("selectAnoyAll")
+		public String selectAnoyAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
+			postVO.setBoardId(3);
+			page = page == null ? 1 : page;
+			cnt = cnt == null ? 10 : cnt;
+
+			postVO.setPage(page);
+			postVO.setCnt(cnt);
+			int postCnt = postService.postCnt(postVO, searchVO); // 게시물 개수 세기
+			PageDTO pg = new PageDTO(page, postCnt, cnt); // 페이징
+
+			List<PostVO> list = postService.selectAnoyAll(postVO, searchVO);
+			model.addAttribute("postMain", list);
+			model.addAttribute("pg", pg);
+
+			return "post/postAnoy";
+		}
+
 
 	@PostMapping("selectNoticeByView")
 	// @ResponseBody
@@ -147,44 +194,7 @@ public class PostController {
 
 	}
 
-	// 전체부서별
-	@GetMapping("selectDeptAll")
-	public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
-		postVO.setBoardId(2);
-		page = page == null ? 1 : page;
-		cnt = cnt == null ? 10 : cnt;
-
-		postVO.setPage(page);
-		postVO.setCnt(cnt);
-		int postCnt = postService.postCnt(postVO, searchVO); // 게시물 개수 세기
-		PageDTO pg = new PageDTO(page, postCnt, cnt); // 페이징
-
-		List<PostVO> list = postService.selectDeptAll(postVO, searchVO);
-		model.addAttribute("postMain", list);
-		model.addAttribute("pg", pg);
-
-		return "post/postDept";
-	}
-
-	// 전체익명
-	@GetMapping("selectAnoyAll")
-	public String selectAnoyAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
-		postVO.setBoardId(3);
-		page = page == null ? 1 : page;
-		cnt = cnt == null ? 10 : cnt;
-
-		postVO.setPage(page);
-		postVO.setCnt(cnt);
-		int postCnt = postService.postCnt(postVO, searchVO); // 게시물 개수 세기
-		PageDTO pg = new PageDTO(page, postCnt, cnt); // 페이징
-
-		List<PostVO> list = postService.selectAnoyAll(postVO, searchVO);
-		model.addAttribute("postMain", list);
-		model.addAttribute("pg", pg);
-
-		return "post/postAnoy";
-	}
-
+	
 	// 등록 -페이지
 	@GetMapping("postInsert")
 	public String postInsertForm(Model model) {
