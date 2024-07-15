@@ -15,11 +15,21 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
+<style>
+a:link {
+  color : black;
+}      
+a:visited { 
+color : black; 
+} 
+.card-body { 
+text-align:center
+ } 
+ 
+</style>
 <body class="hold-transition sidebar-mini">
-
-
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -38,8 +48,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
+
         <div class="row">
           <div class="col-md-6" >
             <div class="card">
@@ -51,7 +60,7 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th style="width: 10px;">글번호</th>
+                      <th style="width:100px; text-align:center;">글 번호</th>
                       <th style="text-align: center">게시글 제목</th>
                     </tr>
                   </thead>
@@ -91,8 +100,8 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th style="width: 10px;">글번호</th>
-                      <th style="text-align: center">게시글 제목</th>
+                      <th style="width:50px; text-align:center">글 번호</th>
+                      <th style="width:200px; text-align: center">게시글 제목</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -121,6 +130,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+	</div>
 </div>
 <!-- ./wrapper -->
 
