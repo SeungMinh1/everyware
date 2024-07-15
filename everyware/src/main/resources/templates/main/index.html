@@ -303,5 +303,39 @@
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+<script>
+$(document).ready(mailList('d1'))
+
+
+function mailList(mailboxId){
+			$('#mailTbody').empty();
+			$('.deleteGroup').empty();
+			 $.ajax({
+			 url: 'mailboxInfo',
+			 data: {
+				 mailboxId: mailboxId
+				 }
+			 })
+			 .done(result=>{ 
+				 if(result.info.length == 0){
+					 appendEmptyMailList();
+				 } else {
+					 resultMailList(result, mailboxId);
+				 }
+				 
+				 
+				 mailDeleteBtn(mailboxId);
+			 })
+	}
+	
+//메일이 없을 경우
+function appendEmptyMailList(){
+	let tr = ` <tr>
+                 <td colspan="4" class="text-center">메일이 없습니다.</td>
+                </tr>`
+     $('#mailTbody').append(tr);
+}
+
+</script>
 </body>
 </html>

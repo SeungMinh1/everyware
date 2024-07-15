@@ -42,4 +42,11 @@ public interface EmpService {
 	
 	//사진찾기위해 조회
 	public EmpVO selectPhotoData(EmpVO empVO);
+	
+	//아이디 중복체크
+	public int selectCheckId(EmpVO empVO); 
+	
+	
+	
+	
 }

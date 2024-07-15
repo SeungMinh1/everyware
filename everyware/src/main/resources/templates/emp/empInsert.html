@@ -127,6 +127,7 @@
               <div class="form-group">
                 <label for="accountId">아이디</label>
                 <input type="text" class="form-control" id="accountId">
+                <button type="button" id="idcheck">중복확인</button>
               </div>
               <div class="form-group">
                 <label for="password">비밀번호</label>
@@ -140,7 +141,7 @@
         </div>
       </div>
       <div class="row">
-      <!--  -->
+      <input id="check" name="check" value="" type="hidden">
         <div class="col-12">
          <!-- <a href="#" class="btn btn-secondary">Cancel</a>  --> 
           <input type="button" value="등록" id="insertBtn" class="btn btn-success float-right">
@@ -194,35 +195,82 @@
 	
 	function empInsertfunc(){
 		
-		let empData = {
-				empName : $('#empName').val()
-				, tel : $('#tel').val()
-				, mail : $('#mail').val()
-				, hireDate : $('#hireDate').val()
-				, address : $('#address').val()
-				, photo : fileList[0].fileId
-				, departmentName : $('#departmentName').val()
-				, posName : $('#posName').val()
-				, accountId : $('#accountId').val()
-				, password : $('#password').val()
-								
+		if($('#check').val() != 'c'){
+			alert('아이디 중복체크 하세요');
+		}else if($('#empName').val() == null || $('#empName').val() == ''){
+			alert('이름을 입력하여 주세요');
+		}else if($('#tel').val() == null || $('#tel').val() == ''){
+			alert('전화번호를 입력하여 주세요');
+		}else if($('#mail').val() == null || $('#mail').val() == ''){
+			alert('이메일을 입력하여 주세요');
+		}else if($('#hireDate').val() == null || $('#hireDate').val() == ''){
+			alert('입사일을 입력하여 주세요');
+		}else if($('#password').val() == null || $('#password').val() == ''){
+			alert('비밀번호를 입력하여 주세요');
 		}
-		console.log(empData);
+		else{
+			
+			let empData = {
+					empName : $('#empName').val()
+					, tel : $('#tel').val()
+					, mail : $('#mail').val()
+					, hireDate : $('#hireDate').val()
+					, address : $('#address').val()
+					, photo : fileList[0].fileId
+					, departmentName : $('#departmentName').val()
+					, posName : $('#posName').val()
+					, accountId : $('#accountId').val()
+					, password : $('#password').val()
+									
+			}
+			console.log(empData);
+			
+			$.ajax('empInsert',{
+				type: 'post',
+				contentType : 'application/JSON',
+				data : JSON.stringify(empData)
+			})
+			.done(result=>{
+					
+					let url = '/empList';
+					location.href=url;
+				console.log(result);
+			})
+			.fail(err=>console.log(err));
+		}
 		
-		$.ajax('empInsert',{
-			type: 'post',
-			contentType : 'application/JSON',
-			data : JSON.stringify(empData)
-		})
-		.done(result=>{
-				
-				let url = '/empList';
-				location.href=url;
-			console.log(result);
-		})
-		.fail(err=>console.log(err));
+		
 		
 	}
+	
+	
+	$('#idcheck').on('click',  idcheck);
+	
+	function idcheck(){
+		let accountId = $('#accountId').val();
+		
+		let accountData = {
+				accountId : accountId
+		}
+		
+		$.ajax('checkId',{
+			type: 'post',
+			contentType : 'application/JSON',
+			data : JSON.stringify(accountData)
+		})
+		.done(result=>{
+				if(result > 0){
+					alert('사용 불가능한 아이디')
+				}else{
+					alert('사용 가능')
+					$("input[name='check']").val('c');
+					
+				}
+
+		})
+		.fail(err=>console.log(err));	
+	}
+	
 	
 </script>
 
