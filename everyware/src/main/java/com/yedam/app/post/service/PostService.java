@@ -1,7 +1,6 @@
 package com.yedam.app.post.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.common.service.CommonVO;
@@ -9,6 +8,8 @@ import com.yedam.app.common.service.CommonVO;
 public interface PostService {
 	//단건조회
 	public PostVO postInfo(PostVO postVO);
+	//익명 단건조회
+	public PostVO anoyInfo(PostVO postVO);
 	//상단공지 전체조회
 	public List<PostVO> selectMainNotice (PostVO postVO);
 	//공지 전체조회
@@ -46,5 +47,5 @@ public interface PostService {
     
     //추천 테이블 삭제 
     public int deleteRecommend (PostVO postVO);
-
+    
 }

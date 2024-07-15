@@ -81,7 +81,7 @@ WHERE rs > (#{postVO.page}-1) * #{postVO.cnt}
 
 
 <!-- 부서별 게시물 전체조회 -->
-<select id="selectDeptAll" resultType="PostVO">
+<select id="selectDeptAll" parameterType="SearchVO" resultType="PostVO">
 SELECT * FROM(
 	SELECT
 	  rownum AS rs,
@@ -98,7 +98,7 @@ SELECT * FROM(
 			        attachment_group_id,
 			        content,
 			        emp_id,
-			        emp_id_name(emp_id) "empName"
+			        emp_id_name(emp_id) emp_name
 			    FROM post
 		WHERE board_id = 2
 		<!-- 검색 -->
@@ -111,7 +111,7 @@ SELECT * FROM(
 				AND content like '%'||#{searchVO.keyword}||'%'
 			</when>
 			<when test='searchVO.type == "E"'>
-				AND empName like '%'||#{searchVO.keyword}||'%'
+				AND emp_id_name(emp_id) like '%'||#{searchVO.keyword}||'%'
 			</when> 
 			<when test='searchVO.type == "TC"'>
 				AND title like '%'||#{searchVO.keyword}||'%'
@@ -139,7 +139,7 @@ WHERE rs > (#{postVO.page}-1) * #{postVO.cnt}
 </select>
 
 <!-- 익명 게시판 전체조회 -->
-<select id="selectAnoyAll" resultType="PostVO">
+<select id="selectAnoyAll" parameterType="SearchVO" resultType="PostVO">
 SELECT * FROM(
 	SELECT
 	  rownum AS rs,
@@ -156,7 +156,7 @@ SELECT * FROM(
 			        attachment_group_id,
 			        content,
 			        emp_id,
-			        emp_id_name(emp_id) "empName"
+			        emp_id_name(emp_id) emp_name
 			    FROM post
 		WHERE board_id = 3
 		<!-- 검색 -->
@@ -168,9 +168,6 @@ SELECT * FROM(
 			<when test='searchVO.type == "C"'>
 				AND content like '%'||#{searchVO.keyword}||'%'
 			</when>
-			<when test='searchVO.type == "E"'>
-				AND empName like '%'||#{searchVO.keyword}||'%'
-			</when> 
 			<when test='searchVO.type == "TC"'>
 				AND title like '%'||#{searchVO.keyword}||'%'
 				OR content like '%'||#{searchVO.keyword}||'%'
@@ -219,6 +216,29 @@ WHERE code_id LIKE 'g%'
 
 <!-- 단건 조회 -->
 <select id="postInfo" resultType="PostVO">
+
+SELECT post_id,
+	 		p.board_id,
+            board_title,
+	        notification_yn,
+	        hold_yn,
+	        title,
+	        write_date,
+	        view_cnt,
+	        recommend_cnt,
+	        attachment_group_id,
+	        content,
+	        emp_id_name(emp_id) "empName",
+	        emp_id
+	    FROM post p
+        join board b  
+        on p.board_id = b.board_id
+WHERE post_id = #{postId}
+
+</select>
+
+<!-- 익명 단건 조회 -->
+<select id="anoyInfo" resultType="PostVO">
 
 SELECT post_id,
 	 		p.board_id,

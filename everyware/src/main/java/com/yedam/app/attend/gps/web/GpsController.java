@@ -77,8 +77,9 @@ public class GpsController {
 		return gpsService.updateState(gpsVO);
 	}
 	
-	@GetMapping("deleteGps")
-	public String deleteGps(GpsVO gpsVO) {
+	@PostMapping("deleteGps")
+	@ResponseBody
+	public String deleteGps(@RequestBody GpsVO gpsVO) {
 		gpsService.deleteGps(gpsVO);
 		return "redirect:gpsList";
 	}

@@ -105,8 +105,8 @@
                   </table>
                 </div>
                 <!-- /.col -->
-                <button type="button" id="changeGps">변경</button>
-                <button type="button" id="delGps">삭제</button>
+                <p><button type="button" id="changeGps">변경</button>
+                <button type="button" id="delGps">삭제</button></p>
               </div>
               <!-- /.row -->
 
@@ -178,9 +178,9 @@
 	        }
 	}
 
-$('#delGps').on('click', changeGps)
+$('#delGps').on('click', delGps)
 	
-	function changeGps(){
+	function delGps(){
 		
 		 let selectList = [];
 	        $('.oneCheckbox:checked').each(function() {
@@ -192,21 +192,20 @@ $('#delGps').on('click', changeGps)
 	        	console.log(selectList[0])
 	        	
 	        	
-			let gpsId = {
+			let gps = {
 					gpsId : selectList[0]
 			}
 			
 			$.ajax('deleteGps',{
 				type: 'post',
 				contentType : 'application/JSON',
-				data : JSON.stringify(gpsId)
+				data : JSON.stringify(gps)
 			})
 			.done(result=>{
 				alert("삭제되었습니다.")
 				//let url = "gpsList";
 				location.href="/gpsList";
 	
-				
 			})
 			.fail(err=>console.log(err));
 	        	

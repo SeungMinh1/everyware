@@ -33,8 +33,19 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">DataTables</li>
+              <li>
+              	<select id="sel">
+              		<option value='0'>선택</option>
+              		<option value='0'>7월</option>
+              		<option value='1'>6월</option>
+              		<option value='2'>5월</option>
+              		<option value='3'>4월</option>
+              		<option value='4'>3월</option>
+              		<option value='5'>2월</option>
+              		<option value='6'>1월</option>
+              	</select>
+              	<button type="button" id="golastMonth">조회</button>
+              </li>
             </ol>
           </div>
         </div>
@@ -54,7 +65,6 @@
               <div class="card-body" style="text-align:center">
               	<div>
               		<span>[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월 </span>
-              		<button type="button" id="golastMonth"  >조회</button>
  
               	</div>
                 <table id="example2" class="table table-bordered table-hover">
@@ -106,7 +116,6 @@
               <!-- /.card-header -->
               <div class="card-body" style="text-align:center">
               	<div>
-              		<button type="button" id="golastMonth"  >ㅇㅇ</button>
               		<span>[[ ${#strings.substring(weeks[1].weekStart, 5,7)} ]]월 </span>
  
               	</div>
@@ -217,14 +226,14 @@
 <script>
 	$("#golastMonth").on('click', function(){
 		$.ajax({
-       		url: "/allAttend?a="+ $("#sel").val(), 
+       		url: "/allAttend?month="+ $("#sel").val(), 
        		type : 'get'
 
 			
 		})
   		.done(function(result){
     		console.log(result);
-    		let url = "/allAttend?a="+ $("#sel").val();
+    		let url = "/allAttend?month="+ $("#sel").val();
     		location.replace(url);
     		
     	})

@@ -138,9 +138,9 @@ public class AttendController {
 	//전체사원 근태조회
 	@GetMapping("allAttend")
 
-	public String allAttend(Model model,@RequestParam(defaultValue = "0", required = false) Integer week) {
+	public String allAttend(Model model,@RequestParam(defaultValue = "0", required = false) Integer month) {
 		
-		List<WeekVO> list = attendService.findWeeks(week); //주차
+		List<WeekVO> list = attendService.findWeeks(month); //주차
 		
 		//1주차 정보
 		List<EmpVO> empList = attendService.AllWorkTime(list.get(0));

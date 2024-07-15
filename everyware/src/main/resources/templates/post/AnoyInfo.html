@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>상세 페이지</title>
+  <title>익명 페이지</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -150,7 +150,7 @@
                         </span>
                         
                         <div>
-                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i>[[${post.empName}]] &emsp; 작성날짜 &nbsp; [[${post.writeDate}]]</span> <!--/* 작성자 이름 */-->
+                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i> 작성날짜 &nbsp; [[${post.writeDate}]]</span> <!--/* 작성자 이름 */-->
                         </div>
                       </div>
                       <!-- /.user-block -->
@@ -259,7 +259,7 @@ const likeCheck = document.querySelector('.box');
 function del(){
 	let delCheck = confirm("삭제할까요?")
 	if(delCheck) {
-		location.href="postDelete?postId=" + [[${post.postId}]] + "&boardId="+ [[${post.boardId}]]
+		location.href="postDelete?postId=" + [[${post.postId}]]
 	}
 }
 </script>

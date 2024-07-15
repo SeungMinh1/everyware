@@ -24,6 +24,11 @@ public class PostServiceImpl implements PostService {
 	public PostVO postInfo(PostVO postVO) {
 		return postMapper.postInfo(postVO);
 	}
+	//익명단건조회
+	@Override
+	public PostVO anoyInfo(PostVO postVO) {
+		return postMapper.anoyInfo(postVO);
+	}
 	//상단공지조회
 	@Override
 	public List<PostVO> selectMainNotice(PostVO postVO) {
@@ -31,8 +36,17 @@ public class PostServiceImpl implements PostService {
 	}
 	//전체공지조회
 	@Override
-	public List<PostVO> selectNoticeAll(PostVO postVO, SearchVO searchVO) {
+	public List<PostVO> selectNoticeAll(PostVO postVO,SearchVO searchVO) {
 		return postMapper.selectNoticeAll(postVO,searchVO);
+	}
+	//부서별 게시물 전체조회
+	@Override
+	public List<PostVO> selectDeptAll(PostVO postVO,SearchVO searchVO) {
+		return postMapper.selectDeptAll(postVO,searchVO);
+	}
+	@Override
+	public List<PostVO> selectAnoyAll(PostVO postVO,SearchVO searchVO) {
+		return postMapper.selectAnoyAll(postVO,searchVO);
 	}
 	//등록
 	@Override
@@ -49,15 +63,7 @@ public class PostServiceImpl implements PostService {
 	public int postDelete(int postId) {
 		return postMapper.postDelete(postId);
 	}
-	//부서별 게시물 전체조회
-	@Override
-	public List<PostVO> selectDeptAll(PostVO postVO,SearchVO searchVO) {
-		return postMapper.selectDeptAll(postVO,searchVO);
-	}
-	@Override
-	public List<PostVO> selectAnoyAll(PostVO postVO,SearchVO searchVO) {
-		return postMapper.selectAnoyAll(postVO,searchVO);
-	}
+	
 	//부서 번호
 	@Override
 	public List<CommonVO> departmentList() {

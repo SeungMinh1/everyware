@@ -16,6 +16,7 @@
 		$("#tbody").append(tableHtml);
 		
 	};
+	rightTableClick();
 	//조편성 테이블 데이터넣기
 
 	squadList.forEach(function(info){
@@ -36,7 +37,19 @@
 		$("#makeCheckBox").append(checkHtml);
 	};
 	
+	function rightTableClick(){
+		$("#selectedTable").find("tr").click(function(e){
+			let squadNo = $(e.target).closest('tr').attr("data-squadno");
+
+			$(".empTr").toggleClass("empTr")
+			$(e.target).closest('tr').toggleClass("empTr")
+			
+			//선택된 조 번호
+			console.log($(".empTr").attr("data-squadno"))
+		
+	})
 	
+	}
 
  	//직원표 클릭 이벤트
   	function clickEmp(){
@@ -45,7 +58,7 @@
 		
 		let empId = parseInt($(e.target).closest('tr').attr('data-empId')) ;
 		let empName = $(e.target).text();
-		let squadNum = $('#makeCheckBox').find('input[name=squadCheck]:checked').val();
+		let squadNum = $(".empTr").attr("data-squadno");
 		let tableHtml ='<span data-empId="'+ empId + '">'+ empName +' x</span>';
 		
 		if(squadNum == null){
