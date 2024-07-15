@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.aspectj.weaver.tools.UnsupportedPointcutPrimitiveException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class DataFileServiceImpl implements DataFileService {
-
+	@Value("${file.upload.path}")
+	private String uploadFolder;
+	
 	@Autowired
 	DataFileMapper dataFileMapper;
 	
@@ -50,7 +53,7 @@ public class DataFileServiceImpl implements DataFileService {
         List<DataFileVO> list = new ArrayList<>();
         
         // 폴더 만들기
-        String uploadFolder = "C:\\upload";
+        //String uploadFolder = "C:\\upload";
         String uploadFolderPath = getForder();
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
 		log.info("upload path: " + uploadPath);
@@ -117,7 +120,7 @@ public class DataFileServiceImpl implements DataFileService {
 	@Override
 	public ResponseEntity<Resource> downlodeDataFile(String fileName) {
 		log.info("download file: " + fileName);
-		FileSystemResource resource = new FileSystemResource("C:\\upload\\" + fileName);
+		FileSystemResource resource = new FileSystemResource(uploadFolder + fileName);
 		log.info("resource : " + resource);
 		
 		//파일이름 uuid 지우기
@@ -143,7 +146,7 @@ public class DataFileServiceImpl implements DataFileService {
 		File file;
 		
 		try {
-			file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File(uploadFolder + URLDecoder.decode(fileName, "UTF-8"));
 			file.delete();
 
 		} catch (UnsupportedPointcutPrimitiveException e) {

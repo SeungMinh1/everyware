@@ -64,12 +64,6 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a th:href="@{/mailboxInfo(mailboxId=d4)}" data-no="d4" class="nav-link">
-                    <i class="fas fa-filter"></i> 스팸메일함
-                    <!-- <span class="badge bg-warning float-right">65</span> -->
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a th:href="@{/mailboxInfo(mailboxId=d5)}" class="nav-link">
                     <i class="far fa-trash-alt"></i> 휴지통
                   </a>
@@ -123,9 +117,6 @@
                      </button>
                   </th:block>
                 </div>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
                 <!-- mailboxId 가 d5일때 복구버튼 (update) -->
                 <th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">
 	                <button type="button" class="btn btn-default btn-sm moveRestoreBtn">
@@ -189,50 +180,7 @@
               <!-- /.mail-box-messages -->
             </div>
             <!-- /.card-body -->
-            <div class="card-footer p-0">
-              <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-                  <i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <!-- mailboxId 가 d5일때 삭제 (delete) -->
-                  <th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">
-                     <button type="button" class="btn btn-default btn-sm deleteBtn">
-                        <i class="far fa-trash-alt"></i>
-                     </button>
-                  </th:block>
-                  <!-- mailboxId가 d5가 아닐때 휴지통으로 이동 (update) -->
-                  <th:block th:unless = "${#strings.equals(param.mailboxId, 'd5')}">
-                  	 <button type="button" class="btn btn-default btn-sm moveTrashBtn">
-                        <i class="far fa-trash-alt"></i>
-                     </button>
-                  </th:block>
-                </div>
-                  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-reply"></i>
-                  </button>
-                <!-- mailboxId 가 d5일때 복구버튼 (update) -->
-                <th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">
-	                <button type="button" class="btn btn-default btn-sm moveRestoreBtn">
-	                    <i class="fas fa-sync-alt"></i>
-	                </button>
-                </th:block>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
-              </div>
-            </div>
+       	
           </div>
           <!-- /.card -->
         </div>
@@ -255,6 +203,7 @@
  </aside>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -279,6 +228,5 @@
   })
 </script>
 <script src="../../js/mail/mail_trash.js"></script>
-<script src="../../js/mail/mail_list.js"></script>
 </body>
 </html>

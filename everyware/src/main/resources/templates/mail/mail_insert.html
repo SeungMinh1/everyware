@@ -101,9 +101,10 @@
                 <li class="nav-item active">
                   <a th:href="@{/mailboxInfo(mailboxId=d1)}" class="nav-link">
                     <i class="fas fa-inbox"></i> 받은메일함
+                    <!-- <span class="badge bg-primary float-right">12</span> -->
                   </a>
                 </li>
-                <li class="nav-item">
+                 <li class="nav-item">
                   <a th:href="@{/mailboxInfo(mailboxId=d2)}" class="nav-link">
                     <i class="far fa-envelope"></i> 보낸메일함
                   </a>
@@ -111,11 +112,6 @@
                 <li class="nav-item">
                   <a th:href="@{/mailboxInfo(mailboxId=d3)}" class="nav-link">
                     <i class="far fa-file-alt"></i> 임시보관함
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a th:href="@{/mailboxInfo(mailboxId=d4)}" class="nav-link">
-                    <i class="fas fa-filter"></i> 스팸메일함
                   </a>
                 </li>
                 <li class="nav-item">
@@ -200,14 +196,14 @@
 			  <div class="modalDiv">
 			    <div class="form-group">
 			      <div class="input-group input-group-sm">
-			        <select class="form-select" id="searchType">
+			        <select class="form-select-sm" id="searchType">
 			          <option>전체</option>
 			          <option value="name">이름</option>
 			          <option value="department">부서</option>
 			        </select>
-			        <input type="search" class="form-control form-control-sm" id="searchKeyword" placeholder="검색">
+			        <input type="search" class="form-control-sm" id="searchKeyword" placeholder="검색">
 			        <div class="input-group-append">
-			          <button type="submit" class="btn btn-lg btn-default" onclick="addressSearch(1)">
+			          <button type="submit" class="btn btn-primary" onclick="addressSearch(1)">
 			            <i class="fa fa-search"></i>
 			          </button>
 			        </div>
@@ -287,6 +283,7 @@
       }
       $(this).data('clicks', !clicks)
     })
+    
   })
 </script>
 <!-- ====================

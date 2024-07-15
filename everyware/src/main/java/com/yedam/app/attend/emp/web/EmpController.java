@@ -134,7 +134,12 @@ public class EmpController {
 		return empService.selectPhoto(empVO);
 	}
 	
-	
+	//아이디 중복체크
+	@PostMapping("checkId")
+	@ResponseBody
+	public int checkId(@RequestBody EmpVO empVO) {
+		return empService.selectCheckId(empVO);
+	}
 	
 	
 }

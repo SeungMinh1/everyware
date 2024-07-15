@@ -70,13 +70,17 @@ public class GpsController {
 		return gpsService.selectNowGps();
 	}
 	
-	//등록된GPS와 현재위치 거리측정
+	//등록된GPS와 변경
 	@PostMapping("updateState")
 	@ResponseBody
 	public int updateState(@RequestBody GpsVO gpsVO) {
 		return gpsService.updateState(gpsVO);
 	}
 	
-	
+	@GetMapping("deleteGps")
+	public String deleteGps(GpsVO gpsVO) {
+		gpsService.deleteGps(gpsVO);
+		return "redirect:gpsList";
+	}
 
 }

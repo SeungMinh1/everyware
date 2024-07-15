@@ -20,4 +20,7 @@ public interface GpsMapper {
 	//적용중인 GPS변경
 	public int updateState(GpsVO gpsVO);
 	
+	//gps삭제
+	public int deleteGps(GpsVO gpsVO);
+	
 }

@@ -80,7 +80,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 		var thHtml = null;
 		//일요일 빨간색 배경
 		if(days == "일요일"){
-			thHtml = "<th style='background-color:red'>" + i + "</th>"
+			thHtml = "<th style='background-color:#FF92B1'>" + i + "</th>"
 			
 		}else{			
 			thHtml = "<th>" + i + "</th>"
@@ -181,8 +181,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 
 	    console.log(canvas)
 	    var imgData = canvas.toDataURL('image/png');
-	    
-		     
+    
 	    var imgWidth = 190; // 출력 페이지 세로 길이 계산 A4 기준
 	    var imgHeight = canvas.height * imgWidth / canvas.width;
 	    
@@ -193,23 +192,21 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	    var position = 1;
 	    
 	    //스케일
-	    /*doc.scale(0.5, 1);*/
+	    //doc.scale(0.5, 1);
 	    // 첫 페이지 출력
-	    doc.addImage(imgData, 'PNG', 10, 10,  200, 200);
-	    
-	    
-	   
-	 
-	    // 파일 저장
-	    doc.save('file-name.pdf');
+	    doc.addImage(imgData, 'PNG', 10,50,  300, 100);
 
-		  
+	    // 파일 저장
+	    doc.save('근무표.pdf');
+ 
 		});
 		
 		/*html2canvas($("#calTable"), {
 			onrendered: function (canvas) {
 				// create intermediate canvas
 		    var rotCanvas = document.createElement("canvas");
+		    console.log(canvas);
+		    console.log(rotCanvas);
 		
 		    // swap width and height
 		    rotCanvas.width = canvas.height;
@@ -234,7 +231,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 		    image.src = data;
 			}
 			
-		}*/
+		});*/
 			
 		
 		
