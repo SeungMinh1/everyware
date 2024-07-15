@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class FileController {
+	@Value("${file.upload.path}")
+	private String uploadFolder;
+	
 	@Autowired
     private FileService fileService;
 	
@@ -70,7 +74,7 @@ public class FileController {
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(String fileName){
 		log.info("fileName:" + fileName);
-		File file = new File("c:\\upload\\"+ fileName);
+		File file = new File(uploadFolder, fileName);
 		ResponseEntity<byte[]> result = null;
 		
 		try {

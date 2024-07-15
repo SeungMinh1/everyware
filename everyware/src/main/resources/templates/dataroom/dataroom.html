@@ -192,35 +192,27 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle">
-                	<i class="far fa-square"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm deleteBtn">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
-                  
-                 <!--  <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-share"></i>
-                  </button> -->
-                  
+                <div class="dataBtnGroup">
+	                <button type="button" class="btn btn-default btn-sm checkbox-toggle allCheckboxBtn9">
+	                	<i class="far fa-square"></i>
+	                </button>
+	                <div class="btn-group">
+	                  <button type="button" class="btn btn-default btn-sm deleteBtn">
+	                    <i class="far fa-trash-alt"></i>
+	                  </button>
+	                </div>
                 </div>
-                <!-- <div class="float-right">
-				    <span id="pagination-info">1-50/200</span>
-				    <div class="btn-group">
-				        <button type="button" class="btn btn-default btn-sm" onclick="navigatePage('prev')">
-				            <i class="fas fa-chevron-left"></i>
-				        </button>
-				        <button type="button" class="btn btn-default btn-sm" onclick="navigatePage('next')">
-				            <i class="fas fa-chevron-right"></i>
-				        </button>
-				    </div>
-				</div> -->
-                <!-- /.btn-group -->
-                
-                <!-- /.float-right -->
+                <div class="folderAppend">
+               	    <div class="float-right">
+	                  <div class="btn-group">
+	                    <button value="" type="button" class="btn btn-default folderDelete">
+	                       <i class="far fa-trash-alt" aria-hidden="true"></i> 폴더삭제</button>
+	                  </div>
+			       </div>	
+               </div>
               </div>
+              
+              
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover">
                   <thead id="thead">

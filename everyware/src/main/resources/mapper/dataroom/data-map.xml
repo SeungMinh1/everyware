@@ -145,5 +145,7 @@
         )
  	</delete>
  	
- 	
+ 	<delete id="deleteDataFolder" parameterType="DataVO">
+		CALL DEL_DATA_FILE(#{dataId})
+	</delete>
 </mapper>

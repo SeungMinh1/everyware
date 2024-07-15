@@ -86,7 +86,15 @@ public class DataServiceImpl implements DataService {
 		return result;
 	}
 	
+	//deleteDataFolder 프로시저
+	@Override
+	public int deleteDataFolder(DataVO dataVO) {
+		return dataMapper.deleteDataFolder(dataVO);
+	}
 	
+	
+	
+
 	
 	
 

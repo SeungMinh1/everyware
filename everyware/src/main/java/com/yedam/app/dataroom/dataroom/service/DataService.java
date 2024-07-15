@@ -26,5 +26,5 @@ public interface DataService {
 	public Map<String, Object> deleteFiles(List<Integer> dataIds);
 	
 	//자료삭제 (+ 프로시저)
-	//public int deleteData(int dataId);
+	public int deleteDataFolder(DataVO dataVO);
 }
