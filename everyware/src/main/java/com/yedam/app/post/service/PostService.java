@@ -1,7 +1,6 @@
 package com.yedam.app.post.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.common.service.CommonVO;
