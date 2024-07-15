@@ -99,28 +99,23 @@
               <div class="card-body p-0">
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item active">
-                  <a data-no="d1" class="nav-link mailboxNameOnclick">
+                  <a th:href="@{/mailboxInfo(mailboxId=d1)}" class="nav-link">
                     <i class="fas fa-inbox"></i> 받은메일함
                     <!-- <span class="badge bg-primary float-right">12</span> -->
                   </a>
                 </li>
-                <li class="nav-item" >
-                  <a data-no="d2" class="nav-link mailboxNameOnclick">
+                 <li class="nav-item">
+                  <a th:href="@{/mailboxInfo(mailboxId=d2)}" class="nav-link">
                     <i class="far fa-envelope"></i> 보낸메일함
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a data-no="d3" class="nav-link mailboxNameOnclick">
+                  <a th:href="@{/mailboxInfo(mailboxId=d3)}" class="nav-link">
                     <i class="far fa-file-alt"></i> 임시보관함
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a data-no="d4" class="nav-link mailboxNameOnclick">
-                    <i class="fas fa-filter"></i> 스팸메일함
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a data-no="d5" class="nav-link mailboxNameOnclick">
+                  <a th:href="@{/mailboxInfo(mailboxId=d5)}" class="nav-link">
                     <i class="far fa-trash-alt"></i> 휴지통
                   </a>
                 </li>
@@ -288,40 +283,6 @@
       }
       $(this).data('clicks', !clicks)
     })
-    
-    $('.mailboxNameOnclick').on('click', function(){
-   	 console.log($(this).data('no'));
-   	 let mailboxNo = $(this).data('no');
-   	 let mailboxName = '';
-   	    if (mailboxNo === 'd1') {
-   	       url = '/mail';
-	   	   window.location.href = url;
-   		   mailboxName = '받은메일함';
-   	       mailList('d1');
-   	    } else if (mailboxNo === 'd2') {
-   	       url = '/mail';
-	   	   window.location.href = url;
-   	       mailboxName = '보낸메일함';
- 	       mailList('d2');
-   	    } else if (mailboxNo === 'd3') {
-   	       url = '/mail';
-	   	   window.location.href = url;
- 	       mailList('d3');
-   	       mailboxName = '임시보관함';
-   	    } else if (mailboxNo === 'd4') {
-   	       url = '/mail';
-	   	   window.location.href = url;
-	       mailList('d4');
-   	       mailboxName = '스팸메일함';
-   	    } else if (mailboxNo === 'd5') {
-   	    	url = '/mail';
- 	   	    window.location.href = url;
- 	        mailList('d5');
-   	        mailboxName = '휴지통';
-   	    }
-   	 $('.mailboxName2').text(mailboxName);
-   })
-   
     
   })
 </script>

@@ -48,7 +48,9 @@ function dataList(page, category, remarks, title, searchType = '', searchKeyword
     $('#tbody').empty();
     $('.pagination').empty();
 	$('.appendSearch').empty();
-	 
+	$('.folderAppend').hide();
+	
+	
 	$('.groupFileTitle').text(title);
     $.ajax({
         url: 'dataList',
@@ -67,7 +69,7 @@ function dataList(page, category, remarks, title, searchType = '', searchKeyword
         
         appendSearchInput();
         appendTableHeader();
-        
+        $('.dataBtnGroup').show();
         if(result.datas.length == 0){
 			appendEmptyData();
         } else {
@@ -190,6 +192,7 @@ $(document).ready(function() {
 	$(document).on('click', '.titleDataId', function dataListInfo() {
 		console.log($(this).data('id'));
 		let dataId = $(this).data('id');
+		
 		$.ajax({
 			url: 'selectData',
 			data: {dataId: dataId}
@@ -200,19 +203,40 @@ $(document).ready(function() {
 			$('#tbody').empty();
 			$('.pagination').empty();
 			$('.appendSearch').empty();
+			$('.dataBtnGroup').hide();
+			$('.folderAppend').show();
+			
 			let groupFileTitle = `<i class="fas fa-folder-open"></i> ${result[0].title}`
 			$('.groupFileTitle').html(groupFileTitle);
-			
+						
 			let theadTr = `<tr>
-	                  		 <th width="10%"></th>
+	                  		 <th width="5%"></th>
 	                  		 <th width="55%">파일이름</th>
-	                  		 <th width="15%">파일크기</th>
+	                  		 <th width="20%">파일크기</th>
 	                  		 <th width="20%">등록날짜</th>
 	                  	   </tr>`
         	$('#thead').append(theadTr);
 			
 			resultFileList(result);
-		})//ajax.done
+		})//selectData ajax.done
+		
+		$('.folderDelete').on('click', function(){
+			$.ajax({
+				url: 'deleteDataFolder',
+				type: 'POST', 
+				contentType : 'application/JSON',
+	            data: JSON.stringify({dataId : dataId}),
+	            success : function(){
+					alert('폴더 삭제 성공');
+					let url = '/dataroom';
+					location.href=url;
+				}
+			})
+		})
+		
+		
+		
+		
 	})//document.onclick;
 	
 	
@@ -225,12 +249,7 @@ $(document).ready(function() {
 	                day: '2-digit'
 	            });
 			let tbodyTr = `<tr>
-                    		<td>
-	                        <div class="icheck-primary">
-	                           <input type="checkbox" value="${d.fileId}" id="${d.fileId}" class="oneCheckbox">
-	                           <label for="${d.fileId}"></label>
-	                        </div>
-		                    </td>
+							<td></td>
 		                    <td><a class="fileName" id="${d.fileId}">${d.originFileName}</a></td>
 		                    <td class="size">${d.fileSize}</td>
 		                    <td class="date">${formattedDate}

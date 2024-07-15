@@ -29,7 +29,7 @@ public interface DataMapper {
 	
 	
 	//자료 삭제 (+ 프로시저)
-	//public int deleteData1(int dataId);
+	public int deleteDataFolder(DataVO dataVO);
 	
 	
 }

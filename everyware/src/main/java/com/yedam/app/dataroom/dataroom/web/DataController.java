@@ -117,4 +117,11 @@ public class DataController {
 	public Map<String, Object> deleteFiles(@RequestBody List<Integer> dataIds) {
 		return dataService.deleteFiles(dataIds);
 	}
+	
+	// 폴더 삭제시 프로시저 -> 파일 동시 삭제
+	@PostMapping("deleteDataFolder")
+	@ResponseBody
+	public int deleteDataFolder(@RequestBody DataVO dataVO) {
+		return dataService.deleteDataFolder(dataVO);
+	}
 }

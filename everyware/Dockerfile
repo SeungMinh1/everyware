@@ -4,4 +4,4 @@ COPY ${JAR_FILE} app.jar
 ARG KEY_FILE=keystore.p12
 COPY ${KEY_FILE} keystore.p12 
 ENV TZ=Asia/Seoul
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=${USE_PROFILE}", "-jar","/app.jar"]
