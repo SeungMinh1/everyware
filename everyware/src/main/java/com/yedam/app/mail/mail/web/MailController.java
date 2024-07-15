@@ -34,32 +34,13 @@ public class MailController {
 	@Autowired
 	EmpService empService;
 	
-	//메일 페이지 홈 
-	@GetMapping("mail")
-	public String mailList() {
-		return "mail/mailList";
-	}
-	
 	//조회 : 단건 메일함
 	@GetMapping("mailboxInfo")
-	@ResponseBody
-	public Map<String, Object> mailboxInfo(MailVO mailVO,
-										   Integer page, 
-										   Integer cnt) {
-		Integer empId = AuthUtil.getEmpId();
-		
-		page = page == null ? 1 : page; 
-		cnt = cnt == null ? 10 : cnt; 
-		
-		
-		List<MailVO> info = mailService.mailboxInfo(mailVO, empId, page, cnt);
-		int allCount = mailService.mailListCnt(mailVO, empId);
-		DataPageDTO pg = new DataPageDTO(page, allCount, cnt);
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("info", info);
-		map.put("pg", pg);
-		return map;
+	public String mailboxInfo(MailVO mailVO, Model model, @AuthenticationPrincipal LoginUserVO principal) {
+		int empId = principal.getUserVO().getEmpId();
+		List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
+		model.addAttribute("mailboxInfo", find);
+		return "mail/mail_list";
 	}
 	
 	//조회 : 단건 메일 상세페이지
