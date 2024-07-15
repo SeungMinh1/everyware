@@ -277,7 +277,7 @@
 		FROM attend a
             INNER JOIN emp e
             on a.emp_id = e.emp_id
-		WHERE a.emp_id = #{empId} and to_char(go_time, 'yyyymmdd') between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+		WHERE a.emp_id = #{empId} and  to_date(to_char(go_time, 'yyyymmdd')) between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
         order by attend_id
  		
  	</select>
