@@ -2,15 +2,15 @@ package com.yedam.app.mail.mail.mapper;
 
 import java.util.List;
 
-import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.mail.mail.service.Criteria;
 import com.yedam.app.mail.mail.service.MailVO;
 
 public interface MailMapper {
 	//단건 메일함
-	public List<MailVO> selectMailboxInfo(MailVO mailVO, int empId);
+	public List<MailVO> selectMailboxInfo(MailVO mailVO, int empId, Criteria cri);
 	
 	//메일 Cnt
-	public int selectMailListCnt(MailVO mailVO, int empId);
+	public int selectMailListCnt(MailVO mailVO, int empId, Criteria cri);
 	
 	//메일 단건조회
 	public MailVO selectMailInfo(MailVO mailVO);
