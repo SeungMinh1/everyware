@@ -120,7 +120,7 @@ public class DataFileServiceImpl implements DataFileService {
 	@Override
 	public ResponseEntity<Resource> downlodeDataFile(String fileName) {
 		log.info("download file: " + fileName);
-		FileSystemResource resource = new FileSystemResource("C:\\upload\\" + fileName);
+		FileSystemResource resource = new FileSystemResource(uploadFolder + fileName);
 		log.info("resource : " + resource);
 		
 		//파일이름 uuid 지우기
@@ -146,7 +146,7 @@ public class DataFileServiceImpl implements DataFileService {
 		File file;
 		
 		try {
-			file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+			file = new File(uploadFolder + URLDecoder.decode(fileName, "UTF-8"));
 			file.delete();
 
 		} catch (UnsupportedPointcutPrimitiveException e) {
