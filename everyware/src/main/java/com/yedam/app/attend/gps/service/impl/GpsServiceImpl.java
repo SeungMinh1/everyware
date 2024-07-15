@@ -43,5 +43,10 @@ public class GpsServiceImpl implements GpsService{
 		return gpsMapper.updateState(gpsVO);
 	}
 
+	@Override
+	public int deleteGps(GpsVO gpsVO) {
+		return gpsMapper.deleteGps(gpsVO);
+	}
+
 	
 }

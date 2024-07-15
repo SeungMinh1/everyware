@@ -104,6 +104,10 @@ public class EmpServiceImpl implements EmpService{
 	public EmpVO selectPhotoData(EmpVO empVO) {
 		return empMapper.searchPhoto(empVO);
 	}
+	@Override
+	public int selectCheckId(EmpVO empVO) {
+		return empMapper.checkId(empVO);
+	}
 	
 
 }

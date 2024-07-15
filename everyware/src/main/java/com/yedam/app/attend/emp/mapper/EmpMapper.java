@@ -47,4 +47,6 @@ public interface EmpMapper {
 	//사진찾기위해 데이터찾기
 	public EmpVO searchPhoto(EmpVO empVO);
 	
+	//아이디 중복체크
+	public int checkId(EmpVO empVO);
 }
