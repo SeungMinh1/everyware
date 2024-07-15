@@ -15,5 +15,7 @@ public interface GpsService {
 	
 	//현재적용중인 GPS
 	public int updateState(GpsVO gpsVO);
-
+	
+	//gps삭제
+	public int deleteGps(GpsVO gpsVO);
 }

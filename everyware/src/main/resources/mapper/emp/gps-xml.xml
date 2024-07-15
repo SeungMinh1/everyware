@@ -58,6 +58,11 @@
 	
 	</update>
 	
+	<!-- GPS삭제 -->
+	<delete id="deleteGps" parameterType="GpsVO">
+		DELETE gps
+		WHERE gps_id = {gpsId}
+	</delete>
 	
 	
 
