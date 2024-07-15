@@ -60,7 +60,7 @@
 	
 	<!-- GPS삭제 -->
 	<delete id="deleteGps" parameterType="GpsVO">
-		DELETE gps
+		DELETE FROM gps
 		WHERE gps_id = {gpsId}
 	</delete>
 	

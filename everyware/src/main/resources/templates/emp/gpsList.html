@@ -105,8 +105,8 @@
                   </table>
                 </div>
                 <!-- /.col -->
-                <button type="button" id="changeGps">변경</button>
-                <button type="button" id="delGps">삭제</button>
+                <p><button type="button" id="changeGps">변경</button>
+                <button type="button" id="delGps">삭제</button></p>
               </div>
               <!-- /.row -->
 
@@ -178,9 +178,9 @@
 	        }
 	}
 
-$('#delGps').on('click', changeGps)
+$('#delGps').on('click', delGps)
 	
-	function changeGps(){
+	function delGps(){
 		
 		 let selectList = [];
 	        $('.oneCheckbox:checked').each(function() {
