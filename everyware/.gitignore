@@ -31,4 +31,4 @@ replay_pid*
 .project
 .settings/
 .codetogether.ignore
-
+.properties
