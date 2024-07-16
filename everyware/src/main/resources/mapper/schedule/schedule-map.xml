@@ -47,14 +47,14 @@
 		INSERT INTO squad
 		(
 			squad_no
-			
+			, start_date
 			, rotate_circle
 			, rotate_num
 		)
 		VALUES
 		(
 			#{squadNo}
-			
+			, TO_DATE(#{startDate})
 			, #{rotateCircle}
 			, #{rotateNum}
 		)
