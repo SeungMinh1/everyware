@@ -4,10 +4,10 @@ package com.yedam.app.post.web;
 
 import java.util.List;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.app.attend.emp.service.PageDTO;
+import com.yedam.app.attend.security.service.LoginUserVO;
 import com.yedam.app.board.service.BoardVO;
 import com.yedam.app.common.service.CommonVO;
 import com.yedam.app.common.util.AuthUtil;
@@ -34,7 +35,9 @@ public class PostController {
 
 	// 상단공지조회
 	@GetMapping("postMainNotice")
-	public String postList(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO, Integer boardId) {
+	public String postList(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO, Integer boardId, @AuthenticationPrincipal LoginUserVO principal) {
+		String departmentId = principal.getUserVO().getDepartmentId();
+		searchVO.setDepartmentId(departmentId);
 		postVO.setBoardId(1);
 		page = page == null ? 1 : page;
 		cnt = cnt == null ? 10 : cnt;
@@ -77,7 +80,10 @@ public class PostController {
 
 	// 전체공지
 	@GetMapping("selectNoticeAll")
-	public String selectNoticeAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
+	public String selectNoticeAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO ,@AuthenticationPrincipal LoginUserVO principal) {
+		String departmentId = principal.getUserVO().getDepartmentId();
+		searchVO.setDepartmentId(departmentId);
+		postVO.setDepartmentId(departmentId);
 		postVO.setBoardId(1);
 		page = page == null ? 1 : page;
 		cnt = cnt == null ? 10 : cnt;
@@ -91,13 +97,16 @@ public class PostController {
 		List<PostVO> list = postService.selectNoticeAll(postVO, searchVO);
 		model.addAttribute("postMain", list);
 		model.addAttribute("pg", pg);
-
+		model.addAttribute("departmentId", departmentId);
 		return "post/postNotice";
 	}
 	
 	// 전체부서별
 		@GetMapping("selectDeptAll")
-		public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
+		public String selectDeptAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO, @AuthenticationPrincipal LoginUserVO principal) {
+			String departmentId = principal.getUserVO().getDepartmentId();
+			searchVO.setDepartmentId(departmentId);
+			postVO.setDepartmentId(departmentId);
 			postVO.setBoardId(2);
 			page = page == null ? 1 : page;
 			cnt = cnt == null ? 10 : cnt;
@@ -110,6 +119,7 @@ public class PostController {
 			List<PostVO> list = postService.selectDeptAll(postVO, searchVO);
 			model.addAttribute("postMain", list);
 			model.addAttribute("pg", pg);
+			model.addAttribute("departmentId", departmentId);
 
 			return "post/postDept";
 		}
