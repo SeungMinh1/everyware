@@ -54,7 +54,7 @@
 		VALUES
 		(
 			#{squadNo}
-			, TO_DATE(#{startDate})
+			, TO_DATE(#{startDate}, 'yyyy-MM-dd')
 			, #{rotateCircle}
 			, #{rotateNum}
 		)
