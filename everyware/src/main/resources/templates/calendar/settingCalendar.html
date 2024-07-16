@@ -65,8 +65,8 @@
 	</div>
 	</div>
 	
-	<div class="divTable col-md-8" style="margin:auto">
 	<div id="iShare" class="row" th:fragment="iShare" style="display:none">
+	<div class="divTable col-md-8" style="margin:auto">
     	<div class="card card-primary">
 		<div class="card-body">
 		<table class="calTable">
@@ -217,7 +217,7 @@
 			}
 			console.log(shareBoxList)
 			 $.ajax({
-				url: '/deleteShare',
+				url: '/denyShare',
 				type: 'POST',
 				contentType :'application/json',
 				data: JSON.stringify(shareBoxList)
@@ -226,6 +226,7 @@
 		.done(function(res){
 			console.log(res)
 			$('#iShare').replaceWith(res);
+			$("#iShare").css("display" , "block");
 		})  
 			
 		})

@@ -14,6 +14,7 @@
  				, address
  				, photo
  				, department_emp_id
+ 				, department_id
  				, find_codename(department_id) departmentName
  				, find_codename(emp_position) posName
  				, a.account_id

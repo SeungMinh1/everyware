@@ -13,6 +13,7 @@
  				, address
  				, photo
  				, department_emp_id
+ 				, department_id
  				, FIND_CODENAME(department_id) departmentName
  				, FIND_CODENAME(emp_position) posName
  				, 'ROLE_' || UPPER(department_id) auth

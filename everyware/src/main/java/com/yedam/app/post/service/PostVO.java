@@ -29,6 +29,7 @@ public class PostVO {
 	private Integer page;               //페이지 
 	private Integer cnt;                //개수 
 	private String orderBy;         //정렬기준
+	private String departmentId;    //부서번호
 	
 	
 	
