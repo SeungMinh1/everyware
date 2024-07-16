@@ -31,16 +31,44 @@
 		<li class="nav-item">  
             <a th:href="@{/attend}" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
-              <p>근태관리</p>
+              <p>근태관리
+              	<th:block th:if=" ${#authentication.principal.userVO.departmentName}=='인사'
+            				or  ${#authentication.principal.userVO.posName}=='부서장'">
+              		<i class="fas fa-angle-left right"></i>
+              	</th:block>
+              </p>
             </a>
+            <th:block th:if=" ${#authentication.principal.userVO.departmentName}=='인사'
+            				or  ${#authentication.principal.userVO.posName}=='부서장'">
+            <ul class="nav nav-treeview">
+            	 <th:block th:if=" ${#authentication.principal.userVO.departmentName}=='인사'">
+	            	<li class="nav-item">
+		                <a  th:href="@{/allAttend}" class="nav-link">
+		                  <i class="far fa-circle nav-icon"></i>
+		                  <p>전사 근태관리</p>
+		                </a>
+		             </li>
+	             </th:block>
+	            
+	            <th:block th:if="${#authentication.principal.userVO.posName}=='부서장'"> 
+	              <li class="nav-item">
+	                <a href="allAttend" class="nav-link">
+	                  <i class="far fa-circle nav-icon"></i>
+	                  <p>부서별 근태관리</p>
+	                </a>
+	              </li>
+              </th:block>
+              
+            </ul>
           </li>
+           <th:block th:if=" ${#authentication.principal.userVO.departmentName}=='인사'">
            <li class="nav-item">
                 <a th:href="@{/empList}" class="nav-link">
                   <i class="nav-icon fas fa-columns"></i>
                   <p>사원정보관리</p>
                 </a>
               </li>
-
+			</th:block>
          
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -70,7 +98,6 @@
                   <p>근무표 생성</p>
                 </a>
               </li>
-
               
               </div>
               <div th:if=" ${#authentication.principal.userVO.posName}!='부서장'">
@@ -208,6 +235,7 @@
               </p>
             </a>
           </li>
+        <th:block th:if=" ${#authentication.principal.userVO.departmentName}=='인사'">
         <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="fa-solid fa-file-pen nav-icon"></i>
@@ -229,10 +257,10 @@
                   <p>GPS 리스트</p>
                 </a>
 		    </li>
-
                                                                                                                            
             </ul>
           </li>
+			</th:block>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
