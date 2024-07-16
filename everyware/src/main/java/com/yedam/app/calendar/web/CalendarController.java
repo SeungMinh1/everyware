@@ -275,23 +275,25 @@ public class CalendarController {
 
 		return "calendar/settingCalendar :: otherShare";
 	}
-
-	// 공유신청 거절
-	@PostMapping("declineShare")
-	public String declineShareProcess(@RequestBody List<CalendarBoxVO> list, Model model) {
-
-		CalendarBoxVO cBox = new CalendarBoxVO();
-
-		for (CalendarBoxVO c : list) {
+	
+	// 관심일정 거절
+	@PostMapping("denyShare")
+	public String denyShareProcess(@RequestBody List<CalendarBoxVO> list, Model model) {
+		
+		for(CalendarBoxVO c : list) {
 			calendarService.deleteApproveShare(c);
 		}
+		
+		CalendarBoxVO calendarBoxVO = new CalendarBoxVO();		
+		Integer empId = AuthUtil.getEmpId();
+		calendarBoxVO.setEmpId(empId);
 
-		cBox.setEmpId(AuthUtil.getEmpId());
-		List<CalendarBoxVO> shlist = calendarService.selectMySahred(cBox);
+		List<CalendarBoxVO> shlist = calendarService.selectMySahred(calendarBoxVO);
 		model.addAttribute("myshared", shlist);
-
+		
 		return "calendar/settingCalendar :: iShare";
 	}
+
 
 	// 해당사원 일정목록출력
 	@PostMapping("empIdBox")

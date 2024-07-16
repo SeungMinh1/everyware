@@ -87,20 +87,23 @@ SELECT * FROM(
 	  rownum AS rs,
 	  a.* 
 	FROM (
-		 SELECT post_id,
-			 		board_id,
-			        notification_yn,
-			        hold_yn,
-			        title,
-			        write_date,
-			        view_cnt,
-			        recommend_cnt,
-			        attachment_group_id,
-			        content,
-			        emp_id,
-			        emp_id_name(emp_id) emp_name
-			    FROM post
-		WHERE board_id = 2
+	SELECT post_id,
+	 	   board_id,
+		notification_yn,
+		hold_yn,
+		title,
+		write_date,
+		view_cnt,
+		recommend_cnt,
+		attachment_group_id,
+		content,
+		e.emp_id,
+		emp_id_name(e.emp_id) emp_name
+	    FROM post p
+	    	JOIN emp e
+	    	ON p.emp_id = e.emp_id
+		WHERE board_id = 2 
+		AND e.department_id = #{searchVO.departmentId}
 		<!-- 검색 -->
 		<if test= "searchVO.type != null and searchVO.keyword != null">
 		 <choose>
@@ -111,7 +114,7 @@ SELECT * FROM(
 				AND content like '%'||#{searchVO.keyword}||'%'
 			</when>
 			<when test='searchVO.type == "E"'>
-				AND emp_id_name(emp_id) like '%'||#{searchVO.keyword}||'%'
+				AND emp_id_name(e.emp_id) like '%'||#{searchVO.keyword}||'%'
 			</when> 
 			<when test='searchVO.type == "TC"'>
 				AND title like '%'||#{searchVO.keyword}||'%'
