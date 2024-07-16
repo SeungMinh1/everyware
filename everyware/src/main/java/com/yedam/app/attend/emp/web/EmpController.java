@@ -42,9 +42,13 @@ public class EmpController {
 		PageDTO pg = new PageDTO(page, allCount, cnt); //페이징
 		
 		List<EmpVO> list = empService.empList(page, cnt, dosearch, searchOption); //전체사원리스트
+		String a = null;
+		String b = null;
+		int count = empService.cntList(a, b);
+		
 		model.addAttribute("empList", list);
 		model.addAttribute("pg", pg);
-		
+		model.addAttribute("allcount", count);
 		
 		return "emp/empList";
 	}

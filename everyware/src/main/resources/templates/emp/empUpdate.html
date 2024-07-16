@@ -15,18 +15,16 @@
 	<form name="updateForm" th:object="${emp}">
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
+		 <div style="margin-right: 3%; margin-left: 3%">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>사원정보수정</h1>
+							<h3>사원정보수정</h3>
 						</div>
 						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">User Profile</li>
-							</ol>
+							
 						</div>
 					</div>
 				</div>
@@ -48,12 +46,12 @@
 									<h3 class="profile-username text-center">[[ ${emp.empName}]]</h3>
 
 									<ul class="list-group list-group-unbordered mb-3">
-										<li class="list-group-item"><b>Followers</b> <a
-											class="float-right">1,322</a></li>
-										<li class="list-group-item"><b>Following</b> <a
-											class="float-right">543</a></li>
-										<li class="list-group-item"><b>Friends</b> <a
-											class="float-right">13,287</a></li>
+										<li class="list-group-item">
+						                    <b>부서</b> <a class="float-right">[[ ${emp.departmentName} ]]</a>
+						                  </li>
+						                  <li class="list-group-item">
+						                    <b>직위</b> <a class="float-right">[[ ${emp.posName} ]]</a>
+						                  </li>
 									</ul>
 
 									<a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
@@ -188,6 +186,7 @@
 			</section>
 			<!-- /.content -->
 		</div>
+		</div>
 		<!-- /.content-wrapper -->
 		<footer class="main-footer">
 			<div class="float-right d-none d-sm-block">
@@ -271,6 +270,9 @@
 			.done(result => {
 				if(result.result){
 					alert('수정되었습니다.');
+					
+					let url = '/empInfo?empId=' + $('#empId').val();
+					location.href=url;
 				}else{
 					alert('수정되지않았습니다.');
 				}
