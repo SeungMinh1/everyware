@@ -1,24 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.app.mail.mail.mapper.MailMapper">
+	 
+	 <!-- criteria -->
+	 <sql id="criteria">
+	 	WHERE mailbox_id = #{mailVO.mailboxId} and emp_id = #{empId}
+		<trim prefixOverrides="OR">
+	    	<foreach item='type' collection="cri.typeArr">
+	    		<trim prefix="OR">
+	    			<choose>
+	    				<when test="type == 'T'.toString()">
+	    					and title like '%'||#{cri.keyword}||'%'
+	    				</when>
+	    				<when test="type == 'S'.toString()">
+	    					and sender like '%'||#{cri.keyword}||'%'
+	    				</when>
+	    			</choose>
+	    		</trim>
+	    	</foreach>
+	    </trim>
+	</sql>
 	
 	<select id="selectMailboxInfo" resultType="MailVO">
-			SELECT sender
-				  , title
-				  , send_date
-				  , emp_id
-				  , mailbox_id
-				  , FIND_CODENAME(MAILBOX_ID) mailbox_name
-				  , mail_id
-			FROM mail
-			WHERE mailbox_id = #{mailVO.mailboxId} and emp_id = #{empId} 
-			ORDER BY mail_id DESC
+	  SELECT c.*
+	  FROM (SELECT ROWNUM as rn, a.*
+           FROM (SELECT sender
+					  , title
+					  , send_date
+					  , emp_id
+					  , mailbox_id
+					  , FIND_CODENAME(MAILBOX_ID) mailbox_name
+					  , mail_id
+				FROM mail
+				<include refid="criteria"></include>
+				ORDER BY mail_id DESC) a
+   				) c 
+   		<![CDATA[WHERE c.rn <= #{cri.pageNum} * #{cri.amount} 
+   		AND c.rn > (#{cri.pageNum} - 1) * #{cri.amount}]]>
 	</select>
 	
 	<select id="selectMailListCnt" resultType="int">
-		SELECT count(*)
+		SELECT COUNT(*)
+	FROM (SELECT sender
+			  , title
+			  , send_date
+			  , emp_id
+			  , mailbox_id
+			  , FIND_CODENAME(MAILBOX_ID) mailbox_name
+			  , mail_id
 		FROM mail
-		WHERE mailbox_id = #{mailVO.mailboxId} and emp_id = #{empId}
+		<include refid="criteria"></include>) a
 	</select>
 	
 	<select id="selectMailInfo" resultType="MailVO">
