@@ -9,7 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.yedam.app.approval.service.ApprovalService;
+import com.yedam.app.approval.service.DocService;
+import com.yedam.app.approval.service.DocVO;
+import com.yedam.app.attend.attend.service.AttendService;
+import com.yedam.app.attend.attend.service.AttendVO;
 import com.yedam.app.attend.emp.service.EmpService;
+import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.dataroom.dataroom.service.DataPageDTO;
 import com.yedam.app.dataroom.file.service.DataFileService;
@@ -29,6 +35,15 @@ public class GroupController {
 	@Autowired
 	EmpService empService;
 	
+	@Autowired
+	DocService docService;
+	
+	@Autowired
+	ApprovalService approvalService;
+	
+	@Autowired
+	AttendService attendService;
+	
 	
 	@GetMapping("main")
 	public String goMain(Model model) { 
@@ -36,10 +51,23 @@ public class GroupController {
 		mailVO.setMailboxId("d1");
 		
 		int empId = AuthUtil.getEmpId();
+		EmpVO empVO = new EmpVO();
+		empVO.setEmpId(empId);;
 		//List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
-		
 		//model.addAttribute("mailboxInfo", find);
-
+		
+		List<DocVO> list = docService.waitDocList(empId);
+		model.addAttribute("waitDocList", list);
+		
+		EmpVO userInfo = empService.empInfo(empVO); //로그인한 사람 정보찾기
+		model.addAttribute("user", userInfo);
+		
+		AttendVO attendVO = new AttendVO();
+		attendVO.setEmpId(empId);
+		if(attendService.countAttend(attendVO) != 0) { // 오늘 근무기록이 있다면(출근을 했다면)
+			AttendVO att = attendService.selectAttend(attendVO);
+			model.addAttribute("att", att);  // 오늘 근무기록 + 해당 사원의 사원정보(이름, 부서, 직위)
+		}
 		
 		return "main/index";
 	}
