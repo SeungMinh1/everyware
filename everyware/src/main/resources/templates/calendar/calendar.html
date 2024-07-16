@@ -38,6 +38,9 @@
   		<input type="checkBox" id="calBoxPublic">
   		<label for="calBoxPublic">비공개</label>
   	</div>
+  	<div id="makeCalBoxAlert" style="display:none">
+  		<p style="color:red;font-size: small;">값을 입력하여 주세요</p>
+  	</div>
   	<div>
   		<button id="makeCalBoxSubmit" class="btn btn-success">확인</button>
   		<button id="makeCalBoxCancel" class="btn btn-fail">취소</button>
@@ -444,7 +447,10 @@
 	makeCalBoxSubmit.click(function(event){
 		let calBoxPublic = $("#calBoxPublic").is(':checked') ? 0 : 1;
 		console.log(calBoxPublic)
-		
+		if($('#makeCalBoxName').val()==''){
+			$("#makeCalBoxAlert").css("display" , "block")
+			return;
+		}
 		$.ajax({
 			url: '/insertCalBox',
 			type: 'POST',
@@ -595,12 +601,12 @@
 	
 	//일정목록 열기
 	calBoxSettingBtn.click(function(){
-		$('#calSetting').css('display', 'block');
+		$('#calSetting').css({'display':'block' , "left" : 200});
 	})
 	
 	//일정목록설정 닫기
 	calSetcancel.click(function(){
-		$('#calSetting').css('display', 'none');
+		$('#calSetting').css({'display':'none'});
 	})
 	
 
