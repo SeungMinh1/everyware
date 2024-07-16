@@ -25,7 +25,7 @@
                      ON d.attachment_group_id = a.attachment_group_id
 		            <include refid="dataroomCategory"></include>
 		            ORDER BY data_id DESC) p 
-		     WHERE p.rn = 1 AND rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})) 
+		     WHERE p.rs = 1 AND rownum <![CDATA[<= ]]> (#{page}) * (#{cnt})) 
 		WHERE rs > (#{page}-1) * (#{cnt})
 	</select>
 	

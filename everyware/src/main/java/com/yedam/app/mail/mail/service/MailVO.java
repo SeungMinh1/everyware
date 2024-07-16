@@ -37,4 +37,9 @@ public class MailVO {
 	private List<FileVO> attachList;	//첨부파일
 	private String attachmentGroupId; //첨부파일 그룹번호
 	
+	
+	private int pageNum;
+	private int amount;
+	private String type;
+	private String keyword;
 }
