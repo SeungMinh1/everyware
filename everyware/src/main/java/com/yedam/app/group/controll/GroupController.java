@@ -1,8 +1,6 @@
 package com.yedam.app.group.controll;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,8 +15,8 @@ import com.yedam.app.attend.attend.service.AttendVO;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
 import com.yedam.app.common.util.AuthUtil;
-import com.yedam.app.dataroom.dataroom.service.DataPageDTO;
 import com.yedam.app.dataroom.file.service.DataFileService;
+import com.yedam.app.mail.mail.service.Criteria;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
 
@@ -52,9 +50,10 @@ public class GroupController {
 		
 		int empId = AuthUtil.getEmpId();
 		EmpVO empVO = new EmpVO();
+		Criteria cri = new Criteria();
 		empVO.setEmpId(empId);;
-		//List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
-		//model.addAttribute("mailboxInfo", find);
+		List<MailVO> find = mailService.mailboxInfo(mailVO, empId, cri);
+		model.addAttribute("mailboxInfo", find);
 		
 		List<DocVO> list = docService.waitDocList(empId);
 		model.addAttribute("waitDocList", list);

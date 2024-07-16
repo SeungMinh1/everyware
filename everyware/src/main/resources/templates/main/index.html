@@ -239,7 +239,9 @@
               <div class="card-body" id="mailSec">
 
                 <ul class="todo-list" data-widget="todo-list">
+                
                	<th:block th:if="${mailboxInfo} != null" >
+               	
 	                <th:block th:each="num : ${mailboxInfo}">
 	              	
 	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
@@ -261,11 +263,10 @@
 	                    </div>
 	                  </li>
 	                  </th:block>
-	            </th:block>
+	                 </th:block>
 	            
-	            <th:block unless="${mailboxInfo} != null">
-	                
-	              	
+	            	<th:block unless="${mailboxInfo} != null">
+	                				
 	                  <li>
 	                    <!-- drag handle -->
 	                    <span class="handle">
@@ -283,11 +284,11 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                  </th:block>
-	            </th:block>
+	                </th:block>
+	                  
+                </ul>
 	            
 
-                </ul>
               </div>
 
             </div>
