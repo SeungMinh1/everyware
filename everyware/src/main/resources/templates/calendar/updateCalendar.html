@@ -159,6 +159,11 @@
 
 
 	$('#updateCal').click(function(){
+		if($('#title').val()==''){
+			
+			return;
+		}
+		
 		console.log();
 		 $.ajax({
 			url :'/calInfo',

@@ -37,8 +37,8 @@
 					<span id="calMonth" th:data-month="${#strings.substring(squadInfo.startDate,5,7)}"></span>
 					&nbsp;&nbsp;<i id="nextMonth" class="fa-solid fa-chevron-right"></i>
 				</h3>
-				
-				<table id="calTable">
+				<div id="calTableDiv" style="width:100%">
+				<table id="calTable" style="width:85%">
 					
 					<thead>
 						<tr>
@@ -49,6 +49,7 @@
 						
 					</tbody>
 				</table>
+				</div>
 			</div>
 			</div>
 			</div>

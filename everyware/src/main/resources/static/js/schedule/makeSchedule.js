@@ -175,7 +175,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	$(document).ready(function(){
 		$('#savePdf').click(function() { // pdf저장 button id
 		
-	    html2canvas($('#calTable')[0]).then(function(canvas) { //저장 영역 div id
+	    html2canvas($('#calTableDiv')[0]).then(function(canvas) { //저장 영역 div id
 	    // 캔버스를 이미지로 변환
 	    //canvas.setAttribute("width", "800px");
 
