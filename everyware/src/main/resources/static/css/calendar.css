@@ -238,3 +238,6 @@ i{
 	cursor : pointer;
 }
 
+.checkedShareEmpId{
+	background-color : lightgray
+}
