@@ -90,7 +90,12 @@
 		                    <tr>
 		                      <td>
 				                 <div class="icheck-primary">
-			                       <input type="checkbox" th:value="${gp.gpsId}" th:id="${gp.gpsId}" class="oneCheckbox">
+				                 	<th:block th:if="${gp.state} != 1">
+			                      	 	<input type="checkbox" th:value="${gp.gpsId}" th:id="${gp.gpsId}" class="oneCheckbox">
+			                      	 </th:block>
+			                      	 <th:block th:unless="${gp.state} != 1">
+			                      	 	<input type="checkbox" th:value="${gp.gpsId}" th:id="${gp.gpsId}" class="oneCheckbox" checked="checked">
+			                      	 </th:block>
 			                       <label th:for="${gp.gpsId}"></label>
 			                     </div>
 		                      </td>
@@ -215,5 +220,7 @@ $('#delGps').on('click', delGps)
 	
 
 </script>
+
+
 </body>
 </html>

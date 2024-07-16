@@ -521,6 +521,7 @@ th, td{
                 	
                 	if(distance > 50.02){
                 		alert("출근 실패");
+                		$("#goworkBtn").prop("disabled", false);
                 	}else{
                 		let nowTime = new Date();
                 		workdata = {             
@@ -628,6 +629,7 @@ th, td{
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	if(distance > 50.02){
                 		alert("퇴근 실패");
+                		$("#gohome").prop("disabled", false);
                 	}else{
                 		let nowTime2 = new Date();
                 		workdata2 = {             
