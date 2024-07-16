@@ -42,20 +42,109 @@
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>150</h3>
+        
+        <div class="col-md-3">
 
-                <p>New Orders</p>
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+
+                </div>
+
+                <h3 class="profile-username text-center">[[ ${user.empName} ]]</h3>
+
+                <p class="text-muted text-center">[[ ${user.departmentName} ]] ([[ ${user.posName} ]])</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                      <b>출근시간</b> 
+                      	<a class="float-right" id="startTime2" th:if="${att} != null">[[ ${#dates.format(att.goTime, 'HH:mm:ss')} ]]</a>
+                      	<a class="float-right" id="startTime" th:unless="${att} != null"></a>
+                  </li>
+                  <li class="list-group-item" id="endtimeli">
+                  <b>퇴근시간</b> 
+                     <th:block th:if="${att} != null">
+                     	<a class="float-right" id="endTime2">[[ ${#dates.format(att.leaveTime, 'HH:mm:ss')} ]]</a>
+                     </th:block>
+                     <th:block th:unless="${att} != null ">
+                     	<a class="float-right" id="endTime"></a>
+                     </th:block>
+                  </li>
+                  <li class="list-group-item" >
+                    	<button id="goworkBtn" th:if="${att} == null">출근</button>
+                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null">출근</button>
+                   		<button class="float-right" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button class="float-right" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
+                  </li>
+                </ul>
+
+                <a href="#" class="btn btn-primary btn-block" id="dis"></a>
               </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
+            
+            <div id="nudge"></div>
+			<div id="startLat"></div>
+			<div id="startLon"></div>
+
+            <!-- About Me Box -->
+            <div class="card card-primary">
+              
+            </div>
+            <!-- /.card -->
           </div>
+        
+        	<!-- 모달창: 퇴근 확인 -->
+	<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title">퇴근 확인</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	               <p id ="modal1p1"></p>
+	               <p id ="modal1p2"></p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" id ="currentGeoLocation2">네</button>
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >아니오</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- 모달창: 출근 확인 -->
+	<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title">출근 확인</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	               <p id ="modal2p1"></p>
+	               <p id ="modal2p2"></p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" id ="currentGeoLocation">네</button>
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >아니오</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -144,28 +233,54 @@
               <div class="card-body">
 
                 <ul class="todo-list" data-widget="todo-list">
-               
-                <th:block th:each="num : ${mailboxInfo}">
-              	
-                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
-                    <!-- drag handle -->
-                    <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-
-                    <!-- todo text -->
-                    <span class="text">[[ ${num.sender} ]] /  </span>
-                    <span class="text">[[ ${num.title} ]]</span>
-                    <!-- Emphasis label -->
-                    <small class="badge badge-danger"><i class="far fa-clock"></i> [[ ${#dates.format(num.sendDate, 'MM.dd HH:mm:ss')} ]]</small>
-                    <!-- General tools such as edit or delete-->
-                    <div class="tools">
-                      <i class="fas fa-edit"></i>
-                      <i class="fas fa-trash-o"></i>
-                    </div>
-                  </li>
-                  </th:block>
+               	<th:block if="${mailboxInfo}">
+	                <th:block th:each="num : ${mailboxInfo}">
+	              	
+	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text">[[ ${num.sender} ]] /  </span>
+	                    <span class="text">[[ ${num.title} ]]</span>
+	                    <!-- Emphasis label -->
+	                    <small class="badge badge-danger"><i class="far fa-clock"></i> [[ ${#dates.format(num.sendDate, 'MM.dd HH:mm:ss')} ]]</small>
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+	                  </th:block>
+	            </th:block>
+	            
+	            <th:block unless="${mailboxInfo}">
+	                
+	              	
+	                  <li>
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text"> 메일이 없습니다 </span>
+	                    <span class="text"></span>
+	                    <!-- Emphasis label -->
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+	                  </th:block>
+	            </th:block>
+	            
+	                 
                   
                 
 
@@ -205,35 +320,59 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="ion ion-clipboard mr-1"></i>
-                  결재
+                  결제대기 문서
                 </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
 
                 <ul class="todo-list" data-widget="todo-list">
-               
-                <th:block th:each="num : ${mailboxInfo}">
-              	
-                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
-                    <!-- drag handle -->
-                    <span class="handle">
-                      <i class="fas fa-ellipsis-v"></i>
-                      <i class="fas fa-ellipsis-v"></i>
-                    </span>
-
-                    <!-- todo text -->
-                    <span class="text">[[ ${num.sender} ]] /  </span>
-                    <span class="text">[[ ${num.title} ]]</span>
-                    <!-- Emphasis label -->
-                    <small class="badge badge-danger"><i class="far fa-clock"></i> [[ ${#dates.format(num.sendDate, 'MM.dd HH:mm:ss')} ]]</small>
-                    <!-- General tools such as edit or delete-->
-                    <div class="tools">
-                      <i class="fas fa-edit"></i>
-                      <i class="fas fa-trash-o"></i>
-                    </div>
-                  </li>
-                  </th:block>
+               	<th:block if="${waitDocList}">
+	                <th:block th:each="doc : ${waitDocList}">
+	              	
+	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text">[[ ${doc.sendEmp} ]] /  </span>
+	                    <span class="text">[[ ${doc.docContent} ]]</span>
+	                    <!-- Emphasis label -->
+	                    <small class="badge badge-danger"><i class="far fa-clock"></i> [[ ${#dates.format(doc.createDate, 'yyyy-MM-dd')} ]]</small>
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+	                  </th:block>
+	            </th:block>
+	            
+	            <th:block unless="${waitDocList}">
+	                
+	              	
+	                  <li>
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text"> 결제할 문서가 없습니다 </span>
+	                    <span class="text"></span>
+	                    <!-- Emphasis label -->
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+	                  </th:block>
+	            </th:block>
                   
                 
 
@@ -302,6 +441,7 @@
 <script src="dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+<script src="dist/js/pages/mainjs.js"></script>
 <script>
 $(document).ready(mailList('d1'))
 
