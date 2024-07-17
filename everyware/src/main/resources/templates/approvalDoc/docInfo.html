@@ -53,14 +53,15 @@
                 <h3 class="card-title"></h3>
                 <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="approval" style="display:none;">결재</button>
                 <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="reject" style="display:none;">반려</button>
-                <button type="button" class="btn" id="receipt" style="display:none;">접수</button>                           
+                <button th:if="${approvalDoc.receptionStatus == '접수대기'}" type="button" class="btn" id="receipt">접수</button> 
+                <button th:if="${approvalDoc.receptionStatus == '접수대기'}" type="button" class="btn" id="return">반송</button>
+                <button th:if="${approvalDoc.receptionStatus == '접수'}" type="button" class="btn" id="recCan">접수취소</button>                                  
                 <button th:if="${approvalDoc.approvalStatus == '진행중'} and ${approvalDoc.draftEmpId} == ${#authentication.principal.userVO.empId}" type="button" class="btn" id="draftcan">상신취소</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="req">결재요청</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="tem">임시저장</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="can">취소</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="del">삭제</button>              
-                <button type="button" class="btn" id="info">결재정보</button>
-                <button type="button" class="btn" id="down">다운로드</button>
+                <button type="button" class="btn" id="info">결재정보</button>               
               </div>
               <!-- /.card-header -->
               <div class="card-body" th:utext="${approvalDoc.docInfo}">
@@ -292,7 +293,7 @@
 	} else {
 		$('input').remove();
 		$('#head').remove();
-		$($('.li_style span')[1]).remove();
+		$('.li_style span').remove();
 		$('.dropzone').remove();
 		$('.delete').remove();
 		$('.org').remove();
@@ -345,6 +346,9 @@
 			}
 		}
 		
+		var params = new URL(location.href).searchParams;
+		var id = Number(params.get("docId"));
+		
 		var data2 = {
 			docInfo : $('#container')[0].outerHTML
 			, docId : id
@@ -382,12 +386,19 @@
 	
 	$('#rej').on('click', function() {
 		let rej = approvalInfo();
-		let doc = docInfo();
 		
 		for(var i=0; i<$('.approvalName').length; i++) {
 			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'') {
-				$('.approvalName')[i].insertAdjacentHTML(`<span style="color:red"><strong>반려</strong></span>`);
+				$('.approvalName')[i].insertAdjacentHTML("beforeend", `<span style="color:red"><strong>반려</strong></span>`);
 			}
+		}
+		
+		var params = new URL(location.href).searchParams;
+		var id = Number(params.get("docId"));
+		
+		var data2 = {
+			docInfo : $('#container')[0].outerHTML
+			, docId : id
 		}
 		
 		$.ajax('rejectUpdate', {
@@ -399,11 +410,11 @@
 			$.ajax('approvalDocUpdate', {
 				type : 'post'
 				, contentType : 'application/JSON'
-				, data : JSON.stringify(doc)
+				, data : JSON.stringify(data2)
 			})
 			.done(result => {
 				if(result) {
-					alert('성공');
+					alert('반려');
 					location.href = "/waitDocList";
 				}
 			})
@@ -440,27 +451,79 @@
 		})
 		.done(result => {
 			if(result) {
-			alert('접수');			
+				$.ajax('sendUpdate', {
+					type : 'post'
+					, contentType : 'application/JSON'
+					, data : JSON.stringify(send)
+				})
+				.done(result => {
+					if(result) {
+					alert('접수');	
+					location.href = '/recReceptionDocList'
+					}
+				})
+				.fail(err => console.log(err));
 			}
 		})
 		.fail(err => console.log(err));
+	})
 	
+	$('#return').on('click', function() {
+		let rec = receiptInfo();
+		let send = sendInfo();
 		
-		$.ajax('sendUpdate', {
+		$.ajax('receptionReturn', {
 			type : 'post'
 			, contentType : 'application/JSON'
-			, data : JSON.stringify(send)
+			, data : JSON.stringify(rec)
 		})
 		.done(result => {
 			if(result) {
-			alert('접수');			
+				$.ajax('sendReturn', {
+					type : 'post'
+					, contentType : 'application/JSON'
+					, data : JSON.stringify(send)
+				})
+				.done(result => {
+					if(result) {
+					alert('반송');	
+					location.href = '/retReceptionDocList'
+					}
+				})
+				.fail(err => console.log(err));
+			}
+		})
+		.fail(err => console.log(err));
+	})
+	
+	$('#recCan').on('click', function() {
+		let rec = receiptInfo();
+		let send = sendInfo();
+		
+		$.ajax('receptionCancel', {
+			type : 'post'
+			, contentType : 'application/JSON'
+			, data : JSON.stringify(rec)
+		})
+		.done(result => {
+			if(result) {
+				$.ajax('sendCancel', {
+					type : 'post'
+					, contentType : 'application/JSON'
+					, data : JSON.stringify(send)
+				})
+				.done(result => {
+					if(result) {
+					alert('접수취소');	
+					location.href = '/waitReceptionDocList'
+					}
+				})
+				.fail(err => console.log(err));
 			}
 		})
 		.fail(err => console.log(err));
 	})
 </script>
-<script src="../js/schedule/html2canvas.js"></script>
-<script src="../js/schedule/jspdf.min.js"></script>
 <script src="../js/approval/docInfo.js"></script>
 <script src="../js/approval/org.js"></script>
 </body>

@@ -14,6 +14,9 @@ import com.yedam.app.attend.attend.service.AttendService;
 import com.yedam.app.attend.attend.service.AttendVO;
 import com.yedam.app.attend.emp.service.EmpService;
 import com.yedam.app.attend.emp.service.EmpVO;
+import com.yedam.app.calendar.service.CalendarBoxVO;
+import com.yedam.app.calendar.service.CalendarService;
+import com.yedam.app.calendar.service.CalendarVO;
 import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.dataroom.file.service.DataFileService;
 import com.yedam.app.mail.mail.service.Criteria;
@@ -42,6 +45,9 @@ public class GroupController {
 	@Autowired
 	AttendService attendService;
 	
+	@Autowired
+	CalendarService calendarService;
+	
 	
 	@GetMapping("main")
 	public String goMain(Model model) { 
@@ -67,6 +73,11 @@ public class GroupController {
 			AttendVO att = attendService.selectAttend(attendVO);
 			model.addAttribute("att", att);  // 오늘 근무기록 + 해당 사원의 사원정보(이름, 부서, 직위)
 		}
+		
+		CalendarBoxVO cvo = new CalendarBoxVO();
+		cvo.setEmpId(empId);
+		List<CalendarVO> clist =  calendarService.calList(cvo);
+		model.addAttribute("clist", clist);
 		
 		return "main/index";
 	}

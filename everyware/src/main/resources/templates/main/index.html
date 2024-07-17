@@ -6,9 +6,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+
 
   <style>
+
+  	.colorCir {
+  		width : 10px; height : 10px;border-radius: 50%;
+  		display : inline-block;
+  		}
+
   	#approvalSec {
   		overflow-y : auto;
   		height : 300px;
@@ -18,7 +24,6 @@
   		height : 300px;
   	}
   	
-  
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -240,10 +245,7 @@
 
                 <ul class="todo-list" data-widget="todo-list">
                 
-	                 
-	            	<th:block th:if="mailboxInfo == null ">
-	                				
-	                  <li>
+	                  <li th:if="${mailboxInfo}== null or ${mailboxInfo} == ''">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -260,13 +262,10 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                </th:block>
 	                  
-               	<th:block th:unless="mailboxInfo == null " >
+               	<th:block th:unless="${mailboxInfo}== null or ${mailboxInfo} == ''" >
                	
-	                <th:block th:each="num : ${mailboxInfo}">
-	              	
-	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
+	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|" th:each="num : ${mailboxInfo}">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -284,8 +283,7 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                  </th:block>
-	                </th:block>
+	            </th:block>
 	                
                 </ul>
 	            
@@ -332,7 +330,27 @@
               <div class="card-body" id="approvalSec">
 
                 <ul class="todo-list" data-widget="todo-list">
-               	<th:block th:if="${waitDocList} != null">
+	                <th:block th:if="${waitDocList == null}">
+	                  <li>
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text"> 결제할 문서가 없습니다 </span>
+	                    <span class="text"></span>
+	                    <!-- Emphasis label -->
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+		             </th:block>
+                
+               	<th:block th:unless="${waitDocList == null}">
 	                <th:block th:each="doc : ${waitDocList}">
 	              	
 	                  <li >
@@ -356,31 +374,65 @@
 	                  </th:block>
 	            </th:block>
 	            
-	            <th:block unless="${waitDocList} != null">
-	                
-	              	
-	                  <li>
-	                    <!-- drag handle -->
-	                    <span class="handle">
-	                      <i class="fas fa-ellipsis-v"></i>
-	                      <i class="fas fa-ellipsis-v"></i>
-	                    </span>
-	
-	                    <!-- todo text -->
-	                    <span class="text"> 결제할 문서가 없습니다 </span>
-	                    <span class="text"></span>
-	                    <!-- Emphasis label -->
-	                    <!-- General tools such as edit or delete-->
-	                    <div class="tools">
-	                      <i class="fas fa-edit"></i>
-	                      <i class="fas fa-trash-o"></i>
-	                    </div>
-	                  </li>
-	                  </th:block>
-	            </th:block>
+
+	 
                   
                 
 
+                </ul>
+              </div>
+
+            </div>
+            <!-- /.card -->
+            </div>
+          
+
+
+
+          </section>
+          
+          <!-- 일정 -->
+          <section class="col-lg-5 connectedSortable">
+			            <!-- DIRECT CHAT -->
+            <div class="card direct-chat direct-chat-primary">
+              <div class="card-header">
+                <h3 class="card-title">오늘 일정</h3>
+              </div>
+              <!-- /.card-header -->
+
+
+            <!-- TO DO List -->
+            <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+
+                <ul class="todo-list" data-widget="todo-list">
+				
+                <th:block th:each="list : ${clist}">
+                  <th:block th:if="${#strings.substring(list.start, 0, 10) == #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
+                   <li th:onclick="|location.href='calendar'|">
+						<div class="colorCir" th:style="'background-color:'+@{${list.color}}"></div>
+                    <span class="text">[[ ${list.title} ]]</span>
+                    <span class="text startTime" th:text="${#strings.substring(list.start, 11, 16)}"></span> ~
+                    <span class="text endTime" th:text="${#strings.substring(list.end, 11, 16)}"></span>
+                    <!-- Emphasis label -->
+                    <!-- General tools such as edit or delete-->
+
+                  </li>
+                  </th:block>
+                  <th:block th:if="${#dates.format(#strings.substring(list.start, 0, 10), 'yyyy-MM-dd') == #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
+                   <li th:onclick="|location.href='calendar'|">
+						<div class="colorCir" th:style="'background-color:'+@{${list.color}}"></div>
+                    <span class="text">[[ ${list.title} ]]11</span>
+                    <span class="text startTime" th:text="${#strings.substring(list.start, 11, 16)}"></span> ~
+                    <span class="text endTime" th:text="${#strings.substring(list.end, 11, 16)}"></span>
+                    <!-- Emphasis label -->
+                    <!-- General tools such as edit or delete-->
+
+                  </li>
+                  </th:block>
+                </th:block>
                 </ul>
               </div>
 
@@ -447,7 +499,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <script src="dist/js/pages/mainjs.js"></script>
-<script>
+<script th:inline="javascript">
 $(document).ready(mailList('d1'))
 
 
@@ -479,6 +531,9 @@ function appendEmptyMailList(){
                 </tr>`
      $('#mailTbody').append(tr);
 }
+
+
+
 
 </script>
 </body>

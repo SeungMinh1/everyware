@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>발송 문서함</title>
+  <title>결재 문서함</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -29,12 +29,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>발송 문서함</h1>
+            <h1>결재 문서함</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">개인 문서함</a></li>
-              <li class="breadcrumb-item active">발송 문서함</li>
+              <li class="breadcrumb-item active">결재 문서함</li>
             </ol>
           </div>
         </div>
@@ -48,17 +48,14 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">발송 문서함</h3>
+                <h3 class="card-title">결재 문서함</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
               	<button type="button" class="btn" id="all">전체</button>
-              	<button type="button" class="btn" id="wait">접수대기</button>
-              	<button type="button" class="btn" id="rec">접수</button>
               	<button type="button" class="btn" id="prog">진행</button>
               	<button type="button" class="btn" id="comp">완료</button>
               	<button type="button" class="btn" id="rej">반려</button>
-              	<button type="button" class="btn" id="re">반송</button>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
@@ -68,27 +65,29 @@
                     <th>결재양식</th>
                     <th>제목</th>
                     <th>첨부</th>
-                    <th>발송일</th>
+                    <th>기안자</th>
+                    <th>문서번호</th>
                     <th>결재상태</th>
                   </tr>
                   </thead>
                   <tbody>
- 				  <th:block th:each="Doc : ${sendDocList}">
+ 				  <th:block th:each="Doc : ${approvalDocList}">
 	                  <tr>
-	                  	<td><input type="checkbox" th:field="*{sendDocList}" th:value="${Doc.docId}"></td>
+	                  	<td><input type="checkbox" th:field="*{approvalDocList}" th:value="${Doc.docId}"></td>
 	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td>[[ ${ #dates.format(Doc.completeDate, 'yyyy/MM/dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
 	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
-	                    <td>[[ ${ #dates.format(Doc.sendDate, 'yyyy/MM/dd') } ]]</td>
-	                    <td>[[ ${Doc.sendStatus} ]]</td>
+	                    <td>[[ ${Doc.draftEmp} ]]</td>
+	                    <td>[[ ${Doc.docId} ]]</td>
+	                    <td>[[ ${Doc.approvalStatus} ]]</td>
 	                  </tr>
                   </th:block>
                   </tbody>
            		</table>
               </div>
-              <!-- /.card-body -->
+              <!-- /.card-body -->          
             </div>
             <!-- /.card -->
           </div>
@@ -153,6 +152,6 @@
 		}
 	});
 </script>
-<script src="../js/approval/sendDocList.js"></script>
+<script src="../js/approval/approvalDocList.js"></script>
 </body>
 </html>
