@@ -109,6 +109,7 @@
                 <!-- /.col -->
                 <p><button type="button" id="changeGps" class="btn btn-primary">변경</button>
                 <button type="button" id="delGps" class="btn btn-danger">삭제</button></p>
+                <button type="button" class="toastsDefaultWarning"  >modal</button>
               </div>
               <!-- /.row -->
 
@@ -126,7 +127,7 @@
     <!-- /.content -->
   </div>
 	<!-- 모달창: 출근 확인 -->
-	<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="toast" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
 	    <div class="modal-dialog" role="document">
 	        <div class="modal-content">
 	            <div class="modal-header">
@@ -140,6 +141,7 @@
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-primary" id ="changeb">변경</button>
 	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >취소</button>
+	                
 	            </div>
 	        </div>
 	    </div>
@@ -256,6 +258,18 @@ $('#delGps').on('click', delGps)
 	        }
 	}
 	
+
+</script>
+
+<script>
+$('.toastsDefaultWarning').click(function() {
+    $(document).Toasts('create', {
+      class: 'bg-warning',
+      title: '애러다',
+      subtitle: 'ㅔ헤헤헤헤헿',
+      body: '!!!!!.'
+    })
+  });
 
 </script>
 
