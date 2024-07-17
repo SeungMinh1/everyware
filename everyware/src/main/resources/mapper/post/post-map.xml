@@ -29,7 +29,6 @@ SELECT * FROM(
 		SELECT 
 			post_id,
 	 		board_id,
-	        notification_yn,
 	        hold_yn,
 	        title,
 	        write_date,
@@ -41,7 +40,6 @@ SELECT * FROM(
 	        emp_id_name(emp_id) emp_name
 		FROM post
 	    WHERE board_id = 1 
-		AND notification_yn = 'Y'
 		<!-- 검색 -->
 		<if test= "searchVO.type != null and searchVO.keyword != null">
 		 <choose>
@@ -246,8 +244,6 @@ WHERE post_id = #{postId}
 SELECT post_id,
 	 		p.board_id,
             board_title,
-	        notification_yn,
-	        hold_yn,
 	        title,
 	        write_date,
 	        view_cnt,
@@ -276,22 +272,21 @@ WHERE post_id = #{postId}
 		title,
 		write_date,
 		board_id,
-		notification_yn,
 		view_cnt,
 		recommend_cnt,
 		   <if test="attachmentGroupId != null and attachmentGroupId!=''">	attachment_group_id,</if>
-	
 		content,
-		emp_id)
+		emp_id
+		)
  VALUES (
  		#{postId},
 		#{holdYn},
 		#{title},
 		sysdate,
 		#{boardId},
-		#{notificationYn},
 		0,
-		0,<if test="attachmentGroupId != null and attachmentGroupId!=''">	#{attachmentGroupId},</if>
+		0,
+		<if test="attachmentGroupId != null and attachmentGroupId!=''">	#{attachmentGroupId},</if>
 		#{content},
 		#{empId}
  		)
@@ -301,10 +296,8 @@ WHERE post_id = #{postId}
 <update id="postUpdate" parameterType="PostVO">
 UPDATE post 
 	SET 
-		notification_yn = #{notificationYn},
 		hold_yn = #{holdYn},
 		title = #{title},
-		<!-- attachment_group_id = #{attachmentGroupId}, -->
 		content = #{content}	
 	WHERE post_id = #{postId}	
 </update>

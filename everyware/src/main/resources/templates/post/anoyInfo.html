@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>익명 페이지</title>
+  <title>게시판</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -112,12 +112,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>게시판 카테고리</h1>
+            <h1>익명 게시판</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">게시판</a></li>
-              <li class="breadcrumb-item active">게시판 이름</li>
+              <li class="breadcrumb-item active">익명 게시판</li>
             </ol>
           </div>
         </div>
@@ -150,7 +150,7 @@
                         </span>
                         
                         <div>
-                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i> 작성날짜 &nbsp; [[${post.writeDate}]]</span> <!--/* 작성자 이름 */-->
+                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i> 작성날짜 &nbsp;<span th:text="${#strings.substring(post.writeDate,0,19)}"></span></span> <!--/* 작성자 이름 */-->
                         </div>
                       </div>
                       <!-- /.user-block -->
@@ -259,7 +259,7 @@ const likeCheck = document.querySelector('.box');
 function del(){
 	let delCheck = confirm("삭제할까요?")
 	if(delCheck) {
-		location.href="postDelete?postId=" + [[${post.postId}]]
+		location.href="postDelete?postId=" + [[${post.postId}]] + "&boardId="+ [[${post.boardId}]]
 	}
 }
 </script>

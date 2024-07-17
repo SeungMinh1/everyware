@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>상세 페이지</title>
+   <title>게시판</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -112,12 +112,22 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>게시판 카테고리</h1>
+          <th:block th:if="${post.boardTitle != '부서별게시판'}">
+            <h1>[[${post.boardTitle}]]</h1>
+          </th:block>
+          <th:block th:if="${post.boardTitle == '부서별게시판'}">
+           <h1>[[${#authentication.principal.userVO.departmentName}]]팀 게시판</h1>
+          </th:block>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">게시판</a></li>
-              <li class="breadcrumb-item active">게시판 이름</li>
+              <th:block th:if="${post.boardTitle != '부서별게시판'}">
+	           <li class="breadcrumb-item active">[[${post.boardTitle}]]</li>
+	          </th:block>
+	          <th:block th:if="${post.boardTitle == '부서별게시판'}">
+	          <li class="breadcrumb-item active">[[${#authentication.principal.userVO.departmentName}]]팀 게시판</li>
+	          </th:block>
             </ol>
           </div>
         </div>
@@ -150,7 +160,7 @@
                         </span>
                         
                         <div>
-                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i>[[${post.empName}]] &emsp; 작성날짜 &nbsp; [[${post.writeDate}]]</span> <!--/* 작성자 이름 */-->
+                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i>[[${post.empName}]] &emsp; 작성날짜 &nbsp;<span th:text="${#strings.substring(post.writeDate,0,19)}"></span></span> <!--/* 작성자 이름 */-->
                         </div>
                       </div>
                       <!-- /.user-block -->
