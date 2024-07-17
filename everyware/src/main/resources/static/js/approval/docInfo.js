@@ -1,19 +1,21 @@
 /**
  * docInfo.js
  */
-var ref = document.referrer;
-if(ref == 'https://192.168.0.23:8100/waitDocList') {
+var url = new URL(document.referrer);
+var path = url.pathname;
+console.log(path);
+if(path == '/waitDocList') {
 	$('#approval').css('display', 'inline-block');
 	$('#reject').css('display', 'inline-block');
 }
 
-/*if(ref == 'https://eeveryware.shop/receptionDocList' || 'https://eeveryware.shop/waitReceptionDocList' ||
-	  	  'https://eeveryware.shop/recReceptionDocList' || 'https://eeveryware.shop/goReceptionDocList' ||
-	  	  'https://eeveryware.shop/compReceptionDocList' || 'https://eeveryware.shop/rejReceptionDocList' ||
-	  	  'https://eeveryware.shop/retReceptionDocList' || 'https://192.168.0.23:8100/waitReceptionDocList') {
+if(path == '/receptionDocList' || path == '/compReceptionDocList' || path == '/goReceptionDocList'
+   || path == '/recReceptionDocList' || path == '/rejReceptionDocList' || path == '/retReceptionDocList'
+   || path == '/waitReceptionDocList') {
 	$('#receipt').css('display', 'inline-block');
 	$('#return').css('display', 'inline-block');
-}*/
+	$('#recCan').css('display', 'inline-block');
+}
 
 var approvalemps = [];
 for(var i=0; i<$('.approvalName').length; i++) {
