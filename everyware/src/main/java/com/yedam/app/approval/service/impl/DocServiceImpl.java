@@ -41,7 +41,7 @@ public class DocServiceImpl implements DocService {
 		
 		return docMapper.draftDocList(id);
 	}
-
+	
 	@Override
 	public  List<DocVO> approvalDocList(int id) {
 		
@@ -504,6 +504,116 @@ public class DocServiceImpl implements DocService {
 		map.put("target", docVO);
 		return map;
 	}
+
+	@Override
+	public List<DocVO> goDraftDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.goDraftDocList(id);
+	}
+
+	@Override
+	public List<DocVO> rejDraftDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.rejDraftDocList(id);
+	}
+
+	@Override
+	public List<DocVO> compDraftDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.compDraftDocList(id);
+	}
+
+	@Override
+	public List<DocVO> goApprovalDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.goApprovalDocList(id);
+	}
+
+	@Override
+	public List<DocVO> rejApprovalDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.rejApprovalDocList(id);
+	}
+
+	@Override
+	public List<DocVO> compApprovalDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.compApprovalDocList(id);
+	}
+
+	@Override
+	public List<DocVO> waitSendDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.waitSendDocList(id);
+	}
+
+	@Override
+	public List<DocVO> recSendDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.recSendDocList(id);
+	}
+
+	@Override
+	public List<DocVO> goSendDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.goSendDocList(id);
+	}
+
+	@Override
+	public List<DocVO> compSendDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.compSendDocList(id);
+	}
+
+	@Override
+	public List<DocVO> rejSendDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.rejSendDocList(id);
+	}
+
+	@Override
+	public List<DocVO> retSendDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.retSendDocList(id);
+	}
+
+	@Override
+	public List<DocVO> waitReceptionDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.waitReceptionDocList(id);
+	}
+
+	@Override
+	public List<DocVO> recReceptionDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.recReceptionDocList(id);
+	}
+
+	@Override
+	public List<DocVO> goReceptionDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.goReceptionDocList(id);
+	}
+
+	@Override
+	public List<DocVO> compReceptionDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.compReceptionDocList(id);
+	}
+
+	@Override
+	public List<DocVO> rejReceptionDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.rejReceptionDocList(id);
+	}
+
+	@Override
+	public List<DocVO> retReceptionDocList(int id) {
+		// TODO Auto-generated method stub
+		return docMapper.retReceptionDocList(id);
+	}
+	
+	
 	
 }
 
