@@ -134,7 +134,8 @@
 			data : JSON.stringify(squadEmp)
 		})
 		.done(function(res){
-			alert('변경 완료')
+			alert('변경 완료');
+			location.href='/squadInfo';
 		})
 	})
 	
