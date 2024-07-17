@@ -149,59 +149,56 @@
         
         
         
-        
+        <section class="col-lg-5 connectedSortable" style="height:300px">
+			            <!-- DIRECT CHAT -->
+            <div class="card direct-chat direct-chat-primary" style="height:300px">
+              <div class="card-header" >
+                <h3 class="card-title">오늘 일정</h3>
+              </div>
+              <!-- /.card-header -->
+
+
+            <!-- TO DO List -->
+            <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+
+                <ul class="todo-list" data-widget="todo-list">
+				
+                <th:block th:each="list : ${clist}">
+                  <th:block th:if="${#strings.substring(list.start, 0, 10) == #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
+                   <li th:onclick="|location.href='calendar'|">
+						<div class="colorCir" th:style="'background-color:'+@{${list.color}}"></div>
+                    <span class="text">[[ ${list.title} ]]</span>
+                    <span class="text startTime" th:text="${#strings.substring(list.start, 11, 16)}"></span> ~
+                    <span class="text endTime" th:text="${#strings.substring(list.end, 11, 16)}"></span>
+                    <!-- Emphasis label -->
+                    <!-- General tools such as edit or delete-->
+
+                  </li>
+                  </th:block>
+                  
+                </th:block>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /.card -->
+            </div>
+          
+
+
+
+          </section>
         
         
         
         
         
 
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><sup style="font-size: 20px"></sup></h3>
-					Write the message
-              </div>
-              <div class="icon">
-                <i class="fa-solid fa-envelope"></i></i>
-              </div>
-              <a href="#" class="small-box-footer">메일쓰기<i class="fa-solid fa-envelope"></i></a>
-            </div>
-            
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>44</h3>
-
-                <p>User Registrations</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>65</h3>
-
-                <p>Unique Visitors</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
+         
+         
         </div>
         <!-- /.row -->
         <!-- Main row -->
@@ -369,59 +366,7 @@
 
           </section>
           
-          <!-- 일정 -->
-          <section class="col-lg-5 connectedSortable">
-			            <!-- DIRECT CHAT -->
-            <div class="card direct-chat direct-chat-primary">
-              <div class="card-header">
-                <h3 class="card-title">오늘 일정</h3>
-              </div>
-              <!-- /.card-header -->
-
-
-            <!-- TO DO List -->
-            <div class="card">
-
-              <!-- /.card-header -->
-              <div class="card-body">
-
-                <ul class="todo-list" data-widget="todo-list">
-				
-                <th:block th:each="list : ${clist}">
-                  <th:block th:if="${#strings.substring(list.start, 0, 10) == #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
-                   <li th:onclick="|location.href='calendar'|">
-						<div class="colorCir" th:style="'background-color:'+@{${list.color}}"></div>
-                    <span class="text">[[ ${list.title} ]]</span>
-                    <span class="text startTime" th:text="${#strings.substring(list.start, 11, 16)}"></span> ~
-                    <span class="text endTime" th:text="${#strings.substring(list.end, 11, 16)}"></span>
-                    <!-- Emphasis label -->
-                    <!-- General tools such as edit or delete-->
-
-                  </li>
-                  </th:block>
-                  <th:block th:if="${#dates.format(#strings.substring(list.start, 0, 10), 'yyyy-MM-dd') == #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
-                   <li th:onclick="|location.href='calendar'|">
-						<div class="colorCir" th:style="'background-color:'+@{${list.color}}"></div>
-                    <span class="text">[[ ${list.title} ]]11</span>
-                    <span class="text startTime" th:text="${#strings.substring(list.start, 11, 16)}"></span> ~
-                    <span class="text endTime" th:text="${#strings.substring(list.end, 11, 16)}"></span>
-                    <!-- Emphasis label -->
-                    <!-- General tools such as edit or delete-->
-
-                  </li>
-                  </th:block>
-                </th:block>
-                </ul>
-              </div>
-
-            </div>
-            <!-- /.card -->
-            </div>
-          
-
-
-
-          </section>
+         
           
 
         </div>
