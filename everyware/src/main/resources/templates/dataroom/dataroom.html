@@ -22,7 +22,7 @@
 	  text-decoration: none;
 	}
 	.uploadResult{
-		overflow: scroll;
+		overflow-y: auto;
 		height: 300px;
 	}
 	.table {
@@ -48,6 +48,17 @@
 	  cursor:pointer;
 	  font-weight: bolder; 
   	}
+  	.category-a{
+  	   color: #6c757d;
+  	}
+  	.a-selected {
+      font-weight: bold;
+      color: #007bff;
+    }
+    
+    .category-div ul{
+	    padding: 5px 5px 5px 10px;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -130,66 +141,40 @@
 			  </div>
 			</div>
 		<!-- ================= Modal end================== -->
-              <ul class="list-group nav nav-pills flex-column">
-                <li class="nav-item active d1">
-                  <a onclick="setCategory('common', '공통자료실')" data-no="d1" class="nav-link">
-                    <i class="fas fa-inbox"></i>　공통 자료실
-                  </a>
-                </li>
-              </ul>
-               <ul class="nav nav-pills flex-column">
-                <li class="nav-item d2">
-                  <a onclick="setCategory('dept', '부서자료실')" data-no="d2" class="nav-link">
-                    <i class="fas fa-inbox"></i>　부서 자료실
-                  </a>
-                </li>
-              </ul>
-               <ul class="nav nav-pills flex-column">
-                <li class="nav-item d3">
-                  <a onclick="setCategory('private', '개인자료실')" data-no="d3" class="nav-link">
-                    <i class="fas fa-inbox"></i>　개인 자료실
-                  </a>
-                </li>
-              </ul>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-        <!-- /.col -->
+	               <div class="category-div">
+		              <ul class="list-group nav nav-pills flex-column">
+		                <li class="nav-item active d1">
+		                  <a onclick="setCategory('common', '공통자료실')" data-no="d1" class="category-a a-selected">
+		                    <i class="fas fa-inbox"></i>　공통 자료실
+		                  </a>
+		                </li>
+		              </ul>
+		               <ul class="nav nav-pills flex-column">
+		                <li class="nav-item d2">
+		                  <a onclick="setCategory('dept', '부서자료실')" data-no="d2" class="category-a">
+		                    <i class="fas fa-inbox"></i>　부서 자료실
+		                  </a>
+		                </li>
+		              </ul>
+		               <ul class="nav nav-pills flex-column">
+		                <li class="nav-item d3">
+		                  <a onclick="setCategory('private', '개인자료실')" data-no="d3" class="category-a">
+		                    <i class="fas fa-inbox"></i>　개인 자료실
+		                  </a>
+		                </li>
+		              </ul>
+	               </div>
+              </div><!-- /.card-body -->
+            </div> <!-- /.card -->
+          </div><!-- /.col 3-->
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
               <h3 class="card-title groupFileTitle"></h3>
                <div class="card-tools appendSearch">
-                <!-- <div class="input-group input-group-sm">
-			        <select class="form-select-sm" id="searchType">
-			          <option value="T">제목</option>
-			          <option value="F">파일이름</option>
-			        </select>
-				        <input type="search" class="form-control-sm" id="searchKeyword" placeholder="검색">
-				        <div class="input-group-append">
-				          <div class="btn btn-primary"  onclick="searchData(1)">
-				            <i class="fa fa-search"></i>
-				          </div>
-				        </div>
-			      </div> -->
-              </div>
-             <!-- <div class="card-tools">
-                <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" placeholder="검색">
-                  <div class="input-group-append">
-                    <div class="btn btn-primary">
-                      <i class="fas fa-search"></i>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-              
-              
-              <!-- /.card-tools -->
-            </div>
-            <!-- /.card-header -->
+                
+               </div><!-- /.card-tools -->
+            </div><!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-controls">
                 <div class="dataBtnGroup">
@@ -205,7 +190,7 @@
                 <div class="folderAppend">
                	    <div class="float-right">
 	                  <div class="btn-group">
-	                    <button value="" type="button" class="btn btn-default folderDelete">
+	                    <button value="" type="button" class="btn btn-default folderDelete"  style="margin-bottom: 5px;">
 	                       <i class="far fa-trash-alt" aria-hidden="true"></i> 폴더삭제</button>
 	                  </div>
 			       </div>	
@@ -268,6 +253,16 @@
       $(this).data('clicks', !clicks)
     })
   })
+  
+ $(document).ready(function() {
+      $('.category-a').click(function() {
+        // 모든 링크에서 bold 클래스를 제거
+        $('.category-a').removeClass('a-selected');
+        // 클릭된 링크에만 bold 클래스 추가
+        $(this).addClass('a-selected');
+        
+      });
+    });
 </script>
 <script src="../../js/dataroom/data_list.js"></script>
 <script src="../../js/dataroom/data_file_insert.js"></script>

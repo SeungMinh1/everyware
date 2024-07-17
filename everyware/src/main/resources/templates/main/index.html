@@ -6,13 +6,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hansung</title>
+
 
   <style>
+
   	.colorCir {
   		width : 10px; height : 10px;border-radius: 50%;
   		display : inline-block;
   		}
+
+  	#approvalSec {
+  		overflow-y : auto;
+  		height : 300px;
+  	}
+  	#mailSec {
+  		overflow-y : auto;
+  		height : 300px;
+  	}
+  	
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -29,14 +40,9 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <!--  <h1 class="m-0">Dashboard</h1> -->
           </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
+
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -155,15 +161,15 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                <p>Bounce Rate</p>
+                <h3><sup style="font-size: 20px"></sup></h3>
+					Write the message
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="fa-solid fa-envelope"></i></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">메일쓰기<i class="fa-solid fa-envelope"></i></a>
             </div>
+            
           </div>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
@@ -235,13 +241,31 @@
                 </h3>
               </div>
               <!-- /.card-header -->
-              <div class="card-body">
+              <div class="card-body" id="mailSec">
 
                 <ul class="todo-list" data-widget="todo-list">
-               	<th:block if="${mailboxInfo}">
-	                <th:block th:each="num : ${mailboxInfo}">
-	              	
-	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
+                
+	                  <li th:if="${mailboxInfo}== null or ${mailboxInfo} == ''">
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text"> 메일이 없습니다 </span>
+	                    <span class="text"></span>
+	                    <!-- Emphasis label -->
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+	                  
+               	<th:block th:unless="${mailboxInfo}== null or ${mailboxInfo} == ''" >
+               	
+	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|" th:each="num : ${mailboxInfo}">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -259,37 +283,11 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                  </th:block>
 	            </th:block>
-	            
-	            <th:block unless="${mailboxInfo}">
 	                
-	              	
-	                  <li>
-	                    <!-- drag handle -->
-	                    <span class="handle">
-	                      <i class="fas fa-ellipsis-v"></i>
-	                      <i class="fas fa-ellipsis-v"></i>
-	                    </span>
-	
-	                    <!-- todo text -->
-	                    <span class="text"> 메일이 없습니다 </span>
-	                    <span class="text"></span>
-	                    <!-- Emphasis label -->
-	                    <!-- General tools such as edit or delete-->
-	                    <div class="tools">
-	                      <i class="fas fa-edit"></i>
-	                      <i class="fas fa-trash-o"></i>
-	                    </div>
-	                  </li>
-	                  </th:block>
-	            </th:block>
-	            
-	                 
-                  
-                
-
                 </ul>
+	            
+
               </div>
 
             </div>
@@ -298,7 +296,7 @@
           </section>
           
           <!-- 오른쪽 -->
-          <section class="col-lg-5 connectedSortable">
+          <section class="col-lg-5 connectedSortable" >
 			            <!-- DIRECT CHAT -->
             <div class="card direct-chat direct-chat-primary">
               <div class="card-header">
@@ -329,13 +327,33 @@
                 </h3>
               </div>
               <!-- /.card-header -->
-              <div class="card-body">
+              <div class="card-body" id="approvalSec">
 
                 <ul class="todo-list" data-widget="todo-list">
-               	<th:block if="${waitDocList}">
+	                <th:block th:if="${waitDocList == null}">
+	                  <li>
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text"> 결제할 문서가 없습니다 </span>
+	                    <span class="text"></span>
+	                    <!-- Emphasis label -->
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+		             </th:block>
+                
+               	<th:block th:unless="${waitDocList == null}">
 	                <th:block th:each="doc : ${waitDocList}">
 	              	
-	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
+	                  <li >
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -356,28 +374,8 @@
 	                  </th:block>
 	            </th:block>
 	            
-	            <th:block unless="${waitDocList}">
-	                
-	              	
-	                  <li>
-	                    <!-- drag handle -->
-	                    <span class="handle">
-	                      <i class="fas fa-ellipsis-v"></i>
-	                      <i class="fas fa-ellipsis-v"></i>
-	                    </span>
-	
-	                    <!-- todo text -->
-	                    <span class="text"> 결제할 문서가 없습니다 </span>
-	                    <span class="text"></span>
-	                    <!-- Emphasis label -->
-	                    <!-- General tools such as edit or delete-->
-	                    <div class="tools">
-	                      <i class="fas fa-edit"></i>
-	                      <i class="fas fa-trash-o"></i>
-	                    </div>
-	                  </li>
-	                  </th:block>
-	            </th:block>
+
+	 
                   
                 
 

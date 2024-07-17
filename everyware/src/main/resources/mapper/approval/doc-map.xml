@@ -169,7 +169,7 @@
 	</select>
 	
 	<!-- 결재 문서(반려) -->
-	<select id="refApprovalDocList" resultType="DocVO">
+	<select id="rejApprovalDocList" resultType="DocVO">
 		SELECT *
 		FROM approval_doc
 		WHERE doc_id IN (SELECT doc_id
@@ -182,22 +182,182 @@
 	
 	<!-- 발송 문서 -->
 	<select id="sendDocList" resultType="DocVO">
-		SELECT *
-		FROM approval_doc
-		WHERE doc_id IN (SELECT doc_id
-						 FROM send_path
-						 WHERE send_emp_id = #{empId})				
-		ORDER BY doc_id
+		SELECT a.*, s.send_status
+		FROM approval_doc a
+		JOIN send_path s
+		ON a.doc_id = s.doc_id
+		WHERE a.doc_id IN (SELECT s.doc_id
+		                   FROM send_path
+		                   WHERE s.send_emp_id = #{empId})
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 발송 문서(접수대기) -->
+	<select id="waitSendDocList" resultType="DocVO">
+		SELECT a.*, s.send_status
+		FROM approval_doc a
+		JOIN send_path s
+		ON a.doc_id = s.doc_id
+		WHERE a.doc_id IN (SELECT s.doc_id
+		                   FROM send_path
+		                   WHERE s.send_emp_id = #{empId}
+		                   AND send_status = '접수대기')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 발송 문서(접수) -->
+	<select id="recSendDocList" resultType="DocVO">
+		SELECT a.*, s.send_status
+		FROM approval_doc a
+		JOIN send_path s
+		ON a.doc_id = s.doc_id
+		WHERE a.doc_id IN (SELECT s.doc_id
+		                   FROM send_path
+		                   WHERE s.send_emp_id = #{empId}
+		                   AND send_status = '접수')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 발송 문서(진행) -->
+	<select id="goSendDocList" resultType="DocVO">
+		SELECT a.*, s.send_status
+		FROM approval_doc a
+		JOIN send_path s
+		ON a.doc_id = s.doc_id
+		WHERE a.doc_id IN (SELECT s.doc_id
+		                   FROM send_path
+		                   WHERE s.send_emp_id = #{empId}
+		                   AND approval_status = '진행중')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 발송 문서(완료) -->
+	<select id="compSendDocList" resultType="DocVO">
+		SELECT a.*, s.send_status
+		FROM approval_doc a
+		JOIN send_path s
+		ON a.doc_id = s.doc_id
+		WHERE a.doc_id IN (SELECT s.doc_id
+		                   FROM send_path
+		                   WHERE s.send_emp_id = #{empId}
+		                   AND approval_status = '완료')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 발송 문서(반려) -->
+	<select id="rejSendDocList" resultType="DocVO">
+		SELECT a.*, s.send_status
+		FROM approval_doc a
+		JOIN send_path s
+		ON a.doc_id = s.doc_id
+		WHERE a.doc_id IN (SELECT s.doc_id
+		                   FROM send_path
+		                   WHERE s.send_emp_id = #{empId}
+		                   AND approval_status = '반려')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 발송 문서(반송) -->
+	<select id="retSendDocList" resultType="DocVO">
+		SELECT a.*, s.send_status
+		FROM approval_doc a
+		JOIN send_path s
+		ON a.doc_id = s.doc_id
+		WHERE a.doc_id IN (SELECT s.doc_id
+		                   FROM send_path
+		                   WHERE s.send_emp_id = #{empId}
+		                   AND send_status = '반송')
+		ORDER BY a.doc_id
 	</select>
 	
 	<!-- 수신 문서 -->
 	<select id="receptionDocList" resultType="DocVO">
-		SELECT *
-		FROM approval_doc
-		WHERE doc_id IN (SELECT doc_id
-						 FROM reception_path
-						 WHERE reception_emp_id = #{empId})				
-		ORDER BY doc_id
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id IN (SELECT r.doc_id
+		                   FROM reception_path
+		                   WHERE r.reception_emp_id = #{empId})
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 수신 문서(접수대기) -->
+	<select id="waitReceptionDocList" resultType="DocVO">
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id IN (SELECT r.doc_id
+		                   FROM reception_path
+		                   WHERE r.reception_emp_id = #{empId}
+		                   AND r.reception_status = '접수대기')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 수신 문서(접수) -->
+	<select id="recReceptionDocList" resultType="DocVO">
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id IN (SELECT r.doc_id
+		                   FROM reception_path
+		                   WHERE r.reception_emp_id = #{empId}
+		                   AND r.reception_status = '접수')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 수신 문서(진행) -->
+	<select id="goReceptionDocList" resultType="DocVO">
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id IN (SELECT r.doc_id
+		                   FROM reception_path
+		                   WHERE r.reception_emp_id = #{empId}
+		                   AND approval_status = '진행중')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 수신 문서(완료) -->
+	<select id="compReceptionDocList" resultType="DocVO">
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id IN (SELECT r.doc_id
+		                   FROM reception_path
+		                   WHERE r.reception_emp_id = #{empId}
+		                   AND approval_status = '완료')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 수신 문서(반려) -->
+	<select id="rejReceptionDocList" resultType="DocVO">
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id IN (SELECT r.doc_id
+		                   FROM reception_path
+		                   WHERE r.reception_emp_id = #{empId}
+		                   AND approval_status = '반려')
+		ORDER BY a.doc_id
+	</select>
+	
+	<!-- 수신 문서(반송) -->
+	<select id="retReceptionDocList" resultType="DocVO">
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id IN (SELECT r.doc_id
+		                   FROM reception_path
+		                   WHERE r.reception_emp_id = #{empId}
+		                   AND reception_status = '반송')
+		ORDER BY a.doc_id
 	</select>
 	
 	<!-- 참조/열람 문서 -->
@@ -253,9 +413,11 @@
 	
 	<!-- 개별 문서 조회 -->
 	<select id="docInfo" resultType="DocVO">
-		SELECT *
-		FROM approval_doc
-		WHERE doc_id = #{docId}
+		SELECT a.*, r.reception_status
+		FROM approval_doc a
+		LEFT OUTER JOIN reception_path r
+		ON a.doc_id = r.doc_id
+		WHERE a.doc_id = #{docId}
 	</select>
 	
 	<!-- 문서 등록(양식) -->

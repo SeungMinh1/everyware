@@ -19,6 +19,7 @@ import com.yedam.app.calendar.service.CalendarService;
 import com.yedam.app.calendar.service.CalendarVO;
 import com.yedam.app.common.util.AuthUtil;
 import com.yedam.app.dataroom.file.service.DataFileService;
+import com.yedam.app.mail.mail.service.Criteria;
 import com.yedam.app.mail.mail.service.MailService;
 import com.yedam.app.mail.mail.service.MailVO;
 
@@ -55,9 +56,10 @@ public class GroupController {
 		
 		int empId = AuthUtil.getEmpId();
 		EmpVO empVO = new EmpVO();
+		Criteria cri = new Criteria();
 		empVO.setEmpId(empId);;
-		//List<MailVO> find = mailService.mailboxInfo(mailVO, empId);
-		//model.addAttribute("mailboxInfo", find);
+		List<MailVO> find = mailService.mailboxInfo(mailVO, empId, cri);
+		model.addAttribute("mailboxInfo", find);
 		
 		List<DocVO> list = docService.waitDocList(empId);
 		model.addAttribute("waitDocList", list);

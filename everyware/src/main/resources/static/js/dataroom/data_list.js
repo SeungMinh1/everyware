@@ -73,9 +73,7 @@ function dataList(page, category, remarks, title, searchType = '', searchKeyword
         if(result.datas.length == 0){
 			appendEmptyData();
         } else {
-            let rowCount = resultList(result);
-             appendRows(rowCount);
-            
+            resultList(result);
         }
         updatePagination(result.pg, category, remarks, page);
     });
@@ -119,22 +117,8 @@ function appendEmptyData() {
     $('#tbody').append(emptyData);
 }
 
-//table 10칸중 빈칸
-function appendRows(rowCount) {
-    for (let i = rowCount; i < 10; i++) {
-        let emptyRow = `
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>`;
-        $('#tbody').append(emptyRow);
-    }
-}
-
 // tr 출력
 function resultList(result){
-	let rowCount = 0;
 	$(result.datas).each(function(i, obj){
 			 	let registrateDate = new Date(obj.registrateDate);
 	            let formattedDate = registrateDate.toLocaleDateString('ko-KR', {
@@ -156,9 +140,7 @@ function resultList(result){
 		                    </td>
 		               </tr>`
 			 $('#tbody').append(tr);
-			 rowCount++;
 		 });//each
-	return rowCount;
 }
 
 //페이징

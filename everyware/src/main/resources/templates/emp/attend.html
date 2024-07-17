@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | User Profile</title>
+  <title>근태관리</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -106,6 +106,40 @@ th, td{
 	vertical-align: middle;
 }
 
+       .table-container {
+            max-height: 400px; /* Adjust height as needed */
+            overflow-y: auto; /* Enables vertical scrolling */
+            display: block;
+            position: relative;
+        }
+
+
+
+    #thistable {
+      max-height: 250px; /* 원하는 높이로 설정 */
+      overflow-y: auto;
+      border: 1px solid #dee2e6;
+    }
+    #thistable table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #thistable thead th {
+      position: sticky;
+      top: 0;
+      background: #f8f9fa;
+      z-index: 1;
+    }
+    #thistable th,
+    #thistable td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #dee2e6;
+    }
+      
+
+
+
 
   </style>
 </head>
@@ -140,7 +174,7 @@ th, td{
           <div class="col-md-3">
 
             <!-- Profile Image -->
-            <div class="card card-primary card-outline">
+            <div class="card card-primary card-outline" id="users">
               <div class="card-body box-profile">
                 <div class="text-center">
 
@@ -203,7 +237,7 @@ th, td{
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                       <table class="table table-bordered table-sm" style="height:100px;">
+                       <table class="table table-bordered table-sm" style="height:80px;">
                        		<thead class="thead-light">
 	                       		<tr>
 	                       			<th>이번주 누적근무시간</th>
@@ -252,17 +286,17 @@ th, td{
                     <br>
                     <!-- /.post -->
 
-      
+
 
                     <!-- Post -->
                     <div class="post">
-						<div>
 	                        <p>이번달 근태기록</p>
+						<div id="thistable">
 	                          
-	                          <table class="table table-bordered table-sm">
+	                          <table class="table table-bordered table-sm" >
 	                          	<thead class="thead-light">
 		                          	<tr>
-		                          		<th>날짜</th>
+		                          		<th >날짜</th>
 		                          		<th>출근시간</th>
 		                          		<th>퇴근시간</th>
 		                          		<th>일한시간</th>
@@ -300,7 +334,12 @@ th, td{
 							    <div class="clicked-date">
 							    
 							      <div class="cal-day" >
-							      	<table class="table">
+							      	<table class="table" >
+							      		<tr>
+							      			<th>날짜</th>
+							      			<td id="dday" th:if="${att} != null"> [[ ${#dates.format(att.goTime, 'yyyy-MM-dd')} ]]</td>
+							      			<td id="dday" th:unless="${att} != null"></td>
+							      		</tr>
 							      		
 							      		<tr>
 							      			<th>출근시간</th>
@@ -521,6 +560,7 @@ th, td{
                 	
                 	if(distance > 50.02){
                 		alert("출근 실패");
+                		$("#goworkBtn").prop("disabled", false);
                 	}else{
                 		let nowTime = new Date();
                 		workdata = {             
@@ -628,6 +668,7 @@ th, td{
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	if(distance > 50.02){
                 		alert("퇴근 실패");
+                		$("#gohome").prop("disabled", false);
                 	}else{
                 		let nowTime2 = new Date();
                 		workdata2 = {             
@@ -851,7 +892,6 @@ th, td{
 		let dateday = ('0' + day).slice(-2); 
 		let fulldate = init.activeDate.getFullYear()+datemonth+dateday;
 		console.log(fulldate);
-		
 			datedata = {             
 				goTime2 : fulldate
 	    	};
@@ -865,12 +905,14 @@ th, td{
 			.done(function(result){
 				console.log(result);
 				if(result == null || result == ''){
+					document.getElementById('dday').innerHTML =' ';
 					document.getElementById('time1').innerHTML =' ';
 					document.getElementById('time2').innerHTML = ' ';
 					document.getElementById('time3').innerHTML = ' ';
 					document.getElementById('time4').innerHTML = ' ';
 					
 				}else{
+					document.getElementById('dday').innerHTML = result.goTime.substring(0,10);
 					document.getElementById('time1').innerHTML = result.goTime2;
 					document.getElementById('time2').innerHTML = result.leaveTime2;
 					if(result.workTime != 0 ||result.exceedWorkTime != 0){
