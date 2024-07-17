@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="css/modal.css">
   <link rel="stylesheet" href="css/task.css">
   <link rel="stylesheet" href="css/org.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -51,11 +53,11 @@
             <div class="card">
               <div class="card-header">          
                 <h3 class="card-title"></h3>
-                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="approval" style="display:none;">결재</button>
-                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="reject" style="display:none;">반려</button>
-                <button th:if="${approvalDoc.receptionStatus == '접수대기'}" type="button" class="btn" id="receipt">접수</button> 
-                <button th:if="${approvalDoc.receptionStatus == '접수대기'}" type="button" class="btn" id="return">반송</button>
-                <button th:if="${approvalDoc.receptionStatus == '접수'}" type="button" class="btn" id="recCan">접수취소</button>                                  
+                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="approval" style="display:none">결재</button>
+                <button th:if="${approvalDoc.approvalStatus == '진행중'}" type="button" class="btn" id="reject" style="display:none">반려</button>
+                <button th:if="${approvalDoc.receptionStatus == '접수대기'}" type="button" class="btn" id="receipt" style="display:none">접수</button> 
+                <button th:if="${approvalDoc.receptionStatus == '접수대기'}" type="button" class="btn" id="return" style="display:none">반송</button>
+                <button th:if="${approvalDoc.receptionStatus == '접수'}" type="button" class="btn" id="recCan" style="display:none">접수취소</button>                                  
                 <button th:if="${approvalDoc.approvalStatus == '진행중'} and ${approvalDoc.draftEmpId} == ${#authentication.principal.userVO.empId}" type="button" class="btn" id="draftcan">상신취소</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="req">결재요청</button>
                 <button th:if="${approvalDoc.approvalStatus == '임시저장'}" type="button" class="btn" id="tem">임시저장</button>
@@ -307,7 +309,7 @@
 	var id = Number(params.get("docId"));
 	
 	
-	function approvalInfo() {
+	function appInfo() {
 		var data = {
 			approvalEmpId : /*[[${#authentication.principal.userVO.empId}]]*/''
 			, docId : id
@@ -337,7 +339,7 @@
 	
 	
 	$('#app').on('click', function() {
-		let app = approvalInfo();
+		let app = appInfo();
 		let next = nextInfo();
 		
 		for(var i=0; i<$('.approvalName').length; i++) {
@@ -374,7 +376,7 @@
 					})
 					.done(result => {
 						if(result) {
-							alert('성공');
+							alert('결재되었습니다.')
 							location.href = "/waitDocList";
 						}
 					})
@@ -385,7 +387,7 @@
 	})
 	
 	$('#rej').on('click', function() {
-		let rej = approvalInfo();
+		let rej = appInfo();
 		
 		for(var i=0; i<$('.approvalName').length; i++) {
 			if($('.approvalName')[i].id == /*[[${#authentication.principal.userVO.empId}]]*/'') {
