@@ -180,7 +180,7 @@
 						    <td class="mailbox-name">(받는사람 없음)</td>
 						  </th:block>
 						  <th:block th:unless="${#lists.isEmpty(in.recipient)}">
-						    <td class="mailbox-name" th:text="${#strings.setSplit(in.recipient, '　')}"></td>
+						    <td class="mailbox-name" th:text="${#strings.arraySplit(in.recipient, ' ')[0]}"></td>
 						  </th:block>
 						</th:block>
 	                   
