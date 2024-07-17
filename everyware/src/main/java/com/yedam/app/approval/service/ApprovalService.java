@@ -42,4 +42,12 @@ public interface ApprovalService {
 	// 접수
 	public Map<String, Object> receptionUpdate(ReceptionVO receptionVO);
 	public Map<String, Object> sendUpdate(SendVO sendVO);
+	
+	// 반송
+	public Map<String, Object> receptionReturn(ReceptionVO receptionVO);
+	public Map<String, Object> sendReturn(SendVO sendVO);
+		
+	// 접수취소
+	public Map<String, Object> receptionCancel(ReceptionVO receptionVO);
+	public Map<String, Object> sendCancel(SendVO sendVO);
 }

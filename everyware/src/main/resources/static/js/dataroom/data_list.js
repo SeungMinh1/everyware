@@ -73,9 +73,7 @@ function dataList(page, category, remarks, title, searchType = '', searchKeyword
         if(result.datas.length == 0){
 			appendEmptyData();
         } else {
-            let rowCount = resultList(result);
-             appendRows(rowCount);
-            
+            resultList(result);
         }
         updatePagination(result.pg, category, remarks, page);
     });
@@ -119,22 +117,8 @@ function appendEmptyData() {
     $('#tbody').append(emptyData);
 }
 
-//table 10칸중 빈칸
-function appendRows(rowCount) {
-    for (let i = rowCount; i < 10; i++) {
-        let emptyRow = `
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>`;
-        $('#tbody').append(emptyRow);
-    }
-}
-
 // tr 출력
 function resultList(result){
-	let rowCount = 0;
 	$(result.datas).each(function(i, obj){
 			 	let registrateDate = new Date(obj.registrateDate);
 	            let formattedDate = registrateDate.toLocaleDateString('ko-KR', {
@@ -156,9 +140,7 @@ function resultList(result){
 		                    </td>
 		               </tr>`
 			 $('#tbody').append(tr);
-			 rowCount++;
 		 });//each
-	return rowCount;
 }
 
 //페이징
@@ -220,24 +202,49 @@ $(document).ready(function() {
 			resultFileList(result);
 		})//selectData ajax.done
 		
+		
+		
 		$('.folderDelete').on('click', function(){
+			Swal.fire({
+			  text: "폴더가 완전히 삭제됩니다. 삭제하시겠습니까?",
+			  icon: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#3085d6",
+			  cancelButtonColor: "#d33",
+			  confirmButtonText: "삭제",
+			  cancelButtonText: "취소"
+			}).then((result) => {
+				//삭제버튼 클릭시 실행
+				if (result.isConfirmed) {
+					deleteDataFolder(dataId);	 
+				//취소버튼 클릭시 실행	
+			    } else {
+				    result.dismiss === Swal.DismissReason.cancel
+				}
+			});//Swal.fire .then ==============
+			
+		})
+		
+		function deleteDataFolder(dataId){
 			$.ajax({
 				url: 'deleteDataFolder',
 				type: 'POST', 
 				contentType : 'application/JSON',
-	            data: JSON.stringify({dataId : dataId}),
-	            success : function(){
-					alert('폴더 삭제 성공');
-					let url = '/dataroom';
-					location.href=url;
-				}
-			})
-		})
-		
-		
-		
-		
-	})//document.onclick;
+			    data: JSON.stringify({dataId : dataId}),
+			    success : function(){
+					Swal.fire({
+						      title: "삭제되었습니다.",
+						      icon: "success"
+					})
+					.then((result)=>{
+						let url = '/dataroom';
+						location.href=url;
+					})//.then
+				}//success
+			})//ajax
+		}
+
+})//document.onclick;
 	
 	
 	function resultFileList(result){

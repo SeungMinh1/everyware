@@ -159,6 +159,7 @@ $(function () {
 //주소록 모달 =====================
 //tagify.addTags(["banana@dc.com", "orange@cd.com", "apple@dc.com"]);
 //체크박스 배열로 받아서 tagify.addTags에 배열로 넣기
+
 	$('.addressInRecipBtn').on('click', function() {  
 			let selectedMail = [];
 			$('.oneCheckbox:checked').each(function() {
@@ -190,7 +191,7 @@ console.log(searchKeyword);
     url: 'empSearch',
     data: {
       page: page,
-      cnt: 10,
+      cnt: 8,
       searchOption: searchType,
       dosearch: searchKeyword
     }
@@ -217,7 +218,7 @@ console.log(searchKeyword);
       rowCount++;
     });
 
-	for (let i = rowCount; i < 10; i++) {
+	for (let i = rowCount; i < 8; i++) {
 	      let emptyRow = `<tr>
 	                        <td>&nbsp;</td>
 	                        <td>&nbsp;</td>

@@ -52,14 +52,19 @@
 	.mailLabel{
 		margin: 5px;
 	}
-	
 	/* 모달 */
-	.table{
-  		height:500px;
-  	}
-  	.table tbody tr {
-        height: 62px !important;
+	.table tbody tr {
+        height: 50px !important;
     }
+    .addressUl{
+    	margin: 0px;
+    }
+	/* .table{
+  		height:450px;
+  	}
+    .tbody tr{
+    	padding: 0px;
+    } */
 </style>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -184,7 +189,9 @@
     </section>
     <!-- /.content -->
     
-    <!-- 받는사람 Modal -->
+    <!-- ===================
+    	     modal
+    ========================-->
 	<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg modal-dialog-centered">
 	    <div class="modal-content">
@@ -222,7 +229,7 @@
 			      <tbody id="tbody"></tbody>
 			    </table>
 			    <nav aria-label="Page navigation example">
-			      <ul class="pagination justify-content-center" id="pagination"></ul>
+			      <ul class="pagination justify-content-center addressUl" id="pagination"></ul>
 			    </nav>
 			  </div>
 			</div>

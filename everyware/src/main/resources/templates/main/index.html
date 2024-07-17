@@ -6,9 +6,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+
 
   <style>
+
+  	.colorCir {
+  		width : 10px; height : 10px;border-radius: 50%;
+  		display : inline-block;
+  		}
+
   	#approvalSec {
   		overflow-y : auto;
   		height : 300px;
@@ -18,7 +24,6 @@
   		height : 300px;
   	}
   	
-  
   </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -144,59 +149,56 @@
         
         
         
-        
+        <section class="col-lg-5 connectedSortable" style="height:300px">
+			            <!-- DIRECT CHAT -->
+            <div class="card direct-chat direct-chat-primary" style="height:300px">
+              <div class="card-header" >
+                <h3 class="card-title">오늘 일정</h3>
+              </div>
+              <!-- /.card-header -->
+
+
+            <!-- TO DO List -->
+            <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+
+                <ul class="todo-list" data-widget="todo-list">
+				
+                <th:block th:each="list : ${clist}">
+                  <th:block th:if="${#strings.substring(list.start, 0, 10) == #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
+                   <li th:onclick="|location.href='calendar'|">
+						<div class="colorCir" th:style="'background-color:'+@{${list.color}}"></div>
+                    <span class="text">[[ ${list.title} ]]</span>
+                    <span class="text startTime" th:text="${#strings.substring(list.start, 11, 16)}"></span> ~
+                    <span class="text endTime" th:text="${#strings.substring(list.end, 11, 16)}"></span>
+                    <!-- Emphasis label -->
+                    <!-- General tools such as edit or delete-->
+
+                  </li>
+                  </th:block>
+                  
+                </th:block>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /.card -->
+            </div>
+          
+
+
+
+          </section>
         
         
         
         
         
 
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3><sup style="font-size: 20px"></sup></h3>
-					Write the message
-              </div>
-              <div class="icon">
-                <i class="fa-solid fa-envelope"></i></i>
-              </div>
-              <a href="#" class="small-box-footer">메일쓰기<i class="fa-solid fa-envelope"></i></a>
-            </div>
-            
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>44</h3>
-
-                <p>User Registrations</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <h3>65</h3>
-
-                <p>Unique Visitors</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
+         
+         
         </div>
         <!-- /.row -->
         <!-- Main row -->
@@ -211,18 +213,7 @@
               <div class="card-header">
                 <h3 class="card-title">메일</h3>
 
-                <div class="card-tools">
-                  <span title="3 New Messages" class="badge badge-primary">3</span>
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                    <i class="fas fa-comments"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
+ 
               </div>
               <!-- /.card-header -->
 
@@ -240,10 +231,7 @@
 
                 <ul class="todo-list" data-widget="todo-list">
                 
-	                 
-	            	<th:block th:if="mailboxInfo == null ">
-	                				
-	                  <li>
+	                  <li th:if="${mailboxInfo}== null or ${mailboxInfo} == ''">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -260,13 +248,10 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                </th:block>
 	                  
-               	<th:block th:unless="mailboxInfo == null " >
+               	<th:block th:unless="${mailboxInfo}== null or ${mailboxInfo} == ''" >
                	
-	                <th:block th:each="num : ${mailboxInfo}">
-	              	
-	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
+	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|" th:each="num : ${mailboxInfo}">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -284,8 +269,7 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                  </th:block>
-	                </th:block>
+	            </th:block>
 	                
                 </ul>
 	            
@@ -304,18 +288,7 @@
               <div class="card-header">
                 <h3 class="card-title">결재</h3>
 
-                <div class="card-tools">
-                  <span title="3 New Messages" class="badge badge-primary">3</span>
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                    <i class="fas fa-comments"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
+               
               </div>
               <!-- /.card-header -->
 
@@ -332,7 +305,27 @@
               <div class="card-body" id="approvalSec">
 
                 <ul class="todo-list" data-widget="todo-list">
-               	<th:block th:if="${waitDocList} != null">
+	                <th:block th:if="${waitDocList == null}">
+	                  <li>
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text"> 결제할 문서가 없습니다 </span>
+	                    <span class="text"></span>
+	                    <!-- Emphasis label -->
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+		             </th:block>
+                
+               	<th:block th:unless="${waitDocList == null}">
 	                <th:block th:each="doc : ${waitDocList}">
 	              	
 	                  <li >
@@ -356,28 +349,8 @@
 	                  </th:block>
 	            </th:block>
 	            
-	            <th:block unless="${waitDocList} != null">
-	                
-	              	
-	                  <li>
-	                    <!-- drag handle -->
-	                    <span class="handle">
-	                      <i class="fas fa-ellipsis-v"></i>
-	                      <i class="fas fa-ellipsis-v"></i>
-	                    </span>
-	
-	                    <!-- todo text -->
-	                    <span class="text"> 결제할 문서가 없습니다 </span>
-	                    <span class="text"></span>
-	                    <!-- Emphasis label -->
-	                    <!-- General tools such as edit or delete-->
-	                    <div class="tools">
-	                      <i class="fas fa-edit"></i>
-	                      <i class="fas fa-trash-o"></i>
-	                    </div>
-	                  </li>
-	                  </th:block>
-	            </th:block>
+
+	 
                   
                 
 
@@ -392,6 +365,8 @@
 
 
           </section>
+          
+         
           
 
         </div>
@@ -447,7 +422,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <script src="dist/js/pages/mainjs.js"></script>
-<script>
+<script th:inline="javascript">
 $(document).ready(mailList('d1'))
 
 
@@ -479,6 +454,9 @@ function appendEmptyMailList(){
                 </tr>`
      $('#mailTbody').append(tr);
 }
+
+
+
 
 </script>
 </body>

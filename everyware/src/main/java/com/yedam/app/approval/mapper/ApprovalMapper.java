@@ -46,4 +46,12 @@ public interface ApprovalMapper {
 	// 접수
 	public int receptionUpdate(ReceptionVO receptionVO);
 	public int sendUpdate(SendVO sendVO);
+	
+	// 반송
+	public int receptionReturn(ReceptionVO receptionVO);
+	public int sendReturn(SendVO sendVO);
+	
+	// 접수취소
+	public int receptionCancel(ReceptionVO receptionVO);
+	public int sendCancel(SendVO sendVO);
 }

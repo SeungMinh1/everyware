@@ -1,14 +1,20 @@
 /**
  * docInfo.js
  */
-var ref = document.referrer;
-if(ref == 'https://192.168.0.23:8100/waitDocList') {
+var url = new URL(document.referrer);
+var path = url.pathname;
+console.log(path);
+if(path == '/waitDocList') {
 	$('#approval').css('display', 'inline-block');
 	$('#reject').css('display', 'inline-block');
 }
 
-if(ref == 'https://192.168.0.23:8100/receptionDocList') {
+if(path == '/receptionDocList' || path == '/compReceptionDocList' || path == '/goReceptionDocList'
+   || path == '/recReceptionDocList' || path == '/rejReceptionDocList' || path == '/retReceptionDocList'
+   || path == '/waitReceptionDocList') {
 	$('#receipt').css('display', 'inline-block');
+	$('#return').css('display', 'inline-block');
+	$('#recCan').css('display', 'inline-block');
 }
 
 var approvalemps = [];
@@ -665,34 +671,3 @@ function tempInfo() {
 	
 	return data7;
 }
-
-$(document).ready(function(){
-		$('#down').click(function() { // pdf저장 button id
-		var title = $('.inputTitleBox')[0].innerText;
-		
-	    html2canvas($('#container')[0]).then(function(canvas) { //저장 영역 div id
-					
-		
-	    // 캔버스를 이미지로 변환
-	    var imgData = canvas.toDataURL('image/png');
-	    
-		     
-	    var imgWidth = 210;
-		var pageHeight = imgHeight;
-		var imgHeight = canvas.height * imgWidth / canvas.width;
-		var heightLeft = imgHeight;
-		var position = 0;
-	    var doc = new jsPDF('p', 'mm');
-	       
-	    // 첫 페이지 출력
-	    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-	    heightLeft -= pageHeight;	        
-	 
-	    // 파일 저장
-	    doc.save(title + '.pdf');
-
-		  
-		});
-		
-		});
-	})

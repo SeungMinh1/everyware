@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GPS List</title>
+  <title>GPS-List</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -20,6 +20,7 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+  <div style="margin-right: 3%; margin-left: 3%">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -27,10 +28,7 @@
           <div class="col-sm-6">
           </div>
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Invoice</li>
-            </ol>
+           
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -41,8 +39,7 @@
         <div class="row">
           <div class="col-12">
             <div class="callout callout-info">
-              <h5><i class="fas fa-info"></i> GPS List:</h5>
-              This page has been enhanced for printing. Click the print button at the bottom of the invoice to test.
+              <h5> GPS List</h5>
             </div>
 
 
@@ -61,10 +58,10 @@
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col" id="nowGpsPlace">
                  
-                  <address>
-                    <strong>[[ ${nowgps.gpsName} ]]</strong><br>
-                    위도 : [[ ${nowgps.longtitueX} ]]<br>
-                    경도 : [[ ${nowgps.lattitueY} ]]<br>
+                  <address><br>
+                    <strong>이름 : [[ ${nowgps.gpsName} ]]</strong><br>
+                    경도 : [[ ${nowgps.longtitueX} ]]<br>
+                    위도 : [[ ${nowgps.lattitueY} ]]<br>
                   </address>
                 </div>
                 <!-- /.col -->
@@ -81,8 +78,8 @@
                     <tr>
                       <th>#</th>
                       <th>Name</th>
-                      <th>위도</th>
                       <th>경도</th>
+                      <th>위도</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -110,8 +107,9 @@
                   </table>
                 </div>
                 <!-- /.col -->
-                <p><button type="button" id="changeGps">변경</button>
-                <button type="button" id="delGps">삭제</button></p>
+                <p><button type="button" id="changeGps" class="btn btn-primary">변경</button>
+                <button type="button" id="delGps" class="btn btn-danger">삭제</button></p>
+                <button type="button" class="toastsDefaultWarning"  >modal</button>
               </div>
               <!-- /.row -->
 
@@ -125,9 +123,29 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
+    </div>
     <!-- /.content -->
   </div>
-
+	<!-- 모달창: 출근 확인 -->
+	<div class="toast" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title">GPS를 변경</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	               <p id ="modal2p1">GPS를 변경하시겠습니까?</p>
+	               <p id ="modal2p2"></p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" id ="changeb">변경</button>
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >취소</button>
+	                
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
 
 
@@ -136,19 +154,41 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script>
-	$('#changeGps').on('click', changeGps)
+// 출근 버튼 클릭 시 모달 창 표시
+$("#changeGps").click(function () {
+    
+	 let selectList = [];
+     $('.oneCheckbox:checked').each(function() {
+     	selectList.push($(this).val());
+     });
+   
+     
+    if (selectList.length > 1) {
+    	alert('한개만 선택해주세요');
+    }else{
+    	$("#modal2").modal("show");
+    
+		
+    }
+
+
+	
+});
+
+</script>
+
+<script>
+	$('#changeb').on('click', changeGps)
 	
 	function changeGps(){
-		
+		$("#modal2").hide();
+    	$("#modal2").modal('hide');
 		 let selectList = [];
 	        $('.oneCheckbox:checked').each(function() {
 	        	selectList.push($(this).val());
 	        });
-	        if (selectList.length > 1) {
-	        	alert('한개만 선택해주세요');
-	        }else{
-	        	console.log(selectList[0])
-	        	
+	       
+	       
 	        	
 			let gpsId = {
 					gpsId : selectList[0]
@@ -181,7 +221,7 @@
 	        	
 	        	
 	        }
-	}
+	
 
 $('#delGps').on('click', delGps)
 	
@@ -218,6 +258,18 @@ $('#delGps').on('click', delGps)
 	        }
 	}
 	
+
+</script>
+
+<script>
+$('.toastsDefaultWarning').click(function() {
+    $(document).Toasts('create', {
+      class: 'bg-warning',
+      title: '애러다',
+      subtitle: 'ㅔ헤헤헤헤헿',
+      body: '!!!!!.'
+    })
+  });
 
 </script>
 
