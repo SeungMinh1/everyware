@@ -204,7 +204,7 @@
 				    </a>
 				  </li>
 				  <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-				    <li class="page-item">
+				    <li class="page-item" th:classappend="${num == pageMaker.cri.pageNum} ? ' active'">
 				      <a class="page-link" th:href="@{/mailboxInfo(mailboxId=${param.mailboxId}, pageNum=${num}, type=${param.type}, keyword=${param.keyword})}">[[${num}]]</a>
 				    </li>
 				  </th:block>
