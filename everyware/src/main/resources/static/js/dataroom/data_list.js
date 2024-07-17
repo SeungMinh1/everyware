@@ -202,24 +202,49 @@ $(document).ready(function() {
 			resultFileList(result);
 		})//selectData ajax.done
 		
+		
+		
 		$('.folderDelete').on('click', function(){
+			Swal.fire({
+			  text: "폴더가 완전히 삭제됩니다. 삭제하시겠습니까?",
+			  icon: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#3085d6",
+			  cancelButtonColor: "#d33",
+			  confirmButtonText: "삭제",
+			  cancelButtonText: "취소"
+			}).then((result) => {
+				//삭제버튼 클릭시 실행
+				if (result.isConfirmed) {
+					deleteDataFolder(dataId);	 
+				//취소버튼 클릭시 실행	
+			    } else {
+				    result.dismiss === Swal.DismissReason.cancel
+				}
+			});//Swal.fire .then ==============
+			
+		})
+		
+		function deleteDataFolder(dataId){
 			$.ajax({
 				url: 'deleteDataFolder',
 				type: 'POST', 
 				contentType : 'application/JSON',
-	            data: JSON.stringify({dataId : dataId}),
-	            success : function(){
-					alert('폴더 삭제 성공');
-					let url = '/dataroom';
-					location.href=url;
-				}
-			})
-		})
-		
-		
-		
-		
-	})//document.onclick;
+			    data: JSON.stringify({dataId : dataId}),
+			    success : function(){
+					Swal.fire({
+						      title: "삭제되었습니다.",
+						      icon: "success"
+					})
+					.then((result)=>{
+						let url = '/dataroom';
+						location.href=url;
+					})//.then
+				}//success
+			})//ajax
+		}
+
+})//document.onclick;
 	
 	
 	function resultFileList(result){
