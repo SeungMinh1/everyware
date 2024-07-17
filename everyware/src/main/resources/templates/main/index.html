@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Hansung</title>
 
   <style>
   	#approvalSec {
@@ -240,10 +240,7 @@
 
                 <ul class="todo-list" data-widget="todo-list">
                 
-	                 
-	            	<th:block th:if="mailboxInfo == null ">
-	                				
-	                  <li>
+	                  <li th:if="${mailboxInfo}== null or ${mailboxInfo} == ''">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -260,13 +257,10 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                </th:block>
 	                  
-               	<th:block th:unless="mailboxInfo == null " >
+               	<th:block th:unless="${mailboxInfo}== null or ${mailboxInfo} == ''" >
                	
-	                <th:block th:each="num : ${mailboxInfo}">
-	              	
-	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|">
+	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|" th:each="num : ${mailboxInfo}">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -284,8 +278,7 @@
 	                      <i class="fas fa-trash-o"></i>
 	                    </div>
 	                  </li>
-	                  </th:block>
-	                </th:block>
+	            </th:block>
 	                
                 </ul>
 	            
@@ -332,7 +325,27 @@
               <div class="card-body" id="approvalSec">
 
                 <ul class="todo-list" data-widget="todo-list">
-               	<th:block th:if="${waitDocList} != null">
+	                <th:block th:if="${waitDocList == null}">
+	                  <li>
+	                    <!-- drag handle -->
+	                    <span class="handle">
+	                      <i class="fas fa-ellipsis-v"></i>
+	                      <i class="fas fa-ellipsis-v"></i>
+	                    </span>
+	
+	                    <!-- todo text -->
+	                    <span class="text"> 결제할 문서가 없습니다 </span>
+	                    <span class="text"></span>
+	                    <!-- Emphasis label -->
+	                    <!-- General tools such as edit or delete-->
+	                    <div class="tools">
+	                      <i class="fas fa-edit"></i>
+	                      <i class="fas fa-trash-o"></i>
+	                    </div>
+	                  </li>
+		             </th:block>
+                
+               	<th:block th:unless="${waitDocList == null}">
 	                <th:block th:each="doc : ${waitDocList}">
 	              	
 	                  <li >
@@ -356,28 +369,8 @@
 	                  </th:block>
 	            </th:block>
 	            
-	            <th:block unless="${waitDocList} != null">
-	                
-	              	
-	                  <li>
-	                    <!-- drag handle -->
-	                    <span class="handle">
-	                      <i class="fas fa-ellipsis-v"></i>
-	                      <i class="fas fa-ellipsis-v"></i>
-	                    </span>
-	
-	                    <!-- todo text -->
-	                    <span class="text"> 결제할 문서가 없습니다 </span>
-	                    <span class="text"></span>
-	                    <!-- Emphasis label -->
-	                    <!-- General tools such as edit or delete-->
-	                    <div class="tools">
-	                      <i class="fas fa-edit"></i>
-	                      <i class="fas fa-trash-o"></i>
-	                    </div>
-	                  </li>
-	                  </th:block>
-	            </th:block>
+
+	 
                   
                 
 
