@@ -148,7 +148,12 @@
                   <thead>
                   	<tr>
                   		<th></th>
-                  		<th>보낸사람</th>
+                  		<th:block th:if = "${#strings.equals(param.mailboxId, 'd1')}">
+                  			<th>보낸사람</th>
+                  		</th:block>
+                  		<th:block th:unless = "${#strings.equals(param.mailboxId, 'd1')}">
+                  			<th>받는사람</th>
+                  		</th:block>
                   		<th>제목</th>
                   		<th>보낸날짜</th>
                   	</tr>
@@ -167,8 +172,18 @@
 	                       <label th:for="${in.mailId}"></label>
 	                     </div>
 	                   </td>
-	                   <!-- th:if="${mailboxId=d3}" -->
-	                   <td class="mailbox-name">[[ ${in.sender} ]]</td>
+	                   <th:block th:if = "${#strings.equals(param.mailboxId, 'd1')}">
+                  			<td class="mailbox-name">[[ ${in.sender} ]]</td>
+                  		</th:block>
+                  		<th:block th:unless="${#strings.equals(param.mailboxId, 'd1')}">
+						  <th:block th:if="${#lists.isEmpty(in.recipient)}">
+						    <td class="mailbox-name">(받는사람 없음)</td>
+						  </th:block>
+						  <th:block th:unless="${#lists.isEmpty(in.recipient)}">
+						    <td class="mailbox-name" th:text="${#strings.setSplit(in.recipient, '　')}"></td>
+						  </th:block>
+						</th:block>
+	                   
 	                   <!-- d3(임시보관함)일때 draftMailUpdate 로 --> 
 	                   <td th:if="${in.mailboxId =='d3'}" class="mailbox-subject">
 	                   		<a th:href="@{/draftMailUpdate(mailId=${in.mailId})}" class="mailInfoLink">[[ ${in.title} ]]</a>
@@ -180,9 +195,9 @@
                  </th:block>
                    </tbody>
                 </table>
-                
                 <nav aria-label="Page navigation" class="paginationNav">
 			     <ul class="pagination justify-content-center" id="pagination">
+               <th:block th:if="${mailboxInfo.size() != 0}">
 				  <li class="page-item" th:if="${pageMaker.prev}">
 				    <a class="page-link" th:href="@{/mailboxInfo(mailboxId=${param.mailboxId}, pageNum=${pageMaker.startPage - 1}, type=${param.type}, keyword=${param.keyword})}" aria-label="Previous">
 				      <span aria-hidden="true">&laquo;</span>
@@ -198,6 +213,7 @@
 				      <span aria-hidden="true">&raquo;</span>
 				    </a>
 				  </li>
+	           </th:block>
 				 </ul>
 			    </nav>
                 <!-- /.table -->

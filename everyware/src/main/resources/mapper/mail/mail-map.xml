@@ -26,6 +26,7 @@
 	  FROM (SELECT ROWNUM as rn, a.*
            FROM (SELECT sender
 					  , title
+					  , recipient
 					  , send_date
 					  , emp_id
 					  , mailbox_id
@@ -43,6 +44,7 @@
 		SELECT COUNT(*)
 	FROM (SELECT sender
 			  , title
+			  , recipient
 			  , send_date
 			  , emp_id
 			  , mailbox_id
