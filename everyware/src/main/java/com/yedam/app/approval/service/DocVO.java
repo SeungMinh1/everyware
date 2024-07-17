@@ -57,4 +57,6 @@ public class DocVO {
 	private List<String> approvalFileList;
 	private String dosearch;
 	private String searchOption;
+	private String receptionStatus;
+	private String sendStatus;
 }
