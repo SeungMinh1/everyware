@@ -237,6 +237,58 @@ public class ApprovalServiceImpl implements ApprovalService {
 		map.put("result", isSuccessed);
 		map.put("target", sendVO);
 		return map;
+	}
+
+	@Override
+	public Map<String, Object> receptionReturn(ReceptionVO receptionVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.receptionReturn(receptionVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", receptionVO);
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> sendReturn(SendVO sendVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.sendReturn(sendVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", sendVO);
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> receptionCancel(ReceptionVO receptionVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.receptionCancel(receptionVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", receptionVO);
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> sendCancel(SendVO sendVO) {
+		Map<String, Object> map = new HashMap<>();
+		boolean isSuccessed = false;
+		int result = approvalMapper.sendCancel(sendVO);
+		if(result == 1) {
+			isSuccessed = true;
+		}
+		map.put("result", isSuccessed);
+		map.put("target", sendVO);
+		return map;
 	}	
 	
 }

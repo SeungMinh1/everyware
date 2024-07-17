@@ -19,15 +19,33 @@ public interface DocMapper {
 
 	// 기안 문서
 	public List<DocVO> draftDocList(int id);
+	public List<DocVO> goDraftDocList(int id);
+	public List<DocVO> rejDraftDocList(int id);
+	public List<DocVO> compDraftDocList(int id);
 
 	// 결재 문서
 	public List<DocVO> approvalDocList(int id);
+	public List<DocVO> goApprovalDocList(int id);
+	public List<DocVO> rejApprovalDocList(int id);
+	public List<DocVO> compApprovalDocList(int id);
 
 	// 발송 문서
 	public List<DocVO> sendDocList(int id);
+	public List<DocVO> waitSendDocList(int id);
+	public List<DocVO> recSendDocList(int id);
+	public List<DocVO> goSendDocList(int id);
+	public List<DocVO> compSendDocList(int id);
+	public List<DocVO> rejSendDocList(int id);
+	public List<DocVO> retSendDocList(int id);
 
 	// 수신 문서
 	public List<DocVO> receptionDocList(int id);
+	public List<DocVO> waitReceptionDocList(int id);
+	public List<DocVO> recReceptionDocList(int id);
+	public List<DocVO> goReceptionDocList(int id);
+	public List<DocVO> compReceptionDocList(int id);
+	public List<DocVO> rejReceptionDocList(int id);
+	public List<DocVO> retReceptionDocList(int id);
 
 	// 참조/열람 문서
 	public List<DocVO> refViewDocList(int id);

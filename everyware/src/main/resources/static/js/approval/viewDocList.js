@@ -2,19 +2,15 @@
  * viewDocList.js
  */
 $('#all').click(function() {
-	
+	location.href = '/refViewDocList'
 })
 
 $('#ref').click(function() {
-	
+	location.href = '/refDocList'
 })
 
 $('#view').click(function() {
-	
-})
-
-$('#down').click(function() {
-	
+	location.href = '/viewDocList'
 })
 
 $('.close').on('click', function() {

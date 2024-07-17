@@ -65,6 +65,30 @@ public class DocController {
 			return "approvalDoc/draftDocList";
 		}
 		
+		@GetMapping("goDraftDocList")
+		public String goDraftDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.goDraftDocList(id);
+			model.addAttribute("draftDocList", list);
+			return "approvalDoc/goDraftDocList";
+		}
+		
+		@GetMapping("rejDraftDocList")
+		public String rejDraftDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.rejDraftDocList(id);
+			model.addAttribute("draftDocList", list);
+			return "approvalDoc/rejDraftDocList";
+		}
+		
+		@GetMapping("compDraftDocList")
+		public String compDraftDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.compDraftDocList(id);
+			model.addAttribute("draftDocList", list);
+			return "approvalDoc/compDraftDocList";
+		}
+		
 		// 결재 문서
 		@GetMapping("approvalDocList")
 		public String approvalDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
@@ -72,6 +96,30 @@ public class DocController {
 			List<DocVO> list = docService.approvalDocList(id);
 			model.addAttribute("approvalDocList", list);
 			return "approvalDoc/approvalDocList";
+		}
+
+		@GetMapping("goApprovalDocList")
+		public String goApprovalDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.goApprovalDocList(id);
+			model.addAttribute("approvalDocList", list);
+			return "approvalDoc/goApprovalDocList";
+		}
+		
+		@GetMapping("rejApprovalDocList")
+		public String rejApprovalDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.rejApprovalDocList(id);
+			model.addAttribute("approvalDocList", list);
+			return "approvalDoc/rejApprovalDocList";
+		}
+		
+		@GetMapping("compApprovalDocList")
+		public String compApprovalDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.compApprovalDocList(id);
+			model.addAttribute("approvalDocList", list);
+			return "approvalDoc/compApprovalDocList";
 		}
 		
 		// 발송 문서
@@ -83,6 +131,54 @@ public class DocController {
 			return "approvalDoc/sendDocList";
 		}
 		
+		@GetMapping("waitSendDocList")
+		public String waitSendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.waitSendDocList(id);
+			model.addAttribute("sendDocList", list);
+			return "approvalDoc/waitSendDocList";
+		}
+		
+		@GetMapping("recSendDocList")
+		public String recSendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.recSendDocList(id);
+			model.addAttribute("sendDocList", list);
+			return "approvalDoc/recSendDocList";
+		}
+		
+		@GetMapping("goSendDocList")
+		public String goSendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.goSendDocList(id);
+			model.addAttribute("sendDocList", list);
+			return "approvalDoc/goSendDocList";
+		}
+		
+		@GetMapping("compSendDocList")
+		public String compSendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.compSendDocList(id);
+			model.addAttribute("sendDocList", list);
+			return "approvalDoc/compSendDocList";
+		}
+		
+		@GetMapping("rejSendDocList")
+		public String rejSendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.rejSendDocList(id);
+			model.addAttribute("sendDocList", list);
+			return "approvalDoc/rejSendDocList";
+		}
+		
+		@GetMapping("retSendDocList")
+		public String retSendDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.retSendDocList(id);
+			model.addAttribute("sendDocList", list);
+			return "approvalDoc/retSendDocList";
+		}
+		
 		// 수신 문서
 		@GetMapping("receptionDocList")
 		public String receptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
@@ -90,6 +186,54 @@ public class DocController {
 			List<DocVO> list = docService.receptionDocList(id);
 			model.addAttribute("receptionDocList", list);
 			return "approvalDoc/receptionDocList";
+		}
+		
+		@GetMapping("waitReceptionDocList")
+		public String waitReceptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.waitReceptionDocList(id);
+			model.addAttribute("receptionDocList", list);
+			return "approvalDoc/waitReceptionDocList";
+		}
+		
+		@GetMapping("recReceptionDocList")
+		public String recReceptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.recReceptionDocList(id);
+			model.addAttribute("receptionDocList", list);
+			return "approvalDoc/recReceptionDocList";
+		}
+		
+		@GetMapping("goReceptionDocList")
+		public String goReceptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.goReceptionDocList(id);
+			model.addAttribute("receptionDocList", list);
+			return "approvalDoc/goReceptionDocList";
+		}
+		
+		@GetMapping("compReceptionDocList")
+		public String compReceptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.compReceptionDocList(id);
+			model.addAttribute("receptionDocList", list);
+			return "approvalDoc/compReceptionDocList";
+		}
+		
+		@GetMapping("rejReceptionDocList")
+		public String rejReceptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.rejReceptionDocList(id);
+			model.addAttribute("receptionDocList", list);
+			return "approvalDoc/rejReceptionDocList";
+		}
+		
+		@GetMapping("retReceptionDocList")
+		public String retReceptionDocList(Model model, EmpVO empVO, @AuthenticationPrincipal LoginUserVO principal) {
+			int id = principal.getUserVO().getEmpId();
+			List<DocVO> list = docService.retReceptionDocList(id);
+			model.addAttribute("receptionDocList", list);
+			return "approvalDoc/retReceptionDocList";
 		}
 		
 		// 참조/열람 문서

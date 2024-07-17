@@ -67,7 +67,7 @@
 }
 
 .inputBox{
-	border: 0px solid rgb(0, 0, 0); border-image: none; width: 800px; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 10px; border-collapse: collapse;
+	border: 0px solid rgb(0, 0, 0); border-image: none; width: 790px; font-family: malgun gothic,dotum,arial,tahoma; margin-top: 10px; border-collapse: collapse; margin-left: 10px;
 }
 
 .inputDate{

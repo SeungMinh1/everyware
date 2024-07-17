@@ -2,23 +2,19 @@
  * draftDocList.js
  */
 $('#all').click(function() {
-	
+	location.href = '/draftDocList'
 })
 
 $('#prog').click(function() {
-	
+	location.href = '/goDraftDocList'
 })
 
 $('#comp').click(function() {
-	
+	location.href = '/compDraftDocList'
 })
 
 $('#rej').click(function() {
-	
-})
-
-$('#down').click(function() {
-	
+	location.href = '/rejDraftDocList'
 })
 
 $('.close').on('click', function() {

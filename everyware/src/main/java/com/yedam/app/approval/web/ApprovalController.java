@@ -118,5 +118,29 @@ public class ApprovalController {
 		return approvalService.sendUpdate(sendVO);
 	}
 	
+	// 반송
+	@PostMapping("receptionReturn")
+	@ResponseBody
+	public Map<String, Object> receptionReturn(@RequestBody ReceptionVO receptionVO) {
+		return approvalService.receptionReturn(receptionVO);
+	}
 	
+	@PostMapping("sendReturn")
+	@ResponseBody
+	public Map<String, Object> sendReturn(@RequestBody SendVO sendVO) {
+		return approvalService.sendReturn(sendVO);
+	}
+	
+	// 접수취소
+	@PostMapping("receptionCancel")
+	@ResponseBody
+	public Map<String, Object> receptionCancel(@RequestBody ReceptionVO receptionVO) {
+		return approvalService.receptionCancel(receptionVO);
+	}
+	
+	@PostMapping("sendCancel")
+	@ResponseBody
+	public Map<String, Object> sendCancel(@RequestBody SendVO sendVO) {
+		return approvalService.sendCancel(sendVO);
+	}
 }
