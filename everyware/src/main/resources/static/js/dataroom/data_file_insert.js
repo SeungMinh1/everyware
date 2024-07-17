@@ -132,6 +132,7 @@ $('.insertBtn').on('click', function(){
 				.done(result=>{
 					if(result){
 						alert('등록되었습니다.');
+						window.location.reload();
 					}
 					console.log(result);
 					modalEmpty();

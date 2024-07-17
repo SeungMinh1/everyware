@@ -128,17 +128,17 @@
   	//두번째 직원표 클릭 이벤트
   	function clickEmp(){
 		$(".squadAddEmp").click(function(e){
-		
-		
-		let empId = $(e.target).closest('tr').attr('data-empId') ;
-		let empName = $(e.target).text();
-		let squadNum = $(".empTr").attr("data-squadno");
-		let tableHtml ='<span data-empId="'+ empId + '">'+ empName +' x</span>';
-		
-		if(squadNum == null){
-			alert('조를 선택하여 주세요')
-			return;
-		}
+			
+			
+			let empId = $(e.target).closest('tr').attr('data-empId') ;
+			let empName = $(e.target).text();
+			let squadNum = $(".empTr").attr("data-squadno");
+			let tableHtml ='<span data-empId="'+ empId + '">'+ empName +' x</span>';
+			
+			if(squadNum == null){
+				alert('조를 선택하여 주세요')
+				return;
+			}
 		empCount += 1;
 
 		checkedEmp.push(empId)
