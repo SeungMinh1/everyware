@@ -116,13 +116,13 @@ public class MailServiceImpl implements MailService {
 			dataFileMapper.updateMailGroupId(mailVO);
 		}
 		for(String recip: mailVO.getRecipList()) { 
-			recips += recip + "　";
+			recips += recip + ", ";
 		}
 		mailVO.setRecipient(recips);
 
 		String ccs = "";
 		for(String cc: mailVO.getCcList()) {
-			ccs += cc + "　";
+			ccs += cc + ", ";
 		}
 		mailVO.setCc(ccs);
 		

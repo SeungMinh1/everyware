@@ -9,11 +9,11 @@ $(function () {
 
     function checkExtentsion(fileName, fileSize){
         if (fileSize >= maxSize){
-            alert("파일 사이즈 초과");
+            Swal.fire("파일 사이즈가 초과되었습니다.(최대 10MB)");
             return false;
         }
         if (regex.test(fileName)){
-            alert("해당 종류의 파일은 업로드할 수 없습니다.")
+			Swal.fire("해당 종류의 파일은 업로드할 수 없습니다.");
             return false;
         }
         return true;
@@ -40,7 +40,7 @@ function uploadFile(){
 					return false;
 				}
 				if(files[i].type.indexOf('audio') != -1){
-					alert("오디오 파일이 포함되어 있습니다.")
+					Swal.fire('오디오 파일이 포함되어 있습니다.');
 					return false;
 				}
 				formData.append("uploadFile", files[i]);
@@ -130,21 +130,24 @@ $('.insertBtn').on('click', function(){
 				data : JSON.stringify(insertData)
 				})
 				.done(result=>{
-					if(result){
-						alert('등록되었습니다.');
-						window.location.reload();
-					}
-					console.log(result);
-					modalEmpty();
-					
+					Swal.fire({
+						title: '성공적으로 파일이 등록되었습니다.',
+						icon: "success"
+					})
+					.then((result)=>{
+						if (result.isConfirmed) {
+							window.location.reload();
+							modalEmpty();
+						}
+					});
 				})
 				.fail(err=>console.log(err));
 			} else{
-				alert('제목을 입력해주세요.');
+			    Swal.fire('제목을 입력해주세요.');				
 			}
 			
 		}else{
-			alert('업로드 할 파일을 선택해주세요.');
+			Swal.fire('업로드 할 파일을 선택해주세요.');
 		}
 		
 	})	
