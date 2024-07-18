@@ -59,7 +59,7 @@
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                  	<td><input type="checkbox" id="allChk" name="allChk"></td>
+                  	
                     <th>기안일</th>
                     <th>결재양식</th>
                     <th>제목</th>
@@ -71,10 +71,10 @@
                   <tbody>
  				  <th:block th:each="Doc : ${draftDocList}">
 	                  <tr>
-	                  	<td><input type="checkbox" th:field="*{draftDocList}" th:value="${Doc.docId}"></td>
-	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
+	                  	
+	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy-MM-dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
-	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
+	                    <td th:style="${'cursor:pointer'}" th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
 	                    <td>[[ ${Doc.docId} ]]</td>
 	                    <td>[[ ${Doc.approvalStatus} ]]</td>

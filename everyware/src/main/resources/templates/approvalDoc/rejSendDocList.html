@@ -62,27 +62,29 @@
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                  	<td><input type="checkbox" id="allChk" name="allChk"></td>
+                  	
                     <th>기안일</th>
                     <th>완료일</th>
                     <th>결재양식</th>
                     <th>제목</th>
                     <th>첨부</th>
                     <th>발송일</th>
+                    <th>접수상태</th>
                     <th>결재상태</th>
                   </tr>
                   </thead>
                   <tbody>
  				  <th:block th:each="Doc : ${sendDocList}">
 	                  <tr>
-	                  	<td><input type="checkbox" th:field="*{sendDocList}" th:value="${Doc.docId}"></td>
-	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
-	                    <td>[[ ${ #dates.format(Doc.completeDate, 'yyyy/MM/dd') } ]]</td>
+	                  	
+	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy-MM-dd') } ]]</td>
+	                    <td>[[ ${ #dates.format(Doc.completeDate, 'yyyy-MM-dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
-	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
+	                    <td th:style="${'cursor:pointer'}" th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
-	                    <td>[[ ${ #dates.format(Doc.sendDate, 'yyyy/MM/dd') } ]]</td>
+	                    <td>[[ ${ #dates.format(Doc.sendDate, 'yyyy-MM-dd') } ]]</td>
 	                    <td>[[ ${Doc.sendStatus} ]]</td>
+	                    <td>[[ ${Doc.approvalStatus} ]]</td>
 	                  </tr>
                   </th:block>
                   </tbody>

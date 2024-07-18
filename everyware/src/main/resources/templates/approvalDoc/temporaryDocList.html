@@ -19,6 +19,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -68,9 +70,9 @@
  				  <th:block th:each="Doc : ${temporaryDocList}">
 	                  <tr>
 	                  	<td><input type="checkbox" class="chk" th:field="*{temporaryDocList}" th:value="${Doc.docId}"></td>
-	                    <td>[[ ${ #dates.format(Doc.createDate, 'yyyy/MM/dd') } ]]</td>            
+	                    <td>[[ ${ #dates.format(Doc.createDate, 'yyyy-MM-dd') } ]]</td>            
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
-	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
+	                    <td th:style="${'cursor:pointer'}" th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
 	                    <td>[[ ${Doc.approvalStatus} ]]</td>
 	                  </tr>
