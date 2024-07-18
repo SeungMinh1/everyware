@@ -592,7 +592,7 @@ $('#lineView').droppable({
 		}
 	});
 
-$('#container').droppable({accept: $('.nested li')})
+$('body').droppable({accept: $('.nested li')})
 
 function deleteBtn() {
 	$('.delete').on('click', function(e) {
