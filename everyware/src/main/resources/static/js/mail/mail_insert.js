@@ -69,10 +69,13 @@ $(function () {
 		})
 		.done(result=>{
 			if(result){
-				Swal.fire('메일을 성공적으로 발송하였습니다.');
-				//성공시 받은메일함으로
-				let url = '/mailboxInfo?mailboxId=d2';
-				location.href=url;
+				Swal.fire({
+					title: '메일을 성공적으로 발송하였습니다.'
+				})
+				.then((result)=>{
+						let url = '/mailboxInfo?mailboxId=d2';
+						location.href=url;
+				});
 			}
 			console.log(result);
 		})
@@ -110,10 +113,8 @@ $(function () {
 					title: '메일을 임시보관함에 저장하였습니다.'
 				})
 				.then((result)=>{
-					if (result.isConfirmed) {
-						let url = '/mailboxInfo?mailboxId=d3';
-						location.href=url;
-					}
+					let url = '/mailboxInfo?mailboxId=d3';
+					location.href=url;
 				});
 			}
 		})

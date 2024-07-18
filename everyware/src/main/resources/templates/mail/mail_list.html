@@ -153,7 +153,13 @@
                   		<th:block th:if = "${#strings.equals(param.mailboxId, 'd1')}">
                   			<th>보낸사람</th>
                   		</th:block>
-                  		<th:block th:unless = "${#strings.equals(param.mailboxId, 'd1')}">
+                  		<th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">
+                  			<th>보낸사람</th>
+                  		</th:block>
+                  		<th:block th:if = "${#strings.equals(param.mailboxId, 'd2')}">
+                  			<th>받는사람</th>
+                  		</th:block>
+                  		<th:block th:if = "${#strings.equals(param.mailboxId, 'd3')}">
                   			<th>받는사람</th>
                   		</th:block>
                   		<th>제목</th>
@@ -177,7 +183,18 @@
 	                   <th:block th:if = "${#strings.equals(param.mailboxId, 'd1')}">
                   			<td class="mailbox-name">[[ ${in.sender} ]]</td>
                   		</th:block>
-                  		<th:block th:unless="${#strings.equals(param.mailboxId, 'd1')}">
+                  		<th:block th:if = "${#strings.equals(param.mailboxId, 'd5')}">
+                  			<td class="mailbox-name">[[ ${in.sender} ]]</td>
+                  		</th:block>
+                  		<th:block th:if="${#strings.equals(param.mailboxId, 'd2')}">
+						  <th:block th:if="${#lists.isEmpty(in.recipient)}">
+						    <td class="mailbox-name">(받는사람 없음)</td>
+						  </th:block>
+						  <th:block th:unless="${#lists.isEmpty(in.recipient)}">
+						    <td class="mailbox-name" th:text="${#strings.arraySplit(in.recipient, ', ')[0]}"></td>
+						  </th:block>
+						</th:block>
+						<th:block th:if="${#strings.equals(param.mailboxId, 'd3')}">
 						  <th:block th:if="${#lists.isEmpty(in.recipient)}">
 						    <td class="mailbox-name">(받는사람 없음)</td>
 						  </th:block>
