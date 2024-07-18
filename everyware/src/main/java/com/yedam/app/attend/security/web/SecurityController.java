@@ -24,7 +24,7 @@ public class SecurityController {
 		return "emp/login";
 	}
 	
-	@PostMapping("logo")
+	@GetMapping("logo")
 	public FileVO mainLogo() {
 		return userService.selectLogo();
 	}

@@ -78,8 +78,7 @@
 	function logo(){
 		
 		$.ajax('logo',{
-			type: 'post',
-			contentType : 'application/JSON',
+			type: 'get',
 		})
 		.done(photo=>{
 			
@@ -91,7 +90,6 @@
 					+ ' style="width:200px; height:200px" alt="로고"></img>';
 					
 			$('#mainlogo').append(html);
-			console.log('d');
 			
 		})
 		.fail(err=>console.log(err));
