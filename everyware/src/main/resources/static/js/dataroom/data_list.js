@@ -206,7 +206,7 @@ $(document).ready(function() {
 		
 		$('.folderDelete').on('click', function(){
 			Swal.fire({
-			  text: "폴더가 완전히 삭제됩니다. 삭제하시겠습니까?",
+			  title:  "폴더가 완전히 삭제됩니다. 삭제하시겠습니까?",
 			  icon: "warning",
 			  showCancelButton: true,
 			  confirmButtonColor: "#3085d6",

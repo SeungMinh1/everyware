@@ -22,15 +22,21 @@ $(function () {
             })
             .done(result=>{
 				if(result){
-					alert('휴지통으로 이동되었습니다.')
-					window.location.reload();
-				}else{
+					Swal.fire({
+						title: '휴지통으로 이동되었습니다.'
+					})
+					.then((result)=>{
+						if (result.isConfirmed) {
+							window.location.reload();
+						}
+					});
+				}else {
 					alert("이동되지 않았습니다. \n 데이터를 확인해주세요.")
 				}
 				console.log(result);
 			})
         } else {
-            alert('선택된 항목이 없습니다.');
+            Swal.fire('선택된 항목이 없습니다.');
         }
       });
   	/*===================
@@ -47,9 +53,15 @@ $(function () {
             })
             .done(result=>{
 				if(result){
-					alert('휴지통으로 이동되었습니다.')
-					let url = '/mailboxInfo?mailboxId=d1';
-					location.href=url;
+					Swal.fire({
+						title: '휴지통으로 이동되었습니다.'
+					})
+					.then((result)=>{
+						if (result.isConfirmed) {
+							let url = '/mailboxInfo?mailboxId=d1';
+							location.href=url;
+						}
+					});
 				}else{
 					alert("휴지통으로 이동되지 않았습니다. \n 데이터를 확인해주세요.")
 				}
@@ -66,36 +78,63 @@ $(function () {
         $('.oneCheckbox:checked').each(function() {
             selectedMailIds.push($(this).val());
         });
-		console.log(selectedMailIds);
+        
         if (selectedMailIds.length > 0) {
-            $.ajax({
-            	url: 'mailDelete',
-            	type : 'post',
-                data: JSON.stringify(selectedMailIds),
-                contentType: 'application/json',
-            })
-            .done(result=>{
-				if(result){
-					alert('삭제되었습니다.')
-					window.location.reload();
-				}else{
-					alert("이동되지 않았습니다. \n 데이터를 확인해주세요.")
+            Swal.fire({
+			  title: "선택된 자료가 완전히 삭제됩니다. 삭제하시겠습니까?",
+			  icon: "warning",
+			  showCancelButton: true,
+			  confirmButtonColor: "#3085d6",
+			  cancelButtonColor: "#d33",
+			  confirmButtonText: "확인",
+			  cancelButtonText: "취소"
+			}).then((result) => {
+				//삭제버튼 클릭시 실행
+				if (result.isConfirmed) {
+					mailDelete(selectedMailIds);	 
+				//취소버튼 클릭시 실행	
+			    } else {
+				    result.dismiss === Swal.DismissReason.cancel
 				}
-				console.log(result);
-			})
+			});//Swal.fire .then ==============
         } else {
-            alert('선택된 항목이 없습니다.');
+            Swal.fire('선택된 항목이 없습니다.');
         }
       });
+      
+  function mailDelete(selectedMailIds){
+		$.ajax({
+        	url: 'mailDelete',
+        	type : 'post',
+            data: JSON.stringify(selectedMailIds),
+            contentType: 'application/json',
+        })
+        .done(result=>{
+			if(result){
+				Swal.fire({
+					title: '정상적으로 삭제되었습니다.'
+				})
+				.then((result)=>{
+					if (result.isConfirmed) {
+						window.location.reload();
+					}
+				});
+			}else{
+				Swal.fire("삭제되지 않았습니다.");
+			}
+			console.log(result);
+		})
+  }
+  			
     /*==================
 	    완전 삭제 (단건)
 	===================*/
 	$('.deleteInfoBtn').on('click', function(){
 		console.log('휴지통'+ mailId);
-		alert('삭제되었습니다.')
+		Swal.fire('삭제되었습니다.');
 	});
 	
-  /*===================
+  /*======================
 	    휴지통에서 복구(여러개)
 	=====================*/
     $('.moveRestoreBtn').on('click', function() {
@@ -117,15 +156,21 @@ $(function () {
             })
             .done(result=>{
 				if(result){
-					alert('복구')
-					window.location.reload();
+					Swal.fire({
+					title: '정상적으로 복구되었습니다.'
+					})
+					.then((result)=>{
+						if (result.isConfirmed) {
+							window.location.reload();
+						}
+					});
 				}else{
-					alert("복구되지 않았습니다. \n 데이터를 확인해주세요.")
+					Swal.fire("복구되지 않았습니다.")
 				}
 				console.log(result);
 			})
         } else {
-            alert('선택된 항목이 없습니다.');
+            Swal.fire('선택된 항목이 없습니다.');
         }
       });
 });

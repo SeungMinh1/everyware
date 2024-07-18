@@ -12,7 +12,7 @@
 		
 	   if (selectedDataIds.length > 0) {
 			Swal.fire({
-			  text: "선택된 자료가 완전히 삭제됩니다. 삭제하시겠습니까?",
+			  title: "선택된 자료가 완전히 삭제됩니다. 삭제하시겠습니까?",
 			  icon: "warning",
 			  showCancelButton: true,
 			  confirmButtonColor: "#3085d6",
@@ -29,7 +29,7 @@
 				}
 			});//Swal.fire .then ==============
 		} else {
-		    alert('선택된 항목이 없습니다.');
+			Swal.fire('선택된 항목이 없습니다.');
 		}
         
 
@@ -58,13 +58,13 @@ function deleteDataFileAjax(selectedDataIds){
 	                swalSuccess();
 				    dataList(1, 'common', '공통', '공통자료실');
 	            } else {
-	                alert("삭제되지 않았습니다.");
+					Swal.fire("삭제되지 않았습니다.");
 	            }
 	            console.log(dataResult);
 	        });
 	    //삭제 실패
 	    } else {
-	        alert("삭제되지 않았습니다.");
+			Swal.fire("삭제되지 않았습니다.");
 	    }
 	    console.log(fileResult);
 	});
