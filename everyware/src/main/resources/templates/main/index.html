@@ -146,16 +146,13 @@
 	        </div>
 	    </div>
 	</div>
+	
+	
         <section class="col-lg-5 ">
-            <!-- Custom tabs (Charts with tabs)-->
-
-
             <!-- DIRECT CHAT -->
             <div class="card direct-chat direct-chat-primary">
               <div class="card-header">
                 <h3 class="card-title">메일</h3>
-
- 
               </div>
               <!-- /.card-header -->
 
@@ -172,8 +169,7 @@
               <div class="card-body" id="mailSec">
 
                 <ul class="todo-list" data-widget="todo-list">
-                
-	                  <li th:if="${mailboxInfo}== null or ${mailboxInfo} == ''">
+	                  <li th:if="${#lists.size(mailboxInfo) == 0}">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -191,7 +187,7 @@
 	                    </div>
 	                  </li>
 	                  
-               	<th:block th:unless="${mailboxInfo}== null or ${mailboxInfo} == ''" >
+               	<th:block th:unless="${#lists.size(mailboxInfo) == 0}" >
                	
 	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|" th:each="num : ${mailboxInfo}" th:style="${'cursor: pointer'}">
 	                    <!-- drag handle -->
@@ -219,18 +215,67 @@
               </div>
 
             </div>
+            
+            
+            
+
+            
             <!-- /.card -->
             </div>
-          </section>
-        
-        
-        
-        
-        
-        
-        
-        
+            
 
+            
+          </section>
+    	
+    	
+    	  <section class="col-lg-5" style="height:400px">
+			            <!-- DIRECT CHAT -->
+            <div class="card direct-chat direct-chat-primary" style="height:400px">
+              <div class="card-header" >
+                <h3 class="card-title">공지 게시판</h3>
+              </div>
+              <!-- /.card-header -->
+
+
+            <!-- TO DO List -->
+            <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+				<table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th style="width:100px; text-align:center;">글 번호</th>
+                      <th style="text-align: center">게시글 제목</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                 	<th:block th:each="list : ${postUpMain}">
+                    <tr>
+                      <td>[[ ${list.postId} ]]</td>
+                      <td>
+                      <!--/*<a th:href="@{list()}"></a>  */-->
+                      <a th:href="@{postInfo(postId=${list.postId})}">
+                       [[ ${list.title} ]]
+                      </a>
+                        
+                      </td><!-- content에 글자수 제한 걸기 기능을 넣기 -->
+                    </tr>
+                    </th:block>     
+                  </tbody>
+                </table>
+               
+              </div>
+
+            </div>
+            <!-- /.card -->
+            </div>
+            
+
+          </section>
+    	
+    	  
+    
          
          
         </div>
@@ -362,16 +407,65 @@
             </div>
             <!-- /.card -->
             </div>
+
+          </section>
           
+          
+          <section class="col-lg-5" style="height:400px">
+			            <!-- DIRECT CHAT -->
+            <div class="card direct-chat direct-chat-primary" style="height:400px">
+              <div class="card-header" >
+                <h3 class="card-title">[[${#authentication.principal.userVO.departmentName}]]팀 게시판</h3>
+              </div>
+              <!-- /.card-header -->
 
 
+            <!-- TO DO List -->
+            <div class="card">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+				<table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>제목</th>
+                      <th>작성자</th>
+                      <th>조회수</th>
+                      <th>추천수</th>
+                    </tr>
+                  </thead>
+                   <tbody id="noticeList" th:fragment="noticeList">
+                    <tr th:each= "list : ${postMain}">
+                      <td>[[${list.postId}]]</td>
+                      <td>
+                      <a th:href="@{postInfo(postId=${list.postId})}">
+                       [[ ${list.title} ]]
+                      </a>
+                      </td>
+                      <td>[[${list.empName}]]</td>
+                      <td>[[${list.viewCnt}]]</td>
+                      <td>[[${list.recommendCnt}]]</td>
+                    </tr >
+                  </tbody>
+                </table>
+               
+              </div>
+
+            </div>
+            <!-- /.card -->
+            </div>
+            
 
           </section>
           
          
-          
 
         </div>
+        <!-- ---------------------------------- -->
+
+       
+        
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
     </section>

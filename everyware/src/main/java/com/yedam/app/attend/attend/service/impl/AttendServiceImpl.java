@@ -35,7 +35,13 @@ public class AttendServiceImpl implements AttendService {
 				int extratime = (attendVO.getWorkTime() - 540); // 9*60
 				attendVO.setExceedWorkTime(extratime);
 			}
-			
+		}else {
+			if(attendVO.getWorkTime() < (12*60) ) {
+				attendVO.setExceedWorkTime(0);
+			}else {
+				int extratime = (attendVO.getWorkTime() - 720); 
+				attendVO.setExceedWorkTime(extratime);
+			}
 		}
 		return attendMapper.endworkExWork(attendVO);
 	}

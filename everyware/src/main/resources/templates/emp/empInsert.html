@@ -191,22 +191,22 @@
 
 	
 	
-	$('#insertBtn').on('click',  empInsertfunc);
+	$('#insertBtn').on('click',  insertbtn);
 	
 	function empInsertfunc(){
 		
-		if($('#check').val() != 'c'){
-			alert('아이디 중복체크 하세요');
-		}else if($('#empName').val() == null || $('#empName').val() == ''){
-			alert('이름을 입력하여 주세요');
+   		if($('#empName').val() == null || $('#empName').val() == ''){
+			Swal.fire("이름을 입력하여 주세요");
 		}else if($('#tel').val() == null || $('#tel').val() == ''){
-			alert('전화번호를 입력하여 주세요');
+			Swal.fire("전화번호를 입력하여 주세요");
 		}else if($('#mail').val() == null || $('#mail').val() == ''){
-			alert('이메일을 입력하여 주세요');
+			Swal.fire("이메일을 입력하여 주세요");
 		}else if($('#hireDate').val() == null || $('#hireDate').val() == ''){
-			alert('입사일을 입력하여 주세요');
+			Swal.fire("입사일을 입력하여 주세요");
+		}else if($('#check').val() != 'c'){
+			Swal.fire("아이디 중복체크 하세요");
 		}else if($('#password').val() == null || $('#password').val() == ''){
-			alert('비밀번호를 입력하여 주세요');
+			Swal.fire("비밀번호를 입력하여 주세요");
 		}
 		else{
 			
@@ -260,9 +260,9 @@
 		})
 		.done(result=>{
 				if(result > 0){
-					alert('사용 불가능한 아이디')
+					Swal.fire("사용 불가능한 아이디입니다.");
 				}else{
-					alert('사용 가능')
+					Swal.fire("사용 가능한 아이디입니다.");
 					$("input[name='check']").val('c');
 					
 				}
@@ -271,7 +271,28 @@
 		.fail(err=>console.log(err));	
 	}
 	
+
 	
+	  function insertbtn(){
+			 Swal.fire({
+			  title: "등록하시겠습니까?",
+			  icon: "question",
+			  showCancelButton: true,
+			  confirmButtonColor: "#3085d6",
+			  cancelButtonColor: "#d33",
+			  confirmButtonText: "확인",
+			  cancelButtonText: "취소"
+			 }).then((result) => {
+			 //버튼 클릭시 실행
+			 if (result.isConfirmed) {
+				 empInsertfunc(); 
+			 //취소버튼 클릭시 실행	
+			    } else {
+			    result.dismiss === Swal.DismissReason.cancel
+			 }
+			 });//Swal.fire .then ==============
+			 
+		}
 </script>
 
 </body>
