@@ -3,6 +3,8 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{common/layouts/default_layout}"
 	  layout:fragment="content">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>	  
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -130,12 +132,16 @@
 				<input type="text" class="form-control mb-1" id="sender" th:field="*{draft.sender}" readonly>
                 <div>
                   <label class="mailLabel" for="exampleInputEmail1">받는사람</label>
-				  <span style="float:right;"><button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient">주소록</button></span>
+				  <span style="float:right;">
+				  <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch(1)">주소록</button></span>
 				</div>
      			<input class="mb-1" type="email"  id="recipient" name="recipient" th:field="*{draft.recipient}">
  				<div>
 	                <label class="mailLabel" for="exampleInputEmail1">참조</label>
-	                <span style="float:right;"><button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient">주소록</button></span>
+	                <span style="float:right;">
+	                <button class="btn btn-outline-secondary rounded-0 btn-sm" type="button" id="recipient"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="addressSearch(1)">주소록</button></span>
                 </div>
 				<input type="email" id="cc" name="cc" th:field="*{draft.cc}">
 
@@ -170,6 +176,58 @@
     </section>
     <!-- /.content -->
   </div>
+  <!-- ===================
+    	     modal
+    ========================-->
+	<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-lg modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">주소록</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+			  <div class="modalDiv">
+			    <div class="form-group">
+			      <div class="input-group input-group-sm">
+			        <select class="form-select-sm" id="searchType">
+			          <option>전체</option>
+			          <option value="name">이름</option>
+			          <option value="department">부서</option>
+			        </select>
+			        <input type="search" class="form-control-sm" id="searchKeyword" placeholder="검색">
+			        <div class="input-group-append">
+			          <button type="submit" class="btn btn-primary" onclick="addressSearch(1)">
+			            <i class="fa fa-search"></i>
+			          </button>
+			        </div>
+			      </div>
+			    </div>
+			
+			    <table class="table">
+			      <thead>
+			        <tr>	
+			          <th></th>
+			          <th>이름</th>
+			          <th>이메일</th>
+			          <th>부서</th>
+			        </tr>
+			      </thead>
+			      <tbody id="tbody"></tbody>
+			    </table>
+			    <nav aria-label="Page navigation example">
+			      <ul class="pagination justify-content-center addressUl" id="pagination"></ul>
+			    </nav>
+			  </div>
+			</div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary addressInRecipBtn">받는사람 추가</button>
+	        <button type="button" class="btn btn-primary addressInCCBtn">참조 추가</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
