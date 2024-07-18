@@ -10,7 +10,7 @@ public interface UserMapper {
 	
 	public UserVO selectUser(String id);
 	
-	public FileVO mainLogo();
+	
 	
 	
 }

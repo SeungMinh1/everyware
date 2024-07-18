@@ -65,5 +65,20 @@
 	</delete>
 	
 	
+		
+	<select id="mainLogo" resultType="FileVO">
+		SELECT 	file_id
+			, attachment_group_id
+			, file_type
+			, origin_file_name
+			, upload_file_name
+			, upload_path
+			, ext
+			, file_size
+			, emp_id
+		FROM attachment
+		WHERE file_id = 1015
+	</select>
+	
 
 </mapper>

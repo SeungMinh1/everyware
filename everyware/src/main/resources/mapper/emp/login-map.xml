@@ -25,12 +25,7 @@
         WHERE a.account_id = #{id}
 	
 	</select>
-	
-	<select id="mainLogo" resultType="FileVO">
-		SELECT *
-		FROM attachment
-		WHERE file_id = 1015
-	</select>
+
 
 
 

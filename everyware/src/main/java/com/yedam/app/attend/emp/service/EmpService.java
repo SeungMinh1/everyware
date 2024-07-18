@@ -33,6 +33,7 @@ public interface EmpService {
 	
 	//리스트 개수
 	public int cntList(String dosearch, String searchOption);
+	public int cntList2();
 	
 	//생산팀 사원 출력
 	public List<EmpVO> prodEmpList();

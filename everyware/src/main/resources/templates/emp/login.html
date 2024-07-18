@@ -28,6 +28,7 @@
   <div class="card" style="width:500px; height:400px;">
     <div class="card-body login-card-body" style="padding:30px;">
       <div class="login-logo" id="mainlogo">
+      	<p><b>로그인</b></p>
   	  </div>	
       <p class="login-box-msg"></p>
 		
@@ -72,22 +73,6 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 
-<script>
-	$(document).ready(logo);
-	
-	function logo(){
-		
-		$.ajax('logo',{
-			type: 'get',
-		})
-		.done(photo=>{
-			console.log(photo)
-			
-			
-		})
-		.fail(err=>console.log(err));
-	}
 
-</script>
 </body>
 </html>

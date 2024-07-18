@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.yedam.app.attach.service.FileVO;
-import com.yedam.app.attend.security.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,8 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityController {
 	
-	@Autowired
-	UserService userService;
+
 	
 	@GetMapping("login")
 	public String login(String errorMessage, Model model) {
@@ -24,9 +22,5 @@ public class SecurityController {
 		return "emp/login";
 	}
 	
-	@GetMapping("logo")
-	public FileVO mainLogo() {
-		return userService.selectLogo();
-	}
 
 }

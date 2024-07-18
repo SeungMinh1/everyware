@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.app.attach.service.FileVO;
 import com.yedam.app.attend.gps.service.GpsService;
 import com.yedam.app.attend.gps.service.GpsVO;
 
@@ -82,6 +83,11 @@ public class GpsController {
 	public String deleteGps(@RequestBody GpsVO gpsVO) {
 		gpsService.deleteGps(gpsVO);
 		return "redirect:gpsList";
+	}
+	
+	@GetMapping("logo")
+	public FileVO selectLogo() {
+		return gpsService.selectLogo();
 	}
 
 }

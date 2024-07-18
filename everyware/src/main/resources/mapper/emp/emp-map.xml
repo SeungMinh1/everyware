@@ -207,6 +207,12 @@
 		FROM account
 		WHERE account_id = #{accountId}
 	</select>
+	
+	<select id="countList2" resultType="int">
+		SELECT count(*)
+		FROM emp 
+		
+	</select>
 	 
 	
 </mapper>
