@@ -88,7 +88,7 @@
 						<tbody th:fragment="calList" id="empCalList">
 							<th:block   th:each = "box : ${empIdBox}">
 								<tr >
-									<td class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
+									<td style="cursor:pointer"class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -736,7 +736,11 @@
 					applyShare(calBoxId)
 					console.log(calBoxId)
 				}else{
-					alert('이미 공유신청한 일정입니다')
+					$(document).Toasts('create', {
+				        class: 'bg-danger',
+				        title: '일정공유',
+				        body: '이미 공유신청한 일정입니다.'
+				      })
 				}
 			})
 			.fail(function(err){
@@ -757,7 +761,12 @@
 			
 		})
 		.done(function(res){
-			alert('공유신청 하였습니다.')
+			$(document).Toasts('create', {
+		        class: 'bg-success',
+		        title: '일정공유',
+		        body: '공유신청 하였습니다.'
+		      })
+
 		})
 	}
 	
