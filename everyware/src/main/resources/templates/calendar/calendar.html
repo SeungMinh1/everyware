@@ -88,7 +88,9 @@
 						<tbody th:fragment="calList" id="empCalList">
 							<th:block   th:each = "box : ${empIdBox}">
 								<tr >
-									<td style="cursor:pointer"class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
+									<th:block th:if="${box.publicYn == 1}">
+										<td style="cursor:pointer"class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
+									</th:block>
 								</tr>
 							</th:block>
 						</tbody>
@@ -172,7 +174,7 @@
 					  			</th:block>
 					  		</tbody>
 					  	</table>
-					  	<div class="row" style="position:absolute;top:80%;text-align:center">
+					  	<div class="row" style="position:absolute;top:80%;left:35%">
 					  	<div >
 					  		<button id ="calSetDel" class="btn btn-del">삭제</button>
 					  		<button id="calSetBtn" class="btn btn-success">변경</button>
@@ -298,58 +300,61 @@
 	const calSetcancel =$('#calSetcancel');
 	const calSetDel = $('#calSetDel');
 	
-	
+	checkClick();
 	
 	
 	const pallete = $(".pallete");
 	
-	
+	//체크버튼 클릭이벤트
+	function checkClick(){
+		//일정 조회 여부버튼
+		$(".calCheck").click(function(event){
+			let expressYn = $(event.target).is(':checked') ? 1 : 0;
+			let boxId = $(event.target).closest('tr').attr('data-boxId')
+			
 
-	
-	$(".calCheck").click(function(event){
-		let expressYn = $(event.target).is(':checked') ? 1 : 0;
-		let boxId = $(event.target).closest('tr').attr('data-boxId')
+
+			$.ajax({
+				url: '/changeExpress',
+				type: 'POST',	
+				dataType: 'json',
+				data: {
+					calendarBoxId : boxId,
+					expressionYn : expressYn
+				},
+				success: function(data) {
+					makeCal();
+					calendar.render();
+
+				}
+			});
+		})
 		
+		//관심일정 조회여부버튼
+		$(".sharedCalCheck").click(function(event){
+			let expressYn = $(event.target).is(':checked') ? 1 : 0;
+			let boxId = $(event.target).closest('tr').attr('data-boxId')
+			
+			console.log(boxId, expressYn);
 
 
-		$.ajax({
-			url: '/changeExpress',
-			type: 'POST',	
-			dataType: 'json',
-			data: {
-				calendarBoxId : boxId,
-				expressionYn : expressYn
-			},
-			success: function(data) {
-				makeCal();
-				calendar.render();
+			$.ajax({
+				url: '/changeSharedExpress',
+				type: 'POST',	
+				dataType: 'json',
+				data: {
+					calendarBoxId : boxId,
+					expressionYn : expressYn
+				},
+				success: function(data) {
+					makeCal();
+					calendar.render();
 
-			}
-		});
-	})
+				}
+			});
+		})
+	}
 	
-	$(".sharedCalCheck").click(function(event){
-		let expressYn = $(event.target).is(':checked') ? 1 : 0;
-		let boxId = $(event.target).closest('tr').attr('data-boxId')
-		
-		console.log(boxId, expressYn);
-
-
-		$.ajax({
-			url: '/changeSharedExpress',
-			type: 'POST',	
-			dataType: 'json',
-			data: {
-				calendarBoxId : boxId,
-				expressionYn : expressYn
-			},
-			success: function(data) {
-				makeCal();
-				calendar.render();
-
-			}
-		});
-	})
 	
 	
 	
