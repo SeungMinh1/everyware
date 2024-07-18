@@ -174,7 +174,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	
 	$(document).ready(function(){
 		$('#savePdf').click(function() { // pdf저장 button id
-		
+		$('#calTableDiv').css("width", "160%");
 	    html2canvas($('#calTableDiv')[0]).then(function(canvas) { //저장 영역 div id
 	    // 캔버스를 이미지로 변환
 	    //canvas.setAttribute("width", "800px");
@@ -200,7 +200,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	    doc.save('근무표.pdf');
  
 		});
-		
+		$('#calTableDiv').css("width", "100%");
 		/*html2canvas($("#calTable"), {
 			onrendered: function (canvas) {
 				// create intermediate canvas

@@ -17,7 +17,7 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1>근무조 변경</h1>
+						<h1>근무조 재편성</h1>
 					</div>
 				</div>
 			</div>
@@ -27,9 +27,9 @@
 	<div class="row" >	
 	<div class="col-md-10" style="margin:auto;text-align:center">
 	<div class="background">
-	<div class="row">
-		
-		<table class="table col-lg-3 col-md-12">
+	<div class="row" style="height:500px">
+		<div class="squadScroll col-lg-3 col-md-12">
+		<table id="squadEmpList" class="table">
 			<thead>
 				<tr>
 					<th>사원번호</th>
@@ -45,6 +45,7 @@
 				</th:block>
 			</tbody>
 		</table>
+		</div>
 		<div class="squadScroll col-lg-7 col-md-12 ms-2">
 			<table class="squadTable" id="selectedTable" >
 			<thead>
@@ -58,9 +59,10 @@
 			</tbody>
 		</table>
 		</div>
-	
+		<div class="row" style="position:absolute;top:80%">
 		<div class="buttonGroup" style="display:block">
 			<button id="updateBtn" class="btn">완료</button>
+		</div>
 		</div>
 	</div>
 	</div>
