@@ -35,8 +35,9 @@
 					th:data-rotateNum="${squadInfo.rotateNum}">
 					<i id="prevMonth" class="fa-solid fa-chevron-left"></i>&nbsp;&nbsp;
 					<span id="calYear" th:data-year="${#strings.substring(squadInfo.startDate,0,4)}"></span>
-					-
+					년
 					<span id="calMonth" th:data-month="${#strings.substring(squadInfo.startDate,5,7)}"></span>
+					월
 					&nbsp;&nbsp;<i id="nextMonth" class="fa-solid fa-chevron-right"></i>
 				</h3>
 				<div id="calTableDiv" style="width:100%">
