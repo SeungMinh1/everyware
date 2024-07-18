@@ -109,7 +109,6 @@
                 <!-- /.col -->
                 <p><button type="button" id="changeGps" class="btn btn-primary">변경</button>
                 <button type="button" id="delGps" class="btn btn-danger">삭제</button></p>
-                <button type="button" class="toastsDefaultWarning"  >modal</button>
               </div>
               <!-- /.row -->
 
@@ -127,7 +126,7 @@
     <!-- /.content -->
   </div>
 	<!-- 모달창: 출근 확인 -->
-	<div class="toast" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal" id="modal2" tabindex="-1" role="dialog" aria-hidden="true">
 	    <div class="modal-dialog" role="document">
 	        <div class="modal-content">
 	            <div class="modal-header">
@@ -161,16 +160,13 @@ $("#changeGps").click(function () {
      $('.oneCheckbox:checked').each(function() {
      	selectList.push($(this).val());
      });
-   
      
     if (selectList.length > 1) {
-    	alert('한개만 선택해주세요');
+    	Swal.fire("한개만 선택해주세요");
     }else{
-    	$("#modal2").modal("show");
+    	updatebtn();
     
-		
     }
-
 
 	
 });
@@ -189,7 +185,6 @@ $("#changeGps").click(function () {
 	        });
 	       
 	       
-	        	
 			let gpsId = {
 					gpsId : selectList[0]
 			}
@@ -232,44 +227,101 @@ $('#delGps').on('click', delGps)
 	        	selectList.push($(this).val());
 	        });
 	        if (selectList.length > 1) {
-	        	alert('한개만 선택해주세요');
+	        	Swal.fire("한개만 선택해주세요");
 	        }else{
-	        	console.log(selectList[0])
 	        	
+	       	 Swal.fire({
+	       	  title: "GPS를 삭제하시겠습니까?",
+	       	  icon: "warning",
+	       	  showCancelButton: true,
+	       	  confirmButtonColor: "#3085d6",
+	       	  cancelButtonColor: "#d33",
+	       	  confirmButtonText: "확인",
+	       	  cancelButtonText: "취소"
+	       	 }).then((result) => {
+	       	 //버튼 클릭시 실행
+	       	 if (result.isConfirmed) {
+	       		let gps = {
+						gpsId : selectList[0]
+				}
+		        
+				
+				$.ajax('deleteGps',{
+					type: 'post',
+					contentType : 'application/JSON',
+					data : JSON.stringify(gps)
+				})
+				.done(result=>{
+					
+					 Swal.fire({
+					      title: "삭제되었습니다.",
+					      icon: "success"
+					 })
+					 .then((result)=>{
+					 location.href="/gpsList";
+					 })//.then
+					 
+					//alert("삭제되었습니다.")
+					//let url = "gpsList";
+					
+		
+				})
+				.fail(err=>console.log(err));
+	       		 
+	       	 //취소버튼 클릭시 실행	
+	       	    } else {
+	       	    result.dismiss === Swal.DismissReason.cancel
+	       	 }
+	       	 });
 	        	
-			let gps = {
-					gpsId : selectList[0]
-			}
 			
-			$.ajax('deleteGps',{
-				type: 'post',
-				contentType : 'application/JSON',
-				data : JSON.stringify(gps)
-			})
-			.done(result=>{
-				alert("삭제되었습니다.")
-				//let url = "gpsList";
-				location.href="/gpsList";
-	
-			})
-			.fail(err=>console.log(err));
-	        	
 	        	
 	        }
 	}
-	
 
-</script>
 
-<script>
-$('.toastsDefaultWarning').click(function() {
-    $(document).Toasts('create', {
-      class: 'bg-warning',
-      title: '애러다',
-      subtitle: 'ㅔ헤헤헤헤헿',
-      body: '!!!!!.'
-    })
-  });
+function updatebtn(){
+	 Swal.fire({
+	  title: "GPS를 변경하시겠습니까?",
+	  icon: "question",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  confirmButtonText: "확인",
+	  cancelButtonText: "취소"
+	 }).then((result) => {
+	 //버튼 클릭시 실행
+	 if (result.isConfirmed) {
+		 changeGps(); 
+	 //취소버튼 클릭시 실행	
+	    } else {
+	    result.dismiss === Swal.DismissReason.cancel
+	 }
+	 });//Swal.fire .then ==============
+	 
+}
+function delbtn(){
+	 Swal.fire({
+	  title: "GPS를 삭제하시겠습니까?",
+	  icon: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  confirmButtonText: "확인",
+	  cancelButtonText: "취소"
+	 }).then((result) => {
+	 //버튼 클릭시 실행
+	 if (result.isConfirmed) {
+		 delGps();
+	 //취소버튼 클릭시 실행	
+	    } else {
+	    result.dismiss === Swal.DismissReason.cancel
+	 }
+	 });
+	 
+}
+
+
 
 </script>
 

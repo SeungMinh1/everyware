@@ -47,12 +47,12 @@ $(function () {
 	  	
 	  	//받는사람, 제목 유효성 검사
 	    if(tagify.value.length == 0){
-			alert('받는사람 이메일을 입력해 주세요.');
+			Swal.fire('받는사람 이메일을 입력해 주세요.');
 			/* input.focus(); */
 			return;
 		}
 		if($('#title').val().trim() == ''){
-			alert('제목을 입력해주세요.');
+			Swal.fire('제목을 입력해주세요.');
 			$('#title').focus();
 			return;
 		};
@@ -69,9 +69,9 @@ $(function () {
 		})
 		.done(result=>{
 			if(result){
-				alert('성공');
+				Swal.fire('메일을 성공적으로 발송하였습니다.');
 				//성공시 받은메일함으로
-				let url = '/mailboxInfo?mailboxId=d1';
+				let url = '/mailboxInfo?mailboxId=d2';
 				location.href=url;
 			}
 			console.log(result);
@@ -89,7 +89,7 @@ $(function () {
 	  let info =  getMailInfo();
 	  
 	  if($('#title').val().trim() == ''){
-			alert('제목을 입력해주세요.');
+			Swal.fire('제목을 입력해주세요.');
 			$('#title').focus();
 			return;
 		};
@@ -106,12 +106,16 @@ $(function () {
 		})
 		.done(result=>{
 			if(result){
-				alert('임시저장되었습니다.');
-				//성공시 받은메일함으로
-				let url = '/mailboxInfo?mailboxId=d1';
-				location.href=url;
+				Swal.fire({
+					title: '메일을 임시보관함에 저장하였습니다.'
+				})
+				.then((result)=>{
+					if (result.isConfirmed) {
+						let url = '/mailboxInfo?mailboxId=d3';
+						location.href=url;
+					}
+				});
 			}
-			console.log(result);
 		})
 		.fail(err=>console.log(err));
    };
@@ -165,9 +169,8 @@ $(function () {
 			$('.oneCheckbox:checked').each(function() {
 			    selectedMail.push($(this).val());
 			});
-			console.log(selectedMail);
-			
 			tagify.addTags(selectedMail);
+			$('#exampleModal').modal('hide');
 	});
 	
 	$('.addressInCCBtn').on('click', function() {  
@@ -175,9 +178,8 @@ $(function () {
 			$('.oneCheckbox:checked').each(function() {
 			    selectedMail.push($(this).val());
 			});
-			console.log(selectedMail);
-			
 			tagify1.addTags(selectedMail);
+			$('#exampleModal').modal('hide');
 	});
 	
 function addressSearch(page) {

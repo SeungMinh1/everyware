@@ -58,7 +58,7 @@
 	            
 	            <th:block th:if="${#authentication.principal.userVO.posName}=='부서장'"> 
 	              <li class="nav-item">
-	                <a href="allAttend" class="nav-link">
+	                <a th:href="@{/deptAttend}" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>부서별 근태관리</p>
 	                </a>
@@ -101,7 +101,7 @@
               <li class="nav-item">
                 <a href="/updateSquadEmp" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>근무조 수정</p>
+                  <p>근무조 재편성</p>
                 </a>
               </li>	
               <li class="nav-item">

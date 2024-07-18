@@ -88,7 +88,7 @@
 						<tbody th:fragment="calList" id="empCalList">
 							<th:block   th:each = "box : ${empIdBox}">
 								<tr >
-									<td class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
+									<td style="cursor:pointer"class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -148,7 +148,7 @@
 							</tbody>
 						</table>
 						  <!-- 일정목록 관리 -->
-					  <div id="calSetting" title="일정목록 관리" style="display:none">
+					  <div id="calSetting" title="일정목록 관리" style="display:none;text-align:center">
 					  	<table>
 					  		<thead>
 					  			<tr>
@@ -172,11 +172,12 @@
 					  			</th:block>
 					  		</tbody>
 					  	</table>
-					  	
-					  	<div>
+					  	<div class="row" style="position:absolute;top:80%;text-align:center">
+					  	<div >
 					  		<button id ="calSetDel" class="btn btn-del">삭제</button>
 					  		<button id="calSetBtn" class="btn btn-success">변경</button>
 					  		<button id="calSetcancel" class ="btn btn-fail">취소</button>
+					  	</div>
 					  	</div>
 					  </div>
                     </div>
@@ -736,7 +737,11 @@
 					applyShare(calBoxId)
 					console.log(calBoxId)
 				}else{
-					alert('이미 공유신청한 일정입니다')
+					$(document).Toasts('create', {
+				        class: 'bg-danger',
+				        title: '일정공유',
+				        body: '이미 공유신청한 일정입니다.'
+				      })
 				}
 			})
 			.fail(function(err){
@@ -757,7 +762,12 @@
 			
 		})
 		.done(function(res){
-			alert('공유신청 하였습니다.')
+			$(document).Toasts('create', {
+		        class: 'bg-success',
+		        title: '일정공유',
+		        body: '공유신청 하였습니다.'
+		      })
+
 		})
 	}
 	

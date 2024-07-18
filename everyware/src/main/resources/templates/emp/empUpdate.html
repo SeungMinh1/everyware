@@ -126,7 +126,7 @@
 											<div class="form-group row">
 												<label for="inputName" class="col-sm-2 col-form-label">부서</label>
 												<div class="col-sm-10">
-									                <select th:field="*{departmentName}">
+									                <select th:field="*{departmentName}"  class="form-select">
 									                	<th:block th:each="dep : ${department}">
 														    <option th:value="${dep.codeName}">  [[ ${dep.codeName} ]]</option>
 													  	</th:block>
@@ -136,7 +136,7 @@
 											<div class="form-group row">
 												<label for="inputName" class="col-sm-2 col-form-label">직위</label>
 												<div class="col-sm-10">
-													<select th:field="*{posName}">
+													<select th:field="*{posName}" class="form-select">
 														<th:block th:each="pos : ${position}">
 															<option th:value="${pos.codeName}">[[${pos.codeName} ]]</option>
 														</th:block>
@@ -163,7 +163,7 @@
 											<div class="form-group row">
 												<div class="offset-sm-2 col-sm-10">
 													<button type="button" class="btn btn-primary"
-														id="updateBtn">저장</button>
+														id="updatebtn">저장</button> <!-- updateBtn -->
 													<button type="button" class="btn btn-info"
 														th:onclick="|location.href='@{empInfo(empId=${emp.empId})}'|">뒤로</button>
 												</div>
@@ -266,17 +266,21 @@
 				contentType : 'application/json',
 				data : JSON.stringify(info)
 				
+				
 			})
 			.done(result => {
 				if(result.result){
-					alert('수정되었습니다.');
-					
-					let url = '/empInfo?empId=' + $('#empId').val();
-					location.href=url;
-				}else{
-					alert('수정되지않았습니다.');
+					Swal.fire({
+					      title: "수정되었습니다.",
+					      icon: "success"
+					 })
+					 .then((result)=>{
+						 let url = '/empInfo?empId=' + $('#empId').val();
+						location.href=url;
+					 })//.then
+					 }//success
 				}
-			})
+			)
 			.fail(err => console.log(err));
 			
 			
@@ -297,6 +301,30 @@
 		
 	
 </script>
-	
+
+<script>
+$('#updatebtn').on('click', function(){
+	 Swal.fire({
+	  title: "수정하시겠습니까?",
+	  icon: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  confirmButtonText: "수정",
+	  cancelButtonText: "취소"
+	 }).then((result) => {
+	 //버튼 클릭시 실행
+	 if (result.isConfirmed) {
+		 empUpdateAjax(); 
+	 //취소버튼 클릭시 실행	
+	    } else {
+	    result.dismiss === Swal.DismissReason.cancel
+	 }
+	 });//Swal.fire .then ==============
+	 
+})
+
+
+</script>
 </body>
 </html>

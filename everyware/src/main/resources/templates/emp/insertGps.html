@@ -149,11 +149,7 @@ body {
           <h1>GPS등록</h1>
         </div>
         <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Layout</a></li>
-            <li class="breadcrumb-item active">Fixed Layout</li>
-          </ol>
+          
         </div>
       </div>
     </div><!-- /.container-fluid -->
@@ -167,7 +163,6 @@ body {
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Title</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -189,18 +184,18 @@ body {
                 </div>
               </div>
               <div class="form-group row">
-                <label for="xx" class="col-sm-2 col-form-label">위도</label>
+                <label for="xx" class="col-sm-2 col-form-label">경도</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="xx">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="yy" class="col-sm-2 col-form-label">경도</label>
+                <label for="yy" class="col-sm-2 col-form-label">위도</label>
                 <div class="col-sm-10">
                   <input type="text" class="form-control" id="yy">
                 </div>
               </div>
-              <button id="insertBtn" type="button">드가자</button>
+              <button id="insertBtn" type="button">등록</button>
             </div>
             <!-- /.card-footer-->
           </div>
@@ -282,7 +277,7 @@ body {
 
   daumPostcode();
   
-  $('#insertBtn').on('click', doInsert);
+  $('#insertBtn').on('click', insertbtn);
   
   function doInsert(){
       data1 = {            
@@ -298,15 +293,41 @@ body {
 		})
 		.done(result=>{
 			if(result){
-				alert('성공')
-				let url = '/gpsList'
-				location.href=url;
+				Swal.fire({
+				      title: "등록되었습니다.",
+				      icon: "success"
+				 })
+				
+				.then((result)=>{
+					let url = '/gpsList'
+					location.href=url;
+					 })//.then
 			}
-			console.log(result);
 		})
 		.fail(err=>console.log(data1));
   }
   
+  
+  function insertbtn(){
+		 Swal.fire({
+		  title: "GPS를 등록하시겠습니까?",
+		  icon: "question",
+		  showCancelButton: true,
+		  confirmButtonColor: "#3085d6",
+		  cancelButtonColor: "#d33",
+		  confirmButtonText: "확인",
+		  cancelButtonText: "취소"
+		 }).then((result) => {
+		 //버튼 클릭시 실행
+		 if (result.isConfirmed) {
+			 doInsert(); 
+		 //취소버튼 클릭시 실행	
+		    } else {
+		    result.dismiss === Swal.DismissReason.cancel
+		 }
+		 });//Swal.fire .then ==============
+		 
+	}
 </script>
 
 </body>

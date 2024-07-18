@@ -34,7 +34,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li>
-              	<select id="sel">
+              	<select id="sel" class="form-select-sm">
               		<option value='0'>선택</option>
               		<option value='0'>7월</option>
               		<option value='1'>6월</option>
@@ -44,7 +44,9 @@
               		<option value='5'>2월</option>
               		<option value='6'>1월</option>
               	</select>
-              	<button type="button" id="golastMonth">조회</button>
+              	 <div class="btn btn-primary" id="golastMonth">
+	                    <i class="fa fa-search" ></i>
+                  </div>
               </li>
             </ol>
           </div>
@@ -68,7 +70,7 @@
  
               	</div>
                 <table id="example2" class="table table-bordered table-hover">
-                  <thead>
+                  <thead class="thead-light">
                   <tr>
                   	<th>이름</th>
                   	<th>부서</th>
@@ -120,7 +122,7 @@
  
               	</div>
                 <table id="example3" class="table table-bordered table-hover">
-                  <thead>
+                  <thead class="thead-light">
                   <tr>
                   	<th>이름</th>
                   	<th>부서</th>
@@ -205,7 +207,7 @@
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false,
@@ -214,7 +216,7 @@
     $('#example3').DataTable({
         "paging": true,
         "lengthChange": false,
-        "searching": false,
+        "searching": true,
         "ordering": true,
         "info": true,
         "autoWidth": false,
