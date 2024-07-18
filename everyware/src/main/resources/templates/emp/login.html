@@ -81,15 +81,8 @@
 			type: 'get',
 		})
 		.done(photo=>{
+			console.log(photo)
 			
-			let fileCallPath = encodeURIComponent(//
-					photo.uploadPath +"/"+ photo.uploadFileName + "_" + photo.originFileName);
-			
-			let html = ""; // 2024/7/3 + "/"" + UUID(uploadFileName) + "_" + test1.png
-			html += '<img src=/display?fileName='+fileCallPath 
-					+ ' style="width:200px; height:200px" alt="로고"></img>';
-					
-			$('#mainlogo').append(html);
 			
 		})
 		.fail(err=>console.log(err));
