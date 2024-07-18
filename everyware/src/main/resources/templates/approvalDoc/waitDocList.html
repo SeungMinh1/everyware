@@ -19,6 +19,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <link rel="stylesheet" href="css/modal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -68,9 +70,9 @@
  				  <th:block th:each="Doc : ${waitDocList}">
 	                  <tr>
 	                  	<td><input type="checkbox" th:field="*{waitDocList}" th:value="${Doc.docId}" class="chk"></td>
-	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy/MM/dd') } ]]</td>
+	                    <td>[[ ${ #dates.format(Doc.draftDate, 'yyyy-MM-dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
-	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
+	                    <td th:style="${'cursor:pointer'}" th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
 	                    <td>[[ ${Doc.draftEmp} ]]</td>
 	                  </tr>
@@ -199,9 +201,14 @@
 		})
 		.done(result => {
 			if(result) {
-				alert('선택된 항목이 결재되었습니다.');
-				window.location.reload();
-			} 
+				Swal.fire({
+					title : '선택된 항목이 결재되었습니다.',
+					icon : 'success'
+				})
+				.then((result)=>{
+					window.location.reload();					
+				})
+			}
 		})
 		.fail(err => console.log(err));
 	})

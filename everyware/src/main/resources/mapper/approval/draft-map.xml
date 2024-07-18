@@ -35,4 +35,10 @@
 		FROM draft
 		WHERE draft_emp = #{draftEmp}
 	</select>
+	
+	<!-- 문서양식 -->
+	<select id="taskList" resultType="TaskVO">
+		SELECT *
+		FROM task
+	</select>
 </mapper>

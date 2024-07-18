@@ -51,8 +51,13 @@ $('#save').on('click', function() {
 	let temp = tempInfo();
 	
 	if($('#msg').val() == '') {
-		alert('제목은 필수값입니다');
-		$('#msg').focus();
+		Swal.fire({
+			title: '제목은 필수 값입니다.',
+			icon: 'warning'
+		})
+		.then((result) => {
+			$('#msg').focus();
+		})
 	}
 	
 	$.ajax('tempInsert', {
@@ -62,9 +67,14 @@ $('#save').on('click', function() {
 	})
 	.done(result => {
 		if(result) {
-			alert('성공');
-			location.href = "/temporaryDocList";
-		}
+				Swal.fire({
+					title : '임시저장되었습니다.',
+					icon : 'success'
+				})
+				.then((result)=>{
+					location.href = "/temporaryDocList";									
+				})
+			}
 	})
 	.fail(err => console.log(err));
 })
@@ -80,8 +90,13 @@ $('#request').on('click', function() {
 	let view = viewInfo();
 	
 	if($('#msg').val() == '') {
-		alert('제목은 필수값입니다');
-		$('#msg').focus();
+		Swal.fire({
+			title: '제목은 필수 값입니다.',
+			icon: 'warning'
+		})
+		.then((result) => {
+			$('#msg').focus();
+		})
 	}
 	
 	$.ajax('docInsert', {
@@ -105,8 +120,13 @@ $('#request').on('click', function() {
 					})
 					.done(result => {
 						if(result) {
-							alert('성공');
-							location.href = "/draftDocList";
+							Swal.fire({
+								title : '요청되었습니다.',
+								icon : 'success'
+							})
+							.then((result)=>{
+								location.href = "/draftDocList";									
+							})
 						}
 					})
 					.fail(err => console.log(err));
@@ -182,12 +202,12 @@ $('#saveInfo').on('click', function() {
 // 에디터
 $(function() {
 	// Summernote
-	$('#summernote').summernote()
+	$('#summernote').summernote({height : 300})
 
 	// CodeMirror
 	CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
 		mode : "htmlmixed",
-		theme : "monokai"
+		theme : "monokai",
 	});
 })
 
@@ -572,6 +592,8 @@ $('#lineView').droppable({
 		}
 	});
 
+$('#container').droppable({accept: $('.nested li')})
+
 function deleteBtn() {
 	$('.delete').on('click', function(e) {
 		$(e.target).parent().parent().remove();
@@ -685,7 +707,7 @@ function uploadFile(){
 			str += "<li class='li_style'" + ">"
 			str += "<a class='a_style' href='/download?fileName=" + fileCallPath +"'>"+ obj.originFileName + "</a>"
 			str += "<span>" + '(' + obj.fileSize + ')' + "</span>"
-			str += "<span data-file=\'" + fileCallPath + "\'data-type='file'> x </span>"
+			str += "<span style='"+ "cursor: pointer'" +"data-file=\'" + fileCallPath + "\'data-type='file'> x </span>"
 			str += "</li>"
 			
 		});
