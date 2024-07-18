@@ -51,7 +51,8 @@ public class DocVO {
 	private List<String> sendNameList;
 	private List<String> sendIdList;
 	private String docInfo;
-	private String enforceDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date enforceDate;
 	private String search;
 	private String approvalInfo;
 	private List<String> approvalFileList;

@@ -14,4 +14,5 @@ public class ReceptionVO {
 	private String draftEmp;
 	private int draftEmpId;
 	private List<ReceptionVO> receptionEmpList;
+	private int sendEmpId;
 }

@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="css/org.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -201,7 +203,7 @@
 			<table style="width: 100%;">
 				<tr>
 					<th><span>결재문서명</span></th>
-					<td><span id="text"></span></td>
+					<td><span id="atext"></span></td>
 				</tr>
 				<tr>
 					<th><span>결재의견</span></th>
@@ -286,10 +288,11 @@
   
 </script>
 <script th:inline="javascript">
-	var ref = document.referrer;
+	var url = new URL(document.referrer);
+	var path = url.pathname;
 	
-	if(ref == 'https://192.168.0.23:8100/temporaryDocList') {
-		$('.inputDateBox input').attr("value" , /*[[ ${approvalDoc.enforceDate} ]]*/'');
+	if(path == '/temporaryDocList') {
+		$('.inputDateBox input').attr("value" , /*[[ ${ #dates.format(approvalDoc.enforceDate, 'yyyy-MM-dd') } ]]*/'');
 		$('.inputTitleBox input').attr("value", /*[[ ${approvalDoc.docTitle} ]]*/'');
 		$('.note-editable')[0].innerHTML = /*[[ ${approvalDoc.docContent} ]]*/'';
 	} else {
@@ -300,7 +303,7 @@
 		$('.delete').remove();
 		$('.org').remove();
 		$('.modal-order').remove();
-		$('.inputDateBox')[0].innerHTML = /*[[ ${approvalDoc.enforceDate} ]]*/'';
+		$('.inputDateBox')[0].innerHTML = /*[[ ${ #dates.format(approvalDoc.enforceDate, 'yyyy-MM-dd') } ]]*/'';
 		$('.inputTitleBox')[0].innerHTML = /*[[ ${approvalDoc.docTitle} ]]*/'';
 		$('.textarea')[0].innerHTML = /*[[ ${approvalDoc.docContent} ]]*/'';
 	}
@@ -376,8 +379,13 @@
 					})
 					.done(result => {
 						if(result) {
-							alert('결재되었습니다.')
-							location.href = "/waitDocList";
+							Swal.fire({
+								title : '결재되었습니다.',
+								icon : 'success'
+							})
+							.then((result)=>{
+								location.href = "/waitDocList";									
+							})
 						}
 					})
 					.fail(err => console.log(err));
@@ -416,8 +424,13 @@
 			})
 			.done(result => {
 				if(result) {
-					alert('반려');
-					location.href = "/waitDocList";
+					Swal.fire({
+						title : '반려되었습니다.',
+						icon : 'success'
+					})
+					.then((result)=>{
+						location.href = "/waitDocList";									
+					})
 				}
 			})
 			.fail(err => console.log(err));
@@ -428,23 +441,14 @@
 		var receipt = {
 			receptionEmpId : /*[[${#authentication.principal.userVO.empId}]]*/''
 			, docId : id
+			, sendEmpId : $('.boardTable')[0].id
 		}
 		
 		return receipt;
 	}
 	
-	function sendInfo() {
-		var send = {
-			sendEmpId : $('.boardTable')[0].id
-			, docId : id
-		}
-		
-		return send;
-	}
-	
 	$('#receipt').on('click', function() {
 		let rec = receiptInfo();
-		let send = sendInfo();
 		
 		$.ajax('receptionUpdate', {
 			type : 'post'
@@ -453,18 +457,13 @@
 		})
 		.done(result => {
 			if(result) {
-				$.ajax('sendUpdate', {
-					type : 'post'
-					, contentType : 'application/JSON'
-					, data : JSON.stringify(send)
+				Swal.fire({
+					title : '접수되었습니다.',
+					icon : 'success'
 				})
-				.done(result => {
-					if(result) {
-					alert('접수');	
-					location.href = '/recReceptionDocList'
-					}
+				.then((result)=>{
+					location.href = "/recReceptionDocList";									
 				})
-				.fail(err => console.log(err));
 			}
 		})
 		.fail(err => console.log(err));
@@ -472,7 +471,6 @@
 	
 	$('#return').on('click', function() {
 		let rec = receiptInfo();
-		let send = sendInfo();
 		
 		$.ajax('receptionReturn', {
 			type : 'post'
@@ -481,18 +479,13 @@
 		})
 		.done(result => {
 			if(result) {
-				$.ajax('sendReturn', {
-					type : 'post'
-					, contentType : 'application/JSON'
-					, data : JSON.stringify(send)
+				Swal.fire({
+					title : '반송되었습니다.',
+					icon : 'success'
 				})
-				.done(result => {
-					if(result) {
-					alert('반송');	
-					location.href = '/retReceptionDocList'
-					}
+				.then((result)=>{
+					location.href = "/retReceptionDocList";									
 				})
-				.fail(err => console.log(err));
 			}
 		})
 		.fail(err => console.log(err));
@@ -500,7 +493,6 @@
 	
 	$('#recCan').on('click', function() {
 		let rec = receiptInfo();
-		let send = sendInfo();
 		
 		$.ajax('receptionCancel', {
 			type : 'post'
@@ -509,18 +501,13 @@
 		})
 		.done(result => {
 			if(result) {
-				$.ajax('sendCancel', {
-					type : 'post'
-					, contentType : 'application/JSON'
-					, data : JSON.stringify(send)
+				Swal.fire({
+					title : '접수가 취소되었습니다.',
+					icon : 'success'
 				})
-				.done(result => {
-					if(result) {
-					alert('접수취소');	
-					location.href = '/waitReceptionDocList'
-					}
+				.then((result)=>{
+					location.href = "/waitReceptionDocList";									
 				})
-				.fail(err => console.log(err));
 			}
 		})
 		.fail(err => console.log(err));

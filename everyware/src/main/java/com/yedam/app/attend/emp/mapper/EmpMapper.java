@@ -37,6 +37,7 @@ public interface EmpMapper {
 	
 	//리스트개수
 	public int countList(String dosearch, String searchOption);
+	public int countList2();
 
 	//생산팀 사원 출력
 	public List<EmpVO> prodEmpList ();

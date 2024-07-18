@@ -78,6 +78,10 @@
 	background: rgb(255, 255, 255); padding: 5px; border: 1px solid black; border-image: none; text-align: left; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; vertical-align: middle;
 }
 
+.inputDateBox input{
+	cursor: pointer;
+}
+
 .inputTitle{
 	background: rgb(221, 221, 221); padding: 5px; border: 1px solid black; border-image: none; height: 25px; text-align: center; color: rgb(0, 0, 0); font-size: 14px; font-weight: bold; vertical-align: middle;
 }
@@ -119,11 +123,12 @@
 }
 
 #container{
-	width:820px; height:1200px; border:3px solid #ccc; z-index: 1; margin-top:20px
+	width:1300px; height:1200px; border:3px solid #ccc; z-index: 1; margin-top:20px
 }
 
-
-
+.org{
+	margin-right: 300px;
+}
 
 
 

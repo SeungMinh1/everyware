@@ -108,6 +108,10 @@ public class EmpServiceImpl implements EmpService{
 	public int selectCheckId(EmpVO empVO) {
 		return empMapper.checkId(empVO);
 	}
+	@Override
+	public int cntList2() {
+		return empMapper.countList2();
+	}
 	
 
 }

@@ -58,7 +58,7 @@
 	            
 	            <th:block th:if="${#authentication.principal.userVO.posName}=='부서장'"> 
 	              <li class="nav-item">
-	                <a href="allAttend" class="nav-link">
+	                <a th:href="@{/deptAttend}" class="nav-link">
 	                  <i class="far fa-circle nav-icon"></i>
 	                  <p>부서별 근태관리</p>
 	                </a>
@@ -190,7 +190,7 @@
 		                  <i class="far fa-circle nav-icon"></i>
 		                  <p>임시 저장함</p>
 		                </a>
-		              </li>                                                                                                                                
+		              </li>                       		                                                                                                         
             </ul>
           </li>
           <li class="nav-item">  

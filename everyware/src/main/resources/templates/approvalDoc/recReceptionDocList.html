@@ -62,28 +62,27 @@
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                  	<td><input type="checkbox" id="allChk" name="allChk"></td>
                     <th>접수일</th>
                     <th>결재양식</th>
                     <th>제목</th>
                     <th>첨부</th>
                     <th>기안자</th>
                     <th>문서번호</th>
+                    <th>접수상태</th>
                     <th>결재상태</th>
                   </tr>
                   </thead>
                   <tbody>
  				  <th:block th:each="Doc : ${receptionDocList}">
 	                  <tr>
-	                  	<td><input type="checkbox" th:field="*{receptionDocList}" th:value="${Doc.docId}"></td>
-	                    <td th:if="${receptionDate != null}">[[ ${ #dates.format(Doc.receptionDate, 'yyyy/MM/dd') } ]]</td>
-	                    <td th:if="${receptionDate == null}"></td>
+	                  	<td>[[ ${ #dates.format(Doc.receptionDate, 'yyyy-MM-dd') } ]]</td>
 	                    <td>[[ ${Doc.approvalTask} ]]</td>
-	                    <td th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
+	                    <td th:style="${'cursor:pointer'}" th:onclick="|location.href='@{docInfo(docId=${Doc.docId})}'|">[[ ${Doc.docTitle} ]]</td>
 	                    <td>[[ ${Doc.approvalFile} ]]</td>
 	                    <td>[[ ${Doc.draftEmp} ]]</td>
 	                    <td>[[ ${Doc.docId} ]]</td>
 	                    <td>[[ ${Doc.receptionStatus} ]]</td>
+	                    <td>[[ ${Doc.approvalStatus} ]]</td>
 	                  </tr>
                   </th:block>
                   </tbody>

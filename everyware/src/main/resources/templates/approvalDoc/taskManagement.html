@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link th:href="@{/css/taskManagement.css}" rel="stylesheet" />
+<title></title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="drag">
+			<th:block th:each="task : ${taskList}">
+				<div th:classappend="${task.approvalTask}" ></div>
+			</th:block>
+		</div>
+	
+		<div id="drop"></div>
+	</div>
+</body>
+<script>
+	$(`[class ^="1"]`).draggable({revert: "valid"});
+	$('#drop').droppable({
+		accept: $(`[class ^="1"]`),
+		drop: function(e, ui) {
+			let tag = ui.draggable[0].className.substr(0,4);
+			switch(tag){
+				case '1001': $('#drop').append('<img src="./images/체크박스.png"></img>');
+				break
+				case '1002': $('#drop').append('<img src="./images/100.jpg"></img>');
+				break
+				case '1003': $('#drop').append('<img src="./images/101.jpg"></img>');
+				break
+				case '1004': $('#drop').append('<img src="./images/102.jpg"></img>');
+				break
+				case '1005': $('#drop').append('<img src="./images/103.jpg"></img>');
+				break
+				case '1006': $('#drop').append('<img src="./images/104.jpg"></img>');
+				break
+			}
+			
+		}
+	});
+</script>
+</html>

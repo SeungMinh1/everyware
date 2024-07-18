@@ -193,7 +193,7 @@
 	                  
                	<th:block th:unless="${mailboxInfo}== null or ${mailboxInfo} == ''" >
                	
-	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|" th:each="num : ${mailboxInfo}">
+	                  <li th:onclick="|location.href='@{/mailInfo(mailId=${num.mailId})}'|" th:each="num : ${mailboxInfo}" th:style="${'cursor: pointer'}">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -258,7 +258,7 @@
 				
                 <th:block th:each="list : ${clist}">
                   <th:block th:if="${#strings.substring(list.start, 0, 10) == #dates.format(#dates.createToday(), 'yyyy-MM-dd')}">
-                   <li th:onclick="|location.href='calendar'|">
+                   <li th:onclick="|location.href='calendar'|" th:style="${'cursor: pointer'}">
 						<div class="colorCir" th:style="'background-color:'+@{${list.color}}"></div>
                     <span class="text">[[ ${list.title} ]]</span>
                     <span class="text startTime" th:text="${#strings.substring(list.start, 11, 16)}"></span> ~
@@ -299,7 +299,7 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="ion ion-clipboard mr-1"></i>
-                  결제대기 문서
+                  결재 대기 문서
                 </h3>
               </div>
               <!-- /.card-header -->
@@ -315,7 +315,7 @@
 	                    </span>
 	
 	                    <!-- todo text -->
-	                    <span class="text"> 결제할 문서가 없습니다 </span>
+	                    <span class="text"> 결재할 문서가 없습니다 </span>
 	                    <span class="text"></span>
 	                    <!-- Emphasis label -->
 	                    <!-- General tools such as edit or delete-->
@@ -329,7 +329,7 @@
                	<th:block th:unless="${#lists.size(waitDocList) == 0}">
 	                <th:block th:each="doc : ${waitDocList}">
 	              	
-	                  <li >
+	                  <li th:onclick="|location.href='@{docInfo(docId=${doc.docId})}'|" th:style="${'cursor: pointer'}">
 	                    <!-- drag handle -->
 	                    <span class="handle">
 	                      <i class="fas fa-ellipsis-v"></i>
@@ -337,10 +337,11 @@
 	                    </span>
 	
 	                    <!-- todo text -->
-	                    <span class="text">[[ ${doc.sendEmp} ]] /  </span>
-	                    <span class="text">[[ ${doc.docContent} ]]</span>
+	                    <span class="text">[[ ${doc.draftEmp} ]] /  </span>
+	                    <span class="text">[[ ${doc.approvalTask} ]] /  </span>
+	                    <span class="text">[[ ${doc.docTitle} ]]</span>
 	                    <!-- Emphasis label -->
-	                    <small class="badge badge-danger"><i class="far fa-clock"></i> [[ ${#dates.format(doc.createDate, 'yyyy-MM-dd')} ]]</small>
+	                    <small class="badge badge-danger"><i class="far fa-clock"></i> [[ ${#dates.format(doc.draftDate, 'yyyy-MM-dd')} ]]</small>
 	                    <!-- General tools such as edit or delete-->
 	                    <div class="tools">
 	                      <i class="fas fa-edit"></i>
