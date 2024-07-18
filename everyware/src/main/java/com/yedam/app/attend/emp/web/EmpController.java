@@ -44,7 +44,7 @@ public class EmpController {
 		List<EmpVO> list = empService.empList(page, cnt, dosearch, searchOption); //전체사원리스트
 		String a = null;
 		String b = null;
-		int count = empService.cntList(a, b);
+		int count = empService.cntList2();
 		
 		model.addAttribute("empList", list);
 		model.addAttribute("pg", pg);

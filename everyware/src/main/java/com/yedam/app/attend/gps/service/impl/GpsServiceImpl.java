@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.app.attach.service.FileVO;
 import com.yedam.app.attend.gps.mapper.GpsMapper;
 import com.yedam.app.attend.gps.service.GpsService;
 import com.yedam.app.attend.gps.service.GpsVO;
@@ -46,6 +47,11 @@ public class GpsServiceImpl implements GpsService{
 	@Override
 	public int deleteGps(GpsVO gpsVO) {
 		return gpsMapper.deleteGps(gpsVO);
+	}
+
+	@Override
+	public FileVO selectLogo() {
+		return gpsMapper.mainLogo();
 	}
 
 	
