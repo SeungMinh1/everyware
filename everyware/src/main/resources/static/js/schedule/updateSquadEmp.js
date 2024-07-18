@@ -62,8 +62,20 @@
 		let tableHtml ='<span data-empId="'+ empId + '">'+ empName +' x</span>';
 		
 		if(squadNum == null){
-			alert('조를 선택하여 주세요')
-			return;
+			Swal.fire({
+					  title: "근무조 수정",
+					  text: "조를 선택하여 주세요",
+					  icon: "error",
+					  showCancelButton: false,
+					  confirmButtonColor: "#3085d6",
+					  cancelButtonColor: "#d33",
+					  confirmButtonText: "확인",
+					  cancelButtonText: "No, cancel!"
+					}).then((result) => {
+						return;
+					})
+			
+			
 		}
 		console.log(empId)
 		checkedEmp.push(empId)
@@ -134,8 +146,20 @@
 			data : JSON.stringify(squadEmp)
 		})
 		.done(function(res){
-			alert('변경 완료');
-			location.href='/squadInfo';
+			Swal.fire({
+					  title: "근무조 수정",
+					  text: "변경 완료",
+					  icon: "success",
+					  showCancelButton: false,
+					  confirmButtonColor: "#3085d6",
+					  cancelButtonColor: "#d33",
+					  confirmButtonText: "확인",
+					  cancelButtonText: "No, cancel!"
+					}).then((result) => {
+						location.href='/squadInfo'
+					})
+			
+			
 		})
 	})
 	

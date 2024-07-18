@@ -148,7 +148,11 @@
 		console.log($('#startDate').val() + ' ' + $('#startTime').val());
 		console.log($('#title').val())
 		if($('#title').val() == ''){
-			alert('일정이름을 입력해주세요')
+			$(document).Toasts('create', {
+		        class: 'bg-danger',
+		        title: '일정등록',
+		        body: '일정이름을 입력해주세요.'
+		      })
 			return;
 		}
 		$.ajax({	
