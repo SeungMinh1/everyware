@@ -221,8 +221,6 @@ WHERE code_id LIKE 'g%'
 SELECT post_id,
 	 		p.board_id,
             board_title,
-	        notification_yn,
-	        hold_yn,
 	        title,
 	        write_date,
 	        view_cnt,
