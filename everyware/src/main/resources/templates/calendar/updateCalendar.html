@@ -167,7 +167,19 @@
 
 	$('#updateCal').click(function(){
 		if($('#title').val()==''){
-			
+			Swal.fire({
+                title: "일정 수정",
+                text: "이름을 입력하여주세요",
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "확인",
+                cancelButtonText: "No, cancel!"
+              }).then((result) => {
+                 
+              })
+            
 			return;
 		}
 		

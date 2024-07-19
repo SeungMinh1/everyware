@@ -46,7 +46,6 @@ public class CalendarController {
 		Integer empId = AuthUtil.getEmpId();
 		calendarBoxVO.setEmpId(empId);
 		cvo.setEmpId(empId);
-		System.out.println(empId);
 
 		List<EmpVO> list = docService.allDept();
 
@@ -237,6 +236,7 @@ public class CalendarController {
 			@AuthenticationPrincipal LoginUserVO principal) {
 
 		calendarService.deleteCalBox(list);
+		calendarService.deleteCalBoxCal(list);
 
 		return "forward:/calBox";
 

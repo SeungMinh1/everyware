@@ -13,6 +13,7 @@
 				, calendar_color(calendar_box_id) color
 				, calendar_yn(calendar_box_id) expression_yn
 				, location
+				, calendar_pub_yn(calendar_box_id) public_yn
 		FROM calendar
 		WHERE emp_id = #{empId}
 		ORDER BY calendar_id
@@ -79,6 +80,7 @@
 		        , s.color
 		        , agreement_yn
 		        , s.expression_yn
+		        , b.public_yn
 		        , FIND_CODENAME(emp_id_position(b.emp_id)) "emp_position"
 		FROM calendar_box b
 		    JOIN shared_cal s
@@ -99,6 +101,7 @@
                 , s.color
                 , s.expression_yn
                 , s.agreement_yn
+                
          FROM calendar c
          JOIN shared_cal s
            ON ( c.calendar_box_id = s.calendar_box_id AND s.emp_id = #{empId} )
@@ -195,6 +198,12 @@
 	<!-- 일정목록 삭제 -->
 	<delete id ="deleteCalBox" parameterType="CalendarBoxVO">
 		DELETE calendar_box
+		WHERE calendar_box_id = #{calendarBoxId}
+	</delete>
+	
+	<!-- 일정목록 삭제 시 해당 일정목록에 있는 일정삭제 -->
+	<delete id ="deleteCalBoxCal" parameterType="CalendarBoxVO">
+		DELETE calendar
 		WHERE calendar_box_id = #{calendarBoxId}
 	</delete>
 	

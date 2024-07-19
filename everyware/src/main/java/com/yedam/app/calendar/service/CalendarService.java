@@ -49,6 +49,9 @@ public interface CalendarService {
 	//내 일정목록 삭제
 	public int deleteCalBox(List<CalendarBoxVO> list);
 	
+	//일정목록 삭제 시 일정 같이 삭제
+	public int deleteCalBoxCal(List<CalendarBoxVO> list);
+	
 	//공유신청받은 내 일정목록
 	public List<CalendarBoxVO> selectMySahred(CalendarBoxVO calendarBoxVO);
 	
