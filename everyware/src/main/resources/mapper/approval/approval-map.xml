@@ -203,46 +203,15 @@
 	</update>
 	
 	<update id="receptionUpdate" parameterType="ReceptionVO">
-		UPDATE reception_path
-		SET reception_status = '접수'
-		WHERE reception_emp_id = #{receptionEmpId}
-		AND doc_id = #{docId}
-	</update>
-	
-	<update id="sendUpdate" parameterType="SendVO">
-		UPDATE send_path
-		SET send_status = '접수'
-		WHERE send_emp_id = #{sendEmpId}
-		AND doc_id = #{docId}
+		CALL RECEPTION(#{receptionEmpId}, #{docId}, #{sendEmpId})
 	</update>
 	
 	<update id="receptionReturn" parameterType="ReceptionVO">
-		UPDATE reception_path
-		SET reception_status = '반송'
-		WHERE reception_emp_id = #{receptionEmpId}
-		AND doc_id = #{docId}
-	</update>
-	
-	<update id="sendReturn" parameterType="SendVO">
-		UPDATE send_path
-		SET send_status = '반송'
-		WHERE send_emp_id = #{sendEmpId}
-		AND doc_id = #{docId}
+		CALL RECEPTION_RETURN(#{receptionEmpId}, #{docId}, #{sendEmpId})
 	</update>
 	
 	<update id="receptionCancel" parameterType="ReceptionVO">
-		UPDATE reception_path
-		SET reception_status = '접수대기'
-		WHERE reception_emp_id = #{receptionEmpId}
-		AND doc_id = #{docId}
+		CALL RECEPTION_CANCEL(#{receptionEmpId}, #{docId}, #{sendEmpId})
 	</update>
-	
-	<update id="sendCancel" parameterType="SendVO">
-		UPDATE send_path
-		SET send_status = '접수대기'
-		WHERE send_emp_id = #{sendEmpId}
-		AND doc_id = #{docId}
-	</update>
-	
 	
 </mapper>

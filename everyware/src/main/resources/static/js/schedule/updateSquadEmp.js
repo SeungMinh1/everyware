@@ -54,13 +54,7 @@
  	//직원표 클릭 이벤트
   	function clickEmp(){
 		$(".squadAddEmp").click(function(e){
-		
-		
-		let empId = parseInt($(e.target).closest('tr').attr('data-empId')) ;
-		let empName = $(e.target).text();
 		let squadNum = $(".empTr").attr("data-squadno");
-		let tableHtml ='<span data-empId="'+ empId + '">'+ empName +' x</span>';
-		
 		if(squadNum == null){
 			Swal.fire({
 					  title: "근무조 수정",
@@ -72,11 +66,17 @@
 					  confirmButtonText: "확인",
 					  cancelButtonText: "No, cancel!"
 					}).then((result) => {
-						return;
+						
 					})
 			
-			
+			return;
 		}
+		let empId = parseInt($(e.target).closest('tr').attr('data-empId')) ;
+		let empName = $(e.target).text();
+		
+		let tableHtml ='<span data-empId="'+ empId + '">'+ empName +' x</span>';
+		
+		
 		console.log(empId)
 		checkedEmp.push(empId)
 		console.log(checkedEmp)

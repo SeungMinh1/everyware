@@ -35,10 +35,13 @@ $('#ok').on('click', function() {
 	})
 	.done(result => {
 		if(result) {
-			alert('선택된 항목이 삭제되었습니다.');
-			window.location.reload();
-		} else {
-			alert('실패');
+			Swal.fire({
+				title : '선택된 항목이 삭제되었습니다.',
+				icon : 'success'
+			})
+			.then((result)=>{
+				window.location.reload();					
+			})
 		}
 	})
 })

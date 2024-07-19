@@ -88,7 +88,9 @@
 						<tbody th:fragment="calList" id="empCalList">
 							<th:block   th:each = "box : ${empIdBox}">
 								<tr >
-									<td style="cursor:pointer"class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
+									<th:block th:if="${box.publicYn == 1}">
+										<td style="cursor:pointer"class="empIdCalList" th:data-calBoxId="${box.calendarBoxId}">[[${box.calendarBoxName}]]</td>
+									</th:block>
 								</tr>
 							</th:block>
 						</tbody>
@@ -141,8 +143,8 @@
 									<tr th:data-boxId="${box.calendarBoxId}">
 										<td  th:if="${box.expressionYn == 1}" width="5%"><input class="calCheck" type="checkbox" checked></td>
 										<td  th:if="${box.expressionYn == 0}" width="5%"><input class="calCheck" type="checkbox"></td>
-										<td width="60%" th:text ="${box.calendarBoxName}"></td>
-										<td width="30%" style="cursor:pointer"><div  class="colorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
+										<td width="80%" th:text ="${box.calendarBoxName}"></td>
+										<td width="10%" style="cursor:pointer"><div  class="colorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
 									</tr>
 								</th:block>
 							</tbody>
@@ -172,7 +174,7 @@
 					  			</th:block>
 					  		</tbody>
 					  	</table>
-					  	<div class="row" style="position:absolute;top:80%;text-align:center">
+					  	<div class="row" style="position:absolute;top:80%;left:35%">
 					  	<div >
 					  		<button id ="calSetDel" class="btn btn-del">삭제</button>
 					  		<button id="calSetBtn" class="btn btn-success">변경</button>
@@ -200,12 +202,12 @@
 						<table width = "100%">
 							<tbody>
 								<th:block th:each = "box : ${sharedList}">
-								<div th:if = "${box.agreementYn == 1}">
+								<div th:if = "${box.agreementYn == 1} and ${box.publicYn == 1}">
 									<tr th:data-boxId="${box.calendarBoxId}">
 										<td  th:if="${box.expressionYn == 1}" width="5%"><input class="sharedCalCheck" type="checkbox" checked></td>
 										<td  th:if="${box.expressionYn == 0}" width="5%"><input class="sharedCalCheck" type="checkbox"></td>
-										<td width="60%">[[${box.calendarBoxName}]]([[${box.empName}]])</td>
-										<td width="30%" style="cursor:pointer"><div  class="sharedColorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
+										<td width="80%">[[${box.calendarBoxName}]]([[${box.empName}]])</td>
+										<td width="10%" style="cursor:pointer"><div  class="sharedColorBtn" th:id="${box.calendarBoxId}" th:style="'background-color:'+@{${box.color}}"></div></td>
 									</tr>
 								</div>
 								</th:block>
@@ -298,58 +300,61 @@
 	const calSetcancel =$('#calSetcancel');
 	const calSetDel = $('#calSetDel');
 	
-	
+	checkClick();
 	
 	
 	const pallete = $(".pallete");
 	
-	
+	//체크버튼 클릭이벤트
+	function checkClick(){
+		//일정 조회 여부버튼
+		$(".calCheck").click(function(event){
+			let expressYn = $(event.target).is(':checked') ? 1 : 0;
+			let boxId = $(event.target).closest('tr').attr('data-boxId')
+			
 
-	
-	$(".calCheck").click(function(event){
-		let expressYn = $(event.target).is(':checked') ? 1 : 0;
-		let boxId = $(event.target).closest('tr').attr('data-boxId')
+
+			$.ajax({
+				url: '/changeExpress',
+				type: 'POST',	
+				dataType: 'json',
+				data: {
+					calendarBoxId : boxId,
+					expressionYn : expressYn
+				},
+				success: function(data) {
+					makeCal();
+					calendar.render();
+
+				}
+			});
+		})
 		
+		//관심일정 조회여부버튼
+		$(".sharedCalCheck").click(function(event){
+			let expressYn = $(event.target).is(':checked') ? 1 : 0;
+			let boxId = $(event.target).closest('tr').attr('data-boxId')
+			
+			console.log(boxId, expressYn);
 
 
-		$.ajax({
-			url: '/changeExpress',
-			type: 'POST',	
-			dataType: 'json',
-			data: {
-				calendarBoxId : boxId,
-				expressionYn : expressYn
-			},
-			success: function(data) {
-				makeCal();
-				calendar.render();
+			$.ajax({
+				url: '/changeSharedExpress',
+				type: 'POST',	
+				dataType: 'json',
+				data: {
+					calendarBoxId : boxId,
+					expressionYn : expressYn
+				},
+				success: function(data) {
+					makeCal();
+					calendar.render();
 
-			}
-		});
-	})
+				}
+			});
+		})
+	}
 	
-	$(".sharedCalCheck").click(function(event){
-		let expressYn = $(event.target).is(':checked') ? 1 : 0;
-		let boxId = $(event.target).closest('tr').attr('data-boxId')
-		
-		console.log(boxId, expressYn);
-
-
-		$.ajax({
-			url: '/changeSharedExpress',
-			type: 'POST',	
-			dataType: 'json',
-			data: {
-				calendarBoxId : boxId,
-				expressionYn : expressYn
-			},
-			success: function(data) {
-				makeCal();
-				calendar.render();
-
-			}
-		});
-	})
 	
 	
 	
@@ -465,6 +470,7 @@
 		.done(function(res){
 			console.log(res)
 			$('#calBoxFrg').replaceWith(res);
+			location.href = location.href;
 		}); 
 	})
 	
@@ -555,7 +561,8 @@
 
 	  					let ydata = [];
 	  					data.forEach(function(d){
-	  						if(d.expressionYn == 1 && d.agreementYn != 0){	  		
+	  						if(d.expressionYn == 1 && d.agreementYn != 0 && d.publicYn != 0){	
+	  							console.log(d)
 		  						ydata.push(d);
 		  					}
 	  					})
@@ -648,6 +655,22 @@
 		let calBoxUpdateLength = $("input[class=calSettingcheck]").length;
 		let calBoxList = new Array();
 		for(let i = 0 ; i<calBoxLength ; i ++){
+			
+			if($('.calSettingName:eq('+i+')').val() ==''){
+				Swal.fire({
+	                 title: "일정목록 수정",
+	                 text: "이름을 입력하여주세요",
+	                 icon: "error",
+	                 showCancelButton: false,
+	                 confirmButtonColor: "#3085d6",
+	                 cancelButtonColor: "#d33",
+	                 confirmButtonText: "확인",
+	                 cancelButtonText: "No, cancel!"
+	               }).then((result) => {
+	                  
+	               })
+	               return;
+			}
 				calBoxList.push({
 					"calendarBoxId":$('.calSetTr:eq('+i+')').attr('data-calBoxId'),
 					"calendarBoxName" : $('.calSettingName:eq('+i+')').val(),
@@ -739,8 +762,8 @@
 				}else{
 					$(document).Toasts('create', {
 				        class: 'bg-danger',
-				        title: '일정공유',
-				        body: '이미 공유신청한 일정입니다.'
+				        title: '일정등록',
+				        body: '일정이름을 입력해주세요.'
 				      })
 				}
 			})

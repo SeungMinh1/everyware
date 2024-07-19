@@ -194,7 +194,7 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	    //스케일
 	    //doc.scale(0.5, 1);
 	    // 첫 페이지 출력
-	    doc.addImage(imgData, 'PNG', 10,50,  300, 100);
+	    doc.addImage(imgData, 'PNG', 10,50,  270, 80);
 
 	    // 파일 저장
 	    doc.save('근무표.pdf');

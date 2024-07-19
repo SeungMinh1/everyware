@@ -2,6 +2,8 @@ package com.yedam.app.attend.gps.service;
 
 import java.util.List;
 
+import com.yedam.app.attach.service.FileVO;
+
 public interface GpsService {
 	
 	public int insertGps(GpsVO gpsVO);
@@ -18,4 +20,6 @@ public interface GpsService {
 	
 	//gps삭제
 	public int deleteGps(GpsVO gpsVO);
+	
+	public FileVO selectLogo(); 
 }

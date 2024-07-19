@@ -2,6 +2,7 @@ package com.yedam.app.attend.gps.mapper;
 
 import java.util.List;
 
+import com.yedam.app.attach.service.FileVO;
 import com.yedam.app.attend.gps.service.GpsVO;
 
 public interface GpsMapper {
@@ -22,5 +23,7 @@ public interface GpsMapper {
 	
 	//gps삭제
 	public int deleteGps(GpsVO gpsVO);
+	
+	public FileVO mainLogo();
 	
 }

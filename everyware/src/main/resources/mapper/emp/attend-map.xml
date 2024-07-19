@@ -61,6 +61,7 @@
         , emp_id
 		FROM attend
 		WHERE emp_id = #{empId}
+		order by emp_id
 	</select>
 	
 	<!-- 오늘근무기록 단건조회  근무기록 + 사원정보(사원이름, 부서, 직위) -->
@@ -139,6 +140,7 @@
 			, workdetail2
 		FROM attend 
 		WHERE emp_id = #{empId}and to_char(go_time, 'yyyymmdd') like #{goTime2}
+		order by emp_id
  	
  	</select>
  	
@@ -302,7 +304,7 @@
             on a.emp_id = e.emp_id
 		WHERE find_codename(e.department_id) = #{departmentName}
         GROUP BY e.emp_id, e.emp_name, e.department_id, e.emp_position
- 		ORDER BY e.emp_id
+ 		ORDER BY e.emp_name
  		
  	</select>
  	

@@ -4,7 +4,7 @@
 var url = new URL(document.referrer);
 var path = url.pathname;
 console.log(path);
-if(path == '/waitDocList') {
+if(path == '/waitDocList' || path == '/main') {
 	$('#approval').css('display', 'inline-block');
 	$('#reject').css('display', 'inline-block');
 }
@@ -16,6 +16,8 @@ if(path == '/receptionDocList' || path == '/compReceptionDocList' || path == '/g
 	$('#return').css('display', 'inline-block');
 	$('#recCan').css('display', 'inline-block');
 }
+
+$('#atext')[0].innerText = $('.inputTitleBox')[0].innerText;
 
 var approvalemps = [];
 for(var i=0; i<$('.approvalName').length; i++) {
@@ -106,9 +108,14 @@ $('#dcan').on('click', function() {
 			})
 			.done(result => {
 				if(result) {
-					alert('성공');
-					location.href = "/draftDocList";
-				}
+				Swal.fire({
+					title : '취소되었습니다.',
+					icon : 'success'
+				})
+				.then((result)=>{
+					location.href = "/draftDocList";									
+				})
+			}
 			})
 			.fail(err => console.log(err));
 		}
@@ -132,8 +139,13 @@ $('#request').on('click', function() {
 	let view = viewInfo();
 	
 	if($('#msg').val() == '') {
-		alert('제목은 필수값입니다');
-		$('#msg').focus();
+		Swal.fire({
+			title: '제목은 필수 값입니다.',
+			icon: 'warning'
+		})
+		.then((result) => {
+			$('#msg').focus();
+		})
 	}
 	
 	$.ajax('docUpdate', {
@@ -157,8 +169,13 @@ $('#request').on('click', function() {
 					})
 					.done(result => {
 						if(result) {
-							alert('성공');
-							location.href = "/draftDocList";
+							Swal.fire({
+								title : '요청되었습니다.',
+								icon : 'success'
+							})
+							.then((result)=>{
+								location.href = "/draftDocList";									
+							})
 						}
 					})
 					.fail(err => console.log(err));
@@ -235,8 +252,13 @@ $('#save').on('click', function() {
 	let temp = tempInfo();
 	
 	if($('#msg').val() == '') {
-		alert('제목은 필수값입니다');
-		$('#msg').focus();
+		Swal.fire({
+			title: '제목은 필수 값입니다.',
+			icon: 'warning'
+		})
+		.then((result) => {
+			$('#msg').focus();
+		})
 	}
 	
 	$.ajax('tempDocUpdate', {
@@ -246,8 +268,15 @@ $('#save').on('click', function() {
 	})
 	.done(result => {
 		if(result) {
-			alert('성공');
-			location.href = "/temporaryDocList";
+			if(result) {
+				Swal.fire({
+					title : '임시저장되었습니다.',
+					icon : 'success'
+				})
+				.then((result)=>{
+					location.href = "/temporaryDocList";									
+				})
+			}
 		}
 	})
 	.fail(err => console.log(err));
@@ -278,9 +307,14 @@ $('#mmdel').on('click', function() {
 	})
 	.done(result => {
 		if(result) {
-			alert('성공');
-			location.href = "/temporaryDocList";
-		}
+				Swal.fire({
+					title : '삭제되었습니다.',
+					icon : 'success'
+				})
+				.then((result)=>{
+					location.href = "/temporaryDocList";									
+				})
+			}
 	})
 	.fail(err => console.log(err));
 });

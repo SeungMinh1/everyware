@@ -144,6 +144,13 @@ public class CalendarServiceImpl implements CalendarService{
 		list.forEach(cal->calendarMapper.deleteCalBox(cal));
 		return 1;
 	}
+	
+	@Override
+	@Transactional
+	public int deleteCalBoxCal(List<CalendarBoxVO> list) {
+		list.forEach(cal->calendarMapper.deleteCalBoxCal(cal));
+		return 1;
+	}
 
 	@Override
 	public List<CalendarBoxVO> selectMySahred(CalendarBoxVO calendarBoxVO) {
@@ -182,6 +189,8 @@ public class CalendarServiceImpl implements CalendarService{
 		
 		return result;
 	}
+
+	
 	
 	
 	

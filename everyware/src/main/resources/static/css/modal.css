@@ -34,6 +34,7 @@
 /* 모달 버튼 */
 .modal-button {
 	flex-direction: row;
+	cursor: pointer;
 }
 
 .modal-box {

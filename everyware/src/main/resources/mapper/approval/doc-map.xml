@@ -201,7 +201,7 @@
 		WHERE a.doc_id IN (SELECT s.doc_id
 		                   FROM send_path
 		                   WHERE s.send_emp_id = #{empId}
-		                   AND send_status = '접수대기')
+		                   AND s.send_status = '접수대기')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -214,7 +214,7 @@
 		WHERE a.doc_id IN (SELECT s.doc_id
 		                   FROM send_path
 		                   WHERE s.send_emp_id = #{empId}
-		                   AND send_status = '접수')
+		                   AND s.send_status = '접수')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -227,7 +227,7 @@
 		WHERE a.doc_id IN (SELECT s.doc_id
 		                   FROM send_path
 		                   WHERE s.send_emp_id = #{empId}
-		                   AND approval_status = '진행중')
+		                   AND a.approval_status = '진행중')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -240,7 +240,7 @@
 		WHERE a.doc_id IN (SELECT s.doc_id
 		                   FROM send_path
 		                   WHERE s.send_emp_id = #{empId}
-		                   AND approval_status = '완료')
+		                   AND a.approval_status = '완료')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -253,7 +253,7 @@
 		WHERE a.doc_id IN (SELECT s.doc_id
 		                   FROM send_path
 		                   WHERE s.send_emp_id = #{empId}
-		                   AND approval_status = '반려')
+		                   AND a.approval_status = '반려')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -266,7 +266,7 @@
 		WHERE a.doc_id IN (SELECT s.doc_id
 		                   FROM send_path
 		                   WHERE s.send_emp_id = #{empId}
-		                   AND send_status = '반송')
+		                   AND s.send_status = '반송')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -317,7 +317,7 @@
 		WHERE a.doc_id IN (SELECT r.doc_id
 		                   FROM reception_path
 		                   WHERE r.reception_emp_id = #{empId}
-		                   AND approval_status = '진행중')
+		                   AND a.approval_status = '진행중')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -330,7 +330,7 @@
 		WHERE a.doc_id IN (SELECT r.doc_id
 		                   FROM reception_path
 		                   WHERE r.reception_emp_id = #{empId}
-		                   AND approval_status = '완료')
+		                   AND a.approval_status = '완료')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -343,7 +343,7 @@
 		WHERE a.doc_id IN (SELECT r.doc_id
 		                   FROM reception_path
 		                   WHERE r.reception_emp_id = #{empId}
-		                   AND approval_status = '반려')
+		                   AND a.approval_status = '반려')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -356,7 +356,7 @@
 		WHERE a.doc_id IN (SELECT r.doc_id
 		                   FROM reception_path
 		                   WHERE r.reception_emp_id = #{empId}
-		                   AND reception_status = '반송')
+		                   AND r.reception_status = '반송')
 		ORDER BY a.doc_id
 	</select>
 	
@@ -470,8 +470,11 @@
 				, view_emp
 				, view_emp_id
 				, doc_info
-				, enforce_date
-				, reception_date	
+				<choose>
+					<when test="enforceDate != null">
+					, enforce_date	
+					</when>
+				</choose>						
 				, send_date
 				, approval_info
 			)
@@ -498,8 +501,11 @@
 				, #{viewEmp}
 				, #{viewEmpId}
 				, #{docInfo}
-				, #{enforceDate}
-				, #{receptionDate}
+				<choose>
+					<when test="enforceDate != null">
+					, #{enforceDate}	
+					</when>
+				</choose>				
 				, #{sendDate}
 				, #{approvalInfo}
 			)
@@ -537,7 +543,11 @@
 				, view_emp
 				, view_emp_id
 				, doc_info
-				, enforce_date
+				<choose>
+					<when test="enforceDate != null">
+					, enforce_date	
+					</when>
+				</choose>	
 				, create_date
 				, approval_info
 			)
@@ -565,7 +575,11 @@
 				, #{viewEmp}
 				, #{viewEmpId}
 				, #{docInfo}
-				, #{enforceDate}
+				<choose>
+					<when test="enforceDate != null">
+					, #{enforceDate}	
+					</when>
+				</choose>	
 				, #{createDate}
 				, #{approvalInfo}
 			)
@@ -589,7 +603,11 @@
 			, ref_emp_id = #{refEmpId}
 			, view_emp = #{viewEmp}
 			, view_emp_id = #{viewEmpId}
-			, enforce_date = #{enforceDate}
+			<choose>
+				<when test="enforceDate != null">
+				, enforce_date = #{enforceDate}	
+				</when>
+			</choose>	
 			, approval_status = '진행중'
 			, approval_info = #{approvalInfo}
 		WHERE doc_id = #{docId}
@@ -613,7 +631,11 @@
 			, ref_emp_id = #{refEmpId}
 			, view_emp = #{viewEmp}
 			, view_emp_id = #{viewEmpId}
-			, enforce_date = #{enforceDate}
+			<choose>
+				<when test="enforceDate != null">
+				, enforce_date = #{enforceDate}	
+				</when>
+			</choose>
 			, create_date = #{createDate}
 			, approval_info = #{approvalInfo}
 		WHERE doc_id = #{docId}

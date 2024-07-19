@@ -11,19 +11,26 @@
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+ body, div{
+   	font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+   }
+</style>
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
-  <div class="login-logo">
-    <a href="#"><b>Log in</b></a>
-  </div>
+  
   <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+  <div class="card" style="width:500px; height:400px;">
+    <div class="card-body login-card-body" style="padding:30px;">
+      <div class="login-logo" id="mainlogo">
+      	<p><b>로그인</b></p>
+  	  </div>	
+      <p class="login-box-msg"></p>
 		
       <form  method="post" action="/login">
         <div class="input-group mb-3">
@@ -43,17 +50,10 @@
             </div>
           </div>
         </div>
-        <p style="color:red">[[ ${err}]]</p>
-        <div class="row">
-          <div class="col-8">
-           
-          </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-          </div>
-          <!-- /.col -->
+        <div>
+            <button type="submit" class="btn btn-primary btn-block">로그인</button>
         </div>
+        <p style="color:red; margin-top:10px;">[[ ${err}]]</p>
       </form>
 		<input type="hidden" name="${_crsf.parameterName}" value="${_csrf.token}"/>
       <div class="social-auth-links text-center mb-3">
@@ -72,5 +72,7 @@
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
+
+
 </body>
 </html>
