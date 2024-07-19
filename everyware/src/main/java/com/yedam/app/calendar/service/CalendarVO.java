@@ -21,4 +21,5 @@ public class CalendarVO {
 	private int expressionYn;
 	private String location;
 	private String agreementYn;
+	private int publicYn;
 }
