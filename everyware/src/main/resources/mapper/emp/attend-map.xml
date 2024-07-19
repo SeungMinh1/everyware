@@ -61,6 +61,7 @@
         , emp_id
 		FROM attend
 		WHERE emp_id = #{empId}
+		order by emp_id
 	</select>
 	
 	<!-- 오늘근무기록 단건조회  근무기록 + 사원정보(사원이름, 부서, 직위) -->
@@ -139,6 +140,7 @@
 			, workdetail2
 		FROM attend 
 		WHERE emp_id = #{empId}and to_char(go_time, 'yyyymmdd') like #{goTime2}
+		order by emp_id
  	
  	</select>
  	
