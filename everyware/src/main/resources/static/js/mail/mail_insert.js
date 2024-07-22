@@ -215,6 +215,7 @@ console.log(searchKeyword);
 	                </td>
                     <td>${obj.empName}</td>
                     <td>${obj.mail}</td>
+                    <td>${obj.posName}</td>
                     <td>${obj.departmentName}</td>
                 </tr>`;
       $('#tbody').append(tr);
@@ -223,6 +224,7 @@ console.log(searchKeyword);
 
 	for (let i = rowCount; i < 8; i++) {
 	      let emptyRow = `<tr>
+	                        <td>&nbsp;</td>
 	                        <td>&nbsp;</td>
 	                        <td>&nbsp;</td>
 	                        <td>&nbsp;</td>
