@@ -73,7 +73,7 @@ $(document).ready(function() {
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	
-                	if(distance > 50.02){
+                	if(distance > 0.1){
                 		alert("출근 실패");
                 	}else{
                 		let nowTime = new Date();
@@ -180,7 +180,7 @@ $(document).ready(function() {
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
-                	if(distance > 50.02){
+                	if(distance > 0.1){
                 		alert("퇴근 실패");
                 	}else{
                 		let nowTime2 = new Date();
