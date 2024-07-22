@@ -197,10 +197,10 @@ th, td{
                      </th:block>
                   </li>
                   <li class="list-group-item" >
-                    	<button id="goworkBtn" th:if="${att} == null">출근</button>
-                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null">출근</button>
-                   		<button class="float-right" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
-                    	<button class="float-right" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button id="goworkBtn" th:if="${att} == null" class="btn btn-primary">출근</button>
+                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null" class="btn btn-primary">출근</button>
+                   		<button class="float-right btn btn-info" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button class="float-right btn btn-info" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
                   </li>
                 </ul>
 
@@ -552,8 +552,8 @@ th, td{
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	
-                	if(distance > 50.02){
-                		alert("출근 실패");
+                	if(distance > 0.01){
+                		Swal.fire("올바른 위치에서 시도해주세요");
                 		$("#goworkBtn").prop("disabled", false);
                 	}else{
                 		let nowTime = new Date();
@@ -604,7 +604,7 @@ th, td{
                 	}
                 })
                 .fail(function(xhr, status, errorThrown) {
-                    alert("error");
+                    console.log("error");
                 })
                 
             };
@@ -660,8 +660,8 @@ th, td{
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
-                	if(distance > 50.02){
-                		alert("퇴근 실패");
+                	if(distance > 0.01){
+                		Swal.fire("올바른 위치에서 시도해주세요");
                 		$("#gohome").prop("disabled", false);
                 	}else{
                 		let nowTime2 = new Date();

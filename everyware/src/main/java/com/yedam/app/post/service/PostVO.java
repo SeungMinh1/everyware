@@ -17,8 +17,8 @@ public class PostVO {
 	private String notificationYn;  	//공지 여부
 	private String holdYn;  			//글고정 여부
 	private String title; 				//제목
-	@DateTimeFormat(pattern = "yy/MM/dd")
-	private Date writeDate; 			//작성일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private String writeDate; 			//작성일
 	private Integer viewCnt;   			//조회수 
 	private Integer recommendCnt; 		//추천수
 	private String attachmentGroupId;  //첨부파일 그룹번호 
