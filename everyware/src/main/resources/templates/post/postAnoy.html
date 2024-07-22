@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>익명 게시판</title>
+ <title>게시판</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -193,7 +193,7 @@ color : navy;
                     </tr >
                   </tbody>
                 </table>
-                <a th:href="@{postInsert}"><button class="btn-3"><span>등록</span></button></a>
+                 <a href="#" th:onclick="nextPage()"><button class="btn-3"><span>등록</span></button></a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -296,6 +296,12 @@ $('#orderByLike').click(function(){
 		})
 	
 })	
+
+function nextPage(){
+	location.href="postInsert?boardId=3" 
+			
+}
+
 
 </script>
 </body>

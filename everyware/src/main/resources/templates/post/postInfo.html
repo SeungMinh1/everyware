@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>상세 페이지</title>
+   <title>게시판</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -112,12 +112,22 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>게시판 카테고리</h1>
+          <th:block th:if="${post.boardTitle != '부서별게시판'}">
+            <h1>[[${post.boardTitle}]]</h1>
+          </th:block>
+          <th:block th:if="${post.boardTitle == '부서별게시판'}">
+           <h1>[[${#authentication.principal.userVO.departmentName}]]팀 게시판</h1>
+          </th:block>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">게시판</a></li>
-              <li class="breadcrumb-item active">게시판 이름</li>
+              <th:block th:if="${post.boardTitle != '부서별게시판'}">
+	           <li class="breadcrumb-item active">[[${post.boardTitle}]]</li>
+	          </th:block>
+	          <th:block th:if="${post.boardTitle == '부서별게시판'}">
+	          <li class="breadcrumb-item active">[[${#authentication.principal.userVO.departmentName}]]팀 게시판</li>
+	          </th:block>
             </ol>
           </div>
         </div>
@@ -150,7 +160,7 @@
                         </span>
                         
                         <div>
-                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i>[[${post.empName}]] &emsp; 작성날짜 &nbsp; [[${post.writeDate}]]</span> <!--/* 작성자 이름 */-->
+                         <span class="description" style="font-size: 15px"> <i class="fa-solid fa-user-large " ></i>[[${post.empName}]] &emsp; 작성날짜 &nbsp;<span th:text="${#strings.substring(post.writeDate,0,19)}"></span></span> <!--/* 작성자 이름 */-->
                         </div>
                       </div>
                       <!-- /.user-block -->
@@ -224,10 +234,22 @@
 			 })
 			 .done(function(data){
 
-				 alert("추천 성공")
-				 //추천수 변경
-				$('#recommend').load(location.href + " #recommend");
+				 Swal.fire({
+	                 title: "추천 ",
+	                 text: "추천이 완료되었습니다",
+	                 icon: "success",
+	                 showCancelButton: false,
+	                 confirmButtonColor: "#3085d6",
+	                 cancelButtonColor: "#d33",
+	                 confirmButtonText: "확인",
+	                 cancelButtonText: "No, cancel!"
+	               }).then((result) => {
+	            	   
+	  				 //추천수 변경
+	  				$('#recommend').load(location.href + " #recommend");
+	               })
 				 })
+				 
 			 .fail(
 					 )	 
 	 }else if($('#likeUpdate').parent('span').attr('class')== 'box blue'){
@@ -240,9 +262,20 @@
 			 })
 			 .done(function(data){
 
-				 alert("추천 취소")
-				 //추천수 변경
-				$('#recommend').load(location.href + " #recommend");
+				 Swal.fire({
+	                 title: "추천 취소",
+	                 text: "추천이 취소되었습니다",
+	                 icon: "error",
+	                 showCancelButton: false,
+	                 confirmButtonColor: "#3085d6",
+	                 cancelButtonColor: "#d33",
+	                 confirmButtonText: "확인",
+	                 cancelButtonText: "No, cancel!"
+	               }).then((result) => {
+	            	   
+	  				 //추천수 변경
+	  				$('#recommend').load(location.href + " #recommend");
+	               })
 				 })
 			 .fail(
 					 )	 
@@ -257,10 +290,25 @@ const likeCheck = document.querySelector('.box');
         	likeCheck.classList.toggle('blue'); // 토글할 클래스 이름
         });	 
 function del(){
-	let delCheck = confirm("삭제할까요?")
-	if(delCheck) {
-		location.href="postDelete?postId=" + [[${post.postId}]] + "&boardId="+ [[${post.boardId}]]
-	}
+	let delCheck = Swal.fire({
+        title: "삭제",
+        text: "삭제할까요?",
+        icon: "success",
+        showCancelButton: false,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "확인",
+        cancelButtonText: "No, cancel!"
+      }).then((result) => {
+   	   
+		//추천수 변경
+		$('#recommend').load(location.href + " #recommend");
+		
+		if(delCheck) {
+			location.href="postDelete?postId=" + [[${post.postId}]] + "&boardId="+ [[${post.boardId}]]
+		}
+      })
+	
 }
 </script>
 </body>

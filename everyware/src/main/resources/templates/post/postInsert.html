@@ -6,7 +6,9 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="Content-type" name="viewport" content="width=device-width, initial-scale=1">
-<title>등록 페이지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script> 
+ <title>게시판</title>
 <style>
 .form-group label {
 	margin-right:10px;
@@ -53,22 +55,18 @@ margin-right:10px;
 		<div class="container-fluid">
 			<div class="row">
 				<!-- left column -->
-				<div class="col-md-6">
+				<div class="col-md-6" style="margin:auto">
 					<!-- general form elements -->
 					<div class="card card-primary">
-						<div class="card-header">
-							<h3 class="card-title">글 등록</h3>
-						</div>
-						<!-- /.card-header -->
 						<!-- form start -->
 						<form  id="insertForm" name= "insertForm" th:action="@{/postInsert}" method="post" th:object="${post}"  enctype="multipart/form-data" >
 							<div class="card-body">
 								<input type ="hidden" name="boardType" th:value="${board[0].boardType}">
 								<div class="form-group">
 								 <label for="selectBoard">게시판 선택</label>
-								  <select name="board" id="board" th:field="*{boardId}">
-								  <th:block th:each="board : ${board}">
-								  <option th:value="${board.boardId}" th:data-boardtype="${board.boardType}">[[${board.boardTitle}]]</option>
+								  <select name="board" id="board" th:field="*{boardId}">											
+								  <th:block  th:each="board : ${board}" >
+								  <option class="option" th:value="${board.boardId}" th:data-boardtype="${board.boardType}"  th:selected="${board.boardId} == ${post.boardId}">[[${board.boardTitle}]]</option>
 								  </th:block>
 								  </select>
 								</div>
@@ -89,37 +87,17 @@ margin-right:10px;
 									<textarea class="form-control" th:field="*{content}" rows=3
 										placeholder="내용을 입력하세요"></textarea>
 								</div>
-								<div class="form-group">
-									<label for="inputFile">첨부파일</label>
-									<div class="input-group">
-										<div class="custom-file">
-											<input type="file" class="custom-file-input"  id="inputFile"
-												name="uploadFile" multiple> <label
-												class="custom-file-label" for="inputFile">파일을
-												선택하세요</label>
-										</div>
-										<div class="input-group-append">
-											<span class="input-group-text">업로드</span>
-										</div>
-
-
-									</div>
-								</div>
-								<div class="form-check">
+								<div class="form-check" style="display:none">
 									<input type="checkbox" class="form-check-input"
-									 	id="holdUp3" name="holdYn" th:field="*{holdYn}" value="Y"> <label class="form-check-label"
+									 	id="holdUp3" name="holdYn" th:field="*{holdYn}" value="N"> <label class="form-check-label"
 										for="holdUp3">상단고정</label>
 								</div>
-								<div class="form-check">
-									<input type="checkbox" class="form-check-input"
-									 	id="notiYN" name="notificationYn" th:field="*{notificationYn}" value="Y"> <label class="form-check-label"
-										for="notiYN">공지로 등록</label>
-								</div>
+								
 							</div>
 							<!-- /.card-body -->
 
 							<div class="card-footer">
-								<input type="submit" value="등록" class="btn btn-primary" id="addBtn">
+								<input type="button" value="등록" class="btn btn-primary" id="addBtn">
 							</div>
 						</form>
 					</div>
@@ -166,36 +144,96 @@ margin-right:10px;
 	
 $(document).ready(function() {
 	$('#addBtn').on('click',function(e){
-		
-		e.preventDefault();
-		
+		if($('#title').val()==''){
+			//alert('제목을 입력하세요')
+			Swal.fire({
+                 title: "게시글 작성",
+                 text: "제목을 입력하세요",
+                 icon: "error",
+                 showCancelButton: false,
+                 confirmButtonColor: "#3085d6",
+                 cancelButtonColor: "#d33",
+                 confirmButtonText: "확인",
+                 cancelButtonText: "No, cancel!"
+               }).then((result) => {
+                 return ;
+               })
+			return ;
+			
+		}else if($('#content').val()==''){
+			Swal.fire({
+                title: "게시글 작성",
+                text: "내용을 입력하세요",
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "확인",
+                cancelButtonText: "No, cancel!"
+              }).then((result) => {            
+              })
+			return ;
+		}		
 		var formData = new FormData(document.insertForm);
 		
 		 // 체크박스 상태 확인하여 값 설정
-        if (! $('#holdUp3').is(':checked')) {
-            formData.append('holdYn', 'N');
+		
+        if ( $('#holdUp3').is(':checked') ) {
+            formData.append('holdYn', 'Y');
+        } else {
+        	formData.append('holdYn', 'N');
         }
-        if (! $('#notiYN').is(':checked')) {
-            formData.append('notificationYn', 'N');
-        }
-		 $.ajax({
+		 
+
+ 		$.ajax({
 			url: '/postInsert',
 			processData:false,
 			contentType: false,
 			data:formData,
 			type: 'POST',
 			success: function(result){
-				alert("게시글이 등록되었습니다");
-				location.href=`postInfo?postId=${result.postId}`
+				Swal.fire({
+	                title: "게시글 작성",
+	                text: "게시글이 등록되었습니다",
+	                icon: "success",
+	                showCancelButton: false,
+	                confirmButtonColor: "#3085d6",
+	                cancelButtonColor: "#d33",
+	                confirmButtonText: "확인",
+	                cancelButtonText: "No, cancel!"
+	              }).then(() => {
+	            	  if($('#board').val()!= 3){
+	     				 location.href=`postInfo?postId=${result.postId}`
+	     				}else if($('#board').val() == 3){
+	     					location.href=`anoyInfo?postId=${result.postId}`
+	     				}
+	              })
+
 			},
 			 error: function(xhr, status, error) {
                  console.error('파일 업로드 중 오류 발생: ' + error);
                  alert("파일 업로드 중 오류가 발생했습니다.");
              }
-		}); //$.ajax */
+		}); //$.ajax 
 	});
 })	
+
+if($("#board").val() == 1 ){
+	$('.form-check').show();
+}
+
+ $('#board').on('change', function() {
+    if ($(this).val() == '1') {
+        $('.form-check').show();
+    } else {
+        $('.form-check').hide();
+	}
+});	
 	
+console.log();
+
+$('.option:eq(0)').text("[[${#authentication.principal.userVO.departmentName}]]팀 게시판");
+
 </script>
 </body>
 </html>
