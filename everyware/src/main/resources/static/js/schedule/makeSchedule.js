@@ -114,10 +114,10 @@ let squadNum = parseInt($("#calTbody").attr("data-squadNum")); //총 조 수
 	
 	
 	for(let i = 0 ; i < date.getDate()*squadNum ; i++){
-		let dataDate = $("#calTable").find("td:eq("+ i +")").attr("data-date");
-		let dataSquadNum =  $("#calTable").find("td:eq("+ i +")").attr("data-squNum")
-		let diff = Math.floor(((new Date(dataDate) - standard)/ (1000 * 60 * 60 * 24))/rotateCircle);
-		let result = (diff % squadNum) - dataSquadNum
+		let dataDate = $("#calTable").find("td:eq("+ i +")").attr("data-date"); //달력 해당날짜
+		let dataSquadNum =  $("#calTable").find("td:eq("+ i +")").attr("data-squNum") //달력 해당 조번호
+		let diff = Math.floor(((new Date(dataDate) - standard)/ (1000 * 60 * 60 * 24))/rotateCircle); // 시작일 기준 며칠차이
+		let result = (diff % squadNum) - dataSquadNum 
 		if(diff >= 0){	
 			if(rotateNum == 2){
 				if(result == -1){

@@ -27,7 +27,7 @@
 			<div class="row" >	
 			<div class="col-md-10" style="margin:auto;text-align:center">
 				
-			<div class="background" >	
+			<div class="background" id="pdf" >	
 				<button id="savePdf" class="btn" style="float:right;margin-bottom:50px">PDF로 내려받기</button>
 				<h3 id="scheduleCal" style="margin-bottom:50px"
 					th:data-startDate="${squadInfo.startDate}"
@@ -41,6 +41,7 @@
 					&nbsp;&nbsp;<i id="nextMonth" class="fa-solid fa-chevron-right"></i>
 				</h3>
 				<div id="calTableDiv" style="width:100%">
+				
 				<table id="calTable" style="width:85%">
 					
 					<thead>
@@ -51,6 +52,7 @@
 					<tbody id="calTbody" th:data-squadNum="${squadNum}">
 						
 					</tbody>
+					
 				</table>
 				</div>
 			</div>
