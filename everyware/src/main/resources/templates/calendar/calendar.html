@@ -78,7 +78,7 @@
 					<table>
 						<thead style="border-bottom:1px solid black;">
 							<tr>
-								<th id="shareCalList">( )일정 목록</th>
+								<th id="shareCalList">일정 목록</th>
 							</tr>							
 							<tr>
 							
@@ -561,7 +561,7 @@
 
 	  					let ydata = [];
 	  					data.forEach(function(d){
-	  						if(d.expressionYn == 1 && d.agreementYn != 0 && d.publicYn != 0){	
+	  						if(d.expressionYn == 1 && d.agreementYn != 0){	
 	  							console.log(d)
 		  						ydata.push(d);
 		  					}
@@ -762,8 +762,8 @@
 				}else{
 					$(document).Toasts('create', {
 				        class: 'bg-danger',
-				        title: '일정등록',
-				        body: '일정이름을 입력해주세요.'
+				        title: '일정공유',
+				        body: '이미 공유신청한 일정입니다.'
 				      })
 				}
 			})
