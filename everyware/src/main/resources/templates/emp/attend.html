@@ -552,8 +552,8 @@ th, td{
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	
-                	if(distance > 30.0){
-                		alert("출근 실패");
+                	if(distance > 0.01){
+                		Swal.fire("올바른 위치에서 시도해주세요");
                 		$("#goworkBtn").prop("disabled", false);
                 	}else{
                 		let nowTime = new Date();
@@ -604,7 +604,7 @@ th, td{
                 	}
                 })
                 .fail(function(xhr, status, errorThrown) {
-                    alert("error");
+                    console.log("error");
                 })
                 
             };
@@ -660,8 +660,8 @@ th, td{
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
-                	if(distance > 30.02){
-                		alert("퇴근 실패");
+                	if(distance > 0.01){
+                		Swal.fire("올바른 위치에서 시도해주세요");
                 		$("#gohome").prop("disabled", false);
                 	}else{
                 		let nowTime2 = new Date();
