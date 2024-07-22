@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>공지 게시판</title>
+   <title>게시판</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -127,7 +127,7 @@ color : navy;
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a th:href="@{/postMainNotice}">게시판 홈</a></li>
-              <li class="breadcrumb-item active">공지 게시판[[${departmentId}]]</li>
+              <li class="breadcrumb-item active">공지 게시판</li>
             </ol>
           </div>
         </div>
@@ -171,17 +171,7 @@ color : navy;
           </div> 
 		   <!-- 정렬버튼 -->
              </div>
-             <ul class="nav justify-content-end">
-			  <li class="nav-item">
-			    <a class="nav-link active" aria-current="page" href="#"  id="orderById" >최신순</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" aria-current="page" id="orderByView" >조회순</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" aria-current="page" id="orderByLike" >추천순</a>
-			  </li>
-			</ul> 
+        
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover ">
@@ -208,7 +198,7 @@ color : navy;
                     </tr >
                   </tbody>
                 </table>
-                <a th:href="@{postInsert}"><button class="btn-3"><span>등록</span></button></a>
+                <a  href="#" th:onclick="nextPage()"><button class="btn-3"><span>등록</span></button></a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -245,17 +235,6 @@ color : navy;
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 <script>
-//검색 버튼 효과 
-$('.open-button').click(function(){
-	  $('.search').addClass('active');
-	  $('.searchSelect').show(); 
-	  $('.searchInput input').focus();// If there are multiple inputs on the page you might want to use an ID
-	});
-
-	$('.overlay').click(function() {
-	  $('.search').removeClass('active');
-	  $('.searchSelect').hide(); 
-	});
 //최신순 	
 $('#orderById').click(function(){
 	
@@ -311,6 +290,11 @@ $('#orderByLike').click(function(){
 		})
 	
 })	
+
+function nextPage(){
+	location.href="postInsert?boardId=1" 
+			
+}
 
 	
 	

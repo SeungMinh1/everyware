@@ -23,6 +23,12 @@
   		overflow-y : auto;
   		height : 300px;
   	}
+
+  	#boardbody {
+  		overflow-y : auto;
+  	}
+ 
+      
   	
   </style>
 </head>
@@ -83,10 +89,10 @@
                      </th:block>
                   </li>
                   <li class="list-group-item" >
-                    	<button id="goworkBtn" th:if="${att} == null">출근</button>
-                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null">출근</button>
-                   		<button class="float-right" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
-                    	<button class="float-right" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button id="goworkBtn" th:if="${att} == null" class="btn btn-primary">출근</button>
+                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null" class="btn btn-primary">출근</button>
+                   		<button class="float-right btn btn-info" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button class="float-right btn btn-info" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
                   </li>
                 </ul>
 
@@ -230,7 +236,7 @@
     	
     	  <section class="col-lg-5" style="height:400px">
 			            <!-- DIRECT CHAT -->
-            <div class="card direct-chat direct-chat-primary" style="height:400px">
+            <div class="card direct-chat direct-chat-primary" style="height:350px">
               <div class="card-header" >
                 <h3 class="card-title">공지 게시판</h3>
               </div>
@@ -424,7 +430,8 @@
             <div class="card">
 
               <!-- /.card-header -->
-              <div class="card-body">
+              <div class="card-body" >
+              <div >
 				<table class="table table-bordered">
                   <thead>
                     <tr>
@@ -435,7 +442,7 @@
                       <th>추천수</th>
                     </tr>
                   </thead>
-                   <tbody id="noticeList" th:fragment="noticeList">
+                   <tbody id="noticeList" th:fragment="noticeList" >
                     <tr th:each= "list : ${postMain}">
                       <td>[[${list.postId}]]</td>
                       <td>
@@ -449,7 +456,7 @@
                     </tr >
                   </tbody>
                 </table>
-               
+               </div>
               </div>
 
             </div>

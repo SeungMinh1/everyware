@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.app.attend.emp.service.PageDTO;
 import com.yedam.app.attend.security.service.LoginUserVO;
@@ -75,15 +74,12 @@ public class PostController {
 			postService.updateViewCnt(postVO);
 			PostVO findVO = postService.anoyInfo(postVO);
 			model.addAttribute("post", findVO);
-			return "post/AnoyInfo";
+			return "post/anoyInfo";
 		}
 
 	// 전체공지
 	@GetMapping("selectNoticeAll")
 	public String selectNoticeAll(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO ,@AuthenticationPrincipal LoginUserVO principal) {
-		String departmentId = principal.getUserVO().getDepartmentId();
-		searchVO.setDepartmentId(departmentId);
-		postVO.setDepartmentId(departmentId);
 		postVO.setBoardId(1);
 		page = page == null ? 1 : page;
 		cnt = cnt == null ? 10 : cnt;
@@ -97,7 +93,6 @@ public class PostController {
 		List<PostVO> list = postService.selectNoticeAll(postVO, searchVO);
 		model.addAttribute("postMain", list);
 		model.addAttribute("pg", pg);
-		model.addAttribute("departmentId", departmentId);
 		return "post/postNotice";
 	}
 	
@@ -166,7 +161,10 @@ public class PostController {
 
 	@PostMapping("selectDeptByView")
 	// @ResponseBody
-	public String selectDeptByView(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO) {
+	public String selectDeptByView(Model model, Integer page, Integer cnt, PostVO postVO, SearchVO searchVO, @AuthenticationPrincipal LoginUserVO principal) {
+		String departmentId = principal.getUserVO().getDepartmentId();
+		searchVO.setDepartmentId(departmentId);
+		postVO.setDepartmentId(departmentId);
 		postVO.setBoardId(2);
 		page = page == null ? 1 : page;
 		cnt = cnt == null ? 10 : cnt;
@@ -207,10 +205,16 @@ public class PostController {
 	
 	// 등록 -페이지
 	@GetMapping("postInsert")
-	public String postInsertForm(Model model) {
-		PostVO postVO = new PostVO();
+	public String postInsertForm(Model model,PostVO postVO, @RequestParam Integer boardId ) {
 		List<CommonVO> departmentList = postService.departmentList();
 		List<BoardVO> selectBoard = postService.selectBoard();
+		
+		/*
+		 * for (int i = 1 ; i <=3; i++) { selectBoard
+		 * 
+		 * }
+		 */
+		model.addAttribute("bid", boardId );
 		model.addAttribute("post", postVO);
 		model.addAttribute("department", departmentList);
 		model.addAttribute("board", selectBoard);
@@ -220,9 +224,10 @@ public class PostController {
 	// 등록 - 처리
 	@PostMapping("postInsert")
 	@ResponseBody
-	public PostVO postInsertProcess(MultipartFile[] uploadFile, PostVO postVO, String redirectUrl) {
+	public PostVO postInsertProcess(PostVO postVO, @RequestParam Integer boardId) {
 		// int boardType = postService.selectBoard(codeId);
 		postVO.setEmpId(AuthUtil.getEmpId());
+		postVO.setBoardId(boardId); // postVO에 boardId 설정
 		postService.postInsert(postVO);
 
 		 return postVO;
