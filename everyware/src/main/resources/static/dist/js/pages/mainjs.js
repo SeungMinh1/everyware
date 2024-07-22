@@ -73,7 +73,7 @@ $(document).ready(function() {
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	
-                	if(distance > 0.1){
+                	if(distance > 0.7){
                 		Swal.fire("올바른 위치에서 시도해주세요");
                 	}else{
                 		let nowTime = new Date();
@@ -180,7 +180,7 @@ $(document).ready(function() {
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
-                	if(distance > 0.1){
+                	if(distance > 0.7){
                 		Swal.fire("올바른 위치에서 시도해주세요");
                 	}else{
                 		let nowTime2 = new Date();
