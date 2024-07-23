@@ -73,8 +73,8 @@ $(document).ready(function() {
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
                 	
-                	if(distance > 50.02){
-                		alert("출근 실패");
+                	if(distance > 0.7){
+                		Swal.fire("올바른 위치에서 시도해주세요");
                 	}else{
                 		let nowTime = new Date();
                 		workdata = {             
@@ -180,8 +180,8 @@ $(document).ready(function() {
                 })
                 .done(function(distance) {
                 	document.getElementById('dis').innerHTML =  (distance * 1000).toFixed() + 'm';
-                	if(distance > 50.02){
-                		alert("퇴근 실패");
+                	if(distance > 0.7){
+                		Swal.fire("올바른 위치에서 시도해주세요");
                 	}else{
                 		let nowTime2 = new Date();
                 		workdata2 = {             

@@ -89,10 +89,10 @@
                      </th:block>
                   </li>
                   <li class="list-group-item" >
-                    	<button id="goworkBtn" th:if="${att} == null">출근</button>
-                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null">출근</button>
-                   		<button class="float-right" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
-                    	<button class="float-right" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button id="goworkBtn" th:if="${att} == null" class="btn btn-primary">출근</button>
+                    	<button id="goworkBtn" disabled='disabled' th:unless="${att} == null" class="btn btn-primary">출근</button>
+                   		<button class="float-right btn btn-info" id="gohome" th:if="${att} != null and ${att.outYn} == 1">퇴근</button>
+                    	<button class="float-right btn btn-info" id="gohome" disabled='disabled' th:unless="${att} != null and ${att.outYn} == 1">퇴근</button>
                   </li>
                 </ul>
 

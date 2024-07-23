@@ -42,11 +42,11 @@
                <div class="form-group">
                <th:block th:each = "c : ${cal}">
                
-                <input readonly id="startDate" th:value="${#strings.substring(c.start, 0,10)}" type="date" class="form-control" style="width:12%;margin-left:16%">
-                <input readonly id="startTime" th:value="${#strings.substring(c.start, 11)}" type="time" class="form-control" style="width:15%">
+                <input readonly id="startDate" th:value="${#strings.substring(c.start, 0,10)}" type="date" class="form-control" style="width:14%;margin-left:16%">
+                <input readonly id="startTime" th:value="${#strings.substring(c.start, 11)}" type="time" class="form-control" style="width:13%">
                 <span style="font-size:x-large;">&emsp;~&emsp;</span> 
-                <input readonly id="endDate" th:value="${#strings.substring(c.end, 0,10)}" type="date" class="form-control" style="width:12%">
-                <input readonly id="endTime" th:value="${#strings.substring(c.end, 11)}" type="time" class="form-control" style="width:15%">	
+                <input readonly id="endDate" th:value="${#strings.substring(c.end, 0,10)}" type="date" class="form-control" style="width:14%">
+                <input readonly id="endTime" th:value="${#strings.substring(c.end, 11)}" type="time" class="form-control" style="width:13%">	
                 </th:block>
               </div>
                
