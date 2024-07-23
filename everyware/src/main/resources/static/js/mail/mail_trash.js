@@ -81,7 +81,7 @@ $(function () {
         
         if (selectedMailIds.length > 0) {
             Swal.fire({
-			  title: "선택된 자료가 완전히 삭제됩니다. 삭제하시겠습니까?",
+			  title: "선택된 메일이 완전히 삭제됩니다. 삭제하시겠습니까?",
 			  icon: "warning",
 			  showCancelButton: true,
 			  confirmButtonColor: "#3085d6",
